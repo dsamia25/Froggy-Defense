@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
+  m_Name: TurtleBlaster
+  m_EditorClassIdentifier: 
+  m_ProjectilePrefab: {fileID: 7916845785490969911, guid: 9bfcc5bd6131b4ff7a605d0f9596c19e, type: 3}
+  m_ProjectilePoolSize: 8
+  m_HasSprayPattern: 1
+  m_SprayPattern:
+  - 0
+  - 90
+  - 180
+  - 270
+  m_SprayPatternCooldown: 1
+  m_BurstFireEnabled: 1
+  m_BurstFireAmount: 4
+  m_BurstDelay: 0
+  m_ShootCooldown: 0

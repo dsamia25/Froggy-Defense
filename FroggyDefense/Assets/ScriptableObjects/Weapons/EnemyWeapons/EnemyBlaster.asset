@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
+  m_Name: EnemyBlaster
+  m_EditorClassIdentifier: 
+  m_WeaponDamage: 1
+  m_UserDirectDamageScaleFactor: 1
+  m_UserSplashDamageScaleFactor: 1
+  m_ShootCooldown: 0.25
+  m_ProjectilePrefab: {fileID: 2190675414038767595, guid: 88fc31b79399b4f14b6122037aeafe83, type: 3}
+  m_ProjectilePoolSize: 8
+  m_HasSprayPattern: 0
+  m_SprayPattern: []
+  m_SprayPatternCooldown: 1
+  m_BurstFireEnabled: 0
+  m_BurstFireAmount: 1
+  m_BurstDelay: 0.25

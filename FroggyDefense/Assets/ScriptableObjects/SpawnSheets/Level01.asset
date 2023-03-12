@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15e25cf4f68045cc978d7f510b5a9d8, type: 3}
+  m_Name: Level01
+  m_EditorClassIdentifier: 
+  Waves:
+  - Type: 1
+    Pattern: 1
+    SpawnAmount: 4
+    SpawnTimeSinceLastWave: 6
+    SpawnSeriesDelay: 0.5
+    Obstacles:
+    - {fileID: 7508400381132937234, guid: 03dc2bb114fc14e87beebe7b8588882c, type: 3}
+  - Type: 1
+    Pattern: 2
+    SpawnAmount: 4
+    SpawnTimeSinceLastWave: 6
+    SpawnSeriesDelay: 0.5
+    Obstacles:
+    - {fileID: 1764564952926366941, guid: 623e1dad72aa847e39d92aaa41305ceb, type: 3}
+  - Type: 1
+    Pattern: 1
+    SpawnAmount: 4
+    SpawnTimeSinceLastWave: 6
+    SpawnSeriesDelay: 0.5
+    Obstacles:
+    - {fileID: 7508400381132937234, guid: 03dc2bb114fc14e87beebe7b8588882c, type: 3}
+    - {fileID: 1764564952926366941, guid: 623e1dad72aa847e39d92aaa41305ceb, type: 3}
+  - Type: 1
+    Pattern: 2
+    SpawnAmount: 3
+    SpawnTimeSinceLastWave: 6
+    SpawnSeriesDelay: 0.5
+    Obstacles:
+    - {fileID: 7171738343391410855, guid: c22a51ab1433248db935ae014c609347, type: 3}
+  - Type: 2
+    Pattern: 2
+    SpawnAmount: 3
+    SpawnTimeSinceLastWave: 6
+    SpawnSeriesDelay: 0.5
+    Obstacles:
+    - {fileID: 7171738343391410855, guid: c22a51ab1433248db935ae014c609347, type: 3}

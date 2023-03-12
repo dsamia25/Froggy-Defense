@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6eb352e08d34b95a2bb40ae303c606, type: 3}
+  m_Name: GemChart
+  m_EditorClassIdentifier: 
+  BaseGemPrefab: {fileID: 8588212381301666651, guid: 7dad5de613ee648f080f651f205ac5c4, type: 3}
+  Gems:
+  - {fileID: 11400000, guid: b90ead69bb502473cb4953735df17b7b, type: 2}
+  - {fileID: 11400000, guid: 13163c9495f814a459db2d9e80af2a04, type: 2}
+  - {fileID: 11400000, guid: 35deee0f58b9d4e958e7a863d94dffd5, type: 2}
+  - {fileID: 11400000, guid: a3d737d20fde14f20b82bd52577bf0af, type: 2}
