@@ -29,16 +29,11 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Stat Increases")]
         [Space]
-        [SerializeField] private float _strengthIncrease = 1f;
-        [SerializeField] private float _dexterityIncrease = 1f;
-        [SerializeField] private float _agilityIncrease = 1f;
-        [SerializeField] private float _intellectIncrease = 1f;
-        [SerializeField] private float _spiritIncrease = 1f;
-        public float StrengthIncrease { get => _strengthIncrease; set { _strengthIncrease = value; } }     // Flat increase to increase total stats.
-        public float DexterityIncrease { get => _dexterityIncrease; set { _dexterityIncrease = value; } }  // Flat increase to increase total stats.
-        public float AgilityIncrease { get => _agilityIncrease; set { _agilityIncrease = value; } }        // Flat increase to increase total stats.
-        public float IntellectIncrease { get => _intellectIncrease; set { _intellectIncrease = value; } }  // Flat increase to increase total stats.
-        public float SpiritIncrease { get => _spiritIncrease; set { _spiritIncrease = value; } }           // Flat increase to increase total stats.
+        [SerializeField] private float _strengthIncrease = 0f;  // Flat increase to increase total stats.
+        [SerializeField] private float _dexterityIncrease = 0f; // Flat increase to increase total stats.
+        [SerializeField] private float _agilityIncrease = 0f;   // Flat increase to increase total stats.
+        [SerializeField] private float _intellectIncrease = 0f; // Flat increase to increase total stats.
+        [SerializeField] private float _spiritIncrease = 0f;    // Flat increase to increase total stats.
 
         [Space]
         [Header("Stat Modifiers")]
@@ -68,7 +63,7 @@ namespace FroggyDefense.Core
         public float Intellect => _intellect;    // Total stat to be used in calculations.
         public float Spirit => _spirit;                // Total stat to be used in calculations.
 
-        // TODO: Maybe change to an array?
+        // TODO: Maybe change to an array? Would use the index to equip items.
         [Space]
         [Header("Equipment")]
         [Space]
@@ -182,11 +177,11 @@ namespace FroggyDefense.Core
         /// </summary>
         protected void RemoveEquipmentStats(Equipment equipment)
         {
-            StrengthIncrease -= equipment.Strength;
-            DexterityIncrease -= equipment.Dexterity;
-            AgilityIncrease -= equipment.Agility;
-            IntellectIncrease -= equipment.Intellect;
-            SpiritIncrease -= equipment.Spirit;
+            _strengthIncrease -= equipment.Strength;
+            _dexterityIncrease -= equipment.Dexterity;
+            _agilityIncrease -= equipment.Agility;
+            _intellectIncrease -= equipment.Intellect;
+            _spiritIncrease -= equipment.Spirit;
             UpdateStats();
         }
 
@@ -196,11 +191,11 @@ namespace FroggyDefense.Core
         /// <param name="equipment"></param>
         protected void AddEquipmentStats(Equipment equipment)
         {
-            StrengthIncrease += equipment.Strength;
-            DexterityIncrease += equipment.Dexterity;
-            AgilityIncrease += equipment.Agility;
-            IntellectIncrease += equipment.Intellect;
-            SpiritIncrease += equipment.Spirit;
+            _strengthIncrease += equipment.Strength;
+            _dexterityIncrease += equipment.Dexterity;
+            _agilityIncrease += equipment.Agility;
+            _intellectIncrease += equipment.Intellect;
+            _spiritIncrease += equipment.Spirit;
             UpdateStats();
         }
     }
