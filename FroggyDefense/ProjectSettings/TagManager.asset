@@ -9,6 +9,8 @@ TagManager:
   - Wall
   - Gem
   - Tower
+  - GroundItem
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - Powerup
   - Wall
   - 
-  - 
+  - Inventory
   - 
   - 
   - 

@@ -4,9 +4,9 @@ using System;
 
 namespace FroggyDefense.Interactables
 {
-    public class Gem : MonoBehaviour, IInteractable
+    public class Gem : MonoBehaviour, IGroundInteractable
     {
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         [SerializeField] private int _value = 0;
         public int Value { get => _value; }
@@ -17,10 +17,10 @@ namespace FroggyDefense.Interactables
         public void SetGem(GemObject info)
         {
             _value = info.GemValue;
-            spriteRenderer.color = info.GemColor;
+            _spriteRenderer.color = info.GemColor;
         }
 
-        public void Interact()
+        public void Interact(GameObject user)
         {
             Debug.Log("Interacting with Gem.");
             PickedUpEvent?.Invoke(new GemEventArgs(transform.position, _value));

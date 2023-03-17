@@ -1,5 +1,5 @@
 {
-    "name": "EquipmentPlayModeTests",
+    "name": "EquipmentTestsAssembly",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",

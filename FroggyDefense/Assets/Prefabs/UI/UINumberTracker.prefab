@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 3914697416743155185}
   m_Layer: 0
   m_Name: UINumberTracker
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Header: 
   m_HeaderOnSeparateLine: 1
   m_DefaultCount: 0
-  m_numScrollIncrementSpeed: 2
+  m_numScrollSpeed: 2
   m_MinimumScrollAmount: 4
 --- !u!1 &3914697417205404836
 GameObject:

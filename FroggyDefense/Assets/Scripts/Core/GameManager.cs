@@ -54,6 +54,7 @@ namespace FroggyDefense.Core
         public UnityEvent WaveStartedEvent;
         public UnityEvent WaveCompletedEvent;
         public UnityEvent<int> PointsChangedEvent;
+        public UnityEvent RefreshUIEvent;
 
         private void Awake()
         {

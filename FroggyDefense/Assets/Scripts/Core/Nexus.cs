@@ -45,7 +45,7 @@ namespace FroggyDefense.Core
         public void OnMouseUpAsButton()
         {
             // Click on the Nexus to interact with it.
-            Interact();    
+            Interact();
         }
 
         /// <summary>

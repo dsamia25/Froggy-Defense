@@ -149,10 +149,10 @@ namespace FroggyDefense.Core
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            IInteractable interactable = null;
-            if ((interactable = collision.gameObject.GetComponent<IInteractable>()) != null)
+            IGroundInteractable interactable = null;
+            if ((interactable = collision.gameObject.GetComponent<IGroundInteractable>()) != null)
             {
-                interactable.Interact();
+                interactable.Interact(gameObject);
             }
 
             Projectile projectile = null;

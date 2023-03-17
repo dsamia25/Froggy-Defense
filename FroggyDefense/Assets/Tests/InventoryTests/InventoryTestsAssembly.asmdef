@@ -1,5 +1,5 @@
 {
-    "name": "BuffPlayModeTests",
+    "name": "InventoryTestsAssembly",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",

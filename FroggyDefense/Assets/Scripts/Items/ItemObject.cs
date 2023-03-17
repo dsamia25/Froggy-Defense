@@ -6,5 +6,9 @@ public class ItemObject : ScriptableObject
     [Space]
     [Header("Properties")]
     [Space]
-    public string Name = "EQUIPMENT";
+    public string Name = "ITEM";
+    public string Description = "A NEW ITEM";
+    public bool IsStackable { get; } = false;
+
+    public Sprite Icon = null;
 }

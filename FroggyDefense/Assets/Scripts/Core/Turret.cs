@@ -69,7 +69,7 @@ namespace FroggyDefense.Core
             if (m_Focus != null)
             {
                 // Rotate Turret.
-                m_TurretHead.transform.rotation = Quaternion.Euler(0f, 0f, Angles.AngleBetweenTwoPoints(m_Focus.transform.position, m_TurretHead.transform.position) - 90);
+                m_TurretHead.transform.rotation = Quaternion.Euler(0f, 0f, SupportMethods.AngleBetweenTwoPoints(m_Focus.transform.position, m_TurretHead.transform.position) - 90);
 
                 if (_attackCooldown <= 0)
                 {
