@@ -16,10 +16,12 @@ namespace FroggyDefense.Core
     public class Turret : MonoBehaviour, IUseWeapon
     {
         [Space]
-        [Header("Target Settings")]
+        [Header("Turret Componenets")]
         [Space]
-        [SerializeField] private GameObject m_TurretHead;
-        [SerializeField] private GameObject m_TurretBody;
+        [SerializeField] private GameObject m_TurretHead;               // The moving head of the turret.
+        [SerializeField] private GameObject m_TurretBody;               // The stationary base of the turret.
+        [SerializeField] private RectTransform m_HighlightRangeCircle;  // The target radius highlight circle when the turret is moused over.
+        [SerializeField] private RectTransform m_SelectRangeCircle;     // The target radius highlight circle when the turret is selected.
 
         [Space]
         [Header("Target Settings")]
@@ -48,6 +50,11 @@ namespace FroggyDefense.Core
             {
                 m_AttackRadius = m_TargetRadius + 1;
             }
+
+            // Set target circle radii.
+            var circleRadius = 2 * m_TargetRadius;
+            m_HighlightRangeCircle.sizeDelta = new Vector2(circleRadius, circleRadius);
+            m_SelectRangeCircle.sizeDelta = new Vector2(circleRadius, circleRadius);
 
             _attackCooldown = 0f;
             _targetCheckCooldown = m_TargetCheckFrequency;
@@ -95,6 +102,18 @@ namespace FroggyDefense.Core
         {
             m_Weapon.Shoot((m_Focus.transform.position - transform.position).normalized);
             _attackCooldown = m_AttackCooldown;
+        }
+
+        public void OnMouseEnter()
+        {
+            Debug.Log("Mouse over turret.");
+            m_HighlightRangeCircle.gameObject.SetActive(true);
+        }
+        
+        public void OnMouseExit()
+        {
+            Debug.Log("Mouse left turret.");
+            m_HighlightRangeCircle.gameObject.SetActive(false);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 using UnityEngine;
 using FroggyDefense.Core;
+using FroggyDefense.Items;
 
 namespace FroggyDefense.Interactables
 {
@@ -16,8 +17,31 @@ namespace FroggyDefense.Interactables
             // Init the stored item using the set item.
             if (_setItem != null)
             {
-                SetItem(new Item(_setItem));
+                SetItem(CreateItem(_setItem));
             }
+        }
+
+        public Item CreateItem(ItemObject template)
+        {
+            Item item = null;
+            switch (template.Type)
+            {
+                case ItemType.Default:
+                    Debug.Log("Case Default.");
+                    item = new Item(template);
+                    break;
+                case ItemType.Equipment:
+                    Debug.Log("Case Equipment.");
+                    item = new Equipment((EquipmentObject)template);
+                    break;
+                default:
+                    Debug.Log("Default.");
+                    item = new Item(template);
+                    break;
+            }
+            Debug.Log("template Type = " + template.Type + ".");
+
+            return item;
         }
 
         /// <summary>

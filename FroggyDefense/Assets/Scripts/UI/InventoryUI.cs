@@ -54,15 +54,14 @@ namespace FroggyDefense.UI
         {
             _buttons = new List<GameObject>();
             _uiButtons = new List<ItemButtonUI>();
-            
-            int i = 0;
-            foreach (var pair in _inventory.m_Inventory)
+
+            for (int i = 0; i < DEFAULT_INVENTORY_SIZE; i++)
             {
                 _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
                 var button = _buttons[i].GetComponent<ItemButtonUI>();
                 _uiButtons.Add(button);
-                button.UpdateUI(pair.Key, pair.Value);
-                i++;
+                button.Slot = _inventory.Get(i);
+                button.UpdateUI();
             }
         }
 
@@ -76,21 +75,22 @@ namespace FroggyDefense.UI
                 _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
                 var button = _buttons[i].GetComponent<ItemButtonUI>();
                 _uiButtons.Add(button);
+                button.Slot = _inventory.Get(i);
                 button.UpdateUI();
             }
         }
 
         private void UpdateUI()
         {
-            // Add another row if there are not enough buttons.
+            // Add more rows if there are not enough buttons.
             while (_inventory.Size > _buttons.Count)
             {
                 GenerateRow();
             }
 
-            for (int i = 0; i < _inventory.Size; i++)
+            for (int i = 0; i < _buttons.Count; i++)
             {
-                //_inventory.m_Inventory.Elemen
+                _uiButtons[i].Slot = _inventory.Get(i);
             }
         }
 

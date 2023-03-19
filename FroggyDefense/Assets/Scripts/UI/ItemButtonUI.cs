@@ -1,69 +1,80 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
-using FroggyDefense.Core;
+using FroggyDefense.Items;
 
 namespace FroggyDefense.UI
 {
-    public class ItemButtonUI : MonoBehaviour
+    public class ItemButtonUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private Image _iconImage;             // The item's image.
         [SerializeField] private TextMeshProUGUI _countText;   // The text displaying the number of items in the slot.
+        public InventoryUI HeadInventoryUi;
 
-        private Item _item = null;
-        private int _count = 0;
-
-        public Item m_Item
+        private InventorySlot _slot = null;
+        public InventorySlot Slot
         {
-            get => _item;
+            get => _slot;
             set
             {
-                _item = value;
+                _slot = value;
+                UpdateUI();
             }
-        }
+        }       // The inventory slot this icon is representing.
 
         private Vector3 SelectedStartingPosition = Vector3.zero;
+        private bool _clickedDownOnButton = false;
 
-        //private void Start()
-        //{
-        //    //UpdateUI();
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _clickedDownOnButton = true;
+        }
 
-        //    //GameManager.instance.RefreshUIEvent.AddListener(UpdateUI);
-        //}
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (Slot == null || Slot.IsEmpty)
+            {
+                return;
+            }
 
-        //private void Update()
-        //{
-        //    // TODO: Maybe find a more efficient way to do this like an event.
-        //    UpdateUI();
-        //}
+            if (_clickedDownOnButton)
+            {
+                if (Input.GetMouseButtonUp(1))
+                {
+                    Slot.UseItem();
+                    UpdateUI();
+                }
+            }
+            _clickedDownOnButton = false;
+        }
 
-        // TODO: This system doesn't work for some reason.
-        //private void OnMouseDown()
-        //{
-        //    Debug.Log("Down");
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            SelectedStartingPosition = transform.position;
+            _iconImage.transform.SetParent(transform.parent.parent);
+            _iconImage.transform.SetAsLastSibling();
+        }
 
-        //    SelectedStartingPosition = transform.position;
-        //}
+        public void OnDrag(PointerEventData eventData)
+        {
+            _iconImage.transform.position = Input.mousePosition;
+        }
 
-        //private void OnMouseDrag()
-        //{
-        //    Debug.Log("Dragging");
-        //    transform.position = SupportMethods.GetMousePosition();
-        //}
-
-        //private void OnMouseUp()
-        //{
-        //    Debug.Log("Up");
-
-        //    transform.position = SelectedStartingPosition;
-        //}
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            _iconImage.transform.position = SelectedStartingPosition;
+            _iconImage.transform.SetParent(transform);
+            _iconImage.transform.SetAsLastSibling();
+            Debug.Log("Released mouse over button.");
+        }
 
         /// <summary>
         /// Updates the UI elements of the icon.
         /// </summary>
         public void UpdateUI()
         {
-            if (_item == null)
+            if (Slot == null || Slot.IsEmpty)
             {
                 _iconImage.gameObject.SetActive(false);
                 _countText.gameObject.SetActive(false);
@@ -71,22 +82,12 @@ namespace FroggyDefense.UI
             }
 
             // Update the sprite.
-            _iconImage.sprite = _item.Icon;
+            _iconImage.sprite = Slot.item.Icon;
             _iconImage.gameObject.SetActive(true);
 
             // Only display the count if stackable.
-            _countText.text = _count.ToString();
-            _countText.gameObject.SetActive(_item.IsStackable);
-        }
-
-        /// <summary>
-        /// Updates the UI elements of the icon.
-        /// </summary>
-        public void UpdateUI(Item item, int count)
-        {
-            _item = item;
-            _count = count;
-            UpdateUI();
+            _countText.text = Slot.count.ToString();
+            _countText.gameObject.SetActive(Slot.item.IsStackable);
         }
     }
 }

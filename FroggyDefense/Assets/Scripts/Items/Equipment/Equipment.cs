@@ -29,6 +29,8 @@ namespace FroggyDefense.Items
         public Equipment()
         {
             Name = "EQUIPMENT";
+            Type = ItemType.Equipment;
+            IsStackable = false;
         }
 
         /// <summary>
@@ -39,11 +41,22 @@ namespace FroggyDefense.Items
         {
             Name = template.Name;
             Slot = template.Slot;
+            Type = template.Type;
+            Icon = template.Icon;
+            IsStackable = false;
+            
             Strength = template.Strength;
             Dexterity = template.Dexterity;
             Agility = template.Agility;
             Intellect = template.Intellect;
-            Spirit = template.Spirit;
+            Spirit = template.Spirit;            
+        }
+
+        public override bool Use()
+        {
+            Debug.Log("This is equipment. Equipping " + Name + ".");
+            GameManager.instance.m_Player.Equip(this);
+            return true;
         }
     }
 }

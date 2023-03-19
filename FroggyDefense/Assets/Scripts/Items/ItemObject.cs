@@ -1,4 +1,5 @@
 using UnityEngine;
+using FroggyDefense.Core;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "ScriptableObjects/Inventory/Items/Item")]
 public class ItemObject : ScriptableObject
@@ -9,6 +10,7 @@ public class ItemObject : ScriptableObject
     public string Name = "ITEM";
     public string Description = "A NEW ITEM";
     public bool IsStackable { get; } = false;
+    public ItemType Type = ItemType.Default;
 
     public Sprite Icon = null;
 }
