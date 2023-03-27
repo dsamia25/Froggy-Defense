@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: -4647859066345070941}
   - component: {fileID: 8866002649630271119}
   m_Layer: 18
-  m_Name: ItemButtonUI
+  m_Name: InventorySlotUI
   m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

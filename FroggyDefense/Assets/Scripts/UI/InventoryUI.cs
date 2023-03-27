@@ -19,33 +19,35 @@ namespace FroggyDefense.UI
         public int INVENTORY_ROW_SIZE = 8;                  // The amount of buttons to add for each new row.
 
         private List<GameObject> _buttons;                  // The list of all UI buttons.
-        private List<ItemButtonUI> _uiButtons;              // The list of all ItemButtonUi components.
+        private List<InventorySlotUI> _uiButtons;              // The list of all ItemButtonUi components.
 
         private void Start()
         {
+            if (_UiParent == null) _UiParent = transform;
+
             _inventory.InventoryChangedEvent += UpdateUI;
             GenerateInventory();
         }
 
-        private void Update()
-        {
-            if (SelectedObject != null)
-            {
-                if (Input.GetMouseButtonUp(0))
-                {
-                    SelectedObject = null;
-                }
-            }
+        //private void Update()
+        //{
+        //    if (SelectedObject != null)
+        //    {
+        //        if (Input.GetMouseButtonUp(0))
+        //        {
+        //            SelectedObject = null;
+        //        }
+        //    }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Collider2D collider = SupportMethods.GetCollider(SupportMethods.GetMousePosition(), m_InteractionClickRadius, m_InventoryUILayer);
-                if (collider != null)
-                {
-                    SelectedObject = collider.gameObject;
-                }
-            }
-        }
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        Collider2D collider = SupportMethods.GetCollider(SupportMethods.GetMousePosition(), m_InteractionClickRadius, m_InventoryUILayer);
+        //        if (collider != null)
+        //        {
+        //            SelectedObject = collider.gameObject;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Creates a new UI representation of this inventory by instantiating new object buttons.
@@ -53,12 +55,12 @@ namespace FroggyDefense.UI
         public void GenerateInventory()
         {
             _buttons = new List<GameObject>();
-            _uiButtons = new List<ItemButtonUI>();
+            _uiButtons = new List<InventorySlotUI>();
 
             for (int i = 0; i < DEFAULT_INVENTORY_SIZE; i++)
             {
                 _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
-                var button = _buttons[i].GetComponent<ItemButtonUI>();
+                var button = _buttons[i].GetComponent<InventorySlotUI>();
                 _uiButtons.Add(button);
                 button.Slot = _inventory.Get(i);
                 button.UpdateUI();
@@ -73,7 +75,7 @@ namespace FroggyDefense.UI
             for (int i = 0; i < INVENTORY_ROW_SIZE; i++)
             {
                 _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
-                var button = _buttons[i].GetComponent<ItemButtonUI>();
+                var button = _buttons[i].GetComponent<InventorySlotUI>();
                 _uiButtons.Add(button);
                 button.Slot = _inventory.Get(i);
                 button.UpdateUI();
@@ -90,7 +92,9 @@ namespace FroggyDefense.UI
 
             for (int i = 0; i < _buttons.Count; i++)
             {
-                _uiButtons[i].Slot = _inventory.Get(i);
+                var slot = _uiButtons[i];
+                slot.Slot = _inventory.Get(i);
+                slot.UpdateUI();
             }
         }
 

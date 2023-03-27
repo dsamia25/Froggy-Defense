@@ -11,6 +11,7 @@ namespace FroggyDefense.Core
     }
 
     // TODO: Make an item ID and a system to automatically assign them for new ItemObjects.
+    [System.Serializable]
     public class Item : IComparable
     {
         public string Name = "ITEM";

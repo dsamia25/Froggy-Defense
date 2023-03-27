@@ -6,13 +6,13 @@ using FroggyDefense.Items;
 
 namespace FroggyDefense.UI
 {
-    public class ItemButtonUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
+    public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField] private Image _iconImage;             // The item's image.
-        [SerializeField] private TextMeshProUGUI _countText;   // The text displaying the number of items in the slot.
+        [SerializeField] protected Image _iconImage;             // The item's image.
+        [SerializeField] protected TextMeshProUGUI _countText;   // The text displaying the number of items in the slot.
         public InventoryUI HeadInventoryUi;
 
-        private InventorySlot _slot = null;
+        protected InventorySlot _slot = null;
         public InventorySlot Slot
         {
             get => _slot;
@@ -23,15 +23,15 @@ namespace FroggyDefense.UI
             }
         }       // The inventory slot this icon is representing.
 
-        private Vector3 SelectedStartingPosition = Vector3.zero;
-        private bool _clickedDownOnButton = false;
+        protected Vector3 SelectedStartingPosition = Vector3.zero;
+        protected bool _clickedDownOnButton = false;
 
-        public void OnPointerDown(PointerEventData eventData)
+        public virtual void OnPointerDown(PointerEventData eventData)
         {
             _clickedDownOnButton = true;
         }
 
-        public void OnPointerUp(PointerEventData eventData)
+        public virtual void OnPointerUp(PointerEventData eventData)
         {
             if (Slot == null || Slot.IsEmpty)
             {
@@ -40,6 +40,7 @@ namespace FroggyDefense.UI
 
             if (_clickedDownOnButton)
             {
+                // Listen for right click.
                 if (Input.GetMouseButtonUp(1))
                 {
                     Slot.UseItem();
@@ -49,19 +50,19 @@ namespace FroggyDefense.UI
             _clickedDownOnButton = false;
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void OnBeginDrag(PointerEventData eventData)
         {
             SelectedStartingPosition = transform.position;
             _iconImage.transform.SetParent(transform.parent.parent);
             _iconImage.transform.SetAsLastSibling();
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public virtual void OnDrag(PointerEventData eventData)
         {
             _iconImage.transform.position = Input.mousePosition;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public virtual void OnEndDrag(PointerEventData eventData)
         {
             _iconImage.transform.position = SelectedStartingPosition;
             _iconImage.transform.SetParent(transform);
@@ -72,7 +73,7 @@ namespace FroggyDefense.UI
         /// <summary>
         /// Updates the UI elements of the icon.
         /// </summary>
-        public void UpdateUI()
+        public virtual void UpdateUI()
         {
             if (Slot == null || Slot.IsEmpty)
             {

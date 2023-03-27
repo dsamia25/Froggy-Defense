@@ -8,7 +8,7 @@ namespace FroggyDefense.Items
         [Space]
         [Header("Equipment")]
         [Space]
-        public EquipmentSlot Slot = EquipmentSlot.NULL;
+        public EquipmentSlot Slot;
 
         [Space]
         [Header("Stats")]

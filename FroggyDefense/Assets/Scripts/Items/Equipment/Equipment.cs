@@ -5,7 +5,6 @@ namespace FroggyDefense.Items
 {
     public enum EquipmentSlot
     {
-        NULL,
         Hat,
         Clothes,
         Boots,
@@ -15,7 +14,7 @@ namespace FroggyDefense.Items
 
     public class Equipment : Item
     {
-        public EquipmentSlot Slot = EquipmentSlot.NULL;
+        public EquipmentSlot Slot = 0;
 
         public int Strength = 0;
         public int Dexterity = 0;
@@ -40,6 +39,7 @@ namespace FroggyDefense.Items
         public Equipment(EquipmentObject template)
         {
             Name = template.Name;
+            Description = template.Description;
             Slot = template.Slot;
             Type = template.Type;
             Icon = template.Icon;

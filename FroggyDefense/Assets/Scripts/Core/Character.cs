@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Items;
+using UnityEngine.Events;
 
 namespace FroggyDefense.Core
 {
@@ -62,15 +64,15 @@ namespace FroggyDefense.Core
         public float Intellect => _intellect;    // Total stat to be used in calculations.
         public float Spirit => _spirit;                // Total stat to be used in calculations.
 
-        // TODO: Maybe change to an array? Would use the index to equip items.
         [Space]
         [Header("Equipment")]
         [Space]
-        public Equipment HatSlot = null;
-        public Equipment ClothesSlot = null;
-        public Equipment BootsSlot = null;
-        public Equipment RingSlot = null;
-        public Equipment TrinketSlot = null;
+        private Equipment[] _equipmentSlots;
+
+        [Space]
+        [Header("Inventory")]
+        [Space]
+        [SerializeField] private Inventory _inventory;
 
         // TODO: Check if need these.
         // TODO: Probably remove these and the classes entirely.
@@ -80,6 +82,25 @@ namespace FroggyDefense.Core
         public List<Buff> Buffs = new List<Buff>();                         // List of all buffs with references to their effects.
         public List<ValueBuff> ValueBuffs = new List<ValueBuff>();          // List of all value buffs.
         public List<PercentBuff> PercentBuffs = new List<PercentBuff>();    // List of all percent buffs.
+
+        [Space]
+        [Header("Character Events")]
+        [Space]
+        public UnityEvent CharacterStatsChanged;
+
+        private void Awake()
+        {
+            // TODO: Make a way to take in an existing equipment spread.
+            InitEquipmentSlots();
+
+            if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
+        }
+
+        private void InitEquipmentSlots()
+        {
+            int slotAmount = Enum.GetValues(typeof(EquipmentSlot)).Length;
+            _equipmentSlots = new Equipment[slotAmount];
+        }
 
         /// <summary>
         /// Recalculates all the total stat values.
@@ -91,6 +112,7 @@ namespace FroggyDefense.Core
             _agility = _agilityMod * (_baseAgility + _agilityIncrease);
             _intellect = _intellectMod * (_baseIntellect + _intellectIncrease);
             _spirit = _spiritMod * (_baseSpirit + _spiritIncrease);
+            CharacterStatsChanged?.Invoke();
         }
 
         /// <summary>
@@ -99,37 +121,46 @@ namespace FroggyDefense.Core
         /// <param name="equipment"></param>
         public void Equip(Equipment equipment)
         {
-            switch (equipment.Slot)
+            if (_equipmentSlots == null) InitEquipmentSlots();
+            int slot = (int)equipment.Slot;
+            Debug.Log("Equipping slot " + equipment.Slot.ToString() + " (" + slot + ").");
+            if (_equipmentSlots[slot] != null)
             {
-                case EquipmentSlot.Hat:
-                    if (HatSlot != null) Unequip(EquipmentSlot.Hat);
-                    HatSlot = equipment;
-                    AddEquipmentStats(HatSlot);
-                    return;
-                case EquipmentSlot.Clothes:
-                    if (ClothesSlot != null) Unequip(EquipmentSlot.Clothes);
-                    ClothesSlot = equipment;
-                    AddEquipmentStats(ClothesSlot);
-                    return;
-                case EquipmentSlot.Boots:
-                    if (BootsSlot != null) Unequip(EquipmentSlot.Boots);
-                    BootsSlot = equipment;
-                    AddEquipmentStats(BootsSlot);
-                    return;
-                case EquipmentSlot.Ring:
-                    if (RingSlot != null) Unequip(EquipmentSlot.Ring);
-                    RingSlot = equipment;
-                    AddEquipmentStats(RingSlot);
-                    return;
-                case EquipmentSlot.Trinket:
-                    if (TrinketSlot != null) Unequip(EquipmentSlot.Trinket);
-                    TrinketSlot = equipment;
-                    AddEquipmentStats(TrinketSlot);
-                    return;
-                default:
-                    Debug.LogWarning("Attempting to equip unknown item.");
-                    return;
+                Unequip(slot);
             }
+            _equipmentSlots[slot] = equipment;
+            AddEquipmentStats(equipment);
+            //switch (equipment.Slot)
+            //{
+            //    case EquipmentSlot.Hat:
+            //        if (HatSlot != null) Unequip(EquipmentSlot.Hat);
+            //        HatSlot = equipment;
+            //        AddEquipmentStats(HatSlot);
+            //        return;
+            //    case EquipmentSlot.Clothes:
+            //        if (ClothesSlot != null) Unequip(EquipmentSlot.Clothes);
+            //        ClothesSlot = equipment;
+            //        AddEquipmentStats(ClothesSlot);
+            //        return;
+            //    case EquipmentSlot.Boots:
+            //        if (BootsSlot != null) Unequip(EquipmentSlot.Boots);
+            //        BootsSlot = equipment;
+            //        AddEquipmentStats(BootsSlot);
+            //        return;
+            //    case EquipmentSlot.Ring:
+            //        if (RingSlot != null) Unequip(EquipmentSlot.Ring);
+            //        RingSlot = equipment;
+            //        AddEquipmentStats(RingSlot);
+            //        return;
+            //    case EquipmentSlot.Trinket:
+            //        if (TrinketSlot != null) Unequip(EquipmentSlot.Trinket);
+            //        TrinketSlot = equipment;
+            //        AddEquipmentStats(TrinketSlot);
+            //        return;
+            //    default:
+            //        Debug.LogWarning("Attempting to equip unknown item.");
+            //        return;
+            //}
         }
 
         /// <summary>
@@ -138,37 +169,54 @@ namespace FroggyDefense.Core
         /// <param name="slot"></param>
         public void Unequip(EquipmentSlot slot)
         {
-            switch (slot)
-            {
-                case EquipmentSlot.Hat:
-                    if (HatSlot == null) return;
-                    RemoveEquipmentStats(HatSlot);
-                    HatSlot = null;
-                    return;
-                case EquipmentSlot.Clothes:
-                    if (ClothesSlot == null) return;
-                    RemoveEquipmentStats(ClothesSlot);
-                    ClothesSlot = null;
-                    return;
-                case EquipmentSlot.Boots:
-                    if (BootsSlot == null) return;
-                    RemoveEquipmentStats(BootsSlot);
-                    BootsSlot = null;
-                    return;
-                case EquipmentSlot.Ring:
-                    if (RingSlot == null) return;
-                    RemoveEquipmentStats(RingSlot);
-                    RingSlot = null;
-                    return;
-                case EquipmentSlot.Trinket:
-                    if (TrinketSlot == null) return;
-                    RemoveEquipmentStats(TrinketSlot);
-                    TrinketSlot = null;
-                    return;
-                default:
-                    Debug.LogWarning("Attempting to unequip unknown item.");
-                    return;
-            }
+            Unequip((int)slot);
+        }
+
+        /// <summary>
+        /// Removes the equipment at the given slot and subtracts its stats from the character.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void Unequip(int slot)
+        {
+            if (_equipmentSlots == null) InitEquipmentSlots();
+            Debug.Log("Unequipping slot (" + slot + ").");
+            if (_equipmentSlots[slot] == null) return;
+            RemoveEquipmentStats(_equipmentSlots[slot]);
+
+            _inventory?.Add(_equipmentSlots[slot], 1);       // Place the item in the inventory if possible.
+            
+            _equipmentSlots[slot] = null;                   // Clear the equipment slot.
+            //switch (slot)
+            //{
+            //    case EquipmentSlot.Hat:
+            //        if (HatSlot == null) return;
+            //        RemoveEquipmentStats(HatSlot);
+            //        HatSlot = null;
+            //        return;
+            //    case EquipmentSlot.Clothes:
+            //        if (ClothesSlot == null) return;
+            //        RemoveEquipmentStats(ClothesSlot);
+            //        ClothesSlot = null;
+            //        return;
+            //    case EquipmentSlot.Boots:
+            //        if (BootsSlot == null) return;
+            //        RemoveEquipmentStats(BootsSlot);
+            //        BootsSlot = null;
+            //        return;
+            //    case EquipmentSlot.Ring:
+            //        if (RingSlot == null) return;
+            //        RemoveEquipmentStats(RingSlot);
+            //        RingSlot = null;
+            //        return;
+            //    case EquipmentSlot.Trinket:
+            //        if (TrinketSlot == null) return;
+            //        RemoveEquipmentStats(TrinketSlot);
+            //        TrinketSlot = null;
+            //        return;
+            //    default:
+            //        Debug.LogWarning("Attempting to unequip unknown item.");
+            //        return;
+            //}
         }
 
         /// <summary>
@@ -196,6 +244,13 @@ namespace FroggyDefense.Core
             _intellectIncrease += equipment.Intellect;
             _spiritIncrease += equipment.Spirit;
             UpdateStats();
+        }
+
+        public Equipment GetEquipment(int slot)
+        {
+            if (slot < 0 || slot >= _equipmentSlots.Length) return null;
+
+            return _equipmentSlots[slot];
         }
     }
 }

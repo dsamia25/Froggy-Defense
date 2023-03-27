@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: A very fancy hat.
   Type: 1
   Icon: {fileID: 21300000, guid: ba02889fb0f5c433885b6bcbc9118081, type: 3}
-  Slot: 1
+  Slot: 0
   Strength: 1
   Dexterity: 1
   Agility: 1

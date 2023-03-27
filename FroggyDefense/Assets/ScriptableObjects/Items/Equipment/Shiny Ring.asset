@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: Sparkly
   Type: 1
   Icon: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
-  Slot: 4
+  Slot: 3
   Strength: 0
   Dexterity: 0
   Agility: 0

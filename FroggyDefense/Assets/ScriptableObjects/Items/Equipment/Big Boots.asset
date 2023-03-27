@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: Very big boots.
   Type: 1
   Icon: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
-  Slot: 3
+  Slot: 2
   Strength: 0
   Dexterity: 1
   Agility: 1

@@ -7,7 +7,7 @@ using FroggyDefense.Items;
 
 namespace FroggyDefense.Tests
 {
-    public class EquipmentTests : MonoBehaviour
+    public class EquipmentTests
     {
         [UnityTest]
         public IEnumerator EquipItemTest()
@@ -37,11 +37,11 @@ namespace FroggyDefense.Tests
             yield return null;
 
             // Check if equipped.
-            Assert.AreEqual(hat, character.HatSlot, "Incorrect Hat.");
-            Assert.AreEqual(clothes, character.ClothesSlot, "Incorrect Clothes.");
-            Assert.AreEqual(boots, character.BootsSlot, "Incorrect Boots.");
-            Assert.AreEqual(ring, character.RingSlot, "Incorrect Ring.");
-            Assert.AreEqual(trinket, character.TrinketSlot, "Incorrect Trinket.");
+            Assert.AreEqual(hat, character.GetEquipment((int)EquipmentSlot.Hat), "Incorrect Hat.");
+            Assert.AreEqual(clothes, character.GetEquipment((int)EquipmentSlot.Clothes), "Incorrect Clothes.");
+            Assert.AreEqual(boots, character.GetEquipment((int)EquipmentSlot.Boots), "Incorrect Boots.");
+            Assert.AreEqual(ring, character.GetEquipment((int)EquipmentSlot.Ring), "Incorrect Ring.");
+            Assert.AreEqual(trinket, character.GetEquipment((int)EquipmentSlot.Trinket), "Incorrect Trinket.");
         }
 
         [UnityTest]
@@ -68,7 +68,7 @@ namespace FroggyDefense.Tests
             character.Equip(newHat);
 
             // Check if equipped.
-            Assert.AreEqual(newHat, character.HatSlot, "Incorrect Hat.");
+            Assert.AreEqual(newHat, character.GetEquipment((int)EquipmentSlot.Hat), "Incorrect Hat.");
         }
 
         [UnityTest]
@@ -130,7 +130,7 @@ namespace FroggyDefense.Tests
             float spirit = character.Spirit;
 
             // Unequip item
-            character.Unequip(EquipmentSlot.Hat);
+            character.Unequip((int)EquipmentSlot.Hat);
             yield return null;
 
             // Check if stats updated correctly.

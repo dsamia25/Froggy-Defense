@@ -55,7 +55,8 @@ namespace FroggyDefense.Core
         private ObjectController controller;
         private Vector2 _moveDir = Vector2.zero;
 
-        [Header("Events")]
+        [Space]
+        [Header("Player Events")]
         [Space]
         public UnityEvent PlayerDeathEvent;
 
@@ -105,7 +106,7 @@ namespace FroggyDefense.Core
                 _moveDir.y = Input.GetAxisRaw("Vertical");
 
                 // TODO: This is temporary. Move to equiping items when that's implemented.
-                UpdateStats();
+                //UpdateStats();
             }
         }
 
