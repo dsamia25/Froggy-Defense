@@ -104,9 +104,6 @@ namespace FroggyDefense.Core
                 // Update movement direction.
                 _moveDir.x = Input.GetAxisRaw("Horizontal");
                 _moveDir.y = Input.GetAxisRaw("Vertical");
-
-                // TODO: This is temporary. Move to equiping items when that's implemented.
-                //UpdateStats();
             }
         }
 

@@ -6,8 +6,9 @@ namespace FroggyDefense.Items
 {
     public class Inventory : MonoBehaviour, IInventory
     {
-        private Dictionary<Item, InventorySlot> _itemLookupChart;           // A dictionary to find items in the list.
-        private List<InventorySlot> _inventory;                             // A list of everything in the inventory.
+        private Dictionary<Item, InventorySlot> _contentsIndex;             // A dictionary to find items in the list.
+        [SerializeField] private List<InventorySlot> _inventory;            // A list of everything in the inventory.
+        [SerializeField] private List<InventorySlot> _emptySlots;           // A list of all the empty slots on the board.
 
         public int Size { get => _inventory.Count; }
 
@@ -18,11 +19,27 @@ namespace FroggyDefense.Items
             // TODO: Make a way to load a saved inventory instead of creating a new one.
             // Instantiate the inventory.
             InitInventory();
+
+            //Debug.LogWarning("Testing list order:");
+
+            //List<string> testList = new List<string>();
+            //testList.Add("a");
+            //testList.Add("b");
+            //testList.Add("c");
+            //Debug.LogWarning("First pass: [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
+
+            //testList.Remove("a");
+            //Debug.LogWarning("Removed index 0 (\'a\'): [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
+
+            //testList.Add("a");
+            //Debug.LogWarning("Readded (\'a\'): [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
+
+            //Debug.LogWarning("Ending test.");
         }
 
         public void InitInventory()
         {
-            _itemLookupChart = new Dictionary<Item, InventorySlot>();
+            _contentsIndex = new Dictionary<Item, InventorySlot>();
             _inventory = new List<InventorySlot>();
             InventoryChangedEvent?.Invoke();
         }
@@ -34,27 +51,27 @@ namespace FroggyDefense.Items
                 if (item.IsStackable)
                 {
                     // If the item is stackable, look for it in the dictionary.
-                    if (_itemLookupChart.ContainsKey(item))
+                    if (_contentsIndex.ContainsKey(item))
                     {
                         // If the item is already in the dictionary, add to the existing stack.
-                        _itemLookupChart[item].Add(item, amount);
+                        _contentsIndex[item].Add(item, amount);
                     }
                     else
                     {
                         // If the item is not already in the dictionary, create a new entry.
-                        var slot = new InventorySlot();
+                        var slot = new InventorySlot(this);
                         slot.Add(item, amount);
                         _inventory.Add(slot);
-                        _itemLookupChart.Add(item, slot);
+                        _contentsIndex.Add(item, slot);
                     }
                 }
                 else
                 {
                     // If the item is not stackable, it will always need a new entry with a size of 1.
-                    var slot = new InventorySlot();
+                    var slot = new InventorySlot(this);
                     slot.Add(item, 1);
                     _inventory.Add(slot);
-                    _itemLookupChart.Add(item, slot);
+                    _contentsIndex.Add(item, slot);
                 }
             } catch
             {
@@ -67,11 +84,11 @@ namespace FroggyDefense.Items
         {
             if (amount < 0) return false;
 
-            if (_itemLookupChart.ContainsKey(item))
+            if (_contentsIndex.ContainsKey(item))
             {
-                _itemLookupChart[item].Subtract(amount);
-
-                if (_itemLookupChart[item].count <= 0)
+                var slot = _contentsIndex[item];
+                slot.Subtract(amount);
+                if (slot.IsEmpty)
                 {
                     Remove(item);
                 }
@@ -86,8 +103,9 @@ namespace FroggyDefense.Items
         {
             if (Contains(item))
             {
-                _inventory.Remove(_itemLookupChart[item]);
-                _itemLookupChart.Remove(item);
+                Debug.Log("Removing (" + item.Name + ") from inventory.");
+                _inventory.Remove(_contentsIndex[item]);
+                _contentsIndex.Remove(item);
                 InventoryChangedEvent?.Invoke();
                 return true;
             }
@@ -110,23 +128,23 @@ namespace FroggyDefense.Items
 
         public bool Contains(Item item)
         {
-            return _itemLookupChart.ContainsKey(item);
+            return _contentsIndex.ContainsKey(item);
         }
 
         public bool Contains(Item item, int amount)
         {
-            if (_itemLookupChart.ContainsKey(item))
+            if (_contentsIndex.ContainsKey(item))
             {
-                return _itemLookupChart[item].count >= amount;
+                return _contentsIndex[item].count >= amount;
             }
             return false;
         }
 
         public int GetCount(Item item)
         {
-            if (_itemLookupChart.ContainsKey(item))
+            if (_contentsIndex.ContainsKey(item))
             {
-                return _itemLookupChart[item].count;
+                return _contentsIndex[item].count;
             }
             return 0;
         }
@@ -136,17 +154,21 @@ namespace FroggyDefense.Items
     /// <summary>
     /// A slot in the inventory that holds an item and how much of the item there are.
     /// </summary>
+    [System.Serializable]
     public class InventorySlot
     {
         public Item item { get; private set; } = null;
         public int count { get; private set; } = 0;
 
+        public Inventory parentInventory;
+
         public bool IsEmpty { get => item == null && count == 0; }
 
-        public InventorySlot()
+        public InventorySlot(Inventory _parentInventory)
         {
             item = null;
             count = 0;
+            parentInventory = _parentInventory;
         }
 
         /// <summary>
@@ -195,6 +217,7 @@ namespace FroggyDefense.Items
         /// </summary>
         public void Clear()
         {
+            Debug.Log("Clearing (" + item.Name + ") invntory slot.");
             item = null;
             count = 0;
         }
@@ -205,7 +228,7 @@ namespace FroggyDefense.Items
         public void UseItem()
         {
             item.Use();
-            Subtract(item.CountSubtractPerUse);
+            parentInventory.Subtract(item, item.CountSubtractPerUse);
         }
     }
 }

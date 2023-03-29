@@ -130,37 +130,6 @@ namespace FroggyDefense.Core
             }
             _equipmentSlots[slot] = equipment;
             AddEquipmentStats(equipment);
-            //switch (equipment.Slot)
-            //{
-            //    case EquipmentSlot.Hat:
-            //        if (HatSlot != null) Unequip(EquipmentSlot.Hat);
-            //        HatSlot = equipment;
-            //        AddEquipmentStats(HatSlot);
-            //        return;
-            //    case EquipmentSlot.Clothes:
-            //        if (ClothesSlot != null) Unequip(EquipmentSlot.Clothes);
-            //        ClothesSlot = equipment;
-            //        AddEquipmentStats(ClothesSlot);
-            //        return;
-            //    case EquipmentSlot.Boots:
-            //        if (BootsSlot != null) Unequip(EquipmentSlot.Boots);
-            //        BootsSlot = equipment;
-            //        AddEquipmentStats(BootsSlot);
-            //        return;
-            //    case EquipmentSlot.Ring:
-            //        if (RingSlot != null) Unequip(EquipmentSlot.Ring);
-            //        RingSlot = equipment;
-            //        AddEquipmentStats(RingSlot);
-            //        return;
-            //    case EquipmentSlot.Trinket:
-            //        if (TrinketSlot != null) Unequip(EquipmentSlot.Trinket);
-            //        TrinketSlot = equipment;
-            //        AddEquipmentStats(TrinketSlot);
-            //        return;
-            //    default:
-            //        Debug.LogWarning("Attempting to equip unknown item.");
-            //        return;
-            //}
         }
 
         /// <summary>
@@ -180,43 +149,13 @@ namespace FroggyDefense.Core
         {
             if (_equipmentSlots == null) InitEquipmentSlots();
             Debug.Log("Unequipping slot (" + slot + ").");
+
             if (_equipmentSlots[slot] == null) return;
             RemoveEquipmentStats(_equipmentSlots[slot]);
 
-            _inventory?.Add(_equipmentSlots[slot], 1);       // Place the item in the inventory if possible.
+            _inventory?.Add(_equipmentSlots[slot], 1);          // Place the item in the inventory if possible.
             
-            _equipmentSlots[slot] = null;                   // Clear the equipment slot.
-            //switch (slot)
-            //{
-            //    case EquipmentSlot.Hat:
-            //        if (HatSlot == null) return;
-            //        RemoveEquipmentStats(HatSlot);
-            //        HatSlot = null;
-            //        return;
-            //    case EquipmentSlot.Clothes:
-            //        if (ClothesSlot == null) return;
-            //        RemoveEquipmentStats(ClothesSlot);
-            //        ClothesSlot = null;
-            //        return;
-            //    case EquipmentSlot.Boots:
-            //        if (BootsSlot == null) return;
-            //        RemoveEquipmentStats(BootsSlot);
-            //        BootsSlot = null;
-            //        return;
-            //    case EquipmentSlot.Ring:
-            //        if (RingSlot == null) return;
-            //        RemoveEquipmentStats(RingSlot);
-            //        RingSlot = null;
-            //        return;
-            //    case EquipmentSlot.Trinket:
-            //        if (TrinketSlot == null) return;
-            //        RemoveEquipmentStats(TrinketSlot);
-            //        TrinketSlot = null;
-            //        return;
-            //    default:
-            //        Debug.LogWarning("Attempting to unequip unknown item.");
-            //        return;
-            //}
+            _equipmentSlots[slot] = null;                       // Clear the equipment slot.
         }
 
         /// <summary>
