@@ -11,6 +11,7 @@ namespace FroggyDefense.Core
         [SerializeField] protected bool m_HideHealthBarAtFull = true;
 
         public int Points = 10;                         // How many points the enemy is worth.
+        public int Experience = 10;                     // How much experience the enemy is worth.
 
         [Space]
         [Header("Stats")]
@@ -119,7 +120,7 @@ namespace FroggyDefense.Core
         /// <param name="damage"></param>
         public void TakeDamage(float damage)
         {
-            EnemyDamagedEvent?.Invoke(new EnemyEventArgs(transform.position, damage, -1));
+            EnemyDamagedEvent?.Invoke(new EnemyEventArgs(transform.position, damage, -1, -1));
             m_Health -= damage;
         }
 
@@ -128,7 +129,7 @@ namespace FroggyDefense.Core
         /// </summary>
         public void Die()
         {
-            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, Points));
+            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, Points, Experience));
             GetComponent<DropGems>().Drop();
             Destroy(gameObject);
         }
@@ -138,7 +139,7 @@ namespace FroggyDefense.Core
         /// </summary>
         public void Kill()
         {
-            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, -1));
+            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, -1, -1));
             Destroy(gameObject);
         }
 
@@ -164,12 +165,14 @@ namespace FroggyDefense.Core
         public Vector2 pos;     // The position of the event.
         public float damage;    // How much damage was dealt to the enemy.
         public int points;      // How much points the enemy is worth.
+        public int experience;  // How much experience points the enemy is worth.
 
-        public EnemyEventArgs (Vector2 _pos, float _damage, int _points)
+        public EnemyEventArgs (Vector2 _pos, float _damage, int _points, int _experience)
         {
             pos = _pos;
             damage = _damage;
             points = _points;
+            experience = _experience;
         }
     }
 }

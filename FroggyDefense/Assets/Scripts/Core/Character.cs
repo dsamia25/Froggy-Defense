@@ -19,6 +19,23 @@ namespace FroggyDefense.Core
     public class Character : MonoBehaviour
     {
         [Space]
+        [Header("Character Info")]
+        [Space]
+        [SerializeField] private string _name = "NAME HERE";    
+        public string Name { get => _name; }                    // The character's name.
+
+        [Space]
+        [Header("Level")]
+        [Space]
+        [SerializeField] private int _level = 1;
+        [SerializeField] private float _xp = 0f;
+        [SerializeField] private float _xpNeeded = 0f;
+        [SerializeField] private CharacterLevelExperienceFunction _experienceFunction = null;
+        public int Level { get => _level; }                     // The character's level.
+        public float Xp { get => _xp; }                         // The charatcer's experience points.
+        public CharacterLevelExperienceFunction ExperienceFunction { get => _experienceFunction; }  // Function used to calculate experience needed to level up.
+
+        [Space]
         [Header("Base Stats")]
         [Space]
         [SerializeField] private float _baseStrength = 1f;      // Base stats.
@@ -86,7 +103,10 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Character Events")]
         [Space]
-        public UnityEvent CharacterStatsChanged;
+        public UnityEvent CharacterStatsChanged;        // TODO: Change this to a normal C# event like the CharacterExperienceChanged event below.
+
+        public delegate void CharacterDelegate();
+        public static CharacterDelegate CharacterExperienceChanged;         // TODO: Make an experience bar UI system using this.
 
         private void Awake()
         {
@@ -94,6 +114,8 @@ namespace FroggyDefense.Core
             InitEquipmentSlots();
 
             if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
+
+            _xpNeeded = _experienceFunction.GetXpNeeded(_level);
         }
 
         private void InitEquipmentSlots()
@@ -190,6 +212,27 @@ namespace FroggyDefense.Core
             if (slot < 0 || slot >= _equipmentSlots.Length) return null;
 
             return _equipmentSlots[slot];
+        }
+
+        public void GainExperience(float experience)
+        {
+            if (experience < 0) return;
+
+            _xp += experience;
+
+            if (_xp >= _xpNeeded) LevelUp();
+
+            CharacterExperienceChanged?.Invoke();   // Event that the character's experience changed.
+        }
+
+        public void LevelUp()
+        {
+            _level++;
+            _xp = _xp - _xpNeeded;
+
+            _xpNeeded = _experienceFunction.GetXpNeeded(_level);
+
+            if (_xp >= _xpNeeded) LevelUp();
         }
     }
 }

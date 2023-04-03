@@ -84,6 +84,7 @@ namespace FroggyDefense.Core
             }
 
             m_HealthBar.traceDelay = m_DamagedAnimationTime;
+            Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
         }
 
         private void Update()
@@ -185,6 +186,15 @@ namespace FroggyDefense.Core
         public float GetSplashDamage()
         {
             return Intellect;
+        }
+
+        /// <summary>
+        /// Defeated
+        /// </summary>
+        /// <param name="args"></param>
+        public void OnEnemyDefeatedEvent(EnemyEventArgs args)
+        {
+            GainExperience(args.experience);    // Gain experience from the defeated enemy.
         }
     }
 }

@@ -7498,6 +7498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad02cb1ceafe47329ccfdc7ba4dbcbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Frog
+  _level: 1
+  _xp: 0
+  _xpNeeded: 0
+  _experienceFunction: {fileID: 11400000, guid: 21e853ba008c944cea8991dbf7133868, type: 2}
   _baseStrength: 1
   _baseDexterity: 1
   _baseAgility: 1
