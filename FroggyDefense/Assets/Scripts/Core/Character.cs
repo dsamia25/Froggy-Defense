@@ -32,7 +32,8 @@ namespace FroggyDefense.Core
         [SerializeField] private float _xpNeeded = 0f;
         [SerializeField] private CharacterLevelExperienceFunction _experienceFunction = null;
         public int Level { get => _level; }                     // The character's level.
-        public float Xp { get => _xp; }                         // The charatcer's experience points.
+        public float Xp { get => _xp; }                         // The character's experience points.
+        public float XpNeeded { get => _xpNeeded; }             // The amount of xp required to level up.
         public CharacterLevelExperienceFunction ExperienceFunction { get => _experienceFunction; }  // Function used to calculate experience needed to level up.
 
         [Space]
@@ -106,7 +107,8 @@ namespace FroggyDefense.Core
         public UnityEvent CharacterStatsChanged;        // TODO: Change this to a normal C# event like the CharacterExperienceChanged event below.
 
         public delegate void CharacterDelegate();
-        public static CharacterDelegate CharacterExperienceChanged;         // TODO: Make an experience bar UI system using this.
+        public event CharacterDelegate CharacterExperienceChanged;         // TODO: Make an experience bar UI system using this.
+        public event CharacterDelegate CharacterLeveledUp;              // Event when the character levels up.
 
         private void Awake()
         {
@@ -228,11 +230,13 @@ namespace FroggyDefense.Core
         public void LevelUp()
         {
             _level++;
+
             _xp = _xp - _xpNeeded;
 
             _xpNeeded = _experienceFunction.GetXpNeeded(_level);
 
             if (_xp >= _xpNeeded) LevelUp();
+            CharacterLeveledUp?.Invoke();
         }
     }
 }

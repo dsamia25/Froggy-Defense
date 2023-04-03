@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Movement;
 using FroggyDefense.Weapons;
+using FroggyDefense.UI;
 
 namespace FroggyDefense.Core
 {
