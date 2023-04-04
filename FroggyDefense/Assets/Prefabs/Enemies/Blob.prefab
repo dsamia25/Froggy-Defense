@@ -243,8 +243,9 @@ MonoBehaviour:
   m_HealthBar: {fileID: 2007384587168905277}
   m_HideHealthBarAtFull: 1
   Points: 75
-  _maxHealth: 3
-  _health: 3
+  Experience: 10
+  _maxHealth: 12
+  _health: 12
   _nexusDamage: 1
   _damage: 1
   _invincible: 0
@@ -285,6 +286,46 @@ PrefabInstance:
     - target: {fileID: 413377312421376001, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: traceDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: traceSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5333628212901839589, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_Pivot.x

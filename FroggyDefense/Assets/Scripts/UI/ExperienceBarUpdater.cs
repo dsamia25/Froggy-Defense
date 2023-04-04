@@ -25,7 +25,7 @@ namespace FroggyDefense.UI
         /// </summary>
         private void UpdateBar()
         {
-            _xpBar.SetMaxHealth(_player.Xp, _player.XpNeeded);
+            _xpBar.SetHealth(_player.Xp);
         }
     }
 }

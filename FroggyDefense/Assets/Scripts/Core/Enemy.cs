@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using FroggyDefense.Movement;
 using FroggyDefense.Interactables;
+using FroggyDefense.UI;
 
 namespace FroggyDefense.Core
 {
@@ -65,7 +66,16 @@ namespace FroggyDefense.Core
 
         private void Start()
         {
-            UpdateHealthBar();
+            // Init Health bar with max health.
+            if (m_HealthBar != null)
+            {
+                m_HealthBar.SetMaxHealth(_health, _maxHealth);
+
+                if (m_HideHealthBarAtFull)
+                {
+                    m_HealthBar.gameObject.SetActive(IsDamaged);
+                }
+            }
         }
 
         private void Update()
@@ -105,7 +115,7 @@ namespace FroggyDefense.Core
         {
             if (m_HealthBar != null)
             {
-                m_HealthBar.SetMaxHealth(_health, _maxHealth);
+                m_HealthBar.SetHealth(_health);
 
                 if (m_HideHealthBarAtFull)
                 {

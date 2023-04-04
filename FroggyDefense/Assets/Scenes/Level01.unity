@@ -10827,6 +10827,14 @@ PrefabInstance:
       value: ExperienceBar
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: traceDelay
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: traceSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: gradient.ctime0
       value: 21010
       objectReference: {fileID: 0}
@@ -10861,6 +10869,38 @@ PrefabInstance:
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: gradient.m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingUpColor.r
+      value: 0.505026
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.g
+      value: 0.58360845
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: movingDownColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: gradient.m_NumColorKeys
@@ -10949,6 +10989,10 @@ PrefabInstance:
     - target: {fileID: 5333628212901839589, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947618176674085646, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7762789636460917325, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_IsActive
