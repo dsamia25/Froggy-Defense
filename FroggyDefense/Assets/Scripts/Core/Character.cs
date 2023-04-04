@@ -91,6 +91,7 @@ namespace FroggyDefense.Core
         [Header("Inventory")]
         [Space]
         [SerializeField] private Inventory _inventory;
+        public Inventory CharacterInventory { get => _inventory; }
 
         // TODO: Check if need these.
         // TODO: Probably remove these and the classes entirely.
