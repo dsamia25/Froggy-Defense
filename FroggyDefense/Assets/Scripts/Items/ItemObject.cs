@@ -13,4 +13,5 @@ public class ItemObject : ScriptableObject
     public ItemType Type = ItemType.Default;
 
     public Sprite Icon = null;
+    public int ShopPrice = 1;
 }

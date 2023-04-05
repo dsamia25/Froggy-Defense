@@ -21,6 +21,7 @@ namespace FroggyDefense.Core
         public int CountSubtractPerUse = 1;
 
         public Sprite Icon = null;
+        public int ShopPrice = 1;
 
         public Item ()
         {
@@ -34,6 +35,7 @@ namespace FroggyDefense.Core
             IsStackable = template.IsStackable;
             Type = template.Type;
             Icon = template.Icon;
+            ShopPrice = template.ShopPrice;
         }
 
         public virtual bool Use()
