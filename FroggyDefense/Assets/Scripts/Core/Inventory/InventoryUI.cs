@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using FroggyDefense.Items;
+using FroggyDefense.Core.Items;
 
-namespace FroggyDefense.UI
+namespace FroggyDefense.Core.Items.UI
 {
     public class InventoryUI : MonoBehaviour
     {
         [SerializeField] private GameObject _itemButtonUiPrefab = null;     // The button prefab.
-        //[SerializeField] private ScrollRect _inventoryScrollView = null;    // The scrolling grid in the inventory. Needed to update scroll height.
 
         public Inventory _inventory = null;                 // The inventory this is representing
         public Transform _UiParent = null;                  // The transform to spawn the buttons under.

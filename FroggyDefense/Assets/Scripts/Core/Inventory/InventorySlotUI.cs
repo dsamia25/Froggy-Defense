@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using FroggyDefense.Items;
 
-namespace FroggyDefense.UI
+namespace FroggyDefense.Core.Items.UI
 {
     public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
     {

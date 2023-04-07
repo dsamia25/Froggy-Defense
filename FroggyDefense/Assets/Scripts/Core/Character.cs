@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Items;
 using UnityEngine.Events;
+using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Core
 {
@@ -118,7 +118,13 @@ namespace FroggyDefense.Core
 
             if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
 
-            _xpNeeded = _experienceFunction.GetXpNeeded(_level);
+            if (_experienceFunction == null)
+            {
+                _xpNeeded = 99999999999;
+            } else
+            {
+                _xpNeeded = _experienceFunction.GetXpNeeded(_level);
+            }
         }
 
         private void InitEquipmentSlots()

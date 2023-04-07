@@ -1,3 +1,5 @@
+using FroggyDefense.Core.Items;
+
 namespace FroggyDefense.Core
 {
     /// <summary>

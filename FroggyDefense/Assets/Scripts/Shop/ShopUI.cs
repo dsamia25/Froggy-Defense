@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Shop;
 
-namespace FroggyDefense.UI
+namespace FroggyDefense.Shop.UI
 {
     public class ShopUI : MonoBehaviour
     {
@@ -37,6 +36,7 @@ namespace FroggyDefense.UI
                 {
                     var itemUi = Instantiate(_storeItemUiPrefab, _storeItemUiParent).GetComponent<ShopItemUI>();
                     itemUi.Item = item;
+                    itemUi.Shop = _shop;
                     _itemUiIndex.Add(item, itemUi);
                 }
             }

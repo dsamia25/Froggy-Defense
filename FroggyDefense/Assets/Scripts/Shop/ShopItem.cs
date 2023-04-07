@@ -1,5 +1,6 @@
 using UnityEngine;
 using FroggyDefense.Core;
+using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Shop
 {
@@ -12,6 +13,7 @@ namespace FroggyDefense.Shop
 
         private Item item = null;
         private int amount = -1;
+        public int Amount { get => amount; }
 
         public bool LimitedAmount { get; private set; } = false;
 
@@ -35,6 +37,7 @@ namespace FroggyDefense.Shop
             Price = template.ShopPrice;
 
             LimitedAmount = false;
+            Debug.Log("ShopItem for " + template.Name + " = " + template.ShopPrice + " gems.");
         }
 
         /// <summary>
@@ -47,6 +50,12 @@ namespace FroggyDefense.Shop
             if (buyer.CharacterInventory == null) return false;
 
             buyer.CharacterInventory.Add(item, amount);
+
+            if (LimitedAmount) amount--;
+
+            // TODO: Rework with new currency system.
+            GameManager.instance.m_GemManager.Gems -= Price;
+
             return true;
         }
     }

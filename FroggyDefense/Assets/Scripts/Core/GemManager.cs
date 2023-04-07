@@ -8,6 +8,7 @@ namespace FroggyDefense.Core
     {
         public GameObject GemDropperPrefab;
 
+        // TODO: Make Gems a Currency in the Economy system.
         [Space]
         [Header("Gems")]
         [Space]

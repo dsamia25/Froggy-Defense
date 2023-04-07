@@ -1,8 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Core;
 using System.Collections.Generic;
 
-namespace FroggyDefense.Items
+namespace FroggyDefense.Core.Items
 {
     public class Inventory : MonoBehaviour, IInventory
     {

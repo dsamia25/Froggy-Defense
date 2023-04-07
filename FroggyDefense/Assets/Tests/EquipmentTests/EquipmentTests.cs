@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using FroggyDefense.Core;
-using FroggyDefense.Items;
+using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Tests
 {

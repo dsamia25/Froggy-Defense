@@ -37,7 +37,7 @@ namespace FroggyDefense.UI
                 {
                     if (movingDown)
                     {
-                        Debug.Log("Moving Down");
+                        //Debug.Log("Moving Down");
                         if (MovingBar.fillAmount >= targetFillPercent)
                         {
                             traceIsMoving = true;   // Make sure is still moving.
@@ -45,7 +45,7 @@ namespace FroggyDefense.UI
                         }
                         else
                         {
-                            Debug.Log("Resetting move down");
+                            //Debug.Log("Resetting move down");
 
                             // Reset bools.
                             traceIsMoving = false;
@@ -56,7 +56,7 @@ namespace FroggyDefense.UI
                     }
                     else if (movingUp)
                     {
-                        Debug.Log("Moving Up");
+                        //Debug.Log("Moving Up");
                         if (MovingBar.fillAmount <= targetFillPercent)
                         {
                             traceIsMoving = true;   // Make sure is still moving.
@@ -64,7 +64,7 @@ namespace FroggyDefense.UI
                         }
                         else
                         {
-                            Debug.Log("Resetting move up");
+                            //Debug.Log("Resetting move up");
 
                             // Reset bools.
                             traceIsMoving = false;

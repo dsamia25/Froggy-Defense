@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Core;
+using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Shop
 {
     public class TravelingShop : MonoBehaviour, IInteractable
     {
-        public bool ShopIsOpen = true;                          // If the shop is open an interactable.
-        public int ShopSize { get => _items.Count; }            // How many items are in the shop.
-        public ItemObject[] _itemInventoryTemplates;            // The list of inventory items to sell.
+        public bool ShopIsOpen = true;                                              // If the shop is open an interactable.
+        public int ShopSize { get => _items.Count; }                                // How many items are in the shop.
+        public ItemObject[] _itemInventoryTemplates;                                // The list of inventory items to sell.
 
-        private List<ShopItem> _items = new List<ShopItem>();   // List of all items in the shop.
+        private List<ShopItem> _items = new List<ShopItem>();                       // List of all items in the shop.
         public IReadOnlyCollection<ShopItem> Items { get => _items.AsReadOnly(); }  // Returns the items in the shop as a readonly collection.
 
         [Space]
@@ -32,7 +33,7 @@ namespace FroggyDefense.Shop
         {
             foreach (ItemObject obj in _itemInventoryTemplates)
             {
-                ShopItem newItem = new ShopItem(new Item(obj));
+                ShopItem newItem = new ShopItem(Item.CreateItem(obj));
                 _items.Add(newItem);
             }
         }
@@ -57,11 +58,17 @@ namespace FroggyDefense.Shop
         /// <returns></returns>
         public bool Buy(Character buyer, ShopItem item)
         {
-            if (item.Buy(buyer))
+            if (GameManager.instance.m_GemManager.Gems >= item.Price)
             {
-                // Remove from shop.
-                Remove(item);
-                return true;
+                if (item.Buy(buyer))
+                {
+                    // Removes the item from the store if there is a limited amount.
+                    if (item.LimitedAmount && item.Amount <= 0)
+                    {
+                        Remove(item);
+                    }
+                    return true;
+                }
             }
             return false;
         }

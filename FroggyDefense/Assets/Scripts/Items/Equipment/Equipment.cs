@@ -1,7 +1,6 @@
 using UnityEngine;
-using FroggyDefense.Core;
 
-namespace FroggyDefense.Items
+namespace FroggyDefense.Core.Items
 {
     public enum EquipmentSlot
     {
@@ -43,8 +42,10 @@ namespace FroggyDefense.Items
             Slot = template.Slot;
             Type = template.Type;
             Icon = template.Icon;
+            ShopPrice = template.ShopPrice;
             IsStackable = false;
-            
+            Debug.Log("Equipment for " + template.Name + " = " + template.ShopPrice + " gems.");
+
             Strength = template.Strength;
             Dexterity = template.Dexterity;
             Agility = template.Agility;
