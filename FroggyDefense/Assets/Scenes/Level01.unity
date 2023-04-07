@@ -10927,6 +10927,14 @@ PrefabInstance:
       value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_DecreaseScrollTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_IncreaseScrollTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
       propertyPath: m_MinimumScrollAmount
       value: 2
       objectReference: {fileID: 0}
@@ -12852,6 +12860,102 @@ PrefabInstance:
     - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
       propertyPath: m_Header
       value: 'Gems:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_UsesScrollSpeedCurve
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[0].time
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].time
+      value: -0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[3].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].value
+      value: 1.0008943
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].value
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[3].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].inSlope
+      value: 0.25176752
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[3].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].outSlope
+      value: 0.25176752
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[3].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[2].outWeight
+      value: 0.41696605
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914697416743155185, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
+      propertyPath: m_ScrollSpeedCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3914697416743155187, guid: a213379672314422b914e56ff1c2e8bc, type: 3}
       propertyPath: m_Name
