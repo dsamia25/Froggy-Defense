@@ -288,11 +288,19 @@ PrefabInstance:
       value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: _traceTime
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: traceDelay
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: traceSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: _traceDelay
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
@@ -309,6 +317,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: movingUpColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}

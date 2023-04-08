@@ -46,6 +46,15 @@ namespace FroggyDefense.Core
         [SerializeField] private float _baseSpirit = 1f;        // Base stats.
 
         [Space]
+        [Header("Base Stat Growth")]
+        [Space]
+        [SerializeField] private float _strengthGrowth = 1f;       // How much of this stat is added on leveling up.
+        [SerializeField] private float _dexterityGrowth = 1f;      // How much of this stat is added on leveling up.
+        [SerializeField] private float _agilityGrowth = 1f;        // How much of this stat is added on leveling up.
+        [SerializeField] private float _intellectGrowth = 1f;      // How much of this stat is added on leveling up.
+        [SerializeField] private float _spiritGrowth = 1f;         // How much of this stat is added on leveling up.
+
+        [Space]
         [Header("Stat Increases")]
         [Space]
         [SerializeField] private float _strengthIncrease = 0f;  // Flat increase to increase total stats.
@@ -76,6 +85,7 @@ namespace FroggyDefense.Core
         [SerializeField] private float _agility = 1f;
         [SerializeField] private float _intellect = 1f;
         [SerializeField] private float _spirit = 1f;
+
         public float Strength => _strength;        // Total stat to be used in calculations.
         public float Dexterity => _dexterity;    // Total stat to be used in calculations.
         public float Agility => _agility;            // Total stat to be used in calculations.
@@ -108,8 +118,8 @@ namespace FroggyDefense.Core
         public UnityEvent CharacterStatsChanged;        // TODO: Change this to a normal C# event like the CharacterExperienceChanged event below.
 
         public delegate void CharacterDelegate();
-        public event CharacterDelegate CharacterExperienceChanged;         // TODO: Make an experience bar UI system using this.
-        public event CharacterDelegate CharacterLeveledUp;              // Event when the character levels up.
+        public event CharacterDelegate CharacterExperienceChanged;          // TODO: Make an experience bar UI system using this.
+        public event CharacterDelegate CharacterLeveledUp;                  // Event when the character levels up.
 
         private void Awake()
         {
@@ -120,7 +130,7 @@ namespace FroggyDefense.Core
 
             if (_experienceFunction == null)
             {
-                _xpNeeded = 99999999999;
+                _xpNeeded = 99999999;
             } else
             {
                 _xpNeeded = _experienceFunction.GetXpNeeded(_level);
@@ -229,21 +239,33 @@ namespace FroggyDefense.Core
 
             _xp += experience;
 
-            if (_xp >= _xpNeeded) LevelUp();
-
-            CharacterExperienceChanged?.Invoke();   // Event that the character's experience changed.
+            if (_xp >= _xpNeeded)
+            {
+                LevelUp();
+            }
+            else
+            {
+                CharacterExperienceChanged?.Invoke();   // Event that the character's experience changed.
+            }
         }
 
-        public void LevelUp()
+        public virtual void LevelUp()
         {
             _level++;
 
             _xp = _xp - _xpNeeded;
-
             _xpNeeded = _experienceFunction.GetXpNeeded(_level);
+
+            _baseStrength += _strengthGrowth;
+            _baseDexterity += _dexterityGrowth;
+            _baseAgility += _agilityGrowth;
+            _baseIntellect += _intellectGrowth;
+            _baseSpirit += _spiritGrowth;
 
             if (_xp >= _xpNeeded) LevelUp();
             CharacterLeveledUp?.Invoke();
+
+            UpdateStats();
         }
     }
 }

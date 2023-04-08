@@ -7681,6 +7681,11 @@ MonoBehaviour:
   _baseAgility: 1
   _baseIntellect: 1
   _baseSpirit: 1
+  _strengthGrowth: 0.34
+  _dexterityGrowth: 0.45
+  _agilityGrowth: 0.52
+  _intellectGrowth: 0.67
+  _spiritGrowth: 0.7
   _strengthIncrease: 1
   _dexterityIncrease: 1
   _agilityIncrease: 1
@@ -11191,6 +11196,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: _traceDelay
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: gradient.ctime0
       value: 21010
       objectReference: {fileID: 0}
@@ -11241,6 +11250,38 @@ PrefabInstance:
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: movingUpColor.r
       value: 0.505026
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: decreasingColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: increasingColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1285776780345495850, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: movingDownColor.a

@@ -61,19 +61,16 @@ namespace FroggyDefense.Core
         [Space]
         public UnityEvent PlayerDeathEvent;
 
-        private void Awake()
+        private void Start()
         {
             _health = _maxHealth;
             if (m_HealthBar != null)
             {
-                m_HealthBar.SetMaxHealth(_health, _maxHealth);
+                m_HealthBar.InitBar(_maxHealth);
             }
 
             controller = GetComponent<ObjectController>();
-        }
 
-        private void Start()
-        {
             if (animator == null)
             {
                 animator = GetComponent<Animator>();
@@ -84,7 +81,7 @@ namespace FroggyDefense.Core
                 m_Weapon = GetComponent<Weapon>();
             }
 
-            m_HealthBar.traceDelay = m_DamagedAnimationTime;
+            m_HealthBar.TraceDelay = m_DamagedAnimationTime;
             Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
         }
 
@@ -115,6 +112,16 @@ namespace FroggyDefense.Core
             {
                 controller.Move(_moveDir);
             }
+        }
+
+        /// <summary>
+        /// Base Character LevelUp function to add stats and reset XP and
+        /// also heal health to full.
+        /// </summary>
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            m_Health = _maxHealth;  // Heal to full on levelup.
         }
 
         /// <summary>

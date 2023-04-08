@@ -69,7 +69,7 @@ namespace FroggyDefense.Core
             // Init Health bar with max health.
             if (m_HealthBar != null)
             {
-                m_HealthBar.SetMaxHealth(_health, _maxHealth);
+                m_HealthBar.InitBar(_maxHealth);
 
                 if (m_HideHealthBarAtFull)
                 {
