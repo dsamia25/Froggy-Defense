@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core.Items
 {
@@ -21,6 +22,7 @@ namespace FroggyDefense.Core.Items
         public int CountSubtractPerUse = 1;
 
         public Sprite Icon = null;
+        public CurrencyObject PriceCurrency;
         public int ShopPrice = 1;
 
         public Item ()

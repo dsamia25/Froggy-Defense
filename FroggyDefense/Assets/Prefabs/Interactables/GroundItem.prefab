@@ -137,4 +137,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 7094178745482102850}
+  rb: {fileID: -3457244456201535073}
+  _item:
+    Name: ITEM
+    Description: A NEW ITEM
+    Type: 0
+    CountSubtractPerUse: 1
+    Icon: {fileID: 0}
+    ShopPrice: 1
   _setItem: {fileID: 0}

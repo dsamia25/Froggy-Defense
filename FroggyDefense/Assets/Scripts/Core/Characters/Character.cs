@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Core.Items;
+using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core
 {
@@ -102,6 +103,11 @@ namespace FroggyDefense.Core
         [Space]
         [SerializeField] private Inventory _inventory;
         public Inventory CharacterInventory { get => _inventory; }
+
+        [Space]
+        [Header("Wallet")]
+        [SerializeField] private CurrencyWallet _wallet;
+        public CurrencyWallet CharacterWallet { get => _wallet; }
 
         // TODO: Check if need these.
         // TODO: Probably remove these and the classes entirely.

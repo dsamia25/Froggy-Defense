@@ -130,7 +130,9 @@ namespace FroggyDefense.Core
         /// <param name="damage"></param>
         public void TakeDamage(float damage)
         {
+            // TODO: Not sure if the event is needed anymore.
             EnemyDamagedEvent?.Invoke(new EnemyEventArgs(transform.position, damage, -1, -1));
+            GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, damage, NumberPopupType.Damage);
             m_Health -= damage;
         }
 
@@ -139,7 +141,9 @@ namespace FroggyDefense.Core
         /// </summary>
         public void Die()
         {
+            // TODO: Not sure if the event is needed anymore.
             EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, Points, Experience));
+            GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, Points, NumberPopupType.EnemyDefeated);
             GetComponent<DropGems>().Drop();
             Destroy(gameObject);
         }

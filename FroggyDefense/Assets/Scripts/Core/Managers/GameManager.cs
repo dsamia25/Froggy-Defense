@@ -8,6 +8,7 @@ namespace FroggyDefense.Core
     {
         public static GameManager instance;
         public GemManager m_GemManager;
+        public NumberPopupManager m_NumberPopupManager;
         public Spawner spawner;
         public Player m_Player;
 
@@ -68,6 +69,11 @@ namespace FroggyDefense.Core
             if (m_GemManager == null)
             {
                 m_GemManager = gameObject.GetComponent<GemManager>();
+            }
+
+            if (m_NumberPopupManager == null)
+            {
+                m_NumberPopupManager = gameObject.GetComponent<NumberPopupManager>();
             }
 
             // Set default values.

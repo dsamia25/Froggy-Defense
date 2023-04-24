@@ -42,6 +42,7 @@ namespace FroggyDefense.Core.Items
             Slot = template.Slot;
             Type = template.Type;
             Icon = template.Icon;
+            PriceCurrency = template.PriceCurrency;
             ShopPrice = template.ShopPrice;
             IsStackable = false;
             Debug.Log("Equipment for " + template.Name + " = " + template.ShopPrice + " gems.");

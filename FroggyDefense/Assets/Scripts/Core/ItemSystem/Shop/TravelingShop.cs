@@ -23,13 +23,13 @@ namespace FroggyDefense.Shop
         // TODO: Convert the ItemObject list to a ShopItemObject list that can hold shop info such as limited amounts and prices.
         private void Awake()
         {
-            GenerateShopinventory();
+            GenerateShopInventory();
         }
 
         /// <summary>
         /// Converts the ItemObjects in template list to actual items.
         /// </summary>
-        public void GenerateShopinventory()
+        public void GenerateShopInventory()
         {
             foreach (ItemObject obj in _itemInventoryTemplates)
             {

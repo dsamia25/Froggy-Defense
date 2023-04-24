@@ -53,7 +53,7 @@ namespace FroggyDefense.UI
 
                         TimeTracing += Time.deltaTime / _traceTime;
 
-                        Debug.Log("Tracing bar for " + gameObject.name + ".");
+                        //Debug.Log("Tracing bar for " + gameObject.name + ".");
 
                         // Adjust to full value. Add an extra .01f to make sure there's no texture seams with the back bar.
                         if (TimeTracing >= 1)

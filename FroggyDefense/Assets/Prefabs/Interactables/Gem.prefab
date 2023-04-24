@@ -367,4 +367,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 4463027038407053009}
-  _value: 0
+  _currency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+  _amount: 0
+  rb: {fileID: 3207905814149134485}

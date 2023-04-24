@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ namespace FroggyDefense.Economy
         public CurrencyListObject _currencyList = null;
 
         private Dictionary<CurrencyObject, int> _currencies = new Dictionary<CurrencyObject, int>();
+        private List<WalletEventArgs> _transactionHistory = new List<WalletEventArgs>();                // List of all additions and subtractions to the wallet.
+
+        public delegate void WalletDelegate(WalletEventArgs args);
+        public event WalletDelegate CurrencyAmountChangedEvent; // Event for when a currency changed amounts.
 
         private void Start()
         {
@@ -26,6 +31,33 @@ namespace FroggyDefense.Economy
         }
 
         /// <summary>
+        /// Gets the amount of the input currency.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns></returns>
+        public int GetAmount(CurrencyObject currency)
+        {
+            if (currency == null)
+            {
+                Debug.LogWarning("ERROR: Input currency is NULL.");
+                return 0;
+            }
+
+            if (!_currencies.ContainsKey(currency))
+            {
+                UpdateCurrencies();
+            }
+
+            // If this currency is not in the main list, return 0.
+            if (!_currencies.ContainsKey(currency))
+            {
+                return 0;
+            }
+
+            return _currencies[currency];
+        }
+
+        /// <summary>
         /// Adds the given amount of the given currency to the wallet. Respects the maximum
         /// amount of the currency if one is set.
         /// If the given currency is not in the list of currencies, attempts to refresh the
@@ -38,6 +70,12 @@ namespace FroggyDefense.Economy
         /// <returns></returns>
         public bool Add(CurrencyObject currency, int amount)
         {
+            if (currency == null)
+            {
+                Debug.LogWarning("ERROR: Input currency is NULL.");
+                return false;
+            }
+
             if (!_currencies.ContainsKey(currency))
             {
                 UpdateCurrencies();
@@ -49,13 +87,16 @@ namespace FroggyDefense.Economy
                 return false;
             }
 
+            int before = _currencies[currency];
             if ((currency.HasMaximumAmount) && (_currencies[currency] + amount >= currency.MaximumAmount))
             {
+                int trueAmountAdded = currency.MaximumAmount - _currencies[currency];   // The actual amount added if it tries to add over the cap.
                 _currencies[currency] = currency.MaximumAmount;
+                LogTransaction(currency, true, trueAmountAdded, before);
                 return true;
             }
-
             _currencies[currency] += amount;
+            LogTransaction(currency, true, amount, before);
             return true;
         }
 
@@ -70,6 +111,12 @@ namespace FroggyDefense.Economy
         /// <returns></returns>
         public bool Charge(CurrencyObject currency, int amount)
         {
+            if (currency == null)
+            {
+                Debug.LogWarning("ERROR: Input currency is NULL.");
+                return false;
+            }
+
             if (!_currencies.ContainsKey(currency))
             {
                 UpdateCurrencies();
@@ -81,14 +128,44 @@ namespace FroggyDefense.Economy
                 return false;
             }
 
-            if ((currency.HasMinimumAmount) && (_currencies[currency] - amount <= currency.MinimumAmount))
+            if ((currency.HasMinimumAmount) && (_currencies[currency] - amount < currency.MinimumAmount))
             {
                 // Abandon transaction if not enough of the currency.
                 return false;
             }
 
+            int before = _currencies[currency];
             _currencies[currency] -= amount;
+            LogTransaction(currency, false, amount, before);
             return true;
+        }
+
+        /// <summary>
+        /// Invokes the CurrencyAmountChangedEvent and logs the transaction to the list.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="addition"></param>
+        /// <param name="amount"></param>
+        public void LogTransaction(CurrencyObject currency, bool addition, int change, int before)
+        {
+            Debug.Log("Logging Wallet Transaction: [" + currency.CurrencyName + "], [ " + (addition? "+": "-") + change + "] [" + before + " -> " +  _currencies[currency] + "].");
+            WalletEventArgs tempArgs = new WalletEventArgs(currency, addition, change);
+            CurrencyAmountChangedEvent?.Invoke(tempArgs);
+            _transactionHistory.Add(tempArgs);
+        }
+    }
+
+    public class WalletEventArgs: EventArgs
+    {
+        public readonly CurrencyObject Currency;    // Which currency was changed.
+        public readonly bool Addition;              // If the currency was positive or negative.
+        public readonly int Amount;                 // The absolute value that was changed.
+
+        public WalletEventArgs(CurrencyObject currency, bool addition, int amount)
+        {
+            Currency = currency;
+            Addition = addition;
+            Amount = amount;
         }
     }
 }

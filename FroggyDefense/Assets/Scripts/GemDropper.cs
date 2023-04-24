@@ -48,8 +48,10 @@ namespace FroggyDefense
                 for (int j = 0; j < currGem; j++)
                 {
                     GameObject gem = Instantiate(chart.BaseGemPrefab, transform.position, Quaternion.identity);
-                    gem.GetComponent<Gem>().SetGem(chart.Gems[i]);
-                    gem.GetComponent<Rigidbody2D>().AddForce(m_DropForce * GetRandomAngle());
+                    var gemComp = gem.GetComponent<Gem>();
+                    gemComp.SetCurrency(GameManager.instance.m_GemManager.GemCurrencyObject);
+                    gemComp.SetGem(chart.Gems[i]);
+                    gemComp.Launch(m_DropForce * GetRandomAngle());
                 }
                 yield return new WaitForSeconds(m_DropTimeSpacing);
             }
