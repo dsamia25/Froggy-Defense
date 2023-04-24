@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 namespace FroggyDefense.LevelGeneration
 {
-    public class LevelGenerator : MonoBehaviour
+    public class LevelGenerator
     {
         public Tilemap tilemap;
 

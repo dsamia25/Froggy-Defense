@@ -12,17 +12,26 @@ namespace FroggyDefense.Core
 
         [Space]
         [Header("Tiles")]
+        [Space]
         public Tilemap[] tilemaps;
         public TileBase[] tileSet;
         public float[] tileHeights = { 0, .3f, .8f };
 
         [Space]
+        [Header("Level Expansions")]
+        [Space]
+        public GameObject[] levelExpansions;
+        public int levelExpansionIndex = 0;
+
+        [Space]
         [Header("Size")]
+        [Space]
         public int LevelWidth = 100;
         public int LevelHeight = 100;
 
         [Space]
         [Header("Nexus")]
+        [Space]
         public GameObject Nexus = null;
         public GameObject Nexus_Prefab;
         public bool RandomizeNexusSpawn = false;
@@ -33,6 +42,7 @@ namespace FroggyDefense.Core
 
         [Space]
         [Header("Seed")]
+        [Space]
         public float Scale = 1;
         public int Seed = 1;
         public bool RandomizeSeed = false;
@@ -47,6 +57,9 @@ namespace FroggyDefense.Core
             instance = this;    // Set singleton
         }
 
+        /// <summary>
+        /// Randomly generates a level using LevelGenerator.
+        /// </summary>
         public void BuildLevel()
         {
             if (RandomizeSeed)
@@ -90,6 +103,14 @@ namespace FroggyDefense.Core
 
             // Spawn in tiles.
             LevelGenerator.RenderMap(newMap, tilemaps, tileSet);
+        }
+
+        /// <summary>
+        /// Expands the level by enabling the next set of tiles.
+        /// </summary>
+        public void ExpandLevel()
+        {
+
         }
     }
 }
