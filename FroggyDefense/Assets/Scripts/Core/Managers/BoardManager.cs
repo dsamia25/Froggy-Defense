@@ -110,7 +110,10 @@ namespace FroggyDefense.Core
         /// </summary>
         public void ExpandLevel()
         {
-
+            if (levelExpansionIndex < levelExpansions.Length)
+            {
+                levelExpansions[levelExpansionIndex++].SetActive(true);
+            }
         }
     }
 }

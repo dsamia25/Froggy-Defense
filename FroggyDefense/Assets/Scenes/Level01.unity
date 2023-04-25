@@ -154,10 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2476437007ff84eec98f1d9761a44cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GemManager: {fileID: 23703766}
-  m_NumberPopupManager: {fileID: 0}
+  _gemManager: {fileID: 0}
+  _boardManager: {fileID: 0}
+  _numberPopupManager: {fileID: 0}
   spawner: {fileID: 0}
   m_Player: {fileID: 595515300}
+  WavesPerMapExpansion: 3
   _points: 0
   _waveNumber: 0
   _waveActive: 0
@@ -5570,7 +5572,7 @@ Transform:
   - {fileID: 109613749}
   - {fileID: 760916033}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &193943657
 GameObject:
@@ -5642,6 +5644,8 @@ MonoBehaviour:
   tileHeights:
   - 0.33
   - 1
+  levelExpansions: []
+  levelExpansionIndex: 0
   LevelWidth: 100
   LevelHeight: 100
   Nexus: {fileID: 98520508}
@@ -7135,7 +7139,7 @@ Transform:
   - {fileID: 1757343331}
   - {fileID: 1790577752}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551550891
 GameObject:
@@ -10485,58 +10489,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027599758}
   m_CullTransparentMesh: 1
---- !u!1 &1029403023
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1029403025}
-  - component: {fileID: 1029403024}
-  m_Layer: 0
-  m_Name: PointsRenderer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1029403024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029403023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d624ecf2b1a448ddbb3ed1048943a30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damageTextEnabled: 1
-  _enemyDefeatedTextEnabled: 1
-  _gemPickupTextEnabled: 1
-  m_DamageNumberTextPrefab: {fileID: 8407367654135450108, guid: 537a71def605d462290a148366fbd9ee, type: 3}
-  m_EnemyDefeatedTextPrefab: {fileID: 3295895154953698722, guid: 16497caf8458c46c095bd63b85dcc3e5, type: 3}
-  m_GemPickedUpTextPrefab: {fileID: 1169851125272648378, guid: cdb8e0e75fd26417d9aa670afe0e93f2, type: 3}
-  m_TextHorizontalOffsetRange: {x: -0.1, y: 0.1}
-  m_TextVerticalOffsetRange: {x: -0.1, y: 0.1}
---- !u!4 &1029403025
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029403023}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1039233952
 GameObject:
   m_ObjectHideFlags: 0
@@ -11031,7 +10983,7 @@ Transform:
   - {fileID: 2044697240}
   - {fileID: 1330400327}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1088743956
 PrefabInstance:
@@ -11501,7 +11453,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1169720908
 MonoBehaviour:

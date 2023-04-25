@@ -6,14 +6,24 @@ namespace FroggyDefense.Core
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private GemManager _gemManager;
+        [SerializeField] private BoardManager _boardManager;
+        [SerializeField] private NumberPopupManager _numberPopupManager;
+
         public static GameManager instance;
-        public GemManager m_GemManager;
-        public NumberPopupManager m_NumberPopupManager;
+        public GemManager m_GemManager { get => _gemManager; }
+        public BoardManager BoardManager { get => _boardManager; }
+        public NumberPopupManager m_NumberPopupManager { get => _numberPopupManager; }
         public Spawner spawner;
         public Player m_Player;
 
         public static bool GameStarted { get; private set; }        // If the game has been started.
         public static bool ShootingEnabled { get; private set; }    // If anything is currently allowed to shoot.
+
+        [Space]
+        [Header("Level Settings")]
+        [Space]
+        [SerializeField] private int WavesPerMapExpansion = 3;
 
         [Space]
         [Header("Points")]
@@ -30,7 +40,7 @@ namespace FroggyDefense.Core
                 _points = value;
                 PointsChangedEvent?.Invoke(_points);
             }
-        }  // The amount of points the player has.
+        }   // The amount of points the player has.
 
         [Space]
         [Header("Wave Info")]
@@ -44,14 +54,15 @@ namespace FroggyDefense.Core
         [Header("Enemies")]
         [Space]
         [SerializeField] private int _enemiesThisWave = 0;
-        public int EnemiesThisWave { get => _enemiesThisWave; private set { _enemiesThisWave = value; } }   // How many enemies will spawn this wave.
         [SerializeField] private int _activeEnemies = 0;
+        public int EnemiesThisWave { get => _enemiesThisWave; private set { _enemiesThisWave = value; } }   // How many enemies will spawn this wave.
         public int ActiveEnemies { get => _activeEnemies; private set { _activeEnemies = value; } }         // How many enemies are currently alive.
         public List<Enemy> Enemies = new List<Enemy>();                                                     // List of all enemies on the map.
         public List<Spawner> Spawners = new List<Spawner>();                                                // List of all spawners on the map.
 
         [Space]
         [Header("Events")]
+        [Space]
         public UnityEvent WaveStartedEvent;
         public UnityEvent WaveCompletedEvent;
         public UnityEvent<int> PointsChangedEvent;
@@ -66,14 +77,19 @@ namespace FroggyDefense.Core
             }
             instance = this;    // Set singleton
 
-            if (m_GemManager == null)
+            if (_boardManager == null)
             {
-                m_GemManager = gameObject.GetComponent<GemManager>();
+                _boardManager = gameObject.GetComponent<BoardManager>();
             }
 
-            if (m_NumberPopupManager == null)
+            if (_gemManager == null)
             {
-                m_NumberPopupManager = gameObject.GetComponent<NumberPopupManager>();
+                _gemManager = gameObject.GetComponent<GemManager>();
+            }
+
+            if (_numberPopupManager == null)
+            {
+                _numberPopupManager = gameObject.GetComponent<NumberPopupManager>();
             }
 
             // Set default values.
@@ -112,13 +128,17 @@ namespace FroggyDefense.Core
         {
             Debug.Log("Wave " + WaveNumber + " Completed!");
 
-            // TODO: Spawn a powerup for the player when the wave is completed.
-
             WaveActive = false;
             WaveNumber++;
             ActiveEnemies = 0;
             EnemiesThisWave = 0;
             WaveCompletedEvent?.Invoke();
+
+            if (WaveNumber % WavesPerMapExpansion == 0)
+            {
+                _boardManager?.ExpandLevel();
+            }
+
         }
 
         /// <summary>
