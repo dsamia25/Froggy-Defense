@@ -136,6 +136,7 @@ namespace FroggyDefense.Core
 
             if (WaveNumber % WavesPerMapExpansion == 0)
             {
+                Debug.Log("Expanding Level");
                 _boardManager?.ExpandLevel();
             }
 

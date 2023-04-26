@@ -13,21 +13,25 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Tiles")]
         [Space]
-        public Tilemap[] tilemaps;
+        public Tilemap[] Tilemaps;
         public TileBase[] tileSet;
         public float[] tileHeights = { 0, .3f, .8f };
 
         [Space]
-        [Header("Level Expansions")]
-        [Space]
-        public GameObject[] levelExpansions;
-        public int levelExpansionIndex = 0;
+
+        public Tilemap[] TilemapExpansions;
+        public int expansionLength = 0;
+        public int initialBoardSize = 24;
 
         [Space]
         [Header("Size")]
         [Space]
-        public int LevelWidth = 100;
-        public int LevelHeight = 100;
+        public int LevelWidth = 100;            // Size of the map in tiles for random generation.
+        public int LevelHeight = 100;           // Size of the map in tiles for random generation.
+        public int TopBound { get; set; }       // Top Bound of the level in tile count.
+        public int BotBound { get; set; }       // Bottom Bound of the level in tile count.
+        public int LeftBound { get; set; }      // Left Bound of the level in tile count.
+        public int RightBound { get; set; }     // Right Bound of the level in tile count.
 
         [Space]
         [Header("Nexus")]
@@ -55,6 +59,11 @@ namespace FroggyDefense.Core
                 return;
             }
             instance = this;    // Set singleton
+
+            TopBound = initialBoardSize / 2;
+            BotBound = -initialBoardSize / 2;
+            LeftBound = -initialBoardSize / 2;
+            RightBound = initialBoardSize / 2;
         }
 
         /// <summary>
@@ -102,18 +111,49 @@ namespace FroggyDefense.Core
             int[,] newMap = LevelGenerator.InterpretNoise(heightMap, tileHeights);
 
             // Spawn in tiles.
-            LevelGenerator.RenderMap(newMap, tilemaps, tileSet);
+            LevelGenerator.RenderMap(newMap, Tilemaps, tileSet);
+        }
+
+        public void InitBoardSize()
+        {
+            ExpandLevel(initialBoardSize / 2);
+        }
+
+        public void ExpandLevel()
+        {
+            ExpandLevel(expansionLength);
         }
 
         /// <summary>
-        /// Expands the level by enabling the next set of tiles.
+        /// Expands the level by enabling adding the next set of tiles to the
+        /// main tilemaps from the expansion tilemaps.
         /// </summary>
-        public void ExpandLevel()
+        public void ExpandLevel(int expoLength)
         {
-            if (levelExpansionIndex < levelExpansions.Length)
+            int newTopBound = TopBound + expoLength;
+            int newBotBound = BotBound - expoLength;
+            int newLeftBound = LeftBound - expoLength;
+            int newRightBound = RightBound + expoLength;
+
+            for (int x = newLeftBound; x < newRightBound; x++)
             {
-                levelExpansions[levelExpansionIndex++].SetActive(true);
+                for (int y = newBotBound; y < newTopBound; y++)
+                {
+                    if (x > LeftBound && x < RightBound && y > BotBound && y < TopBound) continue;
+                    for (int i = 0; i < Tilemaps.Length; i++)
+                    {
+                        Tilemap mainMap = Tilemaps[i];
+                        Tilemap expoMap = TilemapExpansions[i];
+                        Vector3Int pos = new Vector3Int(x, y, 0);
+                        mainMap.SetTile(pos, expoMap.GetTile(pos));
+                    }
+                }
             }
+
+            TopBound = newTopBound;
+            BotBound = newBotBound;
+            LeftBound = newLeftBound;
+            RightBound = newRightBound;
         }
     }
 }

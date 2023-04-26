@@ -132,6 +132,25 @@ namespace FroggyDefense.LevelGeneration
                 }
             }
         }
+
+        // TODO: Not being used.
+        /// <summary>
+        /// Merges two tilemaps together.
+        /// </summary>
+        /// <param name="main"></param>
+        /// <param name="addition"></param>
+        public static void MergeTilemaps(Tilemap main, Tilemap addition)
+        {
+            //var tiles = addition.GetTilesBlock(addition.cellBounds);
+            for (int x = addition.cellBounds.xMin; x < addition.cellBounds.xMax; x++)
+            {
+                for (int y = addition.cellBounds.yMin; x < addition.cellBounds.yMax; x++)
+                {
+                    Vector3Int pos = new Vector3Int(x, y, 0);
+                    main.SetTile(pos, addition.GetTile(pos));
+                }
+            }
+        }
     }
 }
 
