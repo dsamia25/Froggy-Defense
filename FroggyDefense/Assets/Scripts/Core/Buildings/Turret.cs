@@ -2,7 +2,7 @@ using UnityEngine;
 using FroggyDefense.Weapons;
 using FroggyDefense.Support;
 
-namespace FroggyDefense.Core
+namespace FroggyDefense.Core.Buildings
 {
     public enum TargetSetting
     {
@@ -13,7 +13,7 @@ namespace FroggyDefense.Core
         Random
     }
 
-    public class Turret : MonoBehaviour, IUseWeapon
+    public class Turret : MonoBehaviour, IUseWeapon, IInteractable
     {
         [Space]
         [Header("Turret Components")]
@@ -49,16 +49,30 @@ namespace FroggyDefense.Core
         public float m_AttackRadius { get => _attackRadius; set { _attackRadius = value; } }
         public float m_AttackCooldown { get => _attackCooldown; set { _attackCooldown = value; } }
 
+        [Space]
+        [Header("Upgrades")]
+        [Space]
+        // TODO: Move the generic upgrade info to a ScriptableObject that keeps turret upgrade info and prices and things.
+        [SerializeField] private TurretUpgradeSheetObject _turretUpgradeSheet;
+        [SerializeField] private int _directDamageLevel = 0;
+        [SerializeField] private int _splashDamageLevel = 0;
+        [SerializeField] private int _rangeLevel = 0;
+
+        public TurretUpgradeSheetObject TurretUpgradeSheet { get => _turretUpgradeSheet; }
+        public int DirectDamageUpgrades => _turretUpgradeSheet.DirectDamageUpgradeCosts.Length;
+        public int SplashDamageUpgrades => _turretUpgradeSheet.SplashDamageUpgradeCosts.Length;
+        public int RangeUpgrades => _turretUpgradeSheet.RangeUpgradeCosts.Length;
+        public int DirectDamageLevel { get => _directDamageLevel; }
+        public int SplashDamageLevel { get => _splashDamageLevel; }
+        public int RangeLevel { get => _rangeLevel; }
+
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
         private float _changeFocusCooldown = 0f;
 
         private void Start()
         {
-            if (m_AttackRadius < _targetRadius)
-            {
-                m_AttackRadius = _targetRadius + 1;
-            }
+            SetAttackRadius();
 
             UpdateTargetRadiusOverlay();
 
@@ -107,7 +121,6 @@ namespace FroggyDefense.Core
             var circleRadius = 2 * _targetRadius;
             m_HighlightRangeCircle.sizeDelta = new Vector2(circleRadius, circleRadius);
             m_SelectRangeCircle.sizeDelta = new Vector2(circleRadius, circleRadius);
-
         }
 
         /// <summary>
@@ -119,6 +132,7 @@ namespace FroggyDefense.Core
             _currAttackCooldown = m_AttackCooldown;
         }
 
+        #region Interactions
         public void OnMouseEnter()
         {
             Debug.Log("Mouse over turret.");
@@ -133,6 +147,24 @@ namespace FroggyDefense.Core
         }
 
         /// <summary>
+        /// Interact with the tower by clicking on it.
+        /// </summary>
+        public void OnMouseUpAsButton()
+        {
+            Interact();
+        }
+
+        /// <summary>
+        /// Opens up the TurrestSheetUI menu.
+        /// </summary>
+        public void Interact()
+        {
+            GameManager.instance.m_UiManager.m_TurretSheetUi.m_Turret = this;
+            GameManager.instance.m_UiManager.m_TurretSheetUi.gameObject.SetActive(true);
+        }
+        #endregion
+
+        /// <summary>
         /// Finds a new
         /// </summary>
         public void ChangeFocus()
@@ -145,6 +177,7 @@ namespace FroggyDefense.Core
             }
         }
 
+        #region Targetting
         // TODO: Make work with all TargetSettings. Currently only has ClosestTarget.
         /// <summary>
         /// Returns the enemy the turret is focusing.
@@ -184,16 +217,59 @@ namespace FroggyDefense.Core
         {
             return Physics2D.OverlapCircleAll(transform.position, _targetRadius, (m_TargetLayer == 0 ? gameObject.layer : m_TargetLayer));
         }
+        #endregion
 
         /// <summary>
-        /// Draws the explosion radius in the editor.
+        /// Upgrades the direct damage of the turret.
         /// </summary>
-        private void OnDrawGizmosSelected()
+        public void UpgradeDirectDamage()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _targetRadius);
+            if (_directDamageLevel < DirectDamageUpgrades)
+            {
+                var temp = _directDamageLevel;
+                _directDamage += _turretUpgradeSheet.DirectDamageUpgradeValues[_directDamageLevel];
+                _directDamageLevel++;
+                Debug.Log("Upgrading turret direct damage (Level " + temp + " -> " + _directDamageLevel + ").");
+            }
+        }
 
-            Gizmos.DrawWireSphere(transform.position, m_AttackRadius);
+        /// <summary>
+        /// Upgrades the splash damage of the turret.
+        /// </summary>
+        public void UpgradeSplashDamage()
+        {
+            if (_splashDamageLevel < SplashDamageUpgrades)
+            {
+                var temp = _splashDamageLevel;
+                _splashDamage += _turretUpgradeSheet.SplashDamageUpgradeValues[_splashDamageLevel];
+                _splashDamageLevel++;
+                Debug.Log("Upgrading turret splash damage (Level " + temp + " -> " + _splashDamageLevel + ").");
+            }
+        }
+
+        /// <summary>
+        /// Upgrades the range of the turret.
+        /// </summary>
+        public void UpgradeRange()
+        {
+            if (_rangeLevel < RangeUpgrades)
+            {
+                var temp = _rangeLevel;
+                _targetRadius += _turretUpgradeSheet.RangeUpgradeValues[_rangeLevel];
+                _rangeLevel++;
+                SetAttackRadius();
+                Debug.Log("Upgrading turret range (Level " + temp + " -> " + _rangeLevel + ").");
+                UpdateTargetRadiusOverlay();
+            }
+        }
+
+        /// <summary>
+        /// Makes sure the attack radius is slightly larger than the target
+        /// radius so the turret will not drop targets really easily.
+        /// </summary>
+        public void SetAttackRadius()
+        {
+            m_AttackRadius = _targetRadius + 1;
         }
 
         // TODO: Make a way to calculate the turret's damage.
@@ -206,6 +282,17 @@ namespace FroggyDefense.Core
         public float GetSplashDamage()
         {
             return m_SplashDamage;
+        }
+
+        /// <summary>
+        /// Draws the explosion radius in the editor.
+        /// </summary>
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _targetRadius);
+
+            Gizmos.DrawWireSphere(transform.position, m_AttackRadius);
         }
     }
 }

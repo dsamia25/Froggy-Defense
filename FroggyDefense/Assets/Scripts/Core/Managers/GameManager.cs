@@ -9,11 +9,13 @@ namespace FroggyDefense.Core
         [SerializeField] private GemManager _gemManager;
         [SerializeField] private BoardManager _boardManager;
         [SerializeField] private NumberPopupManager _numberPopupManager;
+        [SerializeField] private UiManager _uiManager;
 
         public static GameManager instance;
         public GemManager m_GemManager { get => _gemManager; }
         public BoardManager BoardManager { get => _boardManager; }
         public NumberPopupManager m_NumberPopupManager { get => _numberPopupManager; }
+        public UiManager m_UiManager { get => _uiManager; }
         public Spawner spawner;
         public Player m_Player;
 

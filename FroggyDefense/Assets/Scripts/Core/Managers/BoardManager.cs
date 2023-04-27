@@ -21,7 +21,8 @@ namespace FroggyDefense.Core
 
         public Tilemap[] TilemapExpansions;
         public int expansionLength = 0;
-        public int initialBoardSize = 24;
+        public int initialMapSize = 24;
+        public int maxMapSize = 64;
 
         [Space]
         [Header("Size")]
@@ -60,10 +61,10 @@ namespace FroggyDefense.Core
             }
             instance = this;    // Set singleton
 
-            TopBound = initialBoardSize / 2;
-            BotBound = -initialBoardSize / 2;
-            LeftBound = -initialBoardSize / 2;
-            RightBound = initialBoardSize / 2;
+            TopBound = initialMapSize / 2;
+            BotBound = -initialMapSize / 2;
+            LeftBound = -initialMapSize / 2;
+            RightBound = initialMapSize / 2;
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace FroggyDefense.Core
 
         public void InitBoardSize()
         {
-            ExpandLevel(initialBoardSize / 2);
+            ExpandLevel(initialMapSize / 2);
         }
 
         public void ExpandLevel()
@@ -130,6 +131,10 @@ namespace FroggyDefense.Core
         /// </summary>
         public void ExpandLevel(int expoLength)
         {
+            // TODO: Maybe get rid of this check for randomly generated maps.
+            // Don't expand past the max size of the map.
+            if (TopBound + expoLength > maxMapSize) return;
+
             int newTopBound = TopBound + expoLength;
             int newBotBound = BotBound - expoLength;
             int newLeftBound = LeftBound - expoLength;

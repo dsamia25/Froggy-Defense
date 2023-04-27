@@ -422,17 +422,23 @@ MonoBehaviour:
   m_TurretBody: {fileID: 4812502339638225578}
   m_HighlightRangeCircle: {fileID: 1255867203}
   m_SelectRangeCircle: {fileID: 263657783}
+  m_Weapon: {fileID: 8235868754459368837}
   m_TargetSetting: 0
   m_TargetLayer:
     serializedVersion: 2
     m_Bits: 512
-  m_TargetRadius: 5
+  _targetRadius: 1
   m_TargetCheckFrequency: 0.1
   m_ChangeFocusTime: 1.2
   m_Focus: {fileID: 0}
-  m_Weapon: {fileID: 8235868754459368837}
-  m_AttackRadius: 6
-  m_AttackCooldown: 1
+  _directDamage: 1
+  _splashDamage: 1
+  _attackRadius: 1
+  _attackCooldown: 1
+  _turretUpgradeSheet: {fileID: 11400000, guid: 0734c8b0ec68d44ecb810d37395c0f69, type: 2}
+  _directDamageLevel: 0
+  _splashDamageLevel: 0
+  _rangeLevel: 0
 --- !u!114 &8235868754459368837
 MonoBehaviour:
   m_ObjectHideFlags: 0

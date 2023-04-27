@@ -1,14 +1,16 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using FroggyDefense.Core;
+using FroggyDefense.Core.Buildings.UI;
 
-namespace FroggyDefense.UI
+namespace FroggyDefense.Core
 {
-    public class UIManager : MonoBehaviour
+    public class UiManager : MonoBehaviour
     {
         public TextMeshProUGUI m_GemsText;
         public TextMeshProUGUI m_PointsText;
+
+        public TurretSheetUI m_TurretSheetUi;
 
         public float m_TextScrollIncrementSpeed = 2;    // How many 
         public int m_MinimumGemScrollAmount = 4;        // Minimum gem change required to trigger a scroll effect.
