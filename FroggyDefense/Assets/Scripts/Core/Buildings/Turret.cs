@@ -13,6 +13,18 @@ namespace FroggyDefense.Core.Buildings
         Random
     }
 
+    // TODO: Maybe make an array of bools for turrets for which kinds of upgrades they accept and use that to dynamically load the TurretSheetUI with only the valid upgrades.
+    /// <summary>
+    /// All the kinds of upgrades for turrets.
+    /// </summary>
+    public enum TurretUpgradeOptions
+    {
+        DirectDamage,
+        SplashDamage,
+        AttackSpeed,
+        Range
+    }
+
     public class Turret : MonoBehaviour, IUseWeapon, IInteractable
     {
         [Space]
@@ -52,11 +64,14 @@ namespace FroggyDefense.Core.Buildings
         [Space]
         [Header("Upgrades")]
         [Space]
-        // TODO: Move the generic upgrade info to a ScriptableObject that keeps turret upgrade info and prices and things.
         [SerializeField] private TurretUpgradeSheetObject _turretUpgradeSheet;
         [SerializeField] private int _directDamageLevel = 0;
         [SerializeField] private int _splashDamageLevel = 0;
         [SerializeField] private int _rangeLevel = 0;
+        [SerializeField] private int _maxDirectDamageLevel = 0;
+        [SerializeField] private int _maxSplashDamageLevel = 0;
+        [SerializeField] private int _maxAttackSpeedLevel = 0;
+        [SerializeField] private int _maxRangeLevel = 0;
 
         public TurretUpgradeSheetObject TurretUpgradeSheet { get => _turretUpgradeSheet; }
         public int DirectDamageUpgrades => _turretUpgradeSheet.DirectDamageUpgradeCosts.Length;
@@ -65,6 +80,10 @@ namespace FroggyDefense.Core.Buildings
         public int DirectDamageLevel { get => _directDamageLevel; }
         public int SplashDamageLevel { get => _splashDamageLevel; }
         public int RangeLevel { get => _rangeLevel; }
+        public int MaxDirectDamageLevel { get => _maxDirectDamageLevel; }
+        public int MaxSplashDamageLevel { get => _maxSplashDamageLevel; }
+        public int MaxAttackSpeedLevel { get => _maxAttackSpeedLevel; }
+        public int MaxRangeLevel { get => _maxRangeLevel; }
 
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
@@ -245,6 +264,14 @@ namespace FroggyDefense.Core.Buildings
                 _splashDamageLevel++;
                 Debug.Log("Upgrading turret splash damage (Level " + temp + " -> " + _splashDamageLevel + ").");
             }
+        }
+
+        /// <summary>
+        /// Upgrades the attack speed of the turret.
+        /// </summary>
+        public void UpgradeAttackSpeed()
+        {
+
         }
 
         /// <summary>

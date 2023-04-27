@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 namespace FroggyDefense.Core.Buildings.UI
@@ -16,10 +17,14 @@ namespace FroggyDefense.Core.Buildings.UI
         [Space]
         [Header("Upgrade Sections")]
         [Space]
-        [SerializeField] private TextMeshProUGUI _upgradeDirectDamageButton;
-        [SerializeField] private TextMeshProUGUI _upgradeSplashDamageButton;
-        [SerializeField] private TextMeshProUGUI _upgradeRangeButton;
-
+        [SerializeField] private Button _upgradeDirectDamageButton;     // The button to upgrade the turret.
+        [SerializeField] private Button _upgradeSplashDamageButton;     // The button to upgrade the turret.
+        [SerializeField] private Button _upgradeAttackSpeedButton;      // The button to upgrade the turret.
+        [SerializeField] private Button _upgradeRangeButton;            // The button to upgrade the turret.
+        [SerializeField] private TextMeshProUGUI _directDamageText;     // The text displaying the turret's stats.
+        [SerializeField] private TextMeshProUGUI _splashDamageText;     // The text displaying the turret's stats.
+        [SerializeField] private TextMeshProUGUI _attackSpeedText;      // The text displaying the turret's stats.
+        [SerializeField] private TextMeshProUGUI _rangeText;            // The text displaying the turret's stats.
 
         public Turret m_Turret
         {
@@ -34,6 +39,24 @@ namespace FroggyDefense.Core.Buildings.UI
         public void UpdateUI()
         {
             _titleText.text = _turret.TurretUpgradeSheet.Name;
+            _directDamageText.text = StatStringFormat(_turret.m_DirectDamage,
+                (_turret.DirectDamageLevel < _turret.MaxDirectDamageLevel ? _turret.TurretUpgradeSheet.DirectDamageUpgradeValues[_turret.DirectDamageLevel] : -1));
+            _splashDamageText.text = StatStringFormat(_turret.m_SplashDamage,
+                (_turret.SplashDamageLevel < _turret.MaxSplashDamageLevel ? _turret.TurretUpgradeSheet.SplashDamageUpgradeValues[_turret.SplashDamageLevel] : -1));
+            _rangeText.text = StatStringFormat(_turret.m_TargetRadius,
+                (_turret.RangeLevel < _turret.MaxRangeLevel ? _turret.TurretUpgradeSheet.RangeUpgradeValues[_turret.RangeLevel] : -1));
+        }
+
+        /// <summary>
+        /// Puts the turret stats in the correct format with the current value and
+        /// how much the upgrade will add on.
+        /// </summary>
+        /// <param name="firstNum"></param>
+        /// <param name="secondNum"></param>
+        /// <returns></returns>
+        private string StatStringFormat(float firstNum, float secondNum)
+        {
+            return firstNum.ToString() + (secondNum > 0 ? " (+" + secondNum.ToString() + ")": "");
         }
 
         /// <summary>
@@ -42,6 +65,7 @@ namespace FroggyDefense.Core.Buildings.UI
         public void UpgradeDirectDamageButton()
         {
             _turret.UpgradeDirectDamage();
+            UpdateUI();
         }
 
         /// <summary>
@@ -50,6 +74,16 @@ namespace FroggyDefense.Core.Buildings.UI
         public void UpgradeSplashDamageButton()
         {
             _turret.UpgradeSplashDamage();
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Tries to upgrade the turret.
+        /// </summary>
+        public void UpgradeAttackSpeedButton()
+        {
+            _turret.UpgradeAttackSpeed();
+            UpdateUI();
         }
 
         /// <summary>
@@ -58,6 +92,7 @@ namespace FroggyDefense.Core.Buildings.UI
         public void UpgradeRangeButton()
         {
             _turret.UpgradeRange();
+            UpdateUI();
         }
     }
 }

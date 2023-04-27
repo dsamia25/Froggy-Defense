@@ -71632,8 +71632,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: _maxRangeLevel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: _attackCooldown
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: _maxAttackSpeedLevel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: _maxDirectDamageLevel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: _maxSplashDamageLevel
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6786152461201003559, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: m_Name
