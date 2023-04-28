@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Movement;
 using FroggyDefense.Weapons;
 using FroggyDefense.UI;
+using FroggyDefense.Core.Buildings;
 
 namespace FroggyDefense.Core
 {
@@ -39,11 +41,21 @@ namespace FroggyDefense.Core
         [SerializeField] protected float MoveSpeed => _moveSpeed;   // The player's total attack speed with all buffs applied.
 
         [SerializeField] protected bool _invincible;
-        public bool m_Invincible { get => _invincible; set { _invincible = value; } }
         [SerializeField] protected bool _splashShield;
+        public bool m_Invincible { get => _invincible; set { _invincible = value; } }
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
 
+        [Space]
+        [Header("Turrets")]
+        [Space]
+        [SerializeField] private GameObject m_TurretPrefab;
+        [SerializeField] private int _turretCap = 3;
+        public int m_TurretCap { get => _turretCap; }
+        public List<Turret> m_Turrets = new List<Turret>();
+
+        [Space]
         [Header("Animations")]
+        [Space]
         public Animator animator = null;
         public Material DamagedMaterial = null;
         public Material DefaultMaterial = null;

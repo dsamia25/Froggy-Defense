@@ -27,6 +27,8 @@ namespace FroggyDefense.Core.Buildings
 
     public class Turret : MonoBehaviour, IUseWeapon, IInteractable
     {
+        public Player m_player;     // The player that owns the turret.
+
         [Space]
         [Header("Turret Components")]
         [Space]
@@ -91,6 +93,8 @@ namespace FroggyDefense.Core.Buildings
 
         private void Start()
         {
+            m_player = GameManager.instance.m_Player;
+
             SetAttackRadius();
 
             UpdateTargetRadiusOverlay();
