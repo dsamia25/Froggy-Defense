@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using FroggyDefense.LevelGeneration;
+using FroggyDefense.Core.Buildings;
 
 namespace FroggyDefense.Core
 {
@@ -19,10 +21,11 @@ namespace FroggyDefense.Core
 
         [Space]
 
-        public Tilemap[] TilemapExpansions;
+        public Tilemap[] FullMap;
         public int expansionLength = 0;
         public int initialMapSize = 24;
         public int maxMapSize = 64;
+        public List<Spawner> MoreSpawners = new List<Spawner>();    // More enemy spawners to be spawned in as the map expands.
 
         [Space]
         [Header("Size")]
@@ -148,7 +151,7 @@ namespace FroggyDefense.Core
                     for (int i = 0; i < Tilemaps.Length; i++)
                     {
                         Tilemap mainMap = Tilemaps[i];
-                        Tilemap expoMap = TilemapExpansions[i];
+                        Tilemap expoMap = FullMap[i];
                         Vector3Int pos = new Vector3Int(x, y, 0);
                         mainMap.SetTile(pos, expoMap.GetTile(pos));
                     }
@@ -159,6 +162,34 @@ namespace FroggyDefense.Core
             BotBound = newBotBound;
             LeftBound = newLeftBound;
             RightBound = newRightBound;
+
+            EnableLevelExpansionSpawners();
+        }
+
+        // TODO: Make a randomized way to spawn in a set amount of spawners at random locations in the new expansion zone.
+        /// <summary>
+        /// Enables spawners from the MoreSpawners list once the tiles they are over become available.
+        /// </summary>
+        public void EnableLevelExpansionSpawners()
+        {
+            List<Spawner> enabledSpawners = new List<Spawner>();
+
+            foreach(Spawner spawner in MoreSpawners)
+            {
+                // If the position under the spawner is active then spawn the spawner in and add it to the GameManager's list.
+                if (Tilemaps[1].GetTile(Tilemaps[1].WorldToCell(spawner.transform.position)) != null)
+                {
+                    spawner.gameObject.SetActive(true);
+                    GameManager.instance.Spawners.Add(spawner);
+                    enabledSpawners.Add(spawner);
+                }
+            }
+            
+            // Remove any enabled from the list.
+            foreach(Spawner spawner in enabledSpawners)
+            {
+                MoreSpawners.Remove(spawner);
+            }
         }
     }
 }

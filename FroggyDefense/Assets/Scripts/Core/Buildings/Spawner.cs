@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace FroggyDefense.Core
+namespace FroggyDefense.Core.Buildings
 {
     public class Spawner : MonoBehaviour
     {
