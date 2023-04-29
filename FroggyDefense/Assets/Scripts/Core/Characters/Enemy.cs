@@ -20,6 +20,11 @@ namespace FroggyDefense.Core
         [Space]
         [SerializeField] protected float _maxHealth = 1f;
         [SerializeField] protected float _health = 1f;
+        [SerializeField] protected float _nexusDamage = 1f;
+        [SerializeField] protected float _damage = 1f;
+        [SerializeField] protected bool _invincible = false;
+        [SerializeField] protected bool _splashShield = false;
+
         public float m_Health
         {
             get => _health;
@@ -41,17 +46,22 @@ namespace FroggyDefense.Core
             }
         }
         public bool IsDamaged => _health < _maxHealth;
-        [SerializeField] protected float _nexusDamage = 1f;
         public float m_NexusDamage { get => _nexusDamage; set { _nexusDamage = value; } }
-
-        [SerializeField] protected float _damage = 1f;
         public float m_Damage { get => _damage; set { _damage = value; } }
 
-
-        [SerializeField] protected bool _invincible;
         public bool m_Invincible { get => _invincible; set { _invincible = value; } }
-        [SerializeField] protected bool _splashShield;
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
+
+        [Space]
+        [Header("Targetting")]
+        [Space]
+        [SerializeField] protected LayerMask m_TargetLayer = 0;             // Which layer in which the enemy looks for targets.
+        [SerializeField] protected float m_TargetDetectionRadius = 1f;      // How far away the enemy will detect the player.
+        [SerializeField] protected float m_TargetCheckFrequency = .1f;      // How often the turret checks for new targets.
+        [SerializeField] protected float m_LeashRadius = 1f;                // How far away the player has to be to break the leash.
+        [SerializeField] protected float m_LeashTime = 30f;                 // If there is a time limit until the leash manually breaks.
+        [SerializeField] protected float m_LeashResetTime = 5f;             // How long from the leash breaking until it can be leashed again.
+        [SerializeField] protected GameObject m_Focus = null;               // The thing this will attack.
 
         private ObjectController controller;
         private Vector2 moveDir = Vector2.zero;

@@ -43,7 +43,7 @@ namespace FroggyDefense.Core.Buildings
         [Space]
         [SerializeField] private TargetSetting m_TargetSetting = TargetSetting.ClosestTarget;   // Determines how the turret should prioritize focusing enemies it sees.
         [SerializeField] private LayerMask m_TargetLayer = 0;                                   // Which layer in which the turret looks for targets.
-        [SerializeField] private float _targetRadius = 1;                                      // How far the turret can see.
+        [SerializeField] private float _targetRadius = 1;                                       // How far the turret can see.
         [SerializeField] private float m_TargetCheckFrequency = .1f;                            // How often the turret checks for new targets.
         [SerializeField] private float m_ChangeFocusTime = 2f;                                  // How long the turret will focus on an enemy before checking for another focus.
         [SerializeField] private GameObject m_Focus = null;                                     // The enemy this turret will attack.
