@@ -1,29 +1,26 @@
-using System;
 using UnityEngine;
-using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core.Items
 {
-    // TODO: Make more of these.
     public enum ItemType
     {
         Default,
-        Equipment
+        Equipment,
+        Consumable
     }
 
-    // TODO: Make an item ID and a system to automatically assign them for new ItemObjects.
     [System.Serializable]
-    public class Item : IComparable
+    public class Item
     {
+        public ItemObject Template;
         public string Name = "ITEM";
+        public int Id { get => (Template != null ? Template.Id : -1); }
         public string Description = "A NEW ITEM";
         public bool IsStackable { get; set; } = false;
         public ItemType Type = ItemType.Default;
         public int CountSubtractPerUse = 1;
 
         public Sprite Icon = null;
-        public CurrencyObject PriceCurrency;
-        public int ShopPrice = 1;
 
         public Item ()
         {
@@ -32,13 +29,12 @@ namespace FroggyDefense.Core.Items
 
         public Item(ItemObject template)
         {
+            Template = template;
             Name = template.Name;
             Description = template.Description;
             IsStackable = template.IsStackable;
             Type = template.Type;
             Icon = template.Icon;
-            ShopPrice = template.ShopPrice;
-            Debug.Log("Item for " + template.Name + " = " + template.ShopPrice + " gems.");
         }
 
         /// <summary>
@@ -73,12 +69,6 @@ namespace FroggyDefense.Core.Items
         {
             Debug.Log("This is an item. Using " + Name + ".");
             return true;
-        }
-
-        // TODO: Implement this.
-        public int CompareTo(object obj)
-        {
-            return 1;
         }
     }
 }

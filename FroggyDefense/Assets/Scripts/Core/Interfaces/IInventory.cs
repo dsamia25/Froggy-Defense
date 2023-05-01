@@ -54,5 +54,12 @@ namespace FroggyDefense.Core
         /// <param name="index"></param>
         /// <returns></returns>
         public int GetCount(Item item);
+
+        /// <summary>
+        /// Gets the count of a specific item.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public int GetCount(ItemObject item);
     }
 }

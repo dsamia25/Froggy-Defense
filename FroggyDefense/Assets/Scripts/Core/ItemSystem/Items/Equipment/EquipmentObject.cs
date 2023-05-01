@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FroggyDefense.Core.Items
 {
-    [CreateAssetMenu(fileName = "New Equipment", menuName = "ScriptableObjects/Inventory/Items/Equipment")]
+    [CreateAssetMenu(fileName = "New Equipment", menuName = "ScriptableObjects/ItemSystem/Items/Equipment")]
     public class EquipmentObject : ItemObject
     {
         [Space]

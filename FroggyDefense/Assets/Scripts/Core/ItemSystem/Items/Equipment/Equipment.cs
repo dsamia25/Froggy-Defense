@@ -37,15 +37,13 @@ namespace FroggyDefense.Core.Items
         /// <param name="template"></param>
         public Equipment(EquipmentObject template)
         {
+            Template = template;
             Name = template.Name;
             Description = template.Description;
             Slot = template.Slot;
             Type = template.Type;
             Icon = template.Icon;
-            PriceCurrency = template.PriceCurrency;
-            ShopPrice = template.ShopPrice;
             IsStackable = false;
-            Debug.Log("Equipment for " + template.Name + " = " + template.ShopPrice + " gems.");
 
             Strength = template.Strength;
             Dexterity = template.Dexterity;

@@ -147,6 +147,23 @@ namespace FroggyDefense.Core.Items
             }
             return 0;
         }
+
+        /// <summary>
+        /// Checks if the inventory contains the input id based on the item id.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int GetCount(ItemObject item)
+        {
+            foreach (InventorySlot slot in _inventory)
+            {
+                if (slot.item.Id == item.Id)
+                {
+                    return slot.count;
+                }
+            }
+            return 0;
+        }
     }
 
     // Currently unused, could be used for changing from a dictionary back to an array of InventorySlots.

@@ -6225,7 +6225,7 @@ Transform:
   - {fileID: 118102523}
   - {fileID: 725177849}
   m_Father: {fileID: 248401521}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &204814163
 GameObject:
@@ -6683,6 +6683,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 98520510}
+  - {fileID: 1169720907}
   - {fileID: 193943659}
   - {fileID: 1000166430}
   m_Father: {fileID: 335975046}
@@ -64967,7 +64968,7 @@ Transform:
   - {fileID: 1866665417}
   - {fileID: 1397164221}
   m_Father: {fileID: 248401521}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1008621334 stripped
 GameObject:
@@ -66044,13 +66045,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169720905}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -7.46, y: -0.51, z: 0}
   m_LocalScale: {x: 3, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 248401521}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1169720908
 MonoBehaviour:
@@ -66065,12 +66066,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShopIsOpen: 1
-  _itemInventoryTemplates:
-  - {fileID: 11400000, guid: ec8c987dd0f784e3d974f6da610a5075, type: 2}
-  - {fileID: 11400000, guid: 17431b2c56a9e443f9c18f18d3882891, type: 2}
-  - {fileID: 11400000, guid: a8bc382d592374d5e9bdcc85c768a216, type: 2}
-  - {fileID: 11400000, guid: 628cc2c1e1e794616be254130be082c8, type: 2}
-  - {fileID: 11400000, guid: 7b5970dc0b79848fea70b9ee1c36f99d, type: 2}
+  _items:
+  - _item: {fileID: 11400000, guid: 17431b2c56a9e443f9c18f18d3882891, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 10
+  - _item: {fileID: 11400000, guid: a8bc382d592374d5e9bdcc85c768a216, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 10
+  - _item: {fileID: 11400000, guid: ec8c987dd0f784e3d974f6da610a5075, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 6
+  - _item: {fileID: 11400000, guid: 7b5970dc0b79848fea70b9ee1c36f99d, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 7
+  - _item: {fileID: 11400000, guid: 628cc2c1e1e794616be254130be082c8, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 8
+  - _item: {fileID: 11400000, guid: ae5ae6e8e5ad6484ab520a38200635d8, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 5
+  - _item: {fileID: 11400000, guid: f7d184b8b1eae41a6bf40460d93c6f80, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 5
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -66998,7 +67015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1355969526
 Transform:
   m_ObjectHideFlags: 0
