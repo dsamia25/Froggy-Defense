@@ -3,7 +3,7 @@ using UnityEngine;
 namespace FroggyDefense.Core.Buildings
 {
     [CreateAssetMenu(fileName = "New Turret Upgrade Sheet", menuName = "ScriptableObjects/Buildings/Turrets/Turret Upgrade Sheet")]
-    public class TurretUpgradeSheetObject : ScriptableObject
+    public class TurretObject : ScriptableObject
     {
         [Space]
         [Header("Properties")]
@@ -17,16 +17,20 @@ namespace FroggyDefense.Core.Buildings
         [Space]
         [SerializeField] private int[] _directDamageUpgradeCosts = { 15, 20, 30, 50, 90 };
         [SerializeField] private int[] _splashDamageUpgradeCosts = { 15, 20, 30, 50, 90 };
+        [SerializeField] private int[] _attackSpeedUpgradeCosts = { 25, 40, 60, 86, 110 };
         [SerializeField] private int[] _rangeUpgradeCosts = { 15, 20, 30, 50, 90 };
         public int[] DirectDamageUpgradeCosts { get => _directDamageUpgradeCosts; }
         public int[] SplashDamageUpgradeCosts { get => _splashDamageUpgradeCosts; }
+        public int[] AttackSpeedUpgradeCosts { get => _attackSpeedUpgradeCosts; }
         public int[] RangeUpgradeCosts { get => _rangeUpgradeCosts; }
 
         [SerializeField] private int[] _directDamageUpgradeValues = { 1, 1, 2, 3, 5 };
         [SerializeField] private int[] _splashDamageUpgradeValues = { 1, 1, 2, 3, 5 };
+        [SerializeField] private int[] _attackSpeedUpgradeValues = { 1, 1, 1, 1, 1 };
         [SerializeField] private int[] _rangeUpgradeValues = { 1, 1, 1, 1, 1 };
         public int[] DirectDamageUpgradeValues { get => _directDamageUpgradeValues; }
         public int[] SplashDamageUpgradeValues { get => _splashDamageUpgradeValues; }
+        public int[] AttackSpeedUpgradeValues { get => _attackSpeedUpgradeValues; }
         public int[] RangeUpgradeValues { get => _rangeUpgradeValues; }
     }
 }

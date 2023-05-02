@@ -4,6 +4,9 @@ using FroggyDefense.Support;
 
 namespace FroggyDefense.Core.Buildings
 {
+    /// <summary>
+    /// Which enemy the turrets will prioritize.
+    /// </summary>
     public enum TargetSetting
     {
         ClosestTarget,
@@ -17,7 +20,7 @@ namespace FroggyDefense.Core.Buildings
     /// <summary>
     /// All the kinds of upgrades for turrets.
     /// </summary>
-    public enum TurretUpgradeOptions
+    public enum TurretStat
     {
         DirectDamage,
         SplashDamage,
@@ -66,19 +69,21 @@ namespace FroggyDefense.Core.Buildings
         [Space]
         [Header("Upgrades")]
         [Space]
-        [SerializeField] private TurretUpgradeSheetObject _turretUpgradeSheet;
+        [SerializeField] private TurretObject _turretTemplate;
         [SerializeField] private int _directDamageLevel = 0;
         [SerializeField] private int _splashDamageLevel = 0;
+        [SerializeField] private int _attackSpeedLevel = 0;
         [SerializeField] private int _rangeLevel = 0;
         [SerializeField] private int _maxDirectDamageLevel = 0;
         [SerializeField] private int _maxSplashDamageLevel = 0;
         [SerializeField] private int _maxAttackSpeedLevel = 0;
         [SerializeField] private int _maxRangeLevel = 0;
 
-        public TurretUpgradeSheetObject TurretUpgradeSheet { get => _turretUpgradeSheet; }
-        public int DirectDamageUpgrades => _turretUpgradeSheet.DirectDamageUpgradeCosts.Length;
-        public int SplashDamageUpgrades => _turretUpgradeSheet.SplashDamageUpgradeCosts.Length;
-        public int RangeUpgrades => _turretUpgradeSheet.RangeUpgradeCosts.Length;
+        public TurretObject TurretUpgradeSheet { get => _turretTemplate; }
+        public int DirectDamageUpgrades => _turretTemplate.DirectDamageUpgradeCosts.Length;
+        public int SplashDamageUpgrades => _turretTemplate.SplashDamageUpgradeCosts.Length;
+        public int AttackSpeedUpgrades => _turretTemplate.AttackSpeedUpgradeCosts.Length;
+        public int RangeUpgrades => _turretTemplate.RangeUpgradeCosts.Length;
         public int DirectDamageLevel { get => _directDamageLevel; }
         public int SplashDamageLevel { get => _splashDamageLevel; }
         public int RangeLevel { get => _rangeLevel; }
@@ -86,6 +91,14 @@ namespace FroggyDefense.Core.Buildings
         public int MaxSplashDamageLevel { get => _maxSplashDamageLevel; }
         public int MaxAttackSpeedLevel { get => _maxAttackSpeedLevel; }
         public int MaxRangeLevel { get => _maxRangeLevel; }
+
+        [Space]
+        [Header("Upgrade Options")]
+        [Space]
+        [SerializeField] private bool _canSelectTargetOptions = true;
+        [SerializeField] private TurretStat[] _upgradeOptions = { TurretStat.DirectDamage, TurretStat.SplashDamage, TurretStat.AttackSpeed, TurretStat.Range };
+        public bool CanSelectTargetOptions { get => _canSelectTargetOptions; }
+        public TurretStat[] UpgradeOptions { get => _upgradeOptions; }
 
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
@@ -250,7 +263,7 @@ namespace FroggyDefense.Core.Buildings
             if (_directDamageLevel < DirectDamageUpgrades)
             {
                 var temp = _directDamageLevel;
-                _directDamage += _turretUpgradeSheet.DirectDamageUpgradeValues[_directDamageLevel];
+                _directDamage += _turretTemplate.DirectDamageUpgradeValues[_directDamageLevel];
                 _directDamageLevel++;
                 Debug.Log("Upgrading turret direct damage (Level " + temp + " -> " + _directDamageLevel + ").");
             }
@@ -264,7 +277,7 @@ namespace FroggyDefense.Core.Buildings
             if (_splashDamageLevel < SplashDamageUpgrades)
             {
                 var temp = _splashDamageLevel;
-                _splashDamage += _turretUpgradeSheet.SplashDamageUpgradeValues[_splashDamageLevel];
+                _splashDamage += _turretTemplate.SplashDamageUpgradeValues[_splashDamageLevel];
                 _splashDamageLevel++;
                 Debug.Log("Upgrading turret splash damage (Level " + temp + " -> " + _splashDamageLevel + ").");
             }
@@ -275,7 +288,13 @@ namespace FroggyDefense.Core.Buildings
         /// </summary>
         public void UpgradeAttackSpeed()
         {
-
+            if (_attackSpeedLevel < AttackSpeedUpgrades)
+            {
+                var temp = _attackSpeedLevel;
+                //_splashDamage += _turretTemplate.SplashDamageUpgradeValues[_splashDamageLevel];
+                _attackSpeedLevel++;
+                Debug.Log("Upgrading turret attack speed (Level " + temp + " -> " + _attackSpeedLevel + ").");
+            }
         }
 
         /// <summary>
@@ -286,12 +305,177 @@ namespace FroggyDefense.Core.Buildings
             if (_rangeLevel < RangeUpgrades)
             {
                 var temp = _rangeLevel;
-                _targetRadius += _turretUpgradeSheet.RangeUpgradeValues[_rangeLevel];
+                _targetRadius += _turretTemplate.RangeUpgradeValues[_rangeLevel];
                 _rangeLevel++;
                 SetAttackRadius();
                 Debug.Log("Upgrading turret range (Level " + temp + " -> " + _rangeLevel + ").");
                 UpdateTargetRadiusOverlay();
             }
+        }
+
+        // TODO: Make a price check in here.
+        /// <summary>
+        /// Tries to upgrade a specific stat. Returns the new stat value
+        /// or -1 on failure.
+        /// </summary>
+        /// <param name="currLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <param name="upgradeValues"></param>
+        /// <param name="upgradeCosts"></param>
+        /// <returns></returns>
+        public float UpgradeStat(float currValue, int currLevel, int maxLevel, int[] upgradeValues, int[] upgradeCosts)
+        {
+            if (currLevel < maxLevel)
+            {
+                var result = currValue + upgradeValues[currLevel];
+                return result;
+            }
+            return -1;
+        }
+
+        // TODO: Fill out the rest of these.
+        /// <summary>
+        /// Upgrades the input turret stat.
+        /// </summary>
+        /// <param name="statType"></param>
+        public void UpgradeTurret(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    var result = UpgradeStat(GetDirectDamage(), _directDamageLevel, _maxDirectDamageLevel, _turretTemplate.DirectDamageUpgradeValues, _turretTemplate.DirectDamageUpgradeCosts);
+                    if (result != -1)
+                    {
+                        _directDamage = result;
+                        _directDamageLevel++;
+                    }
+                    break;
+                case TurretStat.SplashDamage:
+                    //return _splashDamage;
+                    break;
+                case TurretStat.AttackSpeed:
+                    //return _attackCooldown;
+                    break;
+                case TurretStat.Range:
+                    //return _attackRadius;
+                    break;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            SetAttackRadius();
+            UpdateTargetRadiusOverlay();
+        }
+
+        // TODO: Make stats tracked in a dictionary of (TurretStat -> stat)
+        /// <summary>
+        /// Gets the turret's stat value for the given stat.
+        /// </summary>
+        /// <param name="statType"></param>
+        /// <returns></returns>
+        public float GetStat(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    return _directDamage;
+                case TurretStat.SplashDamage:
+                    return _splashDamage;
+                case TurretStat.AttackSpeed:
+                    return _attackCooldown;
+                case TurretStat.Range:
+                    return _attackRadius;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Gets the turret's current level for the given stat.
+        /// </summary>
+        /// <param name="statType"></param>
+        /// <returns></returns>
+        public int GetStatLevel(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    return _directDamageLevel;
+                case TurretStat.SplashDamage:
+                    return _splashDamageLevel;
+                case TurretStat.AttackSpeed:
+                    return _attackSpeedLevel;
+                case TurretStat.Range:
+                    return _rangeLevel;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Gets the turret's max stat level for the given stat.
+        /// </summary>
+        /// <param name="statType"></param>
+        /// <returns></returns>
+        public int GetStatMaxLevel(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    return _maxDirectDamageLevel;
+                case TurretStat.SplashDamage:
+                    return _maxSplashDamageLevel;
+                case TurretStat.AttackSpeed:
+                    return _maxAttackSpeedLevel;
+                case TurretStat.Range:
+                    return _maxRangeLevel;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            return 0;
+        }
+
+        public float GetUpgradeValue(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    return _turretTemplate.DirectDamageUpgradeValues[_directDamageLevel];
+                case TurretStat.SplashDamage:
+                    return _turretTemplate.SplashDamageUpgradeValues[_splashDamageLevel];
+                case TurretStat.AttackSpeed:
+                    return _turretTemplate.AttackSpeedUpgradeValues[_attackSpeedLevel]; ;
+                case TurretStat.Range:
+                    return _turretTemplate.RangeUpgradeValues[_rangeLevel]; ;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            return 0;
+        }
+
+        public int GetUpgradeCost(TurretStat statType)
+        {
+            switch (statType)
+            {
+                case TurretStat.DirectDamage:
+                    return _turretTemplate.DirectDamageUpgradeCosts[_directDamageLevel];
+                case TurretStat.SplashDamage:
+                    return _turretTemplate.SplashDamageUpgradeCosts[_splashDamageLevel];
+                case TurretStat.AttackSpeed:
+                    return _turretTemplate.AttackSpeedUpgradeCosts[_attackSpeedLevel]; ;
+                case TurretStat.Range:
+                    return _turretTemplate.RangeUpgradeCosts[_rangeLevel]; ;
+                default:
+                    Debug.LogWarning("Unknown stat type (" + statType.ToString() + ").");
+                    break;
+            }
+            return 0;
         }
 
         /// <summary>
@@ -322,7 +506,6 @@ namespace FroggyDefense.Core.Buildings
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, _targetRadius);
-
             Gizmos.DrawWireSphere(transform.position, m_AttackRadius);
         }
     }
