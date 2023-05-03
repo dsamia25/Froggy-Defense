@@ -62202,14 +62202,29 @@ MonoBehaviour:
   m_FireLoc: {fileID: 444037409}
   m_FireDir: {x: 0, y: 1}
   m_StartingWeapon: {fileID: 11400000, guid: 042ff0bab7b704f29b23cf1e93e19b42, type: 2}
-  m_ProjectilePrefab: {fileID: 0}
-  m_ProjectilePoolSize: 8
   m_ProjectilePool:
     _pool: []
   _weaponDamage: 1
+  _hasSplashDamage: 0
+  _splashDamage: 0
+  _splashLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _splashRadius: 0
   _userDirectDamageScaleFactor: 1
   _userSplashDamageScaleFactor: 1
-  _shootCooldown: 0.1
+  _attackCooldown: 0.1
+  _projectilePrefab: {fileID: 0}
+  _projectilePoolSize: 8
+  _projectileSpeed: 1
+  _hasPiercing: 0
+  _piercingNumber: 0
+  _hasMaxRange: 1
+  _maxRange: 20
+  _hasMaxTime: 1
+  _timeLimit: 20
+  _hasSeeking: 0
+  _seekingTurnAngle: 0.05
   m_HasSprayPattern: 0
   m_SprayPattern: []
   m_SprayPatternIndex: 0
@@ -65678,7 +65693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -72044,6 +72059,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: _targetRadius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606036953627029856, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: _maxRangeLevel
       value: 5
       objectReference: {fileID: 0}
@@ -72091,5 +72110,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 8235868754459368837, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
+      propertyPath: m_StartingWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8a50fe2ce164f07b0b9eb16980f12e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}

@@ -5,40 +5,15 @@ namespace FroggyDefense.Weapons
 {
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] private Vector2 m_StorageLoc;  // Where the projectile is stored.
+        private Weapon _weapon;                                         // The weapon that fired this projectile.
+        [SerializeField] private Vector2 m_StorageLoc;                  // Where the projectile is stored.
 
-        [SerializeField] private float m_MoveSpeed = 1f;    // How fast the projectile moves.
+        private Vector2 m_ShootPos = Vector2.zero;                      // Where the projectile was shot from last. Used to calculate distance.
+        private float m_TimeCounter = 0f;                               // Counts how long the projectile has been active.
+        private int _pierces = 0;                                       // How many targets this projectile has pierced this launch.
 
-        [Header("Max Range")]
-        [Space]
-        [SerializeField] private bool m_HasMaxRange = false;    // If the projectile should disappear after the maximum range has been traveled.
-        [SerializeField] private float m_MaxRange = 10f;        // How far the projectile should travel before despawning. Default 10 is much longer than the screen.
-        private Vector2 m_ShootPos = Vector2.zero;  // Where the projectile was shot from last. Used to calculate distance.
-
-        [Header("Max Time")]
-        [Space]
-        [SerializeField] private bool m_HasMaxTime = false; // If the projectile should despawn after a certain amount of time.
-        [SerializeField] private float m_MaxTime = 5f;  // How long until the projectile blows up on its own.
-        private float m_TimeCounter = 0f;   // Counts how long the projectile has been active.
-
-        [Header("Piercing")]
-        [Space]
-        [SerializeField] private bool m_HasPiercing = false;   // If the projectile pierces through enemies before getting destroyed.
-        [SerializeField] private int m_PiercingNumber = 0; // How many targets the projectile pierces through before getting destroyed.
-
-        [Header("Damage")]
-        [Space]
-        [SerializeField] private float _damage = 1f;
-        public float m_Damage { get => _damage; private set => _damage = value; }       // How much damage a direct hit deals.
-                
-        [Header("Splash Damage")]
-        [Space]
-        [SerializeField] private bool m_HasSplashDamage = false;    // If the projectile should cast splash damage around it.
-        [SerializeField] private float _splashDamage = 0f;          // How much damage the explosion radius has.
-        public float m_SplashDamage { get => _splashDamage; private set { _splashDamage = value; } }
-        [SerializeField] private LayerMask m_SplashLayer = 0;       // The layer that the explosion hits on.
-        [SerializeField] private float m_SplashDamageRadius = 0f;   // How big of a damage radius the projectile has.
-
+        private float _directDamage = 0;                                // How much damage the projectile will do on a direct hit.
+        private float _splashDamage = 0;                                // How much damage the projectile will do as splash damage.
         /*
          * TODO: Make a seeking feature.
          * 
@@ -46,11 +21,7 @@ namespace FroggyDefense.Weapons
          * - In Update, adjust velocity to turn towards the selected target, a larger SeekingTurnAngle will allow for greater maneuverability (Spelling lol).
          * - Seeking targets should have a Max Time always set.
          */
-        [Header("Seeking")]
-        [Space]
-        [SerializeField] private bool m_HasSeeking = false;         // If the projectile should seek after a target.
-        [SerializeField] private float m_SeekingTurnAngle = .05f;   // How fast the projectile can adjust to chase its target.
-
+        
         private Rigidbody2D rb = null;  // The projectile Rigidbody2D.
 
         private IDestructable m_PrimaryTarget = null;
@@ -69,7 +40,7 @@ namespace FroggyDefense.Weapons
 
             if (m_StorageLoc == null)
             {
-                m_StorageLoc = transform.position;
+                m_StorageLoc = Vector2.zero;
             }
         }
 
@@ -80,17 +51,17 @@ namespace FroggyDefense.Weapons
         private void FixedUpdate()
         {
             // Only disable after max range if set to.
-            if (m_HasMaxRange)
+            if (_weapon.m_HasMaxRange)
             {
                 // Return the projectile after it's traveled out of range.
-                if (Vector2.Distance(m_ShootPos, transform.position) >= m_MaxRange)
+                if (Vector2.Distance(m_ShootPos, transform.position) >= _weapon.m_MaxRange)
                 {
                     // Include any explosion setting.
                     Explode();
                 }
             }
 
-            if (m_HasMaxTime)
+            if (_weapon.m_HasMaxTime)
             {
                 // Return the projectile after it's traveled out of range.
                 if (m_TimeCounter <= 0)
@@ -103,7 +74,7 @@ namespace FroggyDefense.Weapons
                 }
             }
 
-            if (m_HasSeeking)
+            if (_weapon.m_HasSeeking)
             {
                 // TODO: Implement some sort of way to track after the target using the m_SeekingTurnAngle.
             }
@@ -117,17 +88,19 @@ namespace FroggyDefense.Weapons
         /// Shoots the projectile at it's travel speed in the given direction.
         /// </summary>
         /// <param name="dir"></param>
-        public void Shoot(Vector2 dir, float directDamage, float splashDamage)
+        public void Shoot(Weapon weapon, Vector2 dir, float directDamage, float splashDamage)
         {
-            m_Damage = directDamage;
-            m_SplashDamage = splashDamage;
+            _weapon = weapon;
+            _directDamage = directDamage;
+            _splashDamage = splashDamage;
+            _pierces = _weapon.m_PiercingNumber;
 
             m_PrimaryTarget = null;
             m_ShootPos = transform.position;
-            m_TimeCounter = m_MaxTime;
+            m_TimeCounter = _weapon.m_TimeLimit;
 
             gameObject.SetActive(true);
-            rb.velocity = m_MoveSpeed * dir.normalized;
+            rb.velocity = _weapon.m_ProjectileSpeed * dir.normalized;
         }
 
         /// <summary>
@@ -146,9 +119,9 @@ namespace FroggyDefense.Weapons
         /// </summary>
         public void Explode()
         {
-            if (m_HasSplashDamage)
+            if (_weapon.m_HasSplashDamage)
             {
-                Collider2D[] targetsHit = Physics2D.OverlapCircleAll(transform.position, m_SplashDamageRadius, (m_SplashLayer == 0 ? gameObject.layer : m_SplashLayer));
+                Collider2D[] targetsHit = Physics2D.OverlapCircleAll(transform.position, _weapon.m_SplashRadius, (_weapon.m_SplashLayer == 0 ? gameObject.layer : _weapon.m_SplashLayer));
                 foreach (Collider2D collider in targetsHit)
                 {
                     IDestructable destructable = null;
@@ -156,7 +129,7 @@ namespace FroggyDefense.Weapons
                     {
                         if (destructable != m_PrimaryTarget)
                         {
-                            destructable.TakeDamage(m_SplashDamage);
+                            destructable.TakeDamage(_splashDamage);
                         }
                     }
                 }
@@ -169,11 +142,11 @@ namespace FroggyDefense.Weapons
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(m_Damage);
+                destructable.TakeDamage(_directDamage);
                 m_PrimaryTarget = destructable;
 
                 // Explode if it doesn't have piercing or if it's done with piercing.
-                if (!m_HasPiercing || (m_HasPiercing && --m_PiercingNumber <= 0))
+                if (!_weapon.m_HasPiercing || (_weapon.m_HasPiercing && --_pierces < 0))
                 {
                     Explode();
                 }
@@ -185,10 +158,10 @@ namespace FroggyDefense.Weapons
         /// </summary>
         private void OnDrawGizmosSelected()
         {
-            if (m_HasSplashDamage)
+            if (_weapon.m_HasSplashDamage)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, m_SplashDamageRadius);
+                Gizmos.DrawWireSphere(transform.position, _weapon.m_SplashRadius);
             }
         }
     }

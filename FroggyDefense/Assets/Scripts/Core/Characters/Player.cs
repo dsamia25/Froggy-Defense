@@ -174,11 +174,11 @@ namespace FroggyDefense.Core
                 interactable.Interact(gameObject);
             }
 
-            Projectile projectile = null;
-            if ((projectile = collision.gameObject.GetComponent<Projectile>()) != null)
-            {
-                TakeDamage(projectile.m_Damage);
-            }
+            //Projectile projectile = null;
+            //if ((projectile = collision.gameObject.GetComponent<Projectile>()) != null)
+            //{
+            //    TakeDamage(projectile.m_Damage);
+            //}
 
             if (collision.tag == "DeathBox")
             {

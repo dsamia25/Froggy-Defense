@@ -13,11 +13,45 @@ MonoBehaviour:
   m_Name: Blaster
   m_EditorClassIdentifier: 
   m_WeaponDamage: 2
-  m_UserDirectDamageScaleFactor: 1
-  m_UserSplashDamageScaleFactor: 1
-  m_ShootCooldown: 0.18
+  m_DirectDamageScalingStat: 1
+  m_DirectDamageScalingFactor: 1
+  m_HasSplashDamage: 1
+  m_SplashDamage: 1
+  m_SplashDamageScalingStat: 1
+  m_SplashDamageScalingFactor: 1
+  m_SplashLayer:
+    serializedVersion: 2
+    m_Bits: 1536
+  m_SplashRadius: 0.5
+  m_HasMaxSplashTargets: 0
+  m_MaxSplashTargets: 100
+  m_AttackCooldown: 0.1
   m_ProjectilePrefab: {fileID: 2582796137511937079, guid: 7effd2e9ed5974d91927d81a3e0e10b8, type: 3}
   m_ProjectilePoolSize: 8
+  m_ProjectileSpeed: 6.5
+  m_HasPiercing: 1
+  m_PiercingNumber: 1
+  m_HasMaxRange: 1
+  m_MaxRange: 20
+  m_HasRangeEffectModifier: 0
+  m_TravelDistanceEffectModifierRange: {x: 1, y: 1}
+  m_HasMaxTime: 1
+  m_TimeLimit: 20
+  m_HasTimeEffectModifier: 0
+  m_TimeEffectModifierRange: {x: 1, y: 1}
+  m_HasSeeking: 0
+  m_SeekingTurnAngle: 0.05
+  m_SeekingTargetPriority: 0
+  m_HasBounce: 0
+  m_Bounces: 3
+  m_BounceLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_BounceTargetPriority: 0
+  m_BounceRadius: 0
+  m_BounceEffectModifier: -0.1
+  m_OnlyEffectFirstBounce: 0
+  m_CanBounceToRepeatTargets: 0
   m_HasSprayPattern: 0
   m_SprayPattern: []
   m_SprayPatternCooldown: 1

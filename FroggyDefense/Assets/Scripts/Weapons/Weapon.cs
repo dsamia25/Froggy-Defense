@@ -5,14 +5,12 @@ namespace FroggyDefense.Weapons
 {
     public class Weapon : MonoBehaviour
     {
-        [SerializeField] private Transform m_FireLoc = null;                // Location where the projectiles should be shot from.
-        [SerializeField] private Vector2 m_FireDir = Vector2.zero;          // The direction the projectiles should be shot in.
+        [SerializeField] private Transform m_FireLoc = null;                        // Location where the projectiles should be shot from.
+        [SerializeField] private Vector2 m_FireDir = Vector2.zero;                  // The direction the projectiles should be shot in.
         public IUseWeapon User;
 
-        [SerializeField] private WeaponObject m_StartingWeapon = null;      // If the component should copy these default values.
-        [SerializeField] private GameObject m_ProjectilePrefab = null;      // The basic projectile to use.
-        [SerializeField] private int m_ProjectilePoolSize = 8;              // The maximum size of the pool.
-
+        [SerializeField] private WeaponObject m_StartingWeapon = null;              // If the component should copy these default values.
+        
         [SerializeField] private ProjectilePool m_ProjectilePool = null;
         private Transform _projectilePoolParent = null;
 
@@ -20,38 +18,70 @@ namespace FroggyDefense.Weapons
         [Header("Damage")]
         [Space]
         [SerializeField] private float _weaponDamage = 1f;
-        [SerializeField] private float _userDirectDamageScaleFactor = 1f;   // What percent of the user's direct damage stat is added to the damage calculation.
-        [SerializeField] private float _userSplashDamageScaleFactor = 1f;   // What percent of the user's splash damage stat is added to the damage calculation.
-        public float WeaponDamage => _weaponDamage;            // How much damage the weapon does.
+        [SerializeField] private bool _hasSplashDamage = false;
+        [SerializeField] private float _splashDamage = 0f;
+        [SerializeField] private LayerMask _splashLayer = 0;
+        [SerializeField] private float _splashRadius = 0;
+        [SerializeField] private float _userDirectDamageScaleFactor = 1f;           // What percent of the user's direct damage stat is added to the damage calculation.
+        [SerializeField] private float _userSplashDamageScaleFactor = 1f;           // What percent of the user's splash damage stat is added to the damage calculation.
+        public float WeaponDamage => _weaponDamage;                                 // How much damage the weapon does.
         public float UserDirectDamageScaleFactor => _userDirectDamageScaleFactor;
         public float UserSplashDamageScaleFactor => _userSplashDamageScaleFactor;
+        public bool m_HasSplashDamage => _hasSplashDamage;
+        public float m_SplashDamage => _splashDamage;
+        public LayerMask m_SplashLayer => _splashLayer;
+        public float m_SplashRadius => _splashRadius;
 
         [Space]
         [Header("Cooldown")]
         [Space]
-        [SerializeField] private float _shootCooldown = .1f;
-        public float ShootCooldown { get => _shootCooldown; }       // How long it takes to shoot again.
+        [SerializeField] private float _attackCooldown = .1f;
+        public float AttackCooldown { get => _attackCooldown; }                       // How long it takes to shoot again.
+
+        [Space]
+        [Header("Projectile")]
+        [Space]
+        [SerializeField] private GameObject _projectilePrefab = null;               // The basic projectile to use.
+        [SerializeField] private int _projectilePoolSize = 8;                       // The maximum size of the pool.
+        [SerializeField] private float _projectileSpeed = 1;                        // How fase the projectile moves.
+        [SerializeField] private bool _hasPiercing = false;                         // If the weapon projectile pierces.
+        [SerializeField] private int _piercingNumber = 0;                           // How many times the weapon projectile pierces.
+        [SerializeField] private bool _hasMaxRange = true;                          // If the projectile deactivates after a set time.
+        [SerializeField] private float _maxRange = 20f;                             // The maximum projectile range.
+        [SerializeField] private bool _hasMaxTime = true;                           // If the projectile deactivates after a set time.
+        [SerializeField] private float _timeLimit = 20f;                            // The maximum projectile active time.
+        [SerializeField] private bool _hasSeeking = false;                          // If the projectile seeks out enemies.
+        [SerializeField] private float _seekingTurnAngle = .05f;                    // How hard the projectile can course correct towards its target.
+        public float m_ProjectileSpeed => _projectileSpeed;
+        public bool m_HasPiercing => _hasPiercing;                  
+        public int m_PiercingNumber => _piercingNumber;
+        public bool m_HasMaxRange => _hasMaxRange;
+        public float m_MaxRange => _maxRange;
+        public bool m_HasMaxTime => _hasMaxTime;
+        public float m_TimeLimit => _timeLimit;           
+        public bool m_HasSeeking => _hasSeeking;                   
+        public float m_SeekingTurnAngle => _seekingTurnAngle;            
 
         [Space]
         [Header("Spray Pattern")]
         [Space]
-        [SerializeField] private bool m_HasSprayPattern = false;            // If the weapon has a spray pattern to modify its shooting.
-        [SerializeField] private float[] m_SprayPattern = null;             // Each float is an angle that should be added to each shot in a series, modifying its firing angle to make a pattern.
-        [SerializeField] private int m_SprayPatternIndex = 0;               // The current position in the spray pattern array.
-        [SerializeField] private float m_SprayPatternCooldown = 1f;         // How long until the spray pattern index is reset.
-        private float m_CurrentSprayPatternCooldown = 0f;                   // The current cooldown before the spray pattern resets.
+        [SerializeField] private bool m_HasSprayPattern = false;                    // If the weapon has a spray pattern to modify its shooting.
+        [SerializeField] private float[] m_SprayPattern = null;                     // Each float is an angle that should be added to each shot in a series, modifying its firing angle to make a pattern.
+        [SerializeField] private int m_SprayPatternIndex = 0;                       // The current position in the spray pattern array.
+        [SerializeField] private float m_SprayPatternCooldown = 1f;                 // How long until the spray pattern index is reset.
+        private float m_CurrentSprayPatternCooldown = 0f;                           // The current cooldown before the spray pattern resets.
 
         [Space]
         [Header("Burst Fire")]
         [Space]
-        [SerializeField] private bool m_BurstFireEnabled = false;           // If the weapon should use the input burst fire specs by default.
-        [SerializeField] private int m_BurstFireAmount = 1;                 // How many shots will be fired at once.
-        [SerializeField] private float m_BurstDelay = .25f;                 // How many second between each shot in the burst.
+        [SerializeField] private bool m_BurstFireEnabled = false;                   // If the weapon should use the input burst fire specs by default.
+        [SerializeField] private int m_BurstFireAmount = 1;                         // How many shots will be fired at once.
+        [SerializeField] private float m_BurstDelay = .25f;                         // How many second between each shot in the burst.
 
         private float directDamageSnapshot = 0f;
         private float splashDamageSnapshot = 0f;
-        private bool isShooting = false;                                    // Key to if a new shot can be fired while another shot is being fired.
-        private float currCooldown = 0f;                                    // The current cooldown timer.
+        private bool isShooting = false;                                            // Key to if a new shot can be fired while another shot is being fired.
+        private float currCooldown = 0f;                                            // The current cooldown timer.
 
         // **************************************************
         // Initialization
@@ -79,7 +109,7 @@ namespace FroggyDefense.Weapons
             }
 
             _projectilePoolParent = new GameObject(gameObject.name + "ProjectilePool").transform;
-            m_ProjectilePool = new ProjectilePool(m_ProjectilePrefab, _projectilePoolParent, m_ProjectilePoolSize);
+            m_ProjectilePool = new ProjectilePool(_projectilePrefab, _projectilePoolParent, _projectilePoolSize);
         }
 
         // **************************************************
@@ -110,26 +140,39 @@ namespace FroggyDefense.Weapons
         /// Equips the new weapon specs.
         /// </summary>
         /// <param name="weapon"></param>
-        public void Equip(WeaponObject weapon)
+        public void Equip(WeaponObject template)
         {
-            m_ProjectilePrefab = weapon.m_ProjectilePrefab;
-            m_ProjectilePoolSize = weapon.m_ProjectilePoolSize;
+            _projectilePrefab = template.m_ProjectilePrefab;
+            _projectilePoolSize = template.m_ProjectilePoolSize;
             m_ProjectilePool.Clear();
-            m_ProjectilePool = new ProjectilePool(m_ProjectilePrefab, _projectilePoolParent, m_ProjectilePoolSize);
+            m_ProjectilePool = new ProjectilePool(_projectilePrefab, _projectilePoolParent, _projectilePoolSize);
+            _projectileSpeed = template.m_ProjectileSpeed;
+            _hasPiercing = template.m_HasPiercing;
+            _piercingNumber = template.m_PiercingNumber;
+            _hasMaxRange = template.m_HasMaxRange;
+            _maxRange = template.m_MaxRange;
+            _hasMaxTime = template.m_HasMaxTime;
+            _timeLimit = template.m_TimeLimit;
+            _hasSeeking = template.m_HasSeeking;
+            _seekingTurnAngle = template.m_SeekingTurnAngle;
 
-            _weaponDamage = weapon.m_WeaponDamage;
-            _userDirectDamageScaleFactor = weapon.m_UserDirectDamageScaleFactor;
-            _userSplashDamageScaleFactor = weapon.m_UserSplashDamageScaleFactor;
+            _weaponDamage = template.m_WeaponDamage;
+            _hasSplashDamage = template.m_HasSplashDamage;
+            _splashDamage = template.m_SplashDamage;
+            _splashLayer = template.m_SplashLayer;
+            _splashRadius = template.m_SplashRadius;
+            _userDirectDamageScaleFactor = template.m_DirectDamageScalingFactor;
+            _userSplashDamageScaleFactor = template.m_SplashDamageScalingFactor;
 
-            m_HasSprayPattern = weapon.m_HasSprayPattern;
-            m_SprayPattern = weapon.m_SprayPattern;
-            m_SprayPatternCooldown = weapon.m_SprayPatternCooldown;
+            m_HasSprayPattern = template.m_HasSprayPattern;
+            m_SprayPattern = template.m_SprayPattern;
+            m_SprayPatternCooldown = template.m_SprayPatternCooldown;
 
-            m_BurstFireEnabled = weapon.m_BurstFireEnabled;
-            m_BurstFireAmount = weapon.m_BurstFireAmount;
-            m_BurstDelay = weapon.m_BurstDelay;
+            m_BurstFireEnabled = template.m_BurstFireEnabled;
+            m_BurstFireAmount = template.m_BurstFireAmount;
+            m_BurstDelay = template.m_BurstDelay;
 
-            _shootCooldown = weapon.m_ShootCooldown;
+            _attackCooldown = template.m_AttackCooldown;
         }
 
         /// <summary>
@@ -180,11 +223,11 @@ namespace FroggyDefense.Weapons
 
             if (m_HasSprayPattern)
             {
-                projectile.Shoot(RotateVector(FireDir, m_SprayPattern[m_SprayPatternIndex++ % m_SprayPattern.Length]), directDamageSnapshot, splashDamageSnapshot);
+                projectile.Shoot(this, RotateVector(FireDir, m_SprayPattern[m_SprayPatternIndex++ % m_SprayPattern.Length]), directDamageSnapshot, splashDamageSnapshot);
             }
             else
             {
-                projectile.Shoot(FireDir, directDamageSnapshot, splashDamageSnapshot);
+                projectile.Shoot(this, FireDir, directDamageSnapshot, splashDamageSnapshot);
             }
 
             m_CurrentSprayPatternCooldown = m_SprayPatternCooldown;
@@ -201,7 +244,7 @@ namespace FroggyDefense.Weapons
                 Fire(FireDir);
                 yield return new WaitForSeconds(burstDelay);
             }
-            currCooldown = _shootCooldown;                             // Resets cooldown.
+            currCooldown = _attackCooldown;                             // Resets cooldown.
 
             // TODO: Copy the recharge bar.
             //// Toggle the recharge bar.

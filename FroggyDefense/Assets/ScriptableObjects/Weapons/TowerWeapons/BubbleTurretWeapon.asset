@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
-  m_Name: Burst
+  m_Name: BubbleTurretWeapon
   m_EditorClassIdentifier: 
-  m_WeaponDamage: 2
+  m_WeaponDamage: 1
   m_DirectDamageScalingStat: 1
   m_DirectDamageScalingFactor: 1
   m_HasSplashDamage: 1
-  m_SplashDamage: 1
+  m_SplashDamage: 2
   m_SplashDamageScalingStat: 1
   m_SplashDamageScalingFactor: 1
   m_SplashLayer:
     serializedVersion: 2
     m_Bits: 1536
-  m_SplashRadius: 0.5
+  m_SplashRadius: 3
   m_HasMaxSplashTargets: 0
   m_MaxSplashTargets: 100
   m_AttackCooldown: 0.25
-  m_ProjectilePrefab: {fileID: 2582796137511937079, guid: 7effd2e9ed5974d91927d81a3e0e10b8, type: 3}
+  m_ProjectilePrefab: {fileID: 8388493344685183864, guid: c86ca8b69e8724e0895d888ea7cc1076, type: 3}
   m_ProjectilePoolSize: 8
-  m_ProjectileSpeed: 1
+  m_ProjectileSpeed: 5
   m_HasPiercing: 0
   m_PiercingNumber: 0
   m_HasMaxRange: 1
-  m_MaxRange: 20
+  m_MaxRange: 8
   m_HasRangeEffectModifier: 0
   m_TravelDistanceEffectModifierRange: {x: 1, y: 1}
   m_HasMaxTime: 1
@@ -55,6 +55,6 @@ MonoBehaviour:
   m_HasSprayPattern: 0
   m_SprayPattern: []
   m_SprayPatternCooldown: 1
-  m_BurstFireEnabled: 1
-  m_BurstFireAmount: 3
-  m_BurstDelay: 0.15
+  m_BurstFireEnabled: 0
+  m_BurstFireAmount: 1
+  m_BurstDelay: 0.25

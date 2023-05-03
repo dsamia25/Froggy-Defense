@@ -145,11 +145,11 @@ MonoBehaviour:
   m_HasPiercing: 1
   m_PiercingNumber: 1
   _damage: 2
-  m_HasSplashDamage: 0
+  m_HasSplashDamage: 1
   _splashDamage: 0
   m_SplashLayer:
     serializedVersion: 2
-    m_Bits: 0
-  m_SplashDamageRadius: 0
+    m_Bits: 1536
+  m_SplashDamageRadius: 0.5
   m_HasSeeking: 0
   m_SeekingTurnAngle: 0.05

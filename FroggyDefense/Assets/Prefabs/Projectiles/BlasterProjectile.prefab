@@ -138,18 +138,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StorageLoc: {x: 0, y: 0}
   m_MoveSpeed: 5
-  m_HasMaxRange: 0
-  m_MaxRange: 10
+  m_HasMaxRange: 1
+  m_MaxRange: 6
   m_HasMaxTime: 0
   m_MaxTime: 5
-  m_HasPiercing: 0
-  m_PiercingNumber: 0
+  m_HasPiercing: 1
+  m_PiercingNumber: 1
   _damage: 2
   m_HasSplashDamage: 1
   _splashDamage: 1
   m_SplashLayer:
     serializedVersion: 2
     m_Bits: 1536
-  m_SplashDamageRadius: 1
+  m_SplashDamageRadius: 0.5
   m_HasSeeking: 0
   m_SeekingTurnAngle: 0.05

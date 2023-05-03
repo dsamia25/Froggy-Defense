@@ -19,9 +19,12 @@ namespace FroggyDefense.Core.Buildings.UI
             _turret = turret;
             _statType = statType;
 
-            //SetUpgradeButton(statType);
-            //_button.onClick.AddListener(_turret.UpgradeTurret(_statType));
-            _button.onClick.AddListener(UpdateUI);
+            _button.onClick.AddListener(
+                () => {
+                    _turret.UpgradeTurret(statType);
+                    UpdateUI();
+                }
+            );
 
             UpdateUI();
         }
@@ -61,29 +64,6 @@ namespace FroggyDefense.Core.Buildings.UI
         private string StatStringFormat(float firstNum, float secondNum)
         {
             return firstNum.ToString() + (secondNum > 0 ? " (+" + secondNum.ToString() + ")" : "");
-        }
-
-        private void SetUpgradeButton(TurretStat statType)
-        {
-            switch (statType)
-            {
-                case TurretStat.DirectDamage:
-                    _button.onClick.AddListener(_turret.UpgradeDirectDamage);
-                    break;
-                case TurretStat.SplashDamage:
-                    _button.onClick.AddListener(_turret.UpgradeSplashDamage);
-                    break;
-                case TurretStat.AttackSpeed:
-                    _button.onClick.AddListener(_turret.UpgradeAttackSpeed);
-                    break;
-                case TurretStat.Range:
-                    _button.onClick.AddListener(_turret.UpgradeRange);
-                    break;
-                default:
-                    Debug.LogWarning("Unknown TurretUpgradeOption (" + statType.ToString() + ").");
-                    break;
-            }
-            _button.onClick.AddListener(UpdateUI);
         }
     }
 }
