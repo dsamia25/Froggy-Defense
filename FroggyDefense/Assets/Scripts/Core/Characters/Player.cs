@@ -5,12 +5,14 @@ using FroggyDefense.Movement;
 using FroggyDefense.Weapons;
 using FroggyDefense.UI;
 using FroggyDefense.Core.Buildings;
+using FroggyDefense.Core.Spells;
 
 namespace FroggyDefense.Core
 {
     public class Player : Character, IDestructable, IUseWeapon
     {
         [SerializeField] protected HealthBar m_HealthBar = null;
+        [SerializeField] public SpellCaster m_SpellCaster = null;
 
         [Space]
         [Header("Stats")]
@@ -91,6 +93,11 @@ namespace FroggyDefense.Core
             if (m_Weapon == null)
             {
                 m_Weapon = GetComponent<Weapon>();
+            }
+
+            if (m_SpellCaster == null)
+            {
+                m_SpellCaster = GetComponent<SpellCaster>();
             }
 
             m_HealthBar.TraceDelay = m_DamagedAnimationTime;

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5333628212901839589}
+  - component: {fileID: 3932942925510070526}
   - component: {fileID: 1285776780345495850}
   m_Layer: 5
   m_Name: HealthBar
@@ -42,6 +43,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 159.2591, y: 24.6345}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3932942925510070526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413377312421376001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1285776780345495850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,11 +106,11 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 2138491084462378652}
   deltaTrace: {fileID: 2599256075942856792}
-  TraceHealth: 1
-  traceSpeed: 0
-  traceDelay: 1
-  traceDecreaseColor: {r: 0, g: 0, b: 0, a: 0}
-  traceIncreaseColor: {r: 0, g: 0, b: 0, a: 0}
+  _traceHealth: 1
+  _traceTime: 1
+  _traceDelay: 1
+  decreasingColor: {r: 0, g: 0, b: 0, a: 0}
+  increasingColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1635865731108969799
 GameObject:
   m_ObjectHideFlags: 0
