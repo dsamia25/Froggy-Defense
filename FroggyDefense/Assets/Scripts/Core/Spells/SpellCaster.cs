@@ -5,51 +5,22 @@ namespace FroggyDefense.Core.Spells
 {
     public class SpellCaster : MonoBehaviour
     {
-        public Spell SelectedSpell;
+        public delegate void SpellCasterCallback();
         public SpellCasterCallback SpellUsedCallback;
 
-        public PolygonDrawer RangeShape;
-        public PolygonDrawer EffectShape;
-
-        public delegate void SpellCasterCallback();
-
-        private void Update()
+        public static void Blizzard(SpellArgs args)
         {
-            if (SelectedSpell != null)
-            {
-                UpdateTargetInputUI();
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    SelectedSpell.Cast(Input.mousePosition);
-                    SpellUsedCallback?.Invoke();
-                }
-            }    
+            Debug.Log("Spellcaster using Blizzard at (" + args.Position + ").");
         }
 
-        /// <summary>
-        /// Starts getting input for the spell
-        /// </summary>
-        /// <param name="spell"></param>
-        public void Cast(Spell spell, SpellCasterCallback callback)
+        public void Fireball(SpellArgs args)
         {
-            SelectedSpell = spell;
-            SpellUsedCallback = callback;
-            CreateTargetInputUI();
+            Debug.Log("Spellcaster using Fireball at (" + args.Position + ").");
         }
 
-        public void CreateTargetInputUI()
+        public void ArcaneMissiles(SpellArgs args)
         {
-            RangeShape.Width = SelectedSpell.TargetRange;
-            EffectShape.Width = SelectedSpell.EffectRadius;
-        }
-
-        public void UpdateTargetInputUI()
-        {
-            // TODO: Make the effect follow the mouse but get clamped into the SpellRange.
-            Vector3 pos = Input.mousePosition;
-            pos.z = 0;
-            EffectShape.transform.position = pos;
+            Debug.Log("Spellcaster using ArcaneMissiles (" + args.Number + ").");
         }
     }
 }

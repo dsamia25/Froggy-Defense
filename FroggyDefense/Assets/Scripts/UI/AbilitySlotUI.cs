@@ -11,10 +11,11 @@ namespace FroggyDefense.Core.Spells.UI
 
         public void UseSpell()
         {
-            GameManager.instance.m_Player.m_SpellCaster.Cast(m_Spell, UpdateUI);
+            //GameManager.instance.m_Player.m_SpellCaster.Cast(m_Spell);
             UpdateUI();
         }
 
+        // TODO: May need to add this as a callback method for m_SpellCaster.Cast.
         public void UpdateUI()
         {
             Debug.Log("Using AbilitySlot (" + (m_Spell != null ? m_Spell.Name : "EMPTY") + ").");

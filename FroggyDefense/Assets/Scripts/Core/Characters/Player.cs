@@ -41,6 +41,9 @@ namespace FroggyDefense.Core
             }
         }
         public bool IsDamaged => _health < _maxHealth;
+        [SerializeField] protected float _maxMana = 100;
+        [SerializeField] protected float _mana = 100;
+        public float m_Mana { get => _mana; }
         
         [SerializeField] protected float _moveSpeed = 1f;
         [SerializeField] protected float MoveSpeed => _moveSpeed;   // The player's total attack speed with all buffs applied.
@@ -103,7 +106,7 @@ namespace FroggyDefense.Core
                 m_SpellCaster = GetComponent<SpellCaster>();
             }
 
-            UpdateSpellBar();
+            RefreshSpellBar();
 
             m_HealthBar.TraceDelay = m_DamagedAnimationTime;
             Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
@@ -120,7 +123,7 @@ namespace FroggyDefense.Core
         /// <summary>
         /// Refreshes the spells on the ability bar using the templates.
         /// </summary>
-        public void UpdateSpellBar()
+        public void RefreshSpellBar()
         {
             for (int i = 0; i < Abilities.Length; i++)
             {
@@ -133,12 +136,23 @@ namespace FroggyDefense.Core
             }
         }
 
+        /// <summary>
+        /// Attacks using the player's weapon.
+        /// </summary>
         public void Attack()
         {
             if (GameManager.ShootingEnabled)
             {
                 m_Weapon.Shoot((Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
             }
+        }
+
+        /// <summary>
+        /// Tries to use the input spell.
+        /// </summary>
+        public void CastSpell(int index)
+        {
+
         }
 
         /// <summary>
