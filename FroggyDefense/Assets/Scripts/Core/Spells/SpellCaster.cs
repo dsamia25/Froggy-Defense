@@ -28,7 +28,7 @@ namespace FroggyDefense.Core.Spells
         }
 
         /// <summary>
-        /// Starts getting inout for the spell
+        /// Starts getting input for the spell
         /// </summary>
         /// <param name="spell"></param>
         public void Cast(Spell spell, SpellCasterCallback callback)
@@ -40,7 +40,7 @@ namespace FroggyDefense.Core.Spells
 
         public void CreateTargetInputUI()
         {
-            RangeShape.Width = SelectedSpell.SpellRange;
+            RangeShape.Width = SelectedSpell.TargetRange;
             EffectShape.Width = SelectedSpell.EffectRadius;
         }
 

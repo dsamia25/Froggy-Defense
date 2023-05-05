@@ -14,6 +14,9 @@ namespace FroggyDefense.Core
         [SerializeField] protected HealthBar m_HealthBar = null;
         [SerializeField] public SpellCaster m_SpellCaster = null;
 
+        public SpellObject[] AbilityTemplates = new SpellObject[4];
+        public Spell[] Abilities = new Spell[4];
+
         [Space]
         [Header("Stats")]
         [Space]
@@ -100,29 +103,10 @@ namespace FroggyDefense.Core
                 m_SpellCaster = GetComponent<SpellCaster>();
             }
 
+            UpdateSpellBar();
+
             m_HealthBar.TraceDelay = m_DamagedAnimationTime;
             Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
-        }
-
-        private void Update()
-        {
-            if (GameManager.GameStarted)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    //Debug.Log("Shooting");
-                    if (GameManager.GameStarted && GameManager.ShootingEnabled)
-                    {
-                        // TODO: Could move Shooting to an event?
-                        // TODO: Change the way the angle is calculated to FroggyDefense.Support.Angles.UnitVectorBetweenTwoPoints()
-                        m_Weapon.Shoot((Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
-                    }
-                }
-
-                // Update movement direction.
-                _moveDir.x = Input.GetAxisRaw("Horizontal");
-                _moveDir.y = Input.GetAxisRaw("Vertical");
-            }
         }
 
         private void FixedUpdate()
@@ -130,6 +114,57 @@ namespace FroggyDefense.Core
             if (GameManager.GameStarted)
             {
                 controller.Move(_moveDir);
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the spells on the ability bar using the templates.
+        /// </summary>
+        public void UpdateSpellBar()
+        {
+            for (int i = 0; i < Abilities.Length; i++)
+            {
+                if (AbilityTemplates[i] == null)
+                {
+                    Abilities[i] = null;
+                    continue;
+                } 
+                Abilities[i] = new Spell(AbilityTemplates[i]);
+            }
+        }
+
+        public void Attack()
+        {
+            if (GameManager.ShootingEnabled)
+            {
+                m_Weapon.Shoot((Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
+            }
+        }
+
+        /// <summary>
+        /// Sets the player's movement vector to the input values.
+        /// </summary>
+        /// <param name="horizontal"></param>
+        /// <param name="vertical"></param>
+        public void Move(float horizontal, float vertical)
+        {
+            if (GameManager.GameStarted)
+            {
+                _moveDir.x = Input.GetAxisRaw("Horizontal");
+                _moveDir.y = Input.GetAxisRaw("Vertical");
+            }
+        }
+
+        /// <summary>
+        /// Sets the player's movement vector to the input vector.
+        /// </summary>
+        /// <param name="moveDir"></param>
+        public void Move(Vector2 moveDir)
+        {
+            if (GameManager.GameStarted)
+            {
+                _moveDir.x = moveDir.x;
+                _moveDir.y = moveDir.y;
             }
         }
 
