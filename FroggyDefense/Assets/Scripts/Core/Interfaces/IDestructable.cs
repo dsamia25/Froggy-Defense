@@ -1,6 +1,5 @@
 namespace FroggyDefense.Core
 {
-    // TODO: Change the TakeDamage method to have a DamageAction input instead of just a float.
     public interface IDestructable
     {
         /// <summary>
@@ -8,6 +7,12 @@ namespace FroggyDefense.Core
         /// </summary>
         /// <param name="damage"></param>
         public void TakeDamage(float damage);
+
+        /// <summary>
+        /// Applies an overtime effect to the thing.
+        /// </summary>
+        /// <param name="effect"></param>
+        public void ApplyDebuff(Debuff effect);
 
         /// <summary>
         /// Resolves any death effects for the object.
@@ -21,13 +26,13 @@ namespace FroggyDefense.Core
     /// </summary>
     public struct DamageAction
     {
-        public float damage;
-        public DamageType type;
+        public float Damage;
+        public DamageType Type;
 
-        public DamageAction(float _damage, DamageType _type)
+        public DamageAction(float damage, DamageType type)
         {
-            this.damage = _damage;
-            this.type = _type;
+            Damage = damage;
+            Type = type;
         }
     }
 
@@ -36,8 +41,11 @@ namespace FroggyDefense.Core
     /// </summary>
     public enum DamageType
     {
-        Direct,
-        Splash,
-        True
+        Physical,
+        Poison,
+        Bleed,
+        Fire,
+        Frost,
+        Spirit
     }
 }

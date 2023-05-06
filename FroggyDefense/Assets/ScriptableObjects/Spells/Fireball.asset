@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a378955337943efa60c28c27bbfaff, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  Blank: 1
   Name: Fireball
   Icon: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
+  SpellId: 0
+  Type: 0
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 1536
   EffectRadius: 0.5
   TargetRange: 5
+  Damage: 3
+  Cooldown: 1
+  ManaCost: 0

@@ -62349,7 +62349,6 @@ GameObject:
   - component: {fileID: 595515309}
   - component: {fileID: 595515311}
   - component: {fileID: 595515312}
-  - component: {fileID: 595515313}
   - component: {fileID: 595515314}
   m_Layer: 8
   m_Name: Player
@@ -62406,7 +62405,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_HealthBar: {fileID: 1042410334}
-  m_SpellCaster: {fileID: 0}
   AbilityTemplates:
   - {fileID: 11400000, guid: abbbd85f99c874a1da793ae1989129b1, type: 2}
   - {fileID: 11400000, guid: 5d19fbe41fe9149ef9b81e530c307dd2, type: 2}
@@ -62691,18 +62689,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currencyList: {fileID: 11400000, guid: 7407722022cf543a193bc86c3c55e9c9, type: 2}
---- !u!114 &595515313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595515299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee8e8b29456b4422a9493714ae73e922, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &595515314
 MonoBehaviour:
   m_ObjectHideFlags: 0

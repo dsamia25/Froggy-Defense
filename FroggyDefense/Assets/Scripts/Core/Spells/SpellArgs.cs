@@ -8,6 +8,10 @@ namespace FroggyDefense.Core.Spells
     public struct SpellArgs
     {
         public Vector3 Position;
-        public int Number;
+
+        public SpellArgs(Vector3 pos)
+        {
+            Position = pos;
+        }
     }
 }

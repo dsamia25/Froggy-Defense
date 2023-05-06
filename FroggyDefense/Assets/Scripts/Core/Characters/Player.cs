@@ -12,7 +12,6 @@ namespace FroggyDefense.Core
     public class Player : Character, IDestructable, IUseWeapon
     {
         [SerializeField] protected HealthBar m_HealthBar = null;
-        [SerializeField] public SpellCaster m_SpellCaster = null;
 
         public SpellObject[] AbilityTemplates = new SpellObject[4];
         public Spell[] Abilities = new Spell[4];
@@ -101,11 +100,6 @@ namespace FroggyDefense.Core
                 m_Weapon = GetComponent<Weapon>();
             }
 
-            if (m_SpellCaster == null)
-            {
-                m_SpellCaster = GetComponent<SpellCaster>();
-            }
-
             RefreshSpellBar();
 
             m_HealthBar.TraceDelay = m_DamagedAnimationTime;
@@ -120,6 +114,12 @@ namespace FroggyDefense.Core
             }
         }
 
+        private void Update()
+        {
+            CountdownSpellCooldowns();
+        }
+
+        #region Spells
         /// <summary>
         /// Refreshes the spells on the ability bar using the templates.
         /// </summary>
@@ -137,6 +137,22 @@ namespace FroggyDefense.Core
         }
 
         /// <summary>
+        /// Decrements the cooldowns on the player's spells.
+        /// </summary>
+        private void CountdownSpellCooldowns()
+        {
+            for (int i = 0; i < Abilities.Length; i++)
+            {
+                if (AbilityTemplates[i] == null)
+                {
+                    continue;
+                }
+                Abilities[i].CurrCooldown -= Time.deltaTime;
+            }
+        }
+        #endregion
+
+        /// <summary>
         /// Attacks using the player's weapon.
         /// </summary>
         public void Attack()
@@ -147,14 +163,7 @@ namespace FroggyDefense.Core
             }
         }
 
-        /// <summary>
-        /// Tries to use the input spell.
-        /// </summary>
-        public void CastSpell(int index)
-        {
-
-        }
-
+        #region Movement
         /// <summary>
         /// Sets the player's movement vector to the input values.
         /// </summary>
@@ -181,6 +190,7 @@ namespace FroggyDefense.Core
                 _moveDir.y = moveDir.y;
             }
         }
+        #endregion
 
         /// <summary>
         /// Base Character LevelUp function to add stats and reset XP and
@@ -192,6 +202,7 @@ namespace FroggyDefense.Core
             m_Health = _maxHealth;  // Heal to full on levelup.
         }
 
+        #region IDestructable
         /// <summary>
         /// The player takes damage. If they die then invoke their death event.
         /// </summary>
@@ -213,6 +224,11 @@ namespace FroggyDefense.Core
             }
         }
 
+        public void ApplyDebuff(Debuff effect)
+        {
+
+        }
+
         /// <summary>
         /// Resolves the character's death.
         /// </summary>
@@ -221,6 +237,7 @@ namespace FroggyDefense.Core
             m_Health = 0;
             PlayerDeathEvent?.Invoke();
         }
+        #endregion
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

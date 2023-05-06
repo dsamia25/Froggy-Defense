@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+// TODO: Using a really old system. Will need to look at this approach again.
 namespace FroggyDefense.Core
 {
     public class Buff

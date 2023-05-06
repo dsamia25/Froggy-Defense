@@ -39,7 +39,7 @@ namespace FroggyDefense.Core.Buildings
 
         private void Start()
         {
-            NexusHealthChangedEvent?.AddListener(BoardManager.instance.NexusHealthBarObject.GetComponent<UICounter>().UpdateText); 
+            NexusHealthChangedEvent?.AddListener(BoardManager.instance.NexusHealthBarObject.GetComponent<UICounter>().UpdateText);
         }
 
         public void OnMouseUpAsButton()
@@ -61,6 +61,7 @@ namespace FroggyDefense.Core.Buildings
             GameManager.instance.StartWave();
         }
 
+        #region IDestructable {
         public void TakeDamage(float damage)
         {
             m_Health -= damage;
@@ -70,10 +71,20 @@ namespace FroggyDefense.Core.Buildings
             }
         }
 
+        /// <summary>
+        /// Applies an overtime effect to the thing.
+        /// </summary>
+        /// <param name="effect"></param>
+        public void ApplyDebuff(Debuff effect)
+        {
+            // Nexus immune to DOT and HOT effects.
+        }
+
         public void Die()
         {
             m_Health = 0;
             NexusDestroyedEvent?.Invoke();
         }
+        #endregion
     }
 }

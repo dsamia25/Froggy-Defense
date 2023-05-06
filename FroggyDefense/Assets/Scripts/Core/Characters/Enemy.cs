@@ -135,6 +135,7 @@ namespace FroggyDefense.Core
             }
         }
 
+        #region IDestructable
         /// <summary>
         /// Damages the enemy and sends out an event.
         /// </summary>
@@ -148,6 +149,15 @@ namespace FroggyDefense.Core
         }
 
         /// <summary>
+        /// Applies an overtime effect to the thing.
+        /// </summary>
+        /// <param name="effect"></param>
+        public void ApplyDebuff(Debuff effect)
+        {
+
+        }
+
+        /// <summary>
         /// Starts the enemy's death sequence.
         /// </summary>
         public void Die()
@@ -158,6 +168,7 @@ namespace FroggyDefense.Core
             GetComponent<DropGems>().Drop();
             Destroy(gameObject);
         }
+        #endregion
 
         /// <summary>
         /// Instantly kills the enemy without dropping anything or rewarding points.
