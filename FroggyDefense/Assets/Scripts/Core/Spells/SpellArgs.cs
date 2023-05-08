@@ -7,10 +7,12 @@ namespace FroggyDefense.Core.Spells
     /// </summary>
     public struct SpellArgs
     {
+        public Character Caster;
         public Vector3 Position;
 
-        public SpellArgs(Vector3 pos)
+        public SpellArgs(Character caster, Vector3 pos)
         {
+            Caster = caster;
             Position = pos;
         }
     }

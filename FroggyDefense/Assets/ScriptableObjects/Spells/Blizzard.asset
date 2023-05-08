@@ -22,5 +22,13 @@ MonoBehaviour:
   EffectRadius: 2
   TargetRange: 3
   Damage: 1
+  SpellDamageType: 4
+  AppliesDot: 0
+  AppliedOverTimeEffect:
+    Name: DOT
+    Ticks: 0
+    DamagePerTick: 0
+    TickFrequency: 0
+    EffectDamageType: 0
   Cooldown: 2
   ManaCost: 0

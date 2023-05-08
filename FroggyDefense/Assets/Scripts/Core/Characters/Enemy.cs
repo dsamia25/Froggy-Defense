@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Movement;
 using FroggyDefense.Interactables;
 using FroggyDefense.UI;
 using FroggyDefense.Core.Buildings;
+using FroggyDefense.Core.Spells;
 
 namespace FroggyDefense.Core
 {
@@ -24,7 +26,6 @@ namespace FroggyDefense.Core
         [SerializeField] protected float _damage = 1f;
         [SerializeField] protected bool _invincible = false;
         [SerializeField] protected bool _splashShield = false;
-
         public float m_Health
         {
             get => _health;
@@ -48,7 +49,6 @@ namespace FroggyDefense.Core
         public bool IsDamaged => _health < _maxHealth;
         public float m_NexusDamage { get => _nexusDamage; set { _nexusDamage = value; } }
         public float m_Damage { get => _damage; set { _damage = value; } }
-
         public bool m_Invincible { get => _invincible; set { _invincible = value; } }
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
 
@@ -62,6 +62,12 @@ namespace FroggyDefense.Core
         [SerializeField] protected float m_LeashTime = 30f;                 // If there is a time limit until the leash manually breaks.
         [SerializeField] protected float m_LeashResetTime = 5f;             // How long from the leash breaking until it can be leashed again.
         [SerializeField] protected GameObject m_Focus = null;               // The thing this will attack.
+
+        [Space]
+        [Header("Status Effects")]
+        [Space]
+        public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();   // List of all dots applied on the target.
+        [SerializeField] private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
 
         private ObjectController controller;
         private Vector2 moveDir = Vector2.zero;
@@ -94,6 +100,8 @@ namespace FroggyDefense.Core
             if (GameManager.GameStarted)
             {
                 moveDir = FindPath();
+
+                TickDots();
             }
         }
 
@@ -148,13 +156,69 @@ namespace FroggyDefense.Core
             m_Health -= damage;
         }
 
+        // TODO: Make this be effected by resistances to the type of damage and stuff.
+        /// <summary>
+        /// Applies a damage action to the target.
+        /// </summary>
+        /// <param name="damage"></param>
+        public void TakeDamage(DamageAction damage)
+        {
+            EnemyDamagedEvent?.Invoke(new EnemyEventArgs(transform.position, damage.Damage, -1, -1));
+            GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, damage.Damage, NumberPopupType.Damage);
+            m_Health -= damage.Damage;
+        }
+
         /// <summary>
         /// Applies an overtime effect to the thing.
         /// </summary>
         /// <param name="effect"></param>
-        public void ApplyDebuff(Debuff effect)
+        public void ApplyDot(DamageOverTimeEffect dot)
         {
+            if (_appliedDots.ContainsKey(dot.Name))
+            {
+                _appliedDots[dot.Name].Refresh();
+                return;
+            }
+            _dots.Add(dot);
+            _appliedDots.Add(dot.Name, dot);
+        }
 
+        /// <summary>
+        /// Ticks each of the dots in the list.
+        /// </summary>
+        public void TickDots()
+        {
+            List<DamageOverTimeEffect> expiredEffects = new List<DamageOverTimeEffect>();
+            foreach (DamageOverTimeEffect dot in _dots)
+            {
+                dot.Tick();
+
+                if (dot.TicksLeft <= 0)
+                {
+                    expiredEffects.Add(dot);
+                }
+            }
+
+            foreach(DamageOverTimeEffect dot in expiredEffects)
+            {
+                RemoveDot(dot);
+            }
+        }
+
+        /// <summary>
+        /// Removes the dot from the lists.
+        /// </summary>
+        /// <param name="dot"></param>
+        private void RemoveDot(DamageOverTimeEffect dot)
+        {
+            try
+            {
+                _appliedDots.Remove(dot.Name);
+                _dots.Remove(dot);
+            } catch
+            {
+                Debug.LogWarning("Aborting removing DOT (" + dot.Name + ").");
+            }
         }
 
         /// <summary>

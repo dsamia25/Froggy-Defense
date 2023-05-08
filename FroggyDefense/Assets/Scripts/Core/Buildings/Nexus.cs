@@ -1,6 +1,7 @@
-using FroggyDefense.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using FroggyDefense.UI;
+using FroggyDefense.Core.Spells;
 
 namespace FroggyDefense.Core.Buildings
 {
@@ -71,13 +72,18 @@ namespace FroggyDefense.Core.Buildings
             }
         }
 
+        public void TakeDamage(DamageAction damage)
+        {
+            TakeDamage(damage.Damage);
+        }
+
         /// <summary>
         /// Applies an overtime effect to the thing.
         /// </summary>
         /// <param name="effect"></param>
-        public void ApplyDebuff(Debuff effect)
+        public void ApplyDot(DamageOverTimeEffect dot)
         {
-            // Nexus immune to DOT and HOT effects.
+
         }
 
         public void Die()

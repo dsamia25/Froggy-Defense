@@ -56,7 +56,7 @@ namespace FroggyDefense.Core
                 if (Input.GetMouseButtonDown(0))
                 {
                     Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
-                    _selectedSpell.Cast(new SpellArgs(_spellEffectAreaPreview.transform.position));
+                    _selectedSpell.Cast(new SpellArgs(_player, _spellEffectAreaPreview.transform.position));
                     ClearAbilityTargetingOverlay();
                     _targetingAbility = false;
                 }

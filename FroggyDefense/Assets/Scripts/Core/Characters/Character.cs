@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Core.Items;
@@ -108,15 +107,6 @@ namespace FroggyDefense.Core
         [Header("Wallet")]
         [SerializeField] private CurrencyWallet _wallet;
         public CurrencyWallet CharacterWallet { get => _wallet; }
-
-        // TODO: Check if need these.
-        // TODO: Probably remove these and the classes entirely.
-        [Space]
-        [Header("Buffs")]
-        [Space]
-        public List<Buff> Buffs = new List<Buff>();                         // List of all buffs with references to their effects.
-        public List<ValueBuff> ValueBuffs = new List<ValueBuff>();          // List of all value buffs.
-        public List<PercentBuff> PercentBuffs = new List<PercentBuff>();    // List of all percent buffs.
 
         [Space]
         [Header("Character Events")]

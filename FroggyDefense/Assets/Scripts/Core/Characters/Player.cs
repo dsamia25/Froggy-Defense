@@ -224,7 +224,13 @@ namespace FroggyDefense.Core
             }
         }
 
-        public void ApplyDebuff(Debuff effect)
+        // TODO: Make this the primary method and have the damage be reduced by resistances and stuff.
+        public void TakeDamage(DamageAction damage)
+        {
+            TakeDamage(damage.Damage);
+        }
+
+        public void ApplyDot(DamageOverTimeEffect dot)
         {
 
         }

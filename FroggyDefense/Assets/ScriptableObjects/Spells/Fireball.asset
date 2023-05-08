@@ -22,5 +22,13 @@ MonoBehaviour:
   EffectRadius: 0.5
   TargetRange: 5
   Damage: 3
+  SpellDamageType: 3
+  AppliesDot: 1
+  AppliedOverTimeEffect:
+    Name: Burning
+    Ticks: 5
+    DamagePerTick: 1
+    TickFrequency: 0.5
+    EffectDamageType: 3
   Cooldown: 1
   ManaCost: 0

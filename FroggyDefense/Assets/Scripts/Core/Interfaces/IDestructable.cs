@@ -1,3 +1,5 @@
+using FroggyDefense.Core.Spells;
+
 namespace FroggyDefense.Core
 {
     public interface IDestructable
@@ -9,10 +11,16 @@ namespace FroggyDefense.Core
         public void TakeDamage(float damage);
 
         /// <summary>
-        /// Applies an overtime effect to the thing.
+        /// Damages the object with the given damage action.
+        /// </summary>
+        /// <param name="damage"></param>
+        public void TakeDamage(DamageAction damage);
+
+        /// <summary>
+        /// Applies a damage over time effect.
         /// </summary>
         /// <param name="effect"></param>
-        public void ApplyDebuff(Debuff effect);
+        public void ApplyDot(DamageOverTimeEffect dot);
 
         /// <summary>
         /// Resolves any death effects for the object.
@@ -28,9 +36,11 @@ namespace FroggyDefense.Core
     {
         public float Damage;
         public DamageType Type;
+        public Character Attacker;
 
-        public DamageAction(float damage, DamageType type)
+        public DamageAction(Character attacker, float damage, DamageType type)
         {
+            Attacker = attacker;
             Damage = damage;
             Type = type;
         }

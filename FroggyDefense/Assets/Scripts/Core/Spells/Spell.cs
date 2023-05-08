@@ -17,6 +17,8 @@ namespace FroggyDefense.Core.Spells
         public float TargetRange => Template.TargetRange;
 
         public float Damage => Template.Damage;
+        public DamageType SpellDamageType => Template.SpellDamageType;
+        public bool AppliesDot => Template.AppliesDot;
 
         private float _currCooldown;
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
@@ -26,11 +28,11 @@ namespace FroggyDefense.Core.Spells
             Template = template;
         }
 
-        /*
-         * TODO: Make a spell-builder style of Cast using the SpellType enum
-         * in SpellObject and all the parameters set in the scriptableobject.
-         * 
-         */
+        /// <summary>
+        /// Builds the spell effect using the SpellObject's parameters.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public bool Cast(SpellArgs args)
         {
             if (_currCooldown > 0)
@@ -50,10 +52,14 @@ namespace FroggyDefense.Core.Spells
                 var targets = GetTargets(args.Position, EffectRadius, Template.TargetLayer);
                 foreach (var collider in targets)
                 {
-                    IDestructable destructable = null;
-                    if ((destructable = collider.gameObject.GetComponent<IDestructable>()) != null)
+                    IDestructable target = null;
+                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        destructable.TakeDamage(Damage);
+                        target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
+                        if (AppliesDot)
+                        {
+                            target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+                        }
                     }
                 }
                 Debug.Log("Casting " + Name + " as an AOE Spell. Damaged " + targets.Length + " targets.");
