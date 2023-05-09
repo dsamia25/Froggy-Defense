@@ -160,6 +160,7 @@ MonoBehaviour:
   _numberPopupManager: {fileID: 23703767}
   _uiManager: {fileID: 23703768}
   spawner: {fileID: 0}
+  m_DamageAreaPrefab: {fileID: 3351013210083071110, guid: f4e6d602b05734f1ba4e84c04deddd95, type: 3}
   m_Player: {fileID: 595515300}
   WavesPerMapExpansion: 2
   _points: 0
@@ -66182,7 +66183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -72015,7 +72016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 679, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005030982
@@ -72986,7 +72987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6786152461201003559, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8235868754459368837, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: m_StartingWeapon

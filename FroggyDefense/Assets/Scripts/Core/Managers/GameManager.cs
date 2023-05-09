@@ -18,6 +18,7 @@ namespace FroggyDefense.Core
         public NumberPopupManager m_NumberPopupManager { get => _numberPopupManager; }
         public UiManager m_UiManager { get => _uiManager; }
         public Spawner spawner;
+        public GameObject m_DamageAreaPrefab;
         public Player m_Player;
 
         public static bool GameStarted { get; private set; }        // If the game has been started.

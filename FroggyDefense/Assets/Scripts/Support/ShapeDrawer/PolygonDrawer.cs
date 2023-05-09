@@ -10,6 +10,11 @@ namespace ShapeDrawer
             Uvs = GetUvs();
             Triangles = DrawFilledTriangles(Vertices);
 
+            if (mesh == null)
+            {
+                CreateMeshFilter();
+            }
+
             mesh.Clear();
             mesh.vertices = Vertices;
             mesh.uv = Uvs;

@@ -19,6 +19,7 @@ namespace FroggyDefense.Core.Spells
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;
         public bool AppliesDot => Template.AppliesDot;
+        public bool CreatesDamageZone => Template.CreatesDamageArea;
 
         private float _currCooldown;
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
@@ -62,6 +63,13 @@ namespace FroggyDefense.Core.Spells
                         }
                     }
                 }
+
+                if (CreatesDamageZone)
+                {
+                    var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Position, Quaternion.identity);
+                    damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
+                }
+
                 Debug.Log("Casting " + Name + " as an AOE Spell. Damaged " + targets.Length + " targets.");
             }
             else if (Type == SpellType.Targeted)
@@ -85,7 +93,7 @@ namespace FroggyDefense.Core.Spells
         /// <param name="radius"></param>
         /// <param name="targetLayer"></param>
         /// <returns></returns>
-        public Collider2D[] GetTargets(Vector2 pos, float radius, LayerMask targetLayer)
+        public static Collider2D[] GetTargets(Vector2 pos, float radius, LayerMask targetLayer)
         {
             return Physics2D.OverlapCircleAll(pos, radius, targetLayer);
         }
@@ -99,7 +107,7 @@ namespace FroggyDefense.Core.Spells
         /// <param name="targetLayer"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public Collider2D[] GetTargetsCapped(Vector2 pos, float radius, LayerMask targetLayer, int max)
+        public static Collider2D[] GetTargetsCapped(Vector2 pos, float radius, LayerMask targetLayer, int max)
         {
             var colliders = Physics2D.OverlapCircleAll(pos, radius, targetLayer);
 

@@ -15,7 +15,12 @@ namespace ShapeDrawer
         public Vector2[] Uvs;
         public int[] Triangles;
 
-        private void Start()
+        private void Awake()
+        {
+            CreateMeshFilter();
+        }
+
+        protected void CreateMeshFilter()
         {
             mesh = new Mesh();
             GetComponent<MeshFilter>().mesh = mesh;
