@@ -19,16 +19,31 @@ MonoBehaviour:
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536
-  EffectRadius: 0.5
   TargetRange: 5
   Damage: 3
   SpellDamageType: 3
+  EffectRadius: 0.5
+  AppliesStatusEffect: 0
   AppliesDot: 1
   AppliedOverTimeEffect:
     Name: Burning
     Ticks: 5
     DamagePerTick: 1
-    TickFrequency: 0.5
+    TickFrequency: 1
     EffectDamageType: 3
+  CreatesDamageArea: 0
+  CreatedDamageArea:
+    Name: DOT
+    Ticks: 1
+    DamagePerTick: 1
+    TickFrequency: 1
+    EffectDamageType: 0
+    EffectRadius: 1
+    TargetLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    AppliesStatusEffect: 0
+  DamageAreaAppliesStatusEffect: 0
+  DamageAreaAppliedStatusEffects: []
   Cooldown: 1
   ManaCost: 0

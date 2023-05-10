@@ -62615,6 +62615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
+  _moveSpeedModifer: 1
 --- !u!58 &595515308
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -66183,7 +66184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -72987,7 +72988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6786152461201003559, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8235868754459368837, guid: b12da65a131bd46a4b6774fde66e9653, type: 3}
       propertyPath: m_StartingWeapon

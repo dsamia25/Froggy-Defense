@@ -18,6 +18,7 @@ namespace FroggyDefense.Core.Spells
 
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;
+        public bool AppliesStatusEffect => Template.AppliesStatusEffect;
         public bool AppliesDot => Template.AppliesDot;
         public bool CreatesDamageZone => Template.CreatesDamageArea;
 
@@ -60,6 +61,10 @@ namespace FroggyDefense.Core.Spells
                         if (AppliesDot)
                         {
                             target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+                        }
+                        if (AppliesStatusEffect)
+                        {
+                            target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
                         }
                     }
                 }

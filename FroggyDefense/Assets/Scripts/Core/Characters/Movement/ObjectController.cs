@@ -9,7 +9,9 @@ namespace FroggyDefense.Movement
         [Space]
 
         [SerializeField] private float _moveSpeed = 1f;
+        [SerializeField] private float _moveSpeedModifer = 1f;
         public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
+        public float MoveSpeedModifier { get => _moveSpeedModifer; set => _moveSpeedModifer = value; }
 
         private Rigidbody2D rb;
 
@@ -20,7 +22,7 @@ namespace FroggyDefense.Movement
 
         public void Move(Vector2 moveDir)
         {
-            rb.velocity = _moveSpeed * moveDir;
+            rb.velocity = _moveSpeedModifer * _moveSpeed * moveDir;
         }
     }
 }

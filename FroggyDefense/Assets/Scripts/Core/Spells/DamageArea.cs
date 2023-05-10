@@ -18,6 +18,8 @@ namespace FroggyDefense.Core.Spells
         public float EffectRadius => Template.EffectRadius;
         public Character Caster { get; private set; }               // Who applied the effect.
 
+        public bool AppliesStatusEffect => Template.AppliesStatusEffect;
+
         public float TotalDamage => Ticks * DamagePerTick;          // The total amount of damage the effect will do over its duration.
         public float DamageLeft => TicksLeft * DamagePerTick;       // The amount of damage the effect will apply over the rest of its duration.
 
@@ -60,8 +62,11 @@ namespace FroggyDefense.Core.Spells
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        DamageAction damage = new DamageAction(Caster, DamagePerTick, EffectDamageType);
-                        target.TakeDamage(damage);
+                        target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType));
+                        if (AppliesStatusEffect)
+                        {
+                            target.ApplyStatusEffect(new StatusEffect(Caster, target, Template.AppliedStatusEffect));
+                        }
                     }
                 }
                 _currTickCooldown = TickFrequency;
@@ -77,12 +82,15 @@ namespace FroggyDefense.Core.Spells
     [Serializable]
     public class DamageAreaBuilder
     {
-        public string Name = "DOT";
+        public string Name = "DAMAGE AREA";
         public int Ticks = 1;
         public float DamagePerTick = 1;
         public float TickFrequency = 1;
         public DamageType EffectDamageType;
         public float EffectRadius = 1;
         public LayerMask TargetLayer;           // The layer the targets are on.
+
+        public bool AppliesStatusEffect;
+        public StatusEffectBuilder AppliedStatusEffect;             // List of applied status effects.
     }
 }

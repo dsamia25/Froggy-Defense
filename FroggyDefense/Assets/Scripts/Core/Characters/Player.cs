@@ -230,7 +230,20 @@ namespace FroggyDefense.Core
             TakeDamage(damage.Damage);
         }
 
+        /// <summary>
+        /// Applies a damage over time effect.
+        /// </summary>
+        /// <param name="effect"></param>
         public void ApplyDot(DamageOverTimeEffect dot)
+        {
+
+        }
+
+        /// <summary>
+        /// Applies a status effect.
+        /// </summary>
+        /// <param name="status"></param>
+        public void ApplyStatusEffect(StatusEffect status)
         {
 
         }

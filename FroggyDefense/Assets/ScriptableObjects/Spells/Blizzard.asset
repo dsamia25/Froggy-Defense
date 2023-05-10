@@ -23,6 +23,12 @@ MonoBehaviour:
   Damage: 1
   SpellDamageType: 4
   EffectRadius: 2
+  AppliesStatusEffect: 1
+  AppliedStatusEffect:
+    Name: Blizzard Slow
+    EffectStrength: -20
+    StatusType: 0
+    EffectTime: 2.5
   AppliesDot: 0
   AppliedOverTimeEffect:
     Name: DOT
@@ -41,5 +47,11 @@ MonoBehaviour:
     TargetLayer:
       serializedVersion: 2
       m_Bits: 1536
+    AppliesStatusEffect: 1
+    AppliedStatusEffect:
+      Name: Blizzard Zone Slow
+      EffectStrength: -75
+      StatusType: 0
+      EffectTime: 2.5
   Cooldown: 6
   ManaCost: 0

@@ -34,6 +34,12 @@ namespace FroggyDefense.Core.Spells
         public float EffectRadius;      // How wide of an area the spell effects.
 
         [Space]
+        [Header("Status Effect")]
+        [Space]
+        public bool AppliesStatusEffect;                            // If the spell applies status effects.
+        public StatusEffectBuilder AppliedStatusEffect;             // List of applied status effects.
+
+        [Space]
         [Header("Dot Effect")]
         [Space]
         public bool AppliesDot;                                     // If the spell applies an overtime effect to the hit enemies.

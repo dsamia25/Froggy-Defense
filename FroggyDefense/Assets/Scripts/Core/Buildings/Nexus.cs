@@ -86,6 +86,15 @@ namespace FroggyDefense.Core.Buildings
 
         }
 
+        /// <summary>
+        /// Applies a status effect.
+        /// </summary>
+        /// <param name="status"></param>
+        public void ApplyStatusEffect(StatusEffect status)
+        {
+
+        }
+
         public void Die()
         {
             m_Health = 0;
