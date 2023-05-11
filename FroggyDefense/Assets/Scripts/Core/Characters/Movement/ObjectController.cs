@@ -24,5 +24,10 @@ namespace FroggyDefense.Movement
         {
             rb.velocity = _moveSpeedModifer * _moveSpeed * moveDir;
         }
+
+        public void Freeze()
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 }

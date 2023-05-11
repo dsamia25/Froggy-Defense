@@ -36,6 +36,7 @@ namespace FroggyDefense.Core
         public float XpNeeded { get => _xpNeeded; }             // The amount of xp required to level up.
         public CharacterLevelExperienceFunction ExperienceFunction { get => _experienceFunction; }  // Function used to calculate experience needed to level up.
 
+        // TODO: Finish transitoning stats from Character to StatSheet.
         [Space]
         [Header("Base Stats")]
         [Space]

@@ -60,6 +60,7 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Targetting")]
         [Space]
+        [SerializeField] protected bool m_TargetsPlayer;                    // If the enemy will target the player.
         [SerializeField] protected LayerMask m_TargetLayer = 0;             // Which layer in which the enemy looks for targets.
         [SerializeField] protected float m_TargetDetectionRadius = 1f;      // How far away the enemy will detect the player.
         [SerializeField] protected float m_TargetCheckFrequency = .1f;      // How often the turret checks for new targets.
@@ -117,7 +118,10 @@ namespace FroggyDefense.Core
         {
             if (GameManager.GameStarted)
             {
-                if (!_isStunned)
+                if (_isStunned)
+                {
+                    controller.Freeze();
+                } else
                 {
                     controller.Move(moveDir);
                 }
@@ -348,6 +352,11 @@ namespace FroggyDefense.Core
         }
         #endregion
 
+        public virtual void Attack(Character target)
+        {
+
+        }
+
         /// <summary>
         /// Instantly kills the enemy without dropping anything or rewarding points.
         /// </summary>
@@ -369,8 +378,50 @@ namespace FroggyDefense.Core
                 return Vector2.zero;
             }
 
+            // Targets the nexus by default.
             Vector2 targetLoc = BoardManager.instance.Nexus.transform.position;
+            //if (m_TargetsPlayer)
+            //{
+
+            //}
+
             return (targetLoc - (Vector2)transform.position).normalized;
+        }
+
+        /// <summary>
+        /// Looks for nearby players to target.
+        /// </summary>
+        private Collider2D DetectPlayers()
+        {
+            Collider2D[] targets = GetTargets();
+            if (targets.Length <= 0)
+            {
+                return null;
+            }
+
+            // Finds the closest enemy.
+            Collider2D focus = targets[0];
+            float shortestDistance = Vector2.Distance(transform.position, targets[0].transform.position);
+            foreach (Collider2D target in targets)
+            {
+                float temp = Vector2.Distance(transform.position, target.transform.position);
+                if (temp < shortestDistance)
+                {
+                    shortestDistance = temp;
+                    focus = target;
+                }
+            }
+
+            return focus;
+        }
+
+        /// <summary>
+        /// Returns all targets the turret can see.
+        /// </summary>
+        /// <returns></returns>
+        public Collider2D[] GetTargets()
+        {
+            return Physics2D.OverlapCircleAll(transform.position, m_TargetDetectionRadius, (m_TargetLayer == 0 ? gameObject.layer : m_TargetLayer));
         }
     }
 

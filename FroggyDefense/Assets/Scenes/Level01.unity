@@ -62409,7 +62409,7 @@ MonoBehaviour:
   AbilityTemplates:
   - {fileID: 11400000, guid: abbbd85f99c874a1da793ae1989129b1, type: 2}
   - {fileID: 11400000, guid: 5d19fbe41fe9149ef9b81e530c307dd2, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4a8940e2ea14546daba6c592ac4419f9, type: 2}
   - {fileID: 0}
   _maxHealth: 10
   _health: 1
@@ -72017,7 +72017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 679, y: 0}
+  m_AnchoredPosition: {x: 661, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005030982

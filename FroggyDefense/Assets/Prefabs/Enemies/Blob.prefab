@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 8902877967718233189}
   - component: {fileID: 3633966445486539865}
   - component: {fileID: -4863954606205119223}
+  - component: {fileID: 6305815107222301036}
   m_Layer: 9
   m_Name: Blob
   m_TagString: Enemy
@@ -248,8 +249,23 @@ MonoBehaviour:
   _health: 12
   _nexusDamage: 1
   _damage: 1
+  _moveSpeedModifer: 1
+  _stunEffectCounter: 0
+  _isStunned: 0
   _invincible: 0
   _splashShield: 0
+  m_TargetsPlayer: 0
+  m_TargetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_TargetDetectionRadius: 1
+  m_TargetCheckFrequency: 0.1
+  m_LeashRadius: 1
+  m_LeashTime: 30
+  m_LeashResetTime: 5
+  m_Focus: {fileID: 0}
+  _statusEffects: []
+  _dots: []
 --- !u!114 &3633966445486539865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0.75
+  _moveSpeedModifer: 1
 --- !u!114 &-4863954606205119223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +293,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GemDropRange: {x: 3, y: 7}
+--- !u!95 &6305815107222301036
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072654201736512015}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &724048808542710039
 PrefabInstance:
   m_ObjectHideFlags: 0

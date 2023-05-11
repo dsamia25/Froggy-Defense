@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a378955337943efa60c28c27bbfaff, type: 3}
+  m_Name: Spirit Shock
+  m_EditorClassIdentifier: 
+  Name: Spirit Shock
+  Icon: {fileID: 0}
+  SpellId: 0
+  Type: 0
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 1536
+  TargetRange: 0
+  Damage: 1
+  SpellDamageType: 5
+  EffectRadius: 2
+  AppliesStatusEffect: 1
+  AppliedStatusEffect:
+    Name: Spirit Shock Stun
+    EffectStrength: 1
+    StatusType: 1
+    EffectTime: 1.5
+  AppliesDot: 0
+  AppliedOverTimeEffect:
+    Name: DOT
+    Ticks: 1
+    DamagePerTick: 1
+    TickFrequency: 1
+    EffectDamageType: 0
+  CreatesDamageArea: 0
+  CreatedDamageArea:
+    Name: DAMAGE AREA
+    Ticks: 1
+    DamagePerTick: 1
+    TickFrequency: 1
+    EffectDamageType: 0
+    EffectRadius: 1
+    TargetLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    AppliesStatusEffect: 0
+    AppliedStatusEffect:
+      Name: STATUS EFFECT
+      EffectStrength: 1
+      StatusType: 0
+      EffectTime: 1
+  Cooldown: 0
+  ManaCost: 0
