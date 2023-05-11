@@ -6,8 +6,9 @@ using FroggyDefense.Interactables;
 using FroggyDefense.UI;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
+using FroggyDefense.Weapons;
 
-namespace FroggyDefense.Core
+namespace FroggyDefense.Core.Enemies
 {
     public class Enemy : MonoBehaviour, IDestructable
     {
@@ -25,7 +26,7 @@ namespace FroggyDefense.Core
         [SerializeField] protected float _nexusDamage = 1f;
         [SerializeField] protected float _damage = 1f;
         [SerializeField] protected float _moveSpeedModifer = 1f;
-        [SerializeField] protected int _stunEffectCounter = 0;  // Tracks how many stun effects have been applied. If 0 then is not stunned.
+        [SerializeField] protected int _stunEffectCounter = 0;              // Tracks how many stun effects have been applied. If 0 then is not stunned.
         [SerializeField] protected bool _isStunned = false;
         [SerializeField] protected bool _invincible = false;
         [SerializeField] protected bool _splashShield = false;
@@ -58,23 +59,41 @@ namespace FroggyDefense.Core
         public bool IsStunned => _isStunned;
 
         [Space]
+        [Header("Attacking")]
+        [Space]
+        [SerializeField] private Weapon _weapon;
+        [SerializeField] private float _weaponRange;
+        public float WeaponRange => _weapon == null ? 0 : _weapon.WeaponRange;
+    
+        [Space]
         [Header("Targetting")]
         [Space]
-        [SerializeField] protected bool m_TargetsPlayer;                    // If the enemy will target the player.
+        [SerializeField] private bool _targetsPlayers;                      // If the enemy will target the player.
         [SerializeField] protected LayerMask m_TargetLayer = 0;             // Which layer in which the enemy looks for targets.
-        [SerializeField] protected float m_TargetDetectionRadius = 1f;      // How far away the enemy will detect the player.
-        [SerializeField] protected float m_TargetCheckFrequency = .1f;      // How often the turret checks for new targets.
-        [SerializeField] protected float m_LeashRadius = 1f;                // How far away the player has to be to break the leash.
-        [SerializeField] protected float m_LeashTime = 30f;                 // If there is a time limit until the leash manually breaks.
-        [SerializeField] protected float m_LeashResetTime = 5f;             // How long from the leash breaking until it can be leashed again.
-        [SerializeField] protected GameObject m_Focus = null;               // The thing this will attack.
+        [SerializeField] protected float _targetDetectionRadius = 1f;       // How far away the enemy will detect the player.
+        [SerializeField] protected float _targetCheckFrequency = .1f;       // How often the turret checks for new targets.
+        [SerializeField] protected float _leashRadius = 1f;                 // How far away the player has to be to break the leash.
+        [SerializeField] protected float _leashBreakTime = 1f;              // How long the player can be outside the leash radius for the leash to break.
+        [SerializeField] protected bool _hasMaxLeashTime = false;           // If there is a time limit to break the leash.
+        [SerializeField] protected float _maxleashTime = 30f;               // If there is a time limit until the leash manually breaks.
+        [SerializeField] protected float _leashResetTime = 5f;              // How long from the leash breaking until it can be leashed again.
+        [SerializeField] protected GameObject _focus = null;                // The thing this will chase and attack.
+        public bool TargetsPlayer => _targetsPlayers;              
+        public float TargetDetectionRadius => _targetDetectionRadius;
+        public float TargetCheckFrequency => _targetCheckFrequency;
+        public float LeashRadius => _leashRadius;
+        public float LeashBreakTime => _leashBreakTime;
+        public bool HasMaxLeashTime => _hasMaxLeashTime;
+        public float MaxLeashTime => _maxleashTime;
+        public float LeashResetTime => _leashResetTime;
+        public GameObject Focus { get => _focus; set { _focus = value; } }
 
         [Space]
         [Header("Status Effects")]
-        [Space]
-        public List<StatusEffect> _statusEffects = new List<StatusEffect>();
-        [SerializeField] private Dictionary<string, StatusEffect> _appliedEffects = new Dictionary<string, StatusEffect>();    // List of all dot names and their applied effects.
-        public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();   // List of all dots applied on the target.
+        [Space] 
+        public List<StatusEffect> _statusEffects = new List<StatusEffect>();                                                                // List of all status effects applied on the target.
+        [SerializeField] private Dictionary<string, StatusEffect> _appliedEffects = new Dictionary<string, StatusEffect>();                 // List of all dot names and their applied effects.
+        public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();                                                         // List of all dots applied on the target.
         [SerializeField] private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
 
         private ObjectController controller;
@@ -107,7 +126,7 @@ namespace FroggyDefense.Core
         {
             if (GameManager.GameStarted)
             {
-                moveDir = FindPath();
+                moveDir = FindPath(_focus);
 
                 TickDots();
                 TickStatusEffects();
@@ -352,7 +371,7 @@ namespace FroggyDefense.Core
         }
         #endregion
 
-        public virtual void Attack(Character target)
+        public virtual void Attack()
         {
 
         }
@@ -366,24 +385,32 @@ namespace FroggyDefense.Core
             Destroy(gameObject);
         }
 
-        // TODO: Move to a pathfinding class.
         /// <summary>
-        /// Finds a path from the current position to the Nexus.
+        /// Resets the enemy's focus to the nexus.
         /// </summary>
-        /// <returns></returns>
-        public Vector2 FindPath()
+        public void ResetFocus()
         {
             if (BoardManager.instance.Nexus == null)
+            {
+                Debug.LogWarning("Cannot find Nexus.");
+            }
+            _focus = BoardManager.instance.Nexus;
+        }
+
+        // TODO: Utilize pathfinding class.
+        /// <summary>
+        /// Finds a path from the current position to the focus.
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 FindPath(GameObject focus)
+        {
+            if (focus == null)
             {
                 return Vector2.zero;
             }
 
-            // Targets the nexus by default.
-            Vector2 targetLoc = BoardManager.instance.Nexus.transform.position;
-            //if (m_TargetsPlayer)
-            //{
-
-            //}
+            // TODO: Currently just draws a straight line to the focus, make a pathfinding class to direct the enemy on an actual path.
+            Vector2 targetLoc = focus.transform.position;
 
             return (targetLoc - (Vector2)transform.position).normalized;
         }
@@ -391,7 +418,7 @@ namespace FroggyDefense.Core
         /// <summary>
         /// Looks for nearby players to target.
         /// </summary>
-        private Collider2D DetectPlayers()
+        public Collider2D DetectTargets()
         {
             Collider2D[] targets = GetTargets();
             if (targets.Length <= 0)
@@ -399,6 +426,7 @@ namespace FroggyDefense.Core
                 return null;
             }
 
+            // TODO: Make a threat system to prioritize certain targets.
             // Finds the closest enemy.
             Collider2D focus = targets[0];
             float shortestDistance = Vector2.Distance(transform.position, targets[0].transform.position);
@@ -421,10 +449,11 @@ namespace FroggyDefense.Core
         /// <returns></returns>
         public Collider2D[] GetTargets()
         {
-            return Physics2D.OverlapCircleAll(transform.position, m_TargetDetectionRadius, (m_TargetLayer == 0 ? gameObject.layer : m_TargetLayer));
+            return Physics2D.OverlapCircleAll(transform.position, TargetDetectionRadius, (m_TargetLayer == 0 ? gameObject.layer : m_TargetLayer));
         }
     }
 
+    // TODO: Make a more generic system event that has an enum for event type like "Enemy Defeated", "Damage Action", "Item Pickup", "Currency Pickup", etc...
     public class EnemyEventArgs : EventArgs
     {
         public Vector2 pos;     // The position of the event.

@@ -6,6 +6,7 @@ using FroggyDefense.Weapons;
 using FroggyDefense.UI;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
+using FroggyDefense.Core.Enemies;
 
 namespace FroggyDefense.Core
 {

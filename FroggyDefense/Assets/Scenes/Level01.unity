@@ -62511,6 +62511,7 @@ MonoBehaviour:
   _userDirectDamageScaleFactor: 1
   _userSplashDamageScaleFactor: 1
   _attackCooldown: 0.1
+  _weaponRange: 0
   _projectilePrefab: {fileID: 0}
   _projectilePoolSize: 8
   _projectileSpeed: 1

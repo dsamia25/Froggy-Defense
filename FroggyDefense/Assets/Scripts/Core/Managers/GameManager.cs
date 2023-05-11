@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Core.Buildings;
+using FroggyDefense.Core.Enemies;
 
 namespace FroggyDefense.Core
 {

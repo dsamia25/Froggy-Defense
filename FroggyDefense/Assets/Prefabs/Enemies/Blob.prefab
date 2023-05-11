@@ -254,16 +254,20 @@ MonoBehaviour:
   _isStunned: 0
   _invincible: 0
   _splashShield: 0
-  m_TargetsPlayer: 0
+  _weapon: {fileID: 0}
+  _weaponRange: 0.5
+  _targetsPlayers: 1
   m_TargetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  m_TargetDetectionRadius: 1
-  m_TargetCheckFrequency: 0.1
-  m_LeashRadius: 1
-  m_LeashTime: 30
-  m_LeashResetTime: 5
-  m_Focus: {fileID: 0}
+    m_Bits: 256
+  _targetDetectionRadius: 2
+  _targetCheckFrequency: 0.2
+  _leashRadius: 3
+  _leashBreakTime: 1
+  _hasMaxLeashTime: 0
+  _maxleashTime: 30
+  _leashResetTime: 5
+  _focus: {fileID: 0}
   _statusEffects: []
   _dots: []
 --- !u!114 &3633966445486539865
@@ -303,7 +307,7 @@ Animator:
   m_GameObject: {fileID: 5072654201736512015}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9308263d4762f43318935b7bee8c3065, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

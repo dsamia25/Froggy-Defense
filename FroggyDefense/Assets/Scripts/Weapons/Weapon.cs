@@ -39,7 +39,13 @@ namespace FroggyDefense.Weapons
         public float AttackCooldown { get => _attackCooldown; }                       // How long it takes to shoot again.
 
         [Space]
-        [Header("Projectile")]
+        [Header("Melee Stats")]
+        [Space]
+        [SerializeField] private float _weaponRange;                                // How far the weapon attack range is.
+        public float WeaponRange => _weaponRange;
+
+        [Space]
+        [Header("Projectile Stats")]
         [Space]
         [SerializeField] private GameObject _projectilePrefab = null;               // The basic projectile to use.
         [SerializeField] private int _projectilePoolSize = 8;                       // The maximum size of the pool.
