@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using FroggyDefense.Movement;
 
 namespace FroggyDefense.Weapons
 {
@@ -36,17 +37,24 @@ namespace FroggyDefense.Weapons
         [Header("Cooldown")]
         [Space]
         [SerializeField] private float _attackCooldown = .1f;
-        public float AttackCooldown { get => _attackCooldown; }                       // How long it takes to shoot again.
+        public float AttackCooldown { get => _attackCooldown; }                     // How long it takes to shoot again.
 
         [Space]
         [Header("Melee Stats")]
         [Space]
         [SerializeField] private float _weaponRange;                                // How far the weapon attack range is.
+        [SerializeField] private bool _hasLunge;                                    // If the user lunges on attack.
+        [SerializeField] private float _lungeStrength;                              // How much the user lunges forward.
+        [SerializeField] private float _lungeTime;                                  // How long the lunge lasts for.
         public float WeaponRange => _weaponRange;
+        public bool HasLunge => _hasLunge;
+        public float LungeStrength => _lungeStrength;
+        public float LungeTime => _lungeTime;
 
         [Space]
         [Header("Projectile Stats")]
         [Space]
+        [SerializeField] private bool _shootsProjectile = true;                     // If the weapon shoots a projectile.
         [SerializeField] private GameObject _projectilePrefab = null;               // The basic projectile to use.
         [SerializeField] private int _projectilePoolSize = 8;                       // The maximum size of the pool.
         [SerializeField] private float _projectileSpeed = 1;                        // How fase the projectile moves.
@@ -58,6 +66,7 @@ namespace FroggyDefense.Weapons
         [SerializeField] private float _timeLimit = 20f;                            // The maximum projectile active time.
         [SerializeField] private bool _hasSeeking = false;                          // If the projectile seeks out enemies.
         [SerializeField] private float _seekingTurnAngle = .05f;                    // How hard the projectile can course correct towards its target.
+        [SerializeField] private bool ShootsProjectile => _shootsProjectile;
         public float m_ProjectileSpeed => _projectileSpeed;
         public bool m_HasPiercing => _hasPiercing;                  
         public int m_PiercingNumber => _piercingNumber;
@@ -84,6 +93,8 @@ namespace FroggyDefense.Weapons
         [SerializeField] private int m_BurstFireAmount = 1;                         // How many shots will be fired at once.
         [SerializeField] private float m_BurstDelay = .25f;                         // How many second between each shot in the burst.
 
+        private Rigidbody2D rb;
+        private ObjectController controller;
         private float directDamageSnapshot = 0f;
         private float splashDamageSnapshot = 0f;
         private bool isShooting = false;                                            // Key to if a new shot can be fired while another shot is being fired.
@@ -98,6 +109,16 @@ namespace FroggyDefense.Weapons
             if (User == null)
             {
                 User = gameObject.GetComponent<IUseWeapon>();
+            }
+
+            if (rb == null)
+            {
+                rb = gameObject.GetComponent<Rigidbody2D>();
+            }
+
+            if (controller == null)
+            {
+                controller = gameObject.GetComponent<ObjectController>();
             }
         }
 
@@ -148,10 +169,9 @@ namespace FroggyDefense.Weapons
         /// <param name="weapon"></param>
         public void Equip(WeaponObject template)
         {
+            _shootsProjectile = ShootsProjectile;
             _projectilePrefab = template.m_ProjectilePrefab;
             _projectilePoolSize = template.m_ProjectilePoolSize;
-            m_ProjectilePool.Clear();
-            m_ProjectilePool = new ProjectilePool(_projectilePrefab, _projectilePoolParent, _projectilePoolSize);
             _projectileSpeed = template.m_ProjectileSpeed;
             _hasPiercing = template.m_HasPiercing;
             _piercingNumber = template.m_PiercingNumber;
@@ -161,6 +181,16 @@ namespace FroggyDefense.Weapons
             _timeLimit = template.m_TimeLimit;
             _hasSeeking = template.m_HasSeeking;
             _seekingTurnAngle = template.m_SeekingTurnAngle;
+            if (_shootsProjectile)
+            {
+                m_ProjectilePool.Clear();
+                m_ProjectilePool = new ProjectilePool(_projectilePrefab, _projectilePoolParent, _projectilePoolSize);
+            }
+
+            _weaponRange = template.WeaponRange;
+            _hasLunge = template.HasLunge;
+            _lungeStrength = template.LungeStrength;
+            _lungeTime = template.LungeTime;
 
             _weaponDamage = template.m_WeaponDamage;
             _hasSplashDamage = template.m_HasSplashDamage;
@@ -224,19 +254,27 @@ namespace FroggyDefense.Weapons
         /// </summary>
         private void Fire(Vector2 FireDir)
         {
-            Projectile projectile = m_ProjectilePool.Get();
-            projectile.transform.position = m_FireLoc.position;
-
-            if (m_HasSprayPattern)
+            if (_hasLunge)
             {
-                projectile.Shoot(this, RotateVector(FireDir, m_SprayPattern[m_SprayPatternIndex++ % m_SprayPattern.Length]), directDamageSnapshot, splashDamageSnapshot);
-            }
-            else
-            {
-                projectile.Shoot(this, FireDir, directDamageSnapshot, splashDamageSnapshot);
+                controller.Lunge(FireDir, _lungeStrength, _lungeTime, .75f * _lungeTime);
             }
 
-            m_CurrentSprayPatternCooldown = m_SprayPatternCooldown;
+            if (_shootsProjectile)
+            {
+                Projectile projectile = m_ProjectilePool.Get();
+                projectile.transform.position = m_FireLoc.position;
+
+                if (m_HasSprayPattern)
+                {
+                    projectile.Shoot(this, RotateVector(FireDir, m_SprayPattern[m_SprayPatternIndex++ % m_SprayPattern.Length]), directDamageSnapshot, splashDamageSnapshot);
+                }
+                else
+                {
+                    projectile.Shoot(this, FireDir, directDamageSnapshot, splashDamageSnapshot);
+                }
+
+                m_CurrentSprayPatternCooldown = m_SprayPatternCooldown;
+            }
         }
 
         /// <summary>

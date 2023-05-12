@@ -62498,7 +62498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FireLoc: {fileID: 444037409}
   m_FireDir: {x: 0, y: 1}
-  m_StartingWeapon: {fileID: 11400000, guid: 042ff0bab7b704f29b23cf1e93e19b42, type: 2}
+  m_StartingWeapon: {fileID: 11400000, guid: 9ef612931e3af44f7a92eba2f34b04bf, type: 2}
   m_ProjectilePool:
     _pool: []
   _weaponDamage: 1
@@ -62512,6 +62512,10 @@ MonoBehaviour:
   _userSplashDamageScaleFactor: 1
   _attackCooldown: 0.1
   _weaponRange: 0
+  _hasLunge: 0
+  _lungeStrength: 0
+  _lungeTime: 0
+  _shootsProjectile: 1
   _projectilePrefab: {fileID: 0}
   _projectilePoolSize: 8
   _projectileSpeed: 1
@@ -62615,6 +62619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9604b7a1b2b4c466389cc8a5919243d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementLocked: 0
   _moveSpeed: 5
   _moveSpeedModifer: 1
 --- !u!58 &595515308

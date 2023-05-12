@@ -26,17 +26,17 @@ namespace FroggyDefense.Core.Enemies
             if (distance <= _enemy.WeaponRange)
             {
                 animator.SetBool("Attacking", true);
-            }
-
-            // If the player is outside of leash range, count down the leash break time.
-            if (distance > _enemy.LeashRadius)
+            } else if (distance > _enemy.LeashRadius)            // If the player is outside of leash range, count down the leash break time.
             {
                 _currTimeOutsideLeashRadius -= dT;
-                if (_currTimeOutsideLeashRadius > _enemy.LeashBreakTime)
+                if (_currTimeOutsideLeashRadius <= 0)
                 {
                     // Break leash.
                     animator.SetBool("DetectedPlayer", false);
                 }
+            } else // If the player is in normal leashing range, reset the reset countdown.
+            {
+                _currTimeOutsideLeashRadius = _enemy.LeashBreakTime;
             }
 
             _currLeashTime += dT;

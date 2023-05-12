@@ -10,6 +10,8 @@ namespace FroggyDefense.Core.Enemies
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             _enemy = animator.gameObject.GetComponent<Enemy>();
+            _enemy.ResetFocus();
+
             _currLeashResetTime = _enemy.LeashResetTime;
         }
 

@@ -35,8 +35,22 @@ namespace FroggyDefense.Weapons
         public float m_AttackCooldown = .25f;                                       // How long it takes to attack again.
 
         [Space]
+        [Header("Melee Stats")]
+        [Space]
+        [SerializeField] private float _weaponRange;                                // How far the weapon attack range is.
+        [SerializeField] private bool _hasLunge;                                    // If the user lunges on attack.
+        [SerializeField] private float _lungeStrength;                              // How much the user lunges forward.
+        [SerializeField] private float _lungeTime;                                  // How long the lunge lasts for.
+        public float WeaponRange => _weaponRange;
+        public bool HasLunge => _hasLunge;
+        public float LungeStrength => _lungeStrength;
+        public float LungeTime => _lungeTime;
+
+        [Space]
         [Header("Projectile")]
         [Space]
+        [SerializeField] private bool _shootsProjectile = true;                     // If the weapon shoots a projectile.
+        public bool ShootsProjectile => _shootsProjectile;
         public GameObject m_ProjectilePrefab = null;                                // The projectile prefab.
         public int m_ProjectilePoolSize = 8;                                        // Max number of projectiles active in the pool.
         public float m_ProjectileSpeed = 1f;                                        // How fase the projectile moves.

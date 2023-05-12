@@ -113,10 +113,11 @@ GameObject:
   - component: {fileID: 5072654201736512013}
   - component: {fileID: 1624718398245212776}
   - component: {fileID: 1780231775367662072}
+  - component: {fileID: 6305815107222301036}
   - component: {fileID: 8902877967718233189}
   - component: {fileID: 3633966445486539865}
   - component: {fileID: -4863954606205119223}
-  - component: {fileID: 6305815107222301036}
+  - component: {fileID: 3274697882266213094}
   m_Layer: 9
   m_Name: Blob
   m_TagString: Enemy
@@ -229,6 +230,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &6305815107222301036
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072654201736512015}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9308263d4762f43318935b7bee8c3065, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &8902877967718233189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,16 +275,16 @@ MonoBehaviour:
   _isStunned: 0
   _invincible: 0
   _splashShield: 0
-  _weapon: {fileID: 0}
-  _weaponRange: 0.5
+  _weapon: {fileID: 3274697882266213094}
+  _weaponRange: 0.1
   _targetsPlayers: 1
   m_TargetLayer:
     serializedVersion: 2
     m_Bits: 256
   _targetDetectionRadius: 2
   _targetCheckFrequency: 0.2
-  _leashRadius: 3
-  _leashBreakTime: 1
+  _leashRadius: 4
+  _leashBreakTime: 3
   _hasMaxLeashTime: 0
   _maxleashTime: 30
   _leashResetTime: 5
@@ -282,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9604b7a1b2b4c466389cc8a5919243d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementLocked: 0
   _moveSpeed: 0.75
   _moveSpeedModifer: 1
 --- !u!114 &-4863954606205119223
@@ -297,26 +319,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GemDropRange: {x: 3, y: 7}
---- !u!95 &6305815107222301036
-Animator:
-  serializedVersion: 5
+--- !u!114 &3274697882266213094
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5072654201736512015}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9308263d4762f43318935b7bee8c3065, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a688288e8f1b4fda8556e3f0a208b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FireLoc: {fileID: 0}
+  m_FireDir: {x: 0, y: 0}
+  m_StartingWeapon: {fileID: 11400000, guid: 2b087d972e3c94315ac4a3f1f9c1e1f7, type: 2}
+  m_ProjectilePool:
+    _pool: []
+  _weaponDamage: 1
+  _hasSplashDamage: 0
+  _splashDamage: 0
+  _splashLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _splashRadius: 0
+  _userDirectDamageScaleFactor: 1
+  _userSplashDamageScaleFactor: 1
+  _attackCooldown: 0.1
+  _weaponRange: 0
+  _hasLunge: 0
+  _lungeStrength: 0
+  _lungeTime: 0
+  _shootsProjectile: 1
+  _projectilePrefab: {fileID: 0}
+  _projectilePoolSize: 8
+  _projectileSpeed: 1
+  _hasPiercing: 0
+  _piercingNumber: 0
+  _hasMaxRange: 1
+  _maxRange: 20
+  _hasMaxTime: 1
+  _timeLimit: 20
+  _hasSeeking: 0
+  _seekingTurnAngle: 0.05
+  m_HasSprayPattern: 0
+  m_SprayPattern: []
+  m_SprayPatternIndex: 0
+  m_SprayPatternCooldown: 1
+  m_BurstFireEnabled: 0
+  m_BurstFireAmount: 1
+  m_BurstDelay: 0.25
 --- !u!1001 &724048808542710039
 PrefabInstance:
   m_ObjectHideFlags: 0
