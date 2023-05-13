@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
+  m_Name: Longsword
+  m_EditorClassIdentifier: 
+  m_WeaponDamage: 4
+  m_DirectDamageScalingStat: 1
+  m_DirectDamageScalingFactor: 1
+  m_HasSplashDamage: 0
+  m_SplashDamage: 0
+  m_SplashDamageScalingStat: 1
+  m_SplashDamageScalingFactor: 1
+  m_SplashLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_SplashRadius: 0
+  m_HasMaxSplashTargets: 0
+  m_MaxSplashTargets: 100
+  m_AttackCooldown: 0.25
+  _hasMeleeAttack: 1
+  _meleeKnockback: 200
+  _meleeKnockbackTime: 0.5
+  _weaponRange: 0
+  _hasLunge: 1
+  _lungeStrength: 250
+  _lungeTime: 0.4
+  _shootsProjectile: 1
+  m_ProjectilePrefab: {fileID: 0}
+  m_ProjectilePoolSize: 8
+  m_ProjectileSpeed: 1
+  m_HasPiercing: 0
+  m_PiercingNumber: 0
+  m_HasMaxRange: 1
+  m_MaxRange: 20
+  m_HasRangeEffectModifier: 0
+  m_TravelDistanceEffectModifierRange: {x: 1, y: 1}
+  m_HasMaxTime: 1
+  m_TimeLimit: 20
+  m_HasTimeEffectModifier: 0
+  m_TimeEffectModifierRange: {x: 1, y: 1}
+  m_HasSeeking: 0
+  m_SeekingTurnAngle: 0.05
+  m_SeekingTargetPriority: 0
+  m_HasBounce: 0
+  m_Bounces: 3
+  m_BounceLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_BounceTargetPriority: 0
+  m_BounceRadius: 0
+  m_BounceEffectModifier: -0.1
+  m_OnlyEffectFirstBounce: 0
+  m_CanBounceToRepeatTargets: 0
+  m_HasSprayPattern: 0
+  m_SprayPattern: []
+  m_SprayPatternCooldown: 1
+  m_BurstFireEnabled: 0
+  m_BurstFireAmount: 1
+  m_BurstDelay: 0.25

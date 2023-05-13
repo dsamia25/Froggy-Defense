@@ -5,7 +5,7 @@ namespace FroggyDefense.Weapons
 {
     public class Projectile : MonoBehaviour
     {
-        private Weapon _weapon;                                         // The weapon that fired this projectile.
+        private WeaponMono _weapon;                                         // The weapon that fired this projectile.
         [SerializeField] private Vector2 m_StorageLoc;                  // Where the projectile is stored.
 
         private Vector2 m_ShootPos = Vector2.zero;                      // Where the projectile was shot from last. Used to calculate distance.
@@ -88,7 +88,7 @@ namespace FroggyDefense.Weapons
         /// Shoots the projectile at it's travel speed in the given direction.
         /// </summary>
         /// <param name="dir"></param>
-        public void Shoot(Weapon weapon, Vector2 dir, float directDamage, float splashDamage)
+        public void Shoot(WeaponMono weapon, Vector2 dir, float directDamage, float splashDamage)
         {
             _weapon = weapon;
             _directDamage = directDamage;

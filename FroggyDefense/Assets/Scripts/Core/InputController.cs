@@ -88,11 +88,16 @@ namespace FroggyDefense.Core
                 {
                     Spell spell = GameManager.instance.m_Player.Abilities[3];
                     TargetAbilities(spell);
+                } else if (Input.GetMouseButtonUp(0))
+                {
+                    Debug.Log("Released Attack");
+                    _player.m_WeaponUser.Deactivate();
                 }
                 else if (Input.GetMouseButtonDown(0))
                 {
                     Debug.Log("Pressed Attack");
-                    _player.Attack();
+                    //_player.Attack();
+                    _player.m_WeaponUser.Activate();
                 }
             }
             _moveInput.x = Input.GetAxisRaw("Horizontal");

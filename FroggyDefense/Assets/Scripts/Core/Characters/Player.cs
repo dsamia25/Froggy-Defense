@@ -71,7 +71,10 @@ namespace FroggyDefense.Core
 
         [Space] 
         [Header("Attack Settings")]
-        [SerializeField] protected Weapon m_Weapon = null;
+        //[SerializeField] protected WeaponMono m_Weapon = null;
+        [SerializeField] protected WeaponObject _weaponTemplate;
+        public Weapon EquippedWeapon { get; private set; }
+        public WeaponUser m_WeaponUser = null;
 
         private ObjectController controller;
         private Vector2 _moveDir = Vector2.zero;
@@ -96,10 +99,18 @@ namespace FroggyDefense.Core
                 animator = GetComponent<Animator>();
             }
 
-            if (m_Weapon == null)
+            //if (m_Weapon == null)
+            //{
+            //    m_Weapon = GetComponent<WeaponMono>();
+            //}
+
+            EquippedWeapon = new Weapon(_weaponTemplate);
+            if (m_WeaponUser == null)
             {
-                m_Weapon = GetComponent<Weapon>();
+                m_WeaponUser = GetComponentInChildren<WeaponUser>();
             }
+            m_WeaponUser.EquippedWeapon = EquippedWeapon;
+            m_WeaponUser.Deactivate();
 
             RefreshSpellBar();
 
@@ -160,7 +171,7 @@ namespace FroggyDefense.Core
         {
             if (GameManager.ShootingEnabled)
             {
-                m_Weapon.Shoot((Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
+                EquippedWeapon.Attack(this, (Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
             }
         }
 
@@ -247,6 +258,11 @@ namespace FroggyDefense.Core
         public void ApplyStatusEffect(StatusEffect status)
         {
 
+        }
+
+        public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime)
+        {
+            controller.Lunge(dir, strength, knockBackTime, moveLockTime);
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace FroggyDefense.Core.Enemies
         [Space]
         [Header("Attacking")]
         [Space]
-        [SerializeField] private Weapon _weapon;
+        [SerializeField] private WeaponMono _weapon;
         [SerializeField] private float _weaponRange;
         public float WeaponRange => _weapon == null ? 0 : _weapon.WeaponRange;
     
@@ -241,6 +241,11 @@ namespace FroggyDefense.Core.Enemies
 
             Debug.Log("Applied a new status effect [" + status.Name + "] to [" + gameObject.name + "]. There are now (" + _statusEffects.Count + ") status effects.");
             CalculateMoveSpeedModifer();
+        }
+
+        public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime)
+        {
+            controller.Lunge(dir, strength, knockBackTime, moveLockTime);
         }
 
         /// <summary>

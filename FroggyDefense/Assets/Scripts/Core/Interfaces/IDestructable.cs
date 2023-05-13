@@ -1,3 +1,4 @@
+using UnityEngine;
 using FroggyDefense.Core.Spells;
 
 namespace FroggyDefense.Core
@@ -27,10 +28,14 @@ namespace FroggyDefense.Core
         /// Applies a status effect.
         /// </summary>
         /// <param name="status"></param>
-        public void ApplyStatusEffect(StatusEffect status)
-        {
+        public void ApplyStatusEffect(StatusEffect status);
 
-        }
+        /// <summary>
+        /// Knocks back the unit in the given direction with the set strength.
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="strength"></param>
+        public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime);
 
         /// <summary>
         /// Resolves any death effects for the object.

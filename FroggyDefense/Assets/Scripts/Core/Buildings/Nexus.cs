@@ -95,6 +95,11 @@ namespace FroggyDefense.Core.Buildings
 
         }
 
+        public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime)
+        {
+            // Immune to knock back. Do nothing.
+        }
+
         public void Die()
         {
             m_Health = 0;

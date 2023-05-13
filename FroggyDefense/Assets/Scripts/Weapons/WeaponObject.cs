@@ -37,10 +37,16 @@ namespace FroggyDefense.Weapons
         [Space]
         [Header("Melee Stats")]
         [Space]
+        [SerializeField] private bool _hasMeleeAttack;                              // If the weapon has a melee attack component.
+        [SerializeField] private float _meleeKnockback = 1;
+        [SerializeField] private float _meleeKnockbackTime = .25f;
         [SerializeField] private float _weaponRange;                                // How far the weapon attack range is.
         [SerializeField] private bool _hasLunge;                                    // If the user lunges on attack.
         [SerializeField] private float _lungeStrength;                              // How much the user lunges forward.
         [SerializeField] private float _lungeTime;                                  // How long the lunge lasts for.
+        public bool HasMeleeAttack => _hasMeleeAttack;
+        public float MeleeKnockback => _meleeKnockback;
+        public float MeleeKnockbackTime => _meleeKnockbackTime;
         public float WeaponRange => _weaponRange;
         public bool HasLunge => _hasLunge;
         public float LungeStrength => _lungeStrength;
