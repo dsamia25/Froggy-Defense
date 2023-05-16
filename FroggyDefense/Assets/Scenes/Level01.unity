@@ -6265,6 +6265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 595515300}
+  _projectileFireLocation: {fileID: 0}
 --- !u!96 &167287574
 TrailRenderer:
   serializedVersion: 2
@@ -62696,8 +62697,8 @@ MonoBehaviour:
   DamagedMaterial: {fileID: 2100000, guid: 7f36b8828faa24f6fbdaaf21f011c63c, type: 2}
   DefaultMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_DamagedAnimationTime: 0.1
-  _weaponTemplate: {fileID: 11400000, guid: 981ed5734d5d7444980b2ca3c443b136, type: 2}
-  m_WeaponUser: {fileID: 0}
+  _weaponTemplate: {fileID: 11400000, guid: 51aaba8073ded47398f412a4cc314048, type: 2}
+  m_WeaponUser: {fileID: 167287573}
   PlayerDeathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -62769,44 +62770,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a688288e8f1b4fda8556e3f0a208b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FireLoc: {fileID: 444037409}
-  m_FireDir: {x: 0, y: 1}
-  m_StartingWeapon: {fileID: 11400000, guid: 9ef612931e3af44f7a92eba2f34b04bf, type: 2}
-  m_ProjectilePool:
-    _pool: []
-  _weaponDamage: 1
-  _hasSplashDamage: 0
-  _splashDamage: 0
-  _splashLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _splashRadius: 0
-  _userDirectDamageScaleFactor: 1
-  _userSplashDamageScaleFactor: 1
-  _attackCooldown: 0.1
-  _weaponRange: 0
-  _hasLunge: 0
-  _lungeStrength: 0
-  _lungeTime: 0
-  _shootsProjectile: 1
-  _projectilePrefab: {fileID: 0}
-  _projectilePoolSize: 8
-  _projectileSpeed: 1
-  _hasPiercing: 0
-  _piercingNumber: 0
-  _hasMaxRange: 1
-  _maxRange: 20
-  _hasMaxTime: 1
-  _timeLimit: 20
-  _hasSeeking: 0
-  _seekingTurnAngle: 0.05
-  m_HasSprayPattern: 0
-  m_SprayPattern: []
-  m_SprayPatternIndex: 0
-  m_SprayPatternCooldown: 1
-  m_BurstFireEnabled: 0
-  m_BurstFireAmount: 1
-  m_BurstDelay: 0.25
 --- !u!50 &595515305
 Rigidbody2D:
   serializedVersion: 4
@@ -72296,7 +72259,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 698, y: 0}
+  m_AnchoredPosition: {x: 629, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005030982

@@ -23,7 +23,7 @@ namespace FroggyDefense.Core.Enemies
             var dT = Time.deltaTime;
 
             // If the player is within attack range, attack.
-            if (distance <= _enemy.WeaponRange)
+            if (distance <= _enemy.AttackRange)
             {
                 animator.SetBool("Attacking", true);
             } else if (distance > _enemy.LeashRadius)            // If the player is outside of leash range, count down the leash break time.

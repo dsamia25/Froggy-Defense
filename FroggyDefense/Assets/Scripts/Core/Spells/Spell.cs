@@ -77,10 +77,15 @@ namespace FroggyDefense.Core.Spells
 
                 Debug.Log("Casting " + Name + " as an AOE Spell. Damaged " + targets.Length + " targets.");
             }
+            else if (Type == SpellType.Projectile)
+            {
+                Debug.Log("Casting " + Name + " as a Projectile Spell.");
+            }
             else if (Type == SpellType.Targeted)
             {
                 Debug.Log("Casting " + Name + " as a Targeted Spell.");
-            } else
+            }
+            else
             {
                 Debug.Log("ERROR: Casting " + Name + " as an unknown spell type (" + Type.ToString() + ").");
                 return false;

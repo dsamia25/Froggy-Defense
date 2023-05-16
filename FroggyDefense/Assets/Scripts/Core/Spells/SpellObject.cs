@@ -1,10 +1,12 @@
 using UnityEngine;
+using FroggyDefense.Weapons;
 
 namespace FroggyDefense.Core.Spells
 {
     public enum SpellType
     {
         AOE,
+        Projectile,
         Targeted
     }
 
@@ -29,9 +31,10 @@ namespace FroggyDefense.Core.Spells
         [Space]
         [Header("Intial Damage")]
         [Space]
-        public float Damage;            // How much damage the spell does.
+        public ProjectileInfo Projectile;       // Projectile info for projectile type spells.
+        public float Damage;                    // How much damage the spell does.
         public DamageType SpellDamageType;
-        public float EffectRadius;      // How wide of an area the spell effects.
+        public float EffectRadius;              // How wide of an area the spell effects.
 
         [Space]
         [Header("Status Effect")]

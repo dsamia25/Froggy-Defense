@@ -40,7 +40,7 @@ namespace FroggyDefense.Core.Buildings
         [SerializeField] private GameObject m_TurretBody;               // The stationary base of the turret.
         [SerializeField] private RectTransform m_HighlightRangeCircle;  // The target radius highlight circle when the turret is moused over.
         [SerializeField] private RectTransform m_SelectRangeCircle;     // The target radius highlight circle when the turret is selected.
-        [SerializeField] protected WeaponMono m_Weapon = null;
+        [SerializeField] protected WeaponUser m_Weapon = null;
 
         [Space]
         [Header("Target Settings")]
@@ -165,7 +165,7 @@ namespace FroggyDefense.Core.Buildings
         /// </summary>
         public void Attack()
         {
-            m_Weapon.Shoot((m_Focus.transform.position - transform.position).normalized);
+            //m_Weapon.Shoot((m_Focus.transform.position - transform.position).normalized);
             _currAttackCooldown = m_AttackCooldown;
         }
 

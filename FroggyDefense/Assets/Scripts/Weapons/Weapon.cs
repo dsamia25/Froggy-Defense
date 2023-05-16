@@ -3,18 +3,19 @@ using FroggyDefense.Core;
 
 namespace FroggyDefense.Weapons
 {
+    // TODO: Maybe will be used later.
     /// <summary>
     /// Determines a weapon's attack animation.
     /// - Swing will cause a moving attack arc.
     /// - Stab will cause a moving attack forward.
     /// - Slam will cause an immediate damage area.
     /// </summary>
-    public enum WeaponAttackStyle
-    {
-        Swing,
-        Stab,
-        Slam
-    }
+    //public enum WeaponAttackStyle
+    //{
+    //    Swing,
+    //    Stab,
+    //    Slam
+    //}
 
     public class Weapon
     {
@@ -23,16 +24,16 @@ namespace FroggyDefense.Weapons
         public string Name => _template.name;
 
         public bool HasMeleeAttack => _template.HasMeleeAttack;
-        public float MeleeDamage => _template.m_WeaponDamage;
+        public float MeleeDamage => _template.MeleeDamage;
         public float MeleeKnockback => _template.MeleeKnockback;
         public float MeleeKnockbackTime => _template.MeleeKnockbackTime;
-
-        public bool HasProjectile => _template.ShootsProjectile;
-        public float ProjectileKnockback = 1;
 
         public bool HasLunge => _template.HasLunge;
         public float LungeStrength => _template.LungeStrength;
         public float LungeTime => _template.LungeTime;
+
+        public bool HasProjectile => _template.ShootsProjectile;
+        public ProjectileInfo Projectile { get; private set; }
 
         public float AttackCooldown;
         public float CurrAttackCooldown { get; private set; }
@@ -40,6 +41,7 @@ namespace FroggyDefense.Weapons
         public Weapon(WeaponObject template)
         {
             _template = template;
+            Projectile = _template.Projectile;
         }
 
         /// <summary>

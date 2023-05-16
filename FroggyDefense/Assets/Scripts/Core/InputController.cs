@@ -96,8 +96,7 @@ namespace FroggyDefense.Core
                 else if (Input.GetMouseButtonDown(0))
                 {
                     Debug.Log("Pressed Attack");
-                    //_player.Attack();
-                    _player.m_WeaponUser.Activate();
+                    _player.m_WeaponUser.Attack(Input.mousePosition);
                 }
             }
             _moveInput.x = Input.GetAxisRaw("Horizontal");

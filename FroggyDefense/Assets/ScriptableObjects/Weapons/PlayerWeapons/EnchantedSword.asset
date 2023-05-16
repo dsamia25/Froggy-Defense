@@ -10,36 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
-  m_Name: Longsword
+  m_Name: EnchantedSword
   m_EditorClassIdentifier: 
-  m_WeaponDamage: 4
   m_DirectDamageScalingStat: 1
   m_DirectDamageScalingFactor: 1
-  m_HasSplashDamage: 0
-  m_SplashDamage: 0
-  m_SplashDamageScalingStat: 1
-  m_SplashDamageScalingFactor: 1
-  m_SplashLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  m_SplashRadius: 0
-  m_HasMaxSplashTargets: 0
-  m_MaxSplashTargets: 100
-  m_AttackCooldown: 0.25
-  _hasMeleeAttack: 1
+  _hasMeleeAttack: 0
+  _meleeDamage: 4
   _meleeKnockback: 200
   _meleeKnockbackTime: 0.5
-  _weaponRange: 2
-  _hasLunge: 1
-  _lungeStrength: 250
-  _lungeTime: 0.4
+  _meleeRange: 0
+  _hasLunge: 0
+  _lungeStrength: 0
+  _lungeTime: 0
+  _lungeCooldown: 0
   _shootsProjectile: 1
+  _projectileCooldown: 0.25
   _projectile:
-    ProjectilePrefab: {fileID: 0}
+    ProjectilePrefab: {fileID: 2582796137511937079, guid: 7effd2e9ed5974d91927d81a3e0e10b8, type: 3}
     ProjectilePoolSize: 8
     Damage: 1
-    DirectDamageType: 0
-    MoveSpeed: 1
+    DirectDamageType: 4
+    MoveSpeed: 5.5
     HasSplashDamage: 0
     SplashDamage: 0
     SplashDamageType: 0
@@ -51,10 +42,10 @@ MonoBehaviour:
     SplashRadius: 0
     HasMaxSplashTargets: 0
     MaxSplashTargets: 100
-    HasPiercing: 0
-    MaxPierces: 0
+    HasPiercing: 1
+    MaxPierces: 2
     HasMaxRange: 1
-    MaxRange: 20
+    MaxRange: 4
     HasRangeEffectModifier: 0
     TravelDistanceEffectModifierRange: {x: 1, y: 1}
     HasMaxTime: 1

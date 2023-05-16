@@ -61,9 +61,9 @@ namespace FroggyDefense.Core.Enemies
         [Space]
         [Header("Attacking")]
         [Space]
-        [SerializeField] private WeaponMono _weapon;
-        [SerializeField] private float _weaponRange;
-        public float WeaponRange => _weapon == null ? 0 : _weapon.WeaponRange;
+        [SerializeField] private WeaponUser _weapon;
+        [SerializeField] private float _attackRange;
+        public float AttackRange = 1f;
     
         [Space]
         [Header("Targetting")]

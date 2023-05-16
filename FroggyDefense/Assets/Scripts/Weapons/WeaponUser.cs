@@ -6,8 +6,15 @@ namespace FroggyDefense.Weapons
 {
     public class WeaponUser : MonoBehaviour
     {
+        // Serialized Stuff
+        #region SerializedFields
         [SerializeField] private Player _player;
         [SerializeField] private Weapon _weapon;
+        [SerializeField] private Transform _projectileFireLocation;
+        #endregion
+
+        // Properties
+        #region Properties
         public Weapon EquippedWeapon
         {
             get => _weapon;
@@ -17,12 +24,28 @@ namespace FroggyDefense.Weapons
                 UpdateWeapon(value);
             }
         }
+        #endregion
 
+        // Private Stuff
+        #region Private Stuff
         private ObjectController _controller;
+        private ProjectilePool m_ProjectilePool = null;
+        private Transform _projectilePoolParent = null;
+        #endregion
 
         private void Awake()
         {
-            _controller = _player.gameObject.GetComponent<ObjectController>();    
+            _controller = _player.gameObject.GetComponent<ObjectController>();
+
+            _projectilePoolParent = new GameObject(gameObject.name + "ProjectilePool").transform;
+        }
+
+        private void Start()
+        {
+            if (_projectileFireLocation == null)
+            {
+                _projectileFireLocation = transform;
+            }
         }
 
         /// <summary>
@@ -31,25 +54,42 @@ namespace FroggyDefense.Weapons
         /// <param name="newWeapon"></param>
         public void UpdateWeapon(Weapon newWeapon)
         {
+            _weapon = newWeapon;
 
+            if (_weapon.HasProjectile)
+            {
+                if (m_ProjectilePool != null)
+                {
+                    m_ProjectilePool.Clear();
+                }
+                m_ProjectilePool = new ProjectilePool(_weapon.Projectile.ProjectilePrefab, _projectilePoolParent, _weapon.Projectile.ProjectilePoolSize);
+            }
         }
 
         /// <summary>
         /// Activates the weapon.
         /// </summary>
-        public void Activate()
+        public void Attack(Vector2 pos)
         {
-            gameObject.SetActive(true);
+            if (_weapon.HasMeleeAttack)
+            {
+                gameObject.SetActive(true);
+            }
+
+            Vector2 attackDir = (Camera.main.ScreenToViewportPoint(pos) - Camera.main.WorldToViewportPoint(_player.transform.position)).normalized;
 
             if (_weapon.HasLunge)
             {
-                Vector2 angle = (Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized;
-                _controller.Lunge(angle, _weapon.LungeStrength, _weapon.LungeTime, .75f * _weapon.LungeTime);
+                _controller.Lunge(attackDir, _weapon.LungeStrength, _weapon.LungeTime, .75f * _weapon.LungeTime);
             }
 
             if (_weapon.HasProjectile)
             {
                 // Shoots projectile
+                Projectile projectile = m_ProjectilePool.Get();
+                projectile.transform.position = _projectileFireLocation.position;
+
+                projectile.Shoot(_weapon, attackDir);
             }
         }
 
