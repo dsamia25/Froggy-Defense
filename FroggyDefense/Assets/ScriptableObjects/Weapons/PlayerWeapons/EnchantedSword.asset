@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DirectDamageScalingStat: 1
   m_DirectDamageScalingFactor: 1
-  _hasMeleeAttack: 0
+  _hasMeleeAttack: 1
   _meleeDamage: 4
   _meleeKnockback: 200
   _meleeKnockbackTime: 0.5

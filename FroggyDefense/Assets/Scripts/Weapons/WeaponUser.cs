@@ -31,6 +31,7 @@ namespace FroggyDefense.Weapons
         private ObjectController _controller;
         private ProjectilePool m_ProjectilePool = null;
         private Transform _projectilePoolParent = null;
+        private float _currProjectileCooldown = 0;
         #endregion
 
         private void Awake()
@@ -46,6 +47,11 @@ namespace FroggyDefense.Weapons
             {
                 _projectileFireLocation = transform;
             }
+        }
+
+        private void Update()
+        {
+            _currProjectileCooldown -= Time.deltaTime;
         }
 
         /// <summary>
@@ -64,6 +70,8 @@ namespace FroggyDefense.Weapons
                 }
                 m_ProjectilePool = new ProjectilePool(_weapon.Projectile.ProjectilePrefab, _projectilePoolParent, _weapon.Projectile.ProjectilePoolSize);
             }
+
+            _currProjectileCooldown = _weapon.ProjectileCooldown;
         }
 
         /// <summary>
@@ -85,11 +93,14 @@ namespace FroggyDefense.Weapons
 
             if (_weapon.HasProjectile)
             {
-                // Shoots projectile
-                Projectile projectile = m_ProjectilePool.Get();
-                projectile.transform.position = _projectileFireLocation.position;
+                if (_currProjectileCooldown <= 0) {
+                    // Shoots projectile
+                    Projectile projectile = m_ProjectilePool.Get();
+                    projectile.transform.position = _projectileFireLocation.position;
 
-                projectile.Shoot(_weapon, attackDir);
+                    projectile.Shoot(_weapon, attackDir);
+                    _currProjectileCooldown = _weapon.ProjectileCooldown;
+                }
             }
         }
 

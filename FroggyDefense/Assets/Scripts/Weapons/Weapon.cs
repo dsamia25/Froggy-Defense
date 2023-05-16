@@ -33,6 +33,7 @@ namespace FroggyDefense.Weapons
         public float LungeTime => _template.LungeTime;
 
         public bool HasProjectile => _template.ShootsProjectile;
+        public float ProjectileCooldown => _template.ProjectileCooldown;
         public ProjectileInfo Projectile { get; private set; }
 
         public float AttackCooldown;
