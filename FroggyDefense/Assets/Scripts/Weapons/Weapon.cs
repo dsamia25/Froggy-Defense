@@ -25,6 +25,9 @@ namespace FroggyDefense.Weapons
 
         public bool HasMeleeAttack => _template.HasMeleeAttack;
         public float MeleeDamage => _template.MeleeDamage;
+        public DamageType MeleeDamageType => _template.MeleeDamageType;
+        public bool HasMeleeDamageScaling => _template.HasMeleeDamageScaling;
+        public StatValuePair MeleeDamageScalingFactor => _template.MeleeDamageScalingFactor;
         public float MeleeKnockback => _template.MeleeKnockback;
         public float MeleeKnockbackTime => _template.MeleeKnockbackTime;
 
@@ -39,41 +42,27 @@ namespace FroggyDefense.Weapons
         public float AttackCooldown;
         public float CurrAttackCooldown { get; private set; }
 
+        private Character _user;
+
         public Weapon(WeaponObject template)
         {
             _template = template;
             Projectile = _template.Projectile;
         }
 
-        /// <summary>
-        /// Uses the weapon in the set direction.
-        /// </summary>
-        /// <param name="dir"></param>
-        public void Attack(Character user, Vector2 dir)
+        public void Equip(Character user)
         {
-            if (CurrAttackCooldown > 0)
-            {
-                Debug.Log(Name + " on cooldown. " + CurrAttackCooldown.ToString("0.00") + " seconds left.");
-                return;
-            }
-            Debug.Log(user.Name + " using " + Name + " in direction (" + dir + "). HasProjectile: " + HasProjectile.ToString() + ".");
+            this._user = user;
+        }
 
-            if (HasMeleeAttack)
-            {
-
-            }
-
-            if (HasProjectile)
-            {
-
-            }
-
-            if (HasLunge)
-            {
-
-            }
-
-            CurrAttackCooldown = AttackCooldown;
+        /// <summary>
+        /// Returns the calculated scaling factor
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <returns></returns>
+        public float GetStatScaling(StatValuePair stat)
+        {
+            return stat.Value * _user.Stats.GetTotalStat(stat.Stat);
         }
     }
 }

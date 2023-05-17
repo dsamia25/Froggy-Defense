@@ -12,39 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
   m_Name: Longsword
   m_EditorClassIdentifier: 
-  m_WeaponDamage: 4
-  m_DirectDamageScalingStat: 1
-  m_DirectDamageScalingFactor: 1
-  m_HasSplashDamage: 0
-  m_SplashDamage: 0
-  m_SplashDamageScalingStat: 1
-  m_SplashDamageScalingFactor: 1
-  m_SplashLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  m_SplashRadius: 0
-  m_HasMaxSplashTargets: 0
-  m_MaxSplashTargets: 100
-  m_AttackCooldown: 0.25
   _hasMeleeAttack: 1
+  _meleeDamage: 1
+  _meleeDamageType: 0
+  _hasMeleeDamageScaling: 1
   _meleeKnockback: 200
   _meleeKnockbackTime: 0.5
-  _weaponRange: 2
+  _meleeRange: 0
+  MeleeDamageScalingFactor:
+    Stat: 0
+    Value: 1
   _hasLunge: 1
   _lungeStrength: 250
   _lungeTime: 0.4
-  _shootsProjectile: 1
+  _lungeCooldown: 0
+  _shootsProjectile: 0
+  _projectileCooldown: 0.25
   _projectile:
     ProjectilePrefab: {fileID: 0}
     ProjectilePoolSize: 8
     Damage: 1
+    HasProjectileDamageScaling: 0
+    ProjectileDamageScalingFactor:
+      Stat: 0
+      Value: 0
     DirectDamageType: 0
     MoveSpeed: 1
     HasSplashDamage: 0
     SplashDamage: 0
     SplashDamageType: 0
-    SplashDamageScalingStat: 1
-    SplashDamageScalingFactor: 1
+    HasSplashDamageScaling: 0
+    SplashDamageScalingFactor:
+      Stat: 0
+      Value: 0
     SplashLayer:
       serializedVersion: 2
       m_Bits: 0

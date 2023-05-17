@@ -128,7 +128,7 @@ namespace FroggyDefense.Weapons
                     // Check if died in the middle of this somehow.
                     return;
                 }
-                target.TakeDamage(_weapon.MeleeDamage);
+                target.TakeDamage(new DamageAction(_player, _weapon.MeleeDamage + (_weapon.HasMeleeDamageScaling ? _weapon.GetStatScaling(_weapon.MeleeDamageScalingFactor) : 0), _weapon.MeleeDamageType));
             }
 
             if (_weapon.MeleeKnockback > 0)

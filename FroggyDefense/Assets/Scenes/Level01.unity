@@ -62643,35 +62643,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: Frog
-  _level: 1
   _xp: 0
   _xpNeeded: 0
   _experienceFunction: {fileID: 11400000, guid: 21e853ba008c944cea8991dbf7133868, type: 2}
-  _baseStrength: 1
-  _baseDexterity: 1
-  _baseAgility: 1
-  _baseIntellect: 1
-  _baseSpirit: 1
-  _strengthGrowth: 0.34
-  _dexterityGrowth: 0.45
-  _agilityGrowth: 0.52
-  _intellectGrowth: 0.67
-  _spiritGrowth: 0.7
-  _strengthIncrease: 1
-  _dexterityIncrease: 1
-  _agilityIncrease: 1
-  _intellectIncrease: 1
-  _spiritIncrease: 1
-  _strengthMod: 1
-  _dexterityMod: 1
-  _agilityMod: 1
-  _intellectMod: 1
-  _spiritMod: 1
-  _strength: 1
-  _dexterity: 1
-  _agility: 1
-  _intellect: 1
-  _spirit: 1
+  _stats:
+    _level: 1
+    _strengthPerLevel: 1
+    _dexterityPerLevel: 1
+    _agilityPerLevel: 1
+    _intellectPerLevel: 1
+    _spiritPerLevel: 1
   _inventory: {fileID: 595515310}
   _wallet: {fileID: 595515312}
   CharacterStatsChanged:
@@ -62697,7 +62678,7 @@ MonoBehaviour:
   DamagedMaterial: {fileID: 2100000, guid: 7f36b8828faa24f6fbdaaf21f011c63c, type: 2}
   DefaultMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_DamagedAnimationTime: 0.1
-  _weaponTemplate: {fileID: 11400000, guid: 51aaba8073ded47398f412a4cc314048, type: 2}
+  _weaponTemplate: {fileID: 11400000, guid: 981ed5734d5d7444980b2ca3c443b136, type: 2}
   m_WeaponUser: {fileID: 167287573}
   PlayerDeathEvent:
     m_PersistentCalls:
@@ -66426,7 +66407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -72259,7 +72240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 629, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005030982

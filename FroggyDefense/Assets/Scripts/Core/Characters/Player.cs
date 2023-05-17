@@ -10,7 +10,7 @@ using FroggyDefense.Core.Enemies;
 
 namespace FroggyDefense.Core
 {
-    public class Player : Character, IDestructable, IUseWeapon
+    public class Player : Character, IDestructable
     {
         [SerializeField] protected HealthBar m_HealthBar = null;
 
@@ -99,12 +99,8 @@ namespace FroggyDefense.Core
                 animator = GetComponent<Animator>();
             }
 
-            //if (m_Weapon == null)
-            //{
-            //    m_Weapon = GetComponent<WeaponMono>();
-            //}
-
             EquippedWeapon = new Weapon(_weaponTemplate);
+            EquippedWeapon.Equip(this);
             if (m_WeaponUser == null)
             {
                 m_WeaponUser = GetComponentInChildren<WeaponUser>();
@@ -169,10 +165,10 @@ namespace FroggyDefense.Core
         /// </summary>
         public void Attack()
         {
-            if (GameManager.ShootingEnabled)
-            {
-                EquippedWeapon.Attack(this, (Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
-            }
+            //if (GameManager.ShootingEnabled)
+            //{
+            //    //EquippedWeapon.Attack(this, (Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
+            //}
         }
 
         #region Movement
@@ -283,38 +279,10 @@ namespace FroggyDefense.Core
                 interactable.Interact(gameObject);
             }
 
-            //Projectile projectile = null;
-            //if ((projectile = collision.gameObject.GetComponent<Projectile>()) != null)
-            //{
-            //    TakeDamage(projectile.m_Damage);
-            //}
-
             if (collision.tag == "DeathBox")
             {
                 Die();
             }
-        }
-
-        // TODO: Make an actual formula for this.
-        // TODO: Store this in a value updated in UpdateStats()
-        /// <summary>
-        /// Returns the player's stats converted into a direct attack value.
-        /// </summary>
-        /// <returns></returns>
-        public float GetDirectDamage()
-        {
-            return Strength;
-        }
-
-        // TODO: Make an actual formula for this.
-        // TODO: Store this in a value updated in UpdateStats()
-        /// <summary>
-        /// Returns the player's stats converted into a splash attack value.
-        /// </summary>
-        /// <returns></returns>
-        public float GetSplashDamage()
-        {
-            return Intellect;
         }
 
         /// <summary>

@@ -14,8 +14,10 @@ namespace FroggyDefense.Weapons
         public GameObject ProjectilePrefab = null;                                  // The projectile prefab.
         public int ProjectilePoolSize = 8;                                          // Max number of projectiles active in the pool.
         public float Damage = 1f;                                                   // How much damage the projectile does.
-        public DamageType DirectDamageType;
-        public float MoveSpeed = 1f;                                                // How fase the projectile moves.
+        public bool HasProjectileDamageScaling = false;                             // If the projectile damage scales with a particular stat.
+        public StatValuePair ProjectileDamageScalingFactor;                         // What stat the projectile damage scales with.
+        public DamageType DirectDamageType;                                         // What type of damage the projectile does.
+        public float MoveSpeed = 1f;                                                // How fast the projectile moves.
 
         [Space]
         [Header("Splash")]
@@ -24,8 +26,9 @@ namespace FroggyDefense.Weapons
         public float SplashDamage = 0f;                                             // Base splash damage.
         public DamageType SplashDamageType;
         // TODO: Add these effects to Weapon.
-        public StatType SplashDamageScalingStat = StatType.strength;                // Which stat effects the weapon's splash damage.
-        public float SplashDamageScalingFactor = 1f;                                // How much the stat effects the weapon's splash damage.
+        public bool HasSplashDamageScaling = false;
+        public StatValuePair SplashDamageScalingFactor;                             // What stat the splash damage scales with.
+
         public LayerMask SplashLayer = 0;                                           // Which layer is effected by splash damage.
         public float SplashRadius = 0f;                                             // How wide the splash radius is.
         // TODO: Add these effects to Weapon.

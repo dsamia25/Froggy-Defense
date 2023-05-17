@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items
@@ -20,6 +21,8 @@ namespace FroggyDefense.Core.Items
         public int Agility = 0;
         public int Intellect = 0;
         public int Spirit = 0;
+
+        public List<StatValuePair> Stats = new List<StatValuePair>();
 
         /// <summary>
         /// Creates an empty equipment item.
@@ -45,11 +48,11 @@ namespace FroggyDefense.Core.Items
             Icon = template.Icon;
             IsStackable = false;
 
-            Strength = template.Strength;
-            Dexterity = template.Dexterity;
-            Agility = template.Agility;
-            Intellect = template.Intellect;
-            Spirit = template.Spirit;            
+            foreach (StatValuePair stat in template.Stats)
+            {
+                // TODO: Maybe need to create a new struct? Not sure if that will be important.
+                Stats.Add(stat);
+            }
         }
 
         public override bool Use()

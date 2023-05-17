@@ -122,7 +122,7 @@ namespace FroggyDefense.Weapons
                     {
                         if (destructable != m_PrimaryTarget)
                         {
-                            destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.SplashDamage, _weapon.Projectile.SplashDamageType));
+                            destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.SplashDamage + (_weapon.Projectile.HasSplashDamageScaling ? _weapon.GetStatScaling(_weapon.Projectile.SplashDamageScalingFactor) : 0), _weapon.Projectile.SplashDamageType));
                         }
                     }
                 }
@@ -135,7 +135,7 @@ namespace FroggyDefense.Weapons
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.Damage, _weapon.Projectile.DirectDamageType));
+                destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.Damage + (_weapon.Projectile.HasProjectileDamageScaling ? _weapon.GetStatScaling(_weapon.Projectile.ProjectileDamageScalingFactor) : 0), _weapon.Projectile.DirectDamageType));
                 m_PrimaryTarget = destructable;
 
                 // Explode if it doesn't have piercing or if it's done with piercing.

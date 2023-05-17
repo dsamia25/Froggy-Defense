@@ -6,24 +6,21 @@ namespace FroggyDefense.Weapons
     [CreateAssetMenu(fileName = "New Weapon", menuName = "ScriptableObjects/Weapons/New Weapon")]
     public class WeaponObject : ScriptableObject
     {
-        // TODO: Reorder these effects in the list.
-        [Space]
-        [Header("Direct Damage")]
-        [Space]
-        // TODO: Add these effects to Weapon.
-        public StatType m_DirectDamageScalingStat = StatType.strength;              // Which stat effects the weapon's direct damage.
-        public float m_DirectDamageScalingFactor = 1f;                              // How much the stat effects the weapon's direct damage.
-
         [Space]
         [Header("Melee Stats")]
         [Space]
         [SerializeField] private bool _hasMeleeAttack;                              // If the weapon has a melee attack component.
         [SerializeField] private float _meleeDamage;                                // How much damage the melee attack does.
+        [SerializeField] private DamageType _meleeDamageType;                       // What type of damage the projectile does.
+        [SerializeField] private bool _hasMeleeDamageScaling;                       // If the melee damage scales with a particluar stat.
         [SerializeField] private float _meleeKnockback = 1;                         // How much the attack knock enemies back.
         [SerializeField] private float _meleeKnockbackTime = .25f;                  // How long enemies are stuck in the knockback.
         [SerializeField] private float _meleeRange;                                 // How far the weapon attack range is.
         public bool HasMeleeAttack => _hasMeleeAttack;
         public float MeleeDamage => _meleeDamage;
+        public DamageType MeleeDamageType => _meleeDamageType;
+        public bool HasMeleeDamageScaling => _hasMeleeDamageScaling;
+        public StatValuePair MeleeDamageScalingFactor;
         public float MeleeKnockback => _meleeKnockback;
         public float MeleeKnockbackTime => _meleeKnockbackTime;
         public float MeleeRange => _meleeRange;

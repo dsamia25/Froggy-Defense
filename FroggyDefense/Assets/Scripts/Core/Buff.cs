@@ -15,7 +15,7 @@ namespace FroggyDefense.Core
     /// </summary>
     public abstract class BuffEffect
     {
-        public StatType stat = StatType.NULL;
+        public StatType stat;
         public bool valueBuff = true;
         public abstract float ApplyBuff(float input);
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items
@@ -13,10 +14,6 @@ namespace FroggyDefense.Core.Items
         [Space]
         [Header("Stats")]
         [Space]
-        public int Strength = 0;
-        public int Dexterity = 0;
-        public int Agility = 0;
-        public int Intellect = 0;
-        public int Spirit = 0;
+        public List<StatValuePair> Stats = new List<StatValuePair>();
     }
 }
