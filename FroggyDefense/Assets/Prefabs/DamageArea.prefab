@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d8cd3c2be53484864bca287d81801150, type: 2}
+  - {fileID: 2100000, guid: 9deefeb8cd1c7428c8b7ad60c654eef1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,6 +108,12 @@ MonoBehaviour:
     TargetLayer:
       serializedVersion: 2
       m_Bits: 0
+    AppliesStatusEffect: 0
+    AppliedStatusEffect:
+      Name: STATUS EFFECT
+      EffectStrength: 1
+      StatusType: 0
+      EffectTime: 1
 --- !u!114 &-5050506634187700343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mesh: {fileID: 0}
-  Sides: 32
+  Sides: 64
   Width: 0
   LineWidth: 0
   isFilled: 1
