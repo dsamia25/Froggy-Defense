@@ -28,6 +28,9 @@ namespace FroggyDefense.Core
         [SerializeField] private int _level = 1;
         public int Level { get => _level; set => _level = value; }
 
+        [SerializeField] private float _moveSpeed;
+        public float MoveSpeed { get => _moveSpeed; }
+
         [Space]
         [Header("Base Stats Per Level")]
         [Space]

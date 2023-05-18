@@ -3,7 +3,7 @@ using FroggyDefense.Core;
 
 public class Player_Damaged : StateMachineBehaviour
 {
-    Player player = null;
+    private Character player = null;
     public SpriteRenderer renderer = null;
     public float DamagedAnimationTime = 1f;
     public float currTime = 0f;
@@ -12,7 +12,7 @@ public class Player_Damaged : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player = animator.gameObject.GetComponentInParent<Player>();
+        player = animator.gameObject.GetComponentInParent<Character>();
         player.m_Invincible = true;
         DamagedAnimationTime = player.m_DamagedAnimationTime;
         currTime = 0f;

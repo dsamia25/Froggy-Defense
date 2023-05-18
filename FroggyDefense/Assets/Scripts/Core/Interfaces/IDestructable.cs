@@ -9,13 +9,13 @@ namespace FroggyDefense.Core
         /// Damages the object by the given amount.
         /// </summary>
         /// <param name="damage"></param>
-        public void TakeDamage(float damage);
+        public abstract void TakeDamage(float damage);
 
         /// <summary>
         /// Damages the object with the given damage action.
         /// </summary>
         /// <param name="damage"></param>
-        public void TakeDamage(DamageAction damage);
+        public abstract void TakeDamage(DamageAction damage);
 
         // TODO: Merge ApplyDot and ApplyStatusEffect into the same method.
         /// <summary>
@@ -40,7 +40,10 @@ namespace FroggyDefense.Core
         /// <summary>
         /// Resolves any death effects for the object.
         /// </summary>
-        public void Die();
+        public virtual void Die()
+        {
+
+        }
     }
 
     // TODO: Not sure if it should be a struct or a class.

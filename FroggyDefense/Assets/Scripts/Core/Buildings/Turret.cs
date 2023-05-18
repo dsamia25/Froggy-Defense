@@ -29,7 +29,7 @@ namespace FroggyDefense.Core.Buildings
         Range
     }
 
-    public class Turret : MonoBehaviour, IUseWeapon, IInteractable
+    public class Turret : MonoBehaviour, IUseWeapon, IInteractable, IHasStats
     {
         public Player m_Player;     // The player that owns the turret.
 
@@ -57,6 +57,7 @@ namespace FroggyDefense.Core.Buildings
         [Space]
         [Header("Turret Stats")]
         [Space]
+
         [SerializeField] private float _directDamage = 1f;
         [SerializeField] private float _splashDamage = 1f;
         [SerializeField] private float _attackRadius = 1f;                                      // How far the turret can attack it's focus.
@@ -150,6 +151,15 @@ namespace FroggyDefense.Core.Buildings
             _currAttackCooldown -= Time.deltaTime;
             _targetCheckCooldown -= Time.deltaTime;
             _changeFocusCooldown -= Time.deltaTime;
+        }
+
+        /// <summary>
+        /// Gets the unit's stat sheet.
+        /// </summary>
+        /// <returns></returns>
+        public StatSheet GetStats()
+        {
+            return null;
         }
 
         private void UpdateTargetRadiusOverlay()

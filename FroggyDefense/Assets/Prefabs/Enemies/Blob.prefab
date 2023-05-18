@@ -101,6 +101,111 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &3048262639062542254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7079391792947196507}
+  - component: {fileID: 1346622693607733339}
+  - component: {fileID: 1998022757796020620}
+  m_Layer: 9
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7079391792947196507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048262639062542254}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5072654201736512010}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1346622693607733339
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048262639062542254}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: 8b4596db50a8547ecafd76eb2778eba6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!95 &1998022757796020620
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048262639062542254}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e88c3a5277549479a98dd5b217793f2f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &5072654201736512015
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +243,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6145426357498907750}
+  - {fileID: 7079391792947196507}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -148,7 +254,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5072654201736512015}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -262,21 +368,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7c2c2d9359f4766a0fc3b8bd1e45a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Blob
   m_HealthBar: {fileID: 2007384587168905277}
+  visualsAnimator: {fileID: 1998022757796020620}
+  DamagedMaterial: {fileID: 2100000, guid: 7f36b8828faa24f6fbdaaf21f011c63c, type: 2}
+  DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_DamagedAnimationTime: 0.1
+  _xp: 0
+  _xpNeeded: 0
+  _experienceFunction: {fileID: 0}
+  _maxHealth: 12
+  _health: 12
+  _maxMana: 100
+  _mana: 100
+  _moveSpeed: 1
+  _stats:
+    _level: 1
+    _moveSpeed: 0
+    _strengthPerLevel: 1
+    _dexterityPerLevel: 1
+    _agilityPerLevel: 1
+    _intellectPerLevel: 1
+    _spiritPerLevel: 1
+  _isStunned: 0
+  _moveSpeedModifer: 1
+  _stunEffectCounter: 0
+  _invincible: 0
+  _splashShield: 0
+  _statusEffects: []
+  _dots: []
+  _inventory: {fileID: 0}
+  _wallet: {fileID: 0}
+  CharacterStatsChanged:
+    m_PersistentCalls:
+      m_Calls: []
   m_HideHealthBarAtFull: 1
   Points: 75
   Experience: 10
-  _maxHealth: 12
-  _health: 12
   _nexusDamage: 1
   _damage: 1
-  _moveSpeedModifer: 1
-  _stunEffectCounter: 0
-  _isStunned: 0
-  _invincible: 0
-  _splashShield: 0
-  _weapon: {fileID: 3274697882266213094}
-  _weaponRange: 0.1
+  _weapon: {fileID: 0}
+  _attackRange: 0
+  AttackRange: 1
   _targetsPlayers: 1
   m_TargetLayer:
     serializedVersion: 2
@@ -289,8 +422,6 @@ MonoBehaviour:
   _maxleashTime: 30
   _leashResetTime: 5
   _focus: {fileID: 0}
-  _statusEffects: []
-  _dots: []
 --- !u!114 &3633966445486539865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,44 +462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a688288e8f1b4fda8556e3f0a208b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FireLoc: {fileID: 0}
-  m_FireDir: {x: 0, y: 0}
-  m_StartingWeapon: {fileID: 11400000, guid: 2b087d972e3c94315ac4a3f1f9c1e1f7, type: 2}
-  m_ProjectilePool:
-    _pool: []
-  _weaponDamage: 1
-  _hasSplashDamage: 0
-  _splashDamage: 0
-  _splashLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _splashRadius: 0
-  _userDirectDamageScaleFactor: 1
-  _userSplashDamageScaleFactor: 1
-  _attackCooldown: 0.1
-  _weaponRange: 0
-  _hasLunge: 0
-  _lungeStrength: 0
-  _lungeTime: 0
-  _shootsProjectile: 1
-  _projectilePrefab: {fileID: 0}
-  _projectilePoolSize: 8
-  _projectileSpeed: 1
-  _hasPiercing: 0
-  _piercingNumber: 0
-  _hasMaxRange: 1
-  _maxRange: 20
-  _hasMaxTime: 1
-  _timeLimit: 20
-  _hasSeeking: 0
-  _seekingTurnAngle: 0.05
-  m_HasSprayPattern: 0
-  m_SprayPattern: []
-  m_SprayPatternIndex: 0
-  m_SprayPatternCooldown: 1
-  m_BurstFireEnabled: 0
-  m_BurstFireAmount: 1
-  m_BurstDelay: 0.25
 --- !u!1001 &724048808542710039
 PrefabInstance:
   m_ObjectHideFlags: 0

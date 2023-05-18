@@ -1,57 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FroggyDefense.Movement;
 using FroggyDefense.Weapons;
-using FroggyDefense.UI;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Core.Enemies;
 
 namespace FroggyDefense.Core
 {
-    public class Player : Character, IDestructable
+    public class Player : Character
     {
-        [SerializeField] protected HealthBar m_HealthBar = null;
-
         public SpellObject[] AbilityTemplates = new SpellObject[4];
         public Spell[] Abilities = new Spell[4];
-
-        [Space]
-        [Header("Stats")]
-        [Space]
-        [SerializeField] protected float _maxHealth = 1f;
-        [SerializeField] protected float _health = 1f;
-        public float m_Health
-        {
-            get => _health;
-            set
-            {
-                float amount = value;
-                if (amount > _maxHealth)
-                {
-                    amount = _maxHealth;
-                }
-                _health = amount;
-
-                if (m_HealthBar != null)
-                {
-                    m_HealthBar.SetMaxHealth(_health, _maxHealth);
-                }
-            }
-        }
-        public bool IsDamaged => _health < _maxHealth;
-        [SerializeField] protected float _maxMana = 100;
-        [SerializeField] protected float _mana = 100;
-        public float m_Mana { get => _mana; }
-        
-        [SerializeField] protected float _moveSpeed = 1f;
-        [SerializeField] protected float MoveSpeed => _moveSpeed;   // The player's total attack speed with all buffs applied.
-
-        [SerializeField] protected bool _invincible;
-        [SerializeField] protected bool _splashShield;
-        public bool m_Invincible { get => _invincible; set { _invincible = value; } }
-        public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
 
         [Space]
         [Header("Turrets")]
@@ -61,44 +21,20 @@ namespace FroggyDefense.Core
         public int m_TurretCap { get => _turretCap; }
         public List<Turret> m_Turrets = new List<Turret>();
 
-        [Space]
-        [Header("Animations")]
-        [Space]
-        public Animator animator = null;
-        public Material DamagedMaterial = null;
-        public Material DefaultMaterial = null;
-        public float m_DamagedAnimationTime = 1f;
-
         [Space] 
         [Header("Attack Settings")]
-        //[SerializeField] protected WeaponMono m_Weapon = null;
         [SerializeField] protected WeaponObject _weaponTemplate;
         public Weapon EquippedWeapon { get; private set; }
         public WeaponUser m_WeaponUser = null;
-
-        private ObjectController controller;
-        private Vector2 _moveDir = Vector2.zero;
 
         [Space]
         [Header("Player Events")]
         [Space]
         public UnityEvent PlayerDeathEvent;
 
-        private void Start()
+        protected override void Start()
         {
-            _health = _maxHealth;
-            if (m_HealthBar != null)
-            {
-                m_HealthBar.InitBar(_maxHealth);
-            }
-
-            controller = GetComponent<ObjectController>();
-
-            if (animator == null)
-            {
-                animator = GetComponent<Animator>();
-            }
-
+            base.Start();
             EquippedWeapon = new Weapon(_weaponTemplate);
             EquippedWeapon.Equip(this);
             if (m_WeaponUser == null)
@@ -122,11 +58,16 @@ namespace FroggyDefense.Core
             }
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             CountdownSpellCooldowns();
         }
 
+        // ********************************************************************
+        // Spells
+        // ********************************************************************
         #region Spells
         /// <summary>
         /// Refreshes the spells on the ability bar using the templates.
@@ -160,17 +101,9 @@ namespace FroggyDefense.Core
         }
         #endregion
 
-        /// <summary>
-        /// Attacks using the player's weapon.
-        /// </summary>
-        public void Attack()
-        {
-            //if (GameManager.ShootingEnabled)
-            //{
-            //    //EquippedWeapon.Attack(this, (Camera.main.ScreenToViewportPoint(Input.mousePosition) - Camera.main.WorldToViewportPoint(transform.position)).normalized);
-            //}
-        }
-
+        // ********************************************************************
+        // Movement
+        // ********************************************************************
         #region Movement
         /// <summary>
         /// Sets the player's movement vector to the input values.
@@ -200,6 +133,10 @@ namespace FroggyDefense.Core
         }
         #endregion
 
+        // ********************************************************************
+        // Experience
+        // ********************************************************************
+        #region Experience
         /// <summary>
         /// Base Character LevelUp function to add stats and reset XP and
         /// also heal health to full.
@@ -207,66 +144,20 @@ namespace FroggyDefense.Core
         public override void LevelUp()
         {
             base.LevelUp();
-            m_Health = _maxHealth;  // Heal to full on levelup.
+            Health = _maxHealth;  // Heal to full on levelup.
         }
+        #endregion
 
+        // ********************************************************************
+        // IDestructable
+        // ********************************************************************
         #region IDestructable
-        /// <summary>
-        /// The player takes damage. If they die then invoke their death event.
-        /// </summary>
-        /// <param name="damage"></param>
-        public void TakeDamage(float damage)
-        {
-            if (_invincible) return;
-
-            if (--m_Health <= 0)
-            {
-                // TODO: Make a saving throw minigame that the player can complete to gain their last health back
-                // or die if they fail.
-                // TODO: Make a death animation.
-                Die();
-            }
-            else
-            {
-                animator.SetBool("DamagedInvincibility", true);
-            }
-        }
-
-        // TODO: Make this the primary method and have the damage be reduced by resistances and stuff.
-        public void TakeDamage(DamageAction damage)
-        {
-            TakeDamage(damage.Damage);
-        }
-
-        /// <summary>
-        /// Applies a damage over time effect.
-        /// </summary>
-        /// <param name="effect"></param>
-        public void ApplyDot(DamageOverTimeEffect dot)
-        {
-
-        }
-
-        /// <summary>
-        /// Applies a status effect.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ApplyStatusEffect(StatusEffect status)
-        {
-
-        }
-
-        public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime)
-        {
-            controller.Lunge(dir, strength, knockBackTime, moveLockTime);
-        }
-
         /// <summary>
         /// Resolves the character's death.
         /// </summary>
-        public void Die()
+        public override void Die()
         {
-            m_Health = 0;
+            Health = 0;
             PlayerDeathEvent?.Invoke();
         }
         #endregion
