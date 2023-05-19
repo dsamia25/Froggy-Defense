@@ -128,8 +128,8 @@ MonoBehaviour:
   _traceHealth: 1
   _traceTime: 1
   _traceDelay: 1
-  decreasingColor: {r: 0, g: 0, b: 0, a: 0}
-  increasingColor: {r: 0, g: 0, b: 0, a: 0}
+  decreasingColor: {r: 1, g: 1, b: 1, a: 1}
+  increasingColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1977929518203089135
 GameObject:
   m_ObjectHideFlags: 0
