@@ -5,6 +5,7 @@ namespace FroggyDefense.UI
 {
     public class HealthBar : MonoBehaviour
     {
+        public bool UseGradient;                // If the gradient should change the color.
         public Gradient gradient;               // The color gradient for the slider.
         public Image fill;                      // The health bar fill.
         public Image deltaTrace;                // The color showing if the health bar is increasing or decreasing.
@@ -43,7 +44,10 @@ namespace FroggyDefense.UI
             {
                 if (tracing)
                 {
-                    fill.color = gradient.Evaluate(fill.fillAmount); // Check what color it should be.
+                    if (UseGradient)
+                    {
+                        fill.color = gradient.Evaluate(fill.fillAmount); // Check what color it should be.
+                    }
 
                     if (_currTraceDelay <= 0)
                     {
@@ -101,7 +105,10 @@ namespace FroggyDefense.UI
 
             if (deltaTrace != null) deltaTrace.fillAmount = _targetFillPercent - .01f;
 
-            fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+            if (UseGradient)
+            {
+                fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+            }
         }
 
         /// <summary>
@@ -116,7 +123,10 @@ namespace FroggyDefense.UI
 
             if (deltaTrace != null) deltaTrace.fillAmount = _targetFillPercent - .01f;
 
-            fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+            if (UseGradient)
+            {
+                fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+            }
         }
 
         /// <summary>
@@ -167,7 +177,10 @@ namespace FroggyDefense.UI
                 // Move normally if not tracing.
                 fill.fillAmount = _targetFillPercent;
                 if (deltaTrace != null) deltaTrace.fillAmount = _targetFillPercent - .01f;
-                fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+                if (UseGradient)
+                {
+                    fill.color = gradient.Evaluate(_targetFillPercent); // Check what color it should be.
+                }
             }
             Health = health;
         }

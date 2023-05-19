@@ -18,6 +18,7 @@ namespace FroggyDefense.Core
         [SerializeField] private string _name = "NAME HERE";    
         public string Name { get => _name; }                    // The character's name.
         [SerializeField] protected HealthBar m_HealthBar = null;
+        [SerializeField] protected HealthBar m_ManaBar = null;
 
         [Space]
         [Header("Animations")]
@@ -44,6 +45,7 @@ namespace FroggyDefense.Core
         [SerializeField] protected float _health = 1f;
         [SerializeField] protected float _maxMana = 100;
         [SerializeField] protected float _mana = 100;
+        [SerializeField] protected float _manaRegen = 8;
         [SerializeField] protected float _moveSpeed = 1f;
         [SerializeField] protected StatSheet _stats;                        // List of base stats and their growth per level.
         public float MaxHealth { get => _maxHealth; }
@@ -63,7 +65,21 @@ namespace FroggyDefense.Core
             }
         }
         public float MaxMana { get => _maxMana; }
-        public float Mana { get => _mana; }
+        public float Mana {
+            get => _mana;
+            set
+            {
+                float amount = value;
+                if (amount > _maxMana)
+                {
+                    amount = _maxMana;
+                }
+                _mana = amount;
+
+                UpdateManaBar();
+            }
+        }
+        public float ManaRegen { get => _manaRegen; }
         public float MoveSpeed => _moveSpeed;   // The player's total attack speed with all buffs applied.
         public StatSheet Stats => _stats;
 
@@ -144,6 +160,12 @@ namespace FroggyDefense.Core
             {
                 m_HealthBar.InitBar(_maxHealth);
             }
+
+            _mana = _maxMana;
+            if (m_ManaBar != null)
+            {
+                m_ManaBar.InitBar(_maxMana);
+            }
         }
 
         private void InitEquipmentSlots()
@@ -159,6 +181,9 @@ namespace FroggyDefense.Core
         #region Update
         protected virtual void Update()
         {
+            // Regen Mana
+            Mana += _manaRegen * Time.deltaTime;
+
             TickDots();
             TickStatusEffects();
         }
@@ -274,6 +299,16 @@ namespace FroggyDefense.Core
             return _equipmentSlots[slot];
         }
         #endregion
+
+        /// <summary>
+        /// Uses the character's mana.
+        /// </summary>
+        /// <returns></returns>
+        public void UseMana(float mana)
+        {
+            Mana -= mana;
+            Debug.Log("Using " + mana + ". " + Name + " now has " + _mana + "/" + _maxMana + " mana.");
+        }
 
         // ********************************************************************
         // IDestructable
@@ -535,11 +570,25 @@ namespace FroggyDefense.Core
             CharacterLeveledUp?.Invoke();
         }
 
+        /// <summary>
+        /// Updates the health bar using the current health and max health.
+        /// </summary>
         public virtual void UpdateHealthBar()
         {
             if (m_HealthBar != null)
             {
                 m_HealthBar.SetMaxHealth(_health, _maxHealth);
+            }
+        }
+
+        /// <summary>
+        /// Updates the mana bar with the current mana and max mana.
+        /// </summary>
+        public virtual void UpdateManaBar()
+        {
+            if (m_ManaBar != null)
+            {
+                m_ManaBar.SetMaxHealth(_mana, _maxMana);
             }
         }
     }

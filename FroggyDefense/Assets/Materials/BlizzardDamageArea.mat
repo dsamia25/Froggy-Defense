@@ -42,7 +42,7 @@ Material:
     - _DistanceDropOffStrength: 0.25
     - _Opacity: 1
     - _RotationSpeed: 0.25
-    - _TextureOpacity: 0.3
+    - _TextureOpacity: 0.35
     m_Colors:
     - _BackColor: {r: 0.45882356, g: 0.75924003, b: 1, a: 0}
     - _Color: {r: 0, g: 0.6748581, b: 1, a: 1}

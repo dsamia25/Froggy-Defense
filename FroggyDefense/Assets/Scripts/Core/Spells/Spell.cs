@@ -43,7 +43,7 @@ namespace FroggyDefense.Core.Spells
                 return false;
             }
 
-            if (GameManager.instance.m_Player.Mana < ManaCost)
+            if (args.Caster.Mana < ManaCost)
             {
                 Debug.Log("Cannot cast spell. " + Name + " needs " + ManaCost + " mana. (" + (ManaCost - GameManager.instance.m_Player.Mana).ToString("0.00") + " more needed).");
                 return false;
@@ -91,6 +91,7 @@ namespace FroggyDefense.Core.Spells
                 return false;
             }
 
+            args.Caster.UseMana(ManaCost);
             _currCooldown = Cooldown;
             return true;
         }

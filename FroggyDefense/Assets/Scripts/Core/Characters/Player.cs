@@ -10,6 +10,9 @@ namespace FroggyDefense.Core
 {
     public class Player : Character
     {
+        [Space]
+        [Header("Spells")]
+        [Space]
         public SpellObject[] AbilityTemplates = new SpellObject[4];
         public Spell[] Abilities = new Spell[4];
 
