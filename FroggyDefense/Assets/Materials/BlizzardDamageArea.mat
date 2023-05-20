@@ -39,7 +39,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _BackColorOpacity: 0.3
-    - _DistanceDropOffStrength: 0.25
+    - _DistanceDropOffStrength: 0.3
+    - _DistanceDropoff: 0.5
     - _Opacity: 1
     - _RotationSpeed: 0.25
     - _TextureOpacity: 0.35
