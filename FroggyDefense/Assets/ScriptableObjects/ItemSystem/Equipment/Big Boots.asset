@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Big Boots
   m_EditorClassIdentifier: 
   Name: Big Boots
+  Id: 0
   Description: Very big boots.
   Type: 1
   Icon: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
-  PriceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
-  ShopPrice: 4
   Slot: 2
-  Strength: 0
-  Dexterity: 1
-  Agility: 1
-  Intellect: 0
-  Spirit: 0
+  Stats:
+  - Stat: 2
+    Value: 6
+  - Stat: 0
+    Value: 2

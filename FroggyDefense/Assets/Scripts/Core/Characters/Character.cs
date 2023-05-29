@@ -10,7 +10,7 @@ using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core
 {
-    public abstract class Character : MonoBehaviour, IHasStats, IDestructable
+    public class Character : MonoBehaviour, IHasStats, IDestructable
     {
         [Space]
         [Header("Character Info")]
@@ -150,6 +150,11 @@ namespace FroggyDefense.Core
             {
                 _xpNeeded = _experienceFunction.GetXpNeeded(_stats.Level);
             }
+
+            if (_stats == null)
+            {
+                _stats = new StatSheet();
+            }
             _stats.SetLevel(1);
         }
 
@@ -199,7 +204,7 @@ namespace FroggyDefense.Core
         /// <returns></returns>
         public StatSheet GetStats()
         {
-            return null;
+            return _stats;
         }
 
         /// <summary>
@@ -265,11 +270,10 @@ namespace FroggyDefense.Core
         /// </summary>
         protected virtual void RemoveEquipmentStats(Equipment equipment)
         {
-            _stats.RemoveBonusStat(StatType.Strength, equipment.Strength, false);
-            _stats.RemoveBonusStat(StatType.Dexterity, equipment.Dexterity, false);
-            _stats.RemoveBonusStat(StatType.Agility, equipment.Agility, false);
-            _stats.RemoveBonusStat(StatType.Intellect, equipment.Intellect, false);
-            _stats.RemoveBonusStat(StatType.Spirit, equipment.Spirit, false);
+            foreach (StatValuePair stat in equipment.Stats)
+            {
+                _stats.RemoveBonusStat(stat.Stat, stat.Value, false);
+            }
             UpdateStats();
         }
 
@@ -279,11 +283,10 @@ namespace FroggyDefense.Core
         /// <param name="equipment"></param>
         protected void AddEquipmentStats(Equipment equipment)
         {
-            _stats.AddBonusStat(StatType.Strength, equipment.Strength, false);
-            _stats.AddBonusStat(StatType.Dexterity, equipment.Dexterity, false);
-            _stats.AddBonusStat(StatType.Agility, equipment.Agility, false);
-            _stats.AddBonusStat(StatType.Intellect, equipment.Intellect, false);
-            _stats.AddBonusStat(StatType.Spirit, equipment.Spirit, false);
+            foreach (StatValuePair stat in equipment.Stats)
+            {
+                _stats.AddBonusStat(stat.Stat, stat.Value, false);
+            }
             UpdateStats();
         }
 

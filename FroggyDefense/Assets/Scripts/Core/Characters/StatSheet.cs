@@ -17,6 +17,12 @@ namespace FroggyDefense.Core
     {
         public StatType Stat;
         public float Value;
+
+        public StatValuePair(StatType stat, float value)
+        {
+            Stat = stat;
+            Value = value;
+        }
     }
 
     [System.Serializable]

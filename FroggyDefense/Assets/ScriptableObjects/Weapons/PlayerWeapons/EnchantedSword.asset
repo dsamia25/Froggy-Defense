@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566ea17d0f47e4c979bcf8c27e46cba1, type: 3}
   m_Name: EnchantedSword
   m_EditorClassIdentifier: 
-  m_DirectDamageScalingStat: 1
-  m_DirectDamageScalingFactor: 1
   _hasMeleeAttack: 1
   _meleeDamage: 4
+  _meleeDamageType: 0
+  _hasMeleeDamageScaling: 1
   _meleeKnockback: 200
   _meleeKnockbackTime: 0.5
   _meleeRange: 0
+  MeleeDamageScalingFactor:
+    Stat: 0
+    Value: 1
   _hasLunge: 0
   _lungeStrength: 0
   _lungeTime: 0
@@ -29,13 +32,19 @@ MonoBehaviour:
     ProjectilePrefab: {fileID: 2582796137511937079, guid: 7effd2e9ed5974d91927d81a3e0e10b8, type: 3}
     ProjectilePoolSize: 8
     Damage: 1
+    HasProjectileDamageScaling: 0
+    ProjectileDamageScalingFactor:
+      Stat: 0
+      Value: 0
     DirectDamageType: 4
     MoveSpeed: 5.5
     HasSplashDamage: 0
     SplashDamage: 0
     SplashDamageType: 0
-    SplashDamageScalingStat: 1
-    SplashDamageScalingFactor: 1
+    HasSplashDamageScaling: 0
+    SplashDamageScalingFactor:
+      Stat: 0
+      Value: 0
     SplashLayer:
       serializedVersion: 2
       m_Bits: 0

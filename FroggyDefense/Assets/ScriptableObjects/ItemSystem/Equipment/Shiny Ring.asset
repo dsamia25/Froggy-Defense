@@ -13,14 +13,11 @@ MonoBehaviour:
   m_Name: Shiny Ring
   m_EditorClassIdentifier: 
   Name: Shiny Ring
+  Id: 4
   Description: Sparkly
   Type: 1
   Icon: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
-  PriceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
-  ShopPrice: 2
   Slot: 3
-  Strength: 0
-  Dexterity: 0
-  Agility: 0
-  Intellect: 0
-  Spirit: 1
+  Stats:
+  - Stat: 1
+    Value: 1

@@ -82,26 +82,27 @@ namespace FroggyDefense.Tests
             // Set up item
             hat.Name = "Cool Hat";
             hat.Slot = EquipmentSlot.Hat;
-            hat.Strength = 4;
-            hat.Intellect = 205;
+            hat.AddStat(StatType.Strength, 4);
+            hat.AddStat(StatType.Intellect, 205);
 
             // Store current stats.
-            //float strength = character.Strength;
-            //float dexterity = character.Dexterity;
-            //float agility = character.Agility;
-            //float intellect = character.Intellect;
-            //float spirit = character.Spirit;
+            StatSheet stats = character.GetStats();
+            float strength = stats.GetTotalStat(StatType.Strength);
+            float dexterity = stats.GetTotalStat(StatType.Dexterity);
+            float agility = stats.GetTotalStat(StatType.Agility);
+            float intellect = stats.GetTotalStat(StatType.Intellect);
+            float spirit = stats.GetTotalStat(StatType.Spirit);
 
             // Equip item
             character.Equip(hat);
             yield return null;
 
             // Check if stats updated correctly.
-            //Assert.AreEqual(strength + hat.Strength, character.Strength, "Incorrect Strength.");
-            //Assert.AreEqual(dexterity + hat.Dexterity, character.Dexterity, "Incorrect Dexterity.");
-            //Assert.AreEqual(agility + hat.Agility, character.Agility, "Incorrect Agility.");
-            //Assert.AreEqual(intellect + hat.Intellect, character.Intellect, "Incorrect Intellect.");
-            //Assert.AreEqual(spirit + hat.Spirit, character.Spirit, "Incorrect Spirit.");
+            Assert.AreEqual(strength + hat.GetStat(StatType.Strength), stats.GetTotalStat(StatType.Strength), "Incorrect Strength.");
+            Assert.AreEqual(dexterity + hat.GetStat(StatType.Dexterity), stats.GetTotalStat(StatType.Dexterity), "Incorrect Dexterity.");
+            Assert.AreEqual(agility + hat.GetStat(StatType.Agility), stats.GetTotalStat(StatType.Agility), "Incorrect Agility.");
+            Assert.AreEqual(intellect + hat.GetStat(StatType.Intellect), stats.GetTotalStat(StatType.Intellect), "Incorrect Intellect.");
+            Assert.AreEqual(spirit + hat.GetStat(StatType.Spirit), stats.GetTotalStat(StatType.Spirit), "Incorrect Spirit.");
         }
 
         [UnityTest]
@@ -115,30 +116,31 @@ namespace FroggyDefense.Tests
             // Set up item
             hat.Name = "Cool Hat";
             hat.Slot = EquipmentSlot.Hat;
-            hat.Strength = 4;
-            hat.Intellect = 205;
+            hat.AddStat(StatType.Strength, 4);
+            hat.AddStat(StatType.Intellect, 205);
 
             // Equip item
             character.Equip(hat);
             yield return null;
 
             // Store current stats.
-            //float strength = character.Strength;
-            //float dexterity = character.Dexterity;
-            //float agility = character.Agility;
-            //float intellect = character.Intellect;
-            //float spirit = character.Spirit;
+            StatSheet stats = character.GetStats();
+            float strength = stats.GetTotalStat(StatType.Strength);
+            float dexterity = stats.GetTotalStat(StatType.Dexterity);
+            float agility = stats.GetTotalStat(StatType.Agility);
+            float intellect = stats.GetTotalStat(StatType.Intellect);
+            float spirit = stats.GetTotalStat(StatType.Spirit);
 
             // Unequip item
             character.Unequip((int)EquipmentSlot.Hat);
             yield return null;
 
             // Check if stats updated correctly.
-            //Assert.AreEqual(strength - hat.Strength, character.Strength, "Incorrect Strength.");
-            //Assert.AreEqual(dexterity - hat.Dexterity, character.Dexterity, "Incorrect Dexterity.");
-            //Assert.AreEqual(agility - hat.Agility, character.Agility, "Incorrect Agility.");
-            //Assert.AreEqual(intellect - hat.Intellect, character.Intellect, "Incorrect Intellect.");
-            //Assert.AreEqual(spirit - hat.Spirit, character.Spirit, "Incorrect Spirit.");
+            Assert.AreEqual(strength - hat.GetStat(StatType.Strength), stats.GetTotalStat(StatType.Strength), "Incorrect Strength.");
+            Assert.AreEqual(dexterity - hat.GetStat(StatType.Dexterity), stats.GetTotalStat(StatType.Dexterity), "Incorrect Dexterity.");
+            Assert.AreEqual(agility - hat.GetStat(StatType.Agility), stats.GetTotalStat(StatType.Agility), "Incorrect Agility.");
+            Assert.AreEqual(intellect - hat.GetStat(StatType.Intellect), stats.GetTotalStat(StatType.Intellect), "Incorrect Intellect.");
+            Assert.AreEqual(spirit - hat.GetStat(StatType.Spirit), stats.GetTotalStat(StatType.Spirit), "Incorrect Spirit.");
         }
     }
 }

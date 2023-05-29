@@ -38,14 +38,18 @@ namespace FroggyDefense.Core
         protected override void Start()
         {
             base.Start();
-            EquippedWeapon = new Weapon(_weaponTemplate);
-            EquippedWeapon.Equip(this);
-            if (m_WeaponUser == null)
+
+            if (_weaponTemplate != null)
             {
-                m_WeaponUser = GetComponentInChildren<WeaponUser>();
+                EquippedWeapon = new Weapon(_weaponTemplate);
+                EquippedWeapon.Equip(this);
+                if (m_WeaponUser == null)
+                {
+                    m_WeaponUser = GetComponentInChildren<WeaponUser>();
+                }
+                m_WeaponUser.EquippedWeapon = EquippedWeapon;
+                m_WeaponUser.Deactivate();
             }
-            m_WeaponUser.EquippedWeapon = EquippedWeapon;
-            m_WeaponUser.Deactivate();
 
             RefreshSpellBar();
 

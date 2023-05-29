@@ -62757,8 +62757,8 @@ MonoBehaviour:
   _xp: 0
   _xpNeeded: 0
   _experienceFunction: {fileID: 11400000, guid: 21e853ba008c944cea8991dbf7133868, type: 2}
-  _maxHealth: 10
-  _health: 10
+  _maxHealth: 60
+  _health: 60
   _maxMana: 100
   _mana: 100
   _manaRegen: 8
