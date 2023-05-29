@@ -66483,7 +66483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -67144,6 +67144,9 @@ MonoBehaviour:
   - _item: {fileID: 11400000, guid: f7d184b8b1eae41a6bf40460d93c6f80, type: 2}
     _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
     _price: 5
+  - _item: {fileID: 11400000, guid: 27568e2f94dba4c83a3b2d85fcab544f, type: 2}
+    _priceCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+    _price: 9
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
