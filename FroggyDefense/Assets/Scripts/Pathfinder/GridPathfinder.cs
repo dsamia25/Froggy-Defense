@@ -15,12 +15,10 @@ namespace Pathfinder
         /// <returns></returns>
         public static List<Vector2> FindShortestPath(ICollection<Vector2Int> map, Vector2Int start, Vector2Int finish)
         {
-            SortedDictionary<Vector2Int, GridNode> createdNodes = new SortedDictionary<Vector2Int, GridNode>();     // Keeps track of which node positions have already been created.
-            Dictionary<GridNode, GridNode> index = new Dictionary<GridNode, GridNode>();                            // Index for each node and the node to come from for the quickets path.
+            Dictionary<Vector2Int, GridNode> createdNodes = new Dictionary<Vector2Int, GridNode>();     // Keeps track of which node positions have already been created.
+            Dictionary<GridNode, GridNode> index = new Dictionary<GridNode, GridNode>();                // Index for each node and the node to come from for the quickets path.
 
-            // TODO: Maybe don't need the visited list because index does most of the same thing.
-            List<GridNode> visited = new List<GridNode>();                              // Which nodes have already been visited.
-            List<GridNode> unvisited = new List<GridNode>();                            // Which nodes have not been visited yet.
+            List<GridNode> unvisited = new List<GridNode>();                                            // Which nodes have not been visited yet.
 
             GridNode startNode = new GridNode(start, start, finish);
             unvisited.Add(startNode);
@@ -28,21 +26,19 @@ namespace Pathfinder
 
             do
             {
-                GridNode curr = null;
-                visited.Add(curr);
+                GridNode curr = unvisited[0];
                 unvisited.Remove(curr);
-
-                // Check if found end node.
-                if (curr.Position == finish)
-                {
-                    // TODO: Returns the path.
-                    return null;
-                }
 
                 CreateNodes(map, createdNodes, unvisited, curr, start, finish);
                 MapNode(index, curr);
 
                 unvisited.Sort();
+
+                // Check if found end node.
+                if (curr.Position == finish)
+                {
+                    return BuildPath(index, createdNodes[start], createdNodes[finish]);
+                }
             } while (unvisited.Count > 0);
 
             return new List<Vector2>(); // Return empty set if no path.
@@ -119,7 +115,7 @@ namespace Pathfinder
         {
             if (!createdNodes.ContainsKey(pos))
             {
-                GridNode node = new GridNode(pos, start, finish);
+                GridNode node = new GridNode(pos, curr, finish);
                 createdNodes.Add(pos, node);
                 unvisited.Add(node);
                 curr.ConnectedNodes.Add(node);
@@ -157,16 +153,20 @@ namespace Pathfinder
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        private static List<Vector2Int> BuildPath(IDictionary<GridNode, GridNode> index, GridNode start, GridNode end)
+        private static List<Vector2> BuildPath(IDictionary<GridNode, GridNode> index, GridNode start, GridNode end)
         {
-            List<Vector2Int> path = new List<Vector2Int>();
+            List<Vector2> path = new List<Vector2>();
             GridNode curr = end;
             path.Add(curr.Position);
             do
             {
                 curr = index[curr];
-                path.Add(curr.Position);
-            } while (curr != start);
+                if (curr != null)
+                {
+                    path.Add(curr.Position);
+                }
+            } while (curr != start && curr != null);
+            path.Reverse();
             return path;
         }
 
@@ -186,6 +186,15 @@ namespace Pathfinder
                 ConnectedNodes = new List<GridNode>();
                 Position = pos;
                 StartDistance = Vector2Int.Distance(Position, startPos);
+                EndDistance = Vector2Int.Distance(Position, endPos);
+                Value = StartDistance + EndDistance;
+            }
+
+            public GridNode(Vector2Int pos, GridNode reference, Vector2Int endPos)
+            {
+                ConnectedNodes = new List<GridNode>();
+                Position = pos;
+                StartDistance = reference.StartDistance + Vector2Int.Distance(Position, reference.Position);
                 EndDistance = Vector2Int.Distance(Position, endPos);
                 Value = StartDistance + EndDistance;
             }

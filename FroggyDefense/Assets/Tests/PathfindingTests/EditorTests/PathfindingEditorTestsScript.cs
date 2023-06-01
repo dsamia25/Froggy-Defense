@@ -1,444 +1,470 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using Pathfinder;
+using System;
 
-public class PathfindingEditorTestsScript
+namespace Pathfinder.Tests
 {
-    /*  
-     *  -------------------------
-     *  |   Diagram Key:        |
-     *  |-----------------------|
-     *  |   0 -> open space.    |
-     *  |   X -> blocked tile.  |
-     *  |   S -> start.         |
-     *  |   F -> finish.        |
-     *  |   . -> path.
-     *  -------------------------
-     */
-
-    [Test]
-    public void NoPathTest()
+    public class PathfindingEditorTestsScript
     {
-        // Finds no valid path, (returns empty set).
         /*  
-         *  00X00
-         *  00X00
-         *  00X00
-         *  00X00
-         *  S0X0F
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(4, 0);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-
-        map.Add(start);
-        map.Add(finish);
-        // 0,0 is start
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(0, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 0));
-        map.Add(new Vector2Int(1, 1));
-        map.Add(new Vector2Int(1, 2));
-        map.Add(new Vector2Int(1, 3));
-        map.Add(new Vector2Int(1, 4));
-        // no collumn 2
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(3, 1));
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(3, 4));
-        // 4,0 is finish
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(4, 3));
-        map.Add(new Vector2Int(4, 4));
-
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        Assert.NotNull(path);
-        Assert.AreEqual(0, path.Count);
-    }
-
-    [Test]
-    public void SimpleLineTest()
-    {
-        // Makes a simple straight line.
-        /*  
-         *  F0000
-         *  .0000
-         *  .0000
-         *  .0000
-         *  S0000
+         *  -------------------------
+         *  |   Diagram Key:        |
+         *  |-----------------------|
+         *  |   0 -> open space.    |
+         *  |   X -> blocked tile.  |
+         *  |   S -> start.         |
+         *  |   F -> finish.        |
+         *  |   . -> path.
+         *  -------------------------
          */
 
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(4, 0);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
-
-        map.Add(start);
-        map.Add(finish);
-        // 0,0 is start
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(0, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 0));
-        map.Add(new Vector2Int(1, 1));
-        map.Add(new Vector2Int(1, 2));
-        map.Add(new Vector2Int(1, 3));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(2, 1));
-        map.Add(new Vector2Int(2, 2));
-        map.Add(new Vector2Int(2, 3));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(3, 1));
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(3, 4));
-        // 4,0 is finish
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(4, 3));
-        map.Add(new Vector2Int(4, 4));
-
-        expectedPath.Add(new Vector2(0, 0));
-        expectedPath.Add(new Vector2(1, 0));
-        expectedPath.Add(new Vector2(2, 0));
-        expectedPath.Add(new Vector2(3, 0));
-        expectedPath.Add(new Vector2(4, 0));
-
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
+        /// <summary>
+        /// Makes a string list of each point on the path with one point per line.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string PathToString(List<Vector2> path)
         {
-            for (int i = 0; i < expectedPath.Count; i++)
+            string str = "{\n";
+            for (int i = 0; i < path.Count; i++)
             {
-                Assert.AreEqual(expectedPath[i], path[i]);
+                str += "\t" + path[i].ToString() + (i < path.Count - 1 ? "," : "") + "\n";
             }
-        } catch
-        {
-            Assert.Fail("ERROR");
+            str += "}";
+            return str;
         }
-    }
 
-    [Test]
-    public void DiagonalLineTest()
-    {
-        // Makes a simple diagonal line.
-        /*  
-         *  0000F
-         *  000.0
-         *  00.00
-         *  0.000
-         *  S0000
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(4, 4);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
-
-        map.Add(start);
-        map.Add(finish);
-        // 0,0 is start
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(0, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 0));
-        map.Add(new Vector2Int(1, 1));
-        map.Add(new Vector2Int(1, 2));
-        map.Add(new Vector2Int(1, 3));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(2, 1));
-        map.Add(new Vector2Int(2, 2));
-        map.Add(new Vector2Int(2, 3));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(3, 1));
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(3, 4));
-        map.Add(new Vector2Int(4, 0));
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(4, 3));
-        // 4,4 is finish
-
-        expectedPath.Add(new Vector2(0, 0));
-        expectedPath.Add(new Vector2(1, 1));
-        expectedPath.Add(new Vector2(2, 2));
-        expectedPath.Add(new Vector2(3, 3));
-        expectedPath.Add(new Vector2(4, 4));
-
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
+        [Test]
+        public void NoPathTest()
         {
-            for (int i = 0; i < expectedPath.Count; i++)
+            // Finds no valid path, (returns empty set).
+            /*  
+             *  00X00
+             *  00X00
+             *  00X00
+             *  00X00
+             *  S0X0F
+             */
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(4, 0);
+            List<Vector2Int> map = new List<Vector2Int>();
+
+            map.Add(start);
+            map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(0, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 0));
+            map.Add(new Vector2Int(1, 1));
+            map.Add(new Vector2Int(1, 2));
+            map.Add(new Vector2Int(1, 3));
+            map.Add(new Vector2Int(1, 4));
+            // no collumn 2
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(3, 1));
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(3, 4));
+            // 4,0 is finish
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(4, 3));
+            map.Add(new Vector2Int(4, 4));
+
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
+
+            Assert.NotNull(path);
+            Assert.AreEqual(0, path.Count);
+        }
+
+        [Test]
+        public void SimpleLineTest()
+        {
+            // Makes a simple straight line.
+            /*  
+             *  F0000
+             *  .0000
+             *  .0000
+             *  .0000
+             *  S0000
+             */
+
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(4, 0);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            map.Add(start);
+            map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(0, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 0));
+            map.Add(new Vector2Int(1, 1));
+            map.Add(new Vector2Int(1, 2));
+            map.Add(new Vector2Int(1, 3));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(2, 1));
+            map.Add(new Vector2Int(2, 2));
+            map.Add(new Vector2Int(2, 3));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(3, 1));
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(3, 4));
+            // 4,0 is finish
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(4, 3));
+            map.Add(new Vector2Int(4, 4));
+
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(1, 0));
+            expectedPath.Add(new Vector2(2, 0));
+            expectedPath.Add(new Vector2(3, 0));
+            expectedPath.Add(new Vector2(4, 0));
+
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
+
+            try
             {
-                Assert.AreEqual(expectedPath[i], path[i]);
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path); Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
             }
         }
-        catch
+
+        [Test]
+        public void DiagonalLineTest()
         {
-            Assert.Fail("ERROR");
-        }
-    }
+            // Makes a simple diagonal line.
+            /*  
+             *  0000F
+             *  000.0
+             *  00.00
+             *  0.000
+             *  S0000
+             */
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(4, 4);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
 
-    [Test]
-    public void SimpleBlockTest()
-    {
-        // Finds path around block in center of map.
-        /*  
-         *  0...F
-         *  .X000
-         *  .X000
-         *  .XXX0
-         *  SX000
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(4, 4);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
+            map.Add(start);
+            map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(0, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 0));
+            map.Add(new Vector2Int(1, 1));
+            map.Add(new Vector2Int(1, 2));
+            map.Add(new Vector2Int(1, 3));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(2, 1));
+            map.Add(new Vector2Int(2, 2));
+            map.Add(new Vector2Int(2, 3));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(3, 1));
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(3, 4));
+            map.Add(new Vector2Int(4, 0));
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(4, 3));
+            // 4,4 is finish
 
-        map.Add(start);
-        map.Add(finish);
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(1, 1));
+            expectedPath.Add(new Vector2(2, 2));
+            expectedPath.Add(new Vector2(3, 3));
+            expectedPath.Add(new Vector2(4, 4));
 
-        // 0,0 is start
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(4, 0));
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(0, 2));
-        map.Add(new Vector2Int(2, 2));
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(2, 3));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(4, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 4));
-        // 4,4 is finish
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
 
-        expectedPath.Add(new Vector2(0, 0));
-        expectedPath.Add(new Vector2(0, 1));
-        expectedPath.Add(new Vector2(0, 2));
-        expectedPath.Add(new Vector2(0, 3));
-        expectedPath.Add(new Vector2(1, 4));
-        expectedPath.Add(new Vector2(2, 4));
-        expectedPath.Add(new Vector2(3, 4));
-        expectedPath.Add(new Vector2(4, 4));
-
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
-        {
-            for (int i = 0; i < expectedPath.Count; i++)
+            try
             {
-                Assert.AreEqual(expectedPath[i], path[i]);
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path);
+                Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
             }
         }
-        catch
+
+        [Test]
+        public void SimpleWallTest()
         {
-            Assert.Fail("ERROR");
-        }
-    }
+            // Finds path around block in center of map.
+            /*  
+             *  0...F
+             *  .X000
+             *  .X000
+             *  .XXX0
+             *  SX000
+             */
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(4, 4);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
 
-    [Test]
-    public void AroundBlockTest()
-    {
-        // Finds path around block in center of map.
-        /*  
-         *  0.000
-         *  .X.00
-         *  .XF00
-         *  .XXX0
-         *  SX000
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(2, 2);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
+            map.Add(start);
+            map.Add(finish);
 
-        map.Add(start);
-        map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(4, 0));
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(0, 2));
+            map.Add(new Vector2Int(2, 2));
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(2, 3));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(4, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 4));
+            // 4,4 is finish
 
-        // 0,0 is start
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(4, 0));
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(0, 2));
-        // 2,2 is finish
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(2, 3));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(4, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 4));
-        map.Add(new Vector2Int(4, 4));
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(0, 1));
+            expectedPath.Add(new Vector2(0, 2));
+            expectedPath.Add(new Vector2(0, 3));
+            expectedPath.Add(new Vector2(1, 4));
+            expectedPath.Add(new Vector2(2, 4));
+            expectedPath.Add(new Vector2(3, 4));
+            expectedPath.Add(new Vector2(4, 4));
 
-        expectedPath.Add(new Vector2(0, 0));
-        expectedPath.Add(new Vector2(0, 1));
-        expectedPath.Add(new Vector2(0, 2));
-        expectedPath.Add(new Vector2(0, 3));
-        expectedPath.Add(new Vector2(1, 4));
-        expectedPath.Add(new Vector2(2, 3));
-        expectedPath.Add(new Vector2(2, 2));
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
 
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
-        {
-            for (int i = 0; i < expectedPath.Count; i++)
+            try
             {
-                Assert.AreEqual(expectedPath[i], path[i]);
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path);
+                Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
             }
         }
-        catch
+
+        [Test]
+        public void AroundWallTest()
         {
-            Assert.Fail("ERROR");
-        }
-    }
+            // Finds path around block in center of map.
+            /*  
+             *  0.000
+             *  .X.00
+             *  .XF00
+             *  .XXX0
+             *  SX000
+             */
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(2, 2);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
 
-    [Test]
-    public void TwoOptionsTest()
-    {
-        // Finds path around block in center of map, either of two options. Right then down or down then right.
-        /*  Check for either direction.
-         *  S....
-         *  .XXX.
-         *  .X00.
-         *  .X00.
-         *  ....F
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(2, 2);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
-        List<Vector2> alternatePath = new List<Vector2>();
+            map.Add(start);
+            map.Add(finish);
 
-        map.Add(start);
-        map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(4, 0));
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(0, 2));
+            // 2,2 is finish
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(2, 3));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(4, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 4));
+            map.Add(new Vector2Int(4, 4));
 
-        // 0,0 is start
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(4, 0));
-        map.Add(new Vector2Int(0, 1));
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(0, 2));
-        // 2,2 is finish
-        map.Add(new Vector2Int(3, 2));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(0, 3));
-        map.Add(new Vector2Int(2, 3));
-        map.Add(new Vector2Int(3, 3));
-        map.Add(new Vector2Int(4, 3));
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 4));
-        map.Add(new Vector2Int(4, 4));
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(0, 1));
+            expectedPath.Add(new Vector2(0, 2));
+            expectedPath.Add(new Vector2(0, 3));
+            expectedPath.Add(new Vector2(1, 4));
+            expectedPath.Add(new Vector2(2, 3));
+            expectedPath.Add(new Vector2(2, 2));
 
-        // TODO: Make an alternate path to check.
-        expectedPath.Add(new Vector2(0, 0));
-        expectedPath.Add(new Vector2(0, 1));
-        expectedPath.Add(new Vector2(0, 2));
-        expectedPath.Add(new Vector2(0, 3));
-        expectedPath.Add(new Vector2(1, 4));
-        expectedPath.Add(new Vector2(2, 3));
-        expectedPath.Add(new Vector2(2, 2));
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
 
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
-        {
-            for (int i = 0; i < expectedPath.Count; i++)
+            try
             {
-                // TODO: Make a check for the main or the alternate path value.
-                Assert.AreEqual(expectedPath[i], path[i]);
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path);
+                Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
             }
         }
-        catch
+
+        [Test]
+        public void TwoOptionsTest()
         {
-            Assert.Fail("ERROR");
-        }
-    }
+            // Finds path around block in center of map, either of two options. Right then down or down then right.
+            /*  Check for either direction.
+             *  S....
+             *  .XXX.
+             *  .X00.
+             *  .X00.
+             *  ....F
+             */
+            Vector2Int start = new Vector2Int(0, 0);
+            Vector2Int finish = new Vector2Int(2, 2);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
+            List<Vector2> alternatePath = new List<Vector2>();
 
-    [Test]
-    public void SimpleMazeTest()
-    {
-        // Finds path through simple maze.
-        /*  
-         *  00000
-         *  0XXXF
-         *  000X.
-         *  0SX.0
-         *  00.0X
-         */
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int finish = new Vector2Int(2, 2);
-        SortedSet<Vector2Int> map = new SortedSet<Vector2Int>();
-        List<Vector2> expectedPath = new List<Vector2>();
+            map.Add(start);
+            map.Add(finish);
 
-        map.Add(start);
-        map.Add(finish);
+            // 0,0 is start
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(4, 0));
+            map.Add(new Vector2Int(0, 1));
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(0, 2));
+            // 2,2 is finish
+            map.Add(new Vector2Int(3, 2));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(0, 3));
+            map.Add(new Vector2Int(2, 3));
+            map.Add(new Vector2Int(3, 3));
+            map.Add(new Vector2Int(4, 3));
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 4));
+            map.Add(new Vector2Int(4, 4));
 
-        map.Add(new Vector2Int(0, 0));
-        map.Add(new Vector2Int(1, 0));
-        map.Add(new Vector2Int(2, 0));
-        map.Add(new Vector2Int(3, 0));
-        map.Add(new Vector2Int(0, 1));
-        // 1,1 is start
-        map.Add(new Vector2Int(3, 1));
-        map.Add(new Vector2Int(4, 1));
-        map.Add(new Vector2Int(0, 2));
-        map.Add(new Vector2Int(1, 2));
-        map.Add(new Vector2Int(2, 2));
-        map.Add(new Vector2Int(4, 2));
-        map.Add(new Vector2Int(0, 3));
-        // 4,3 is finish
-        map.Add(new Vector2Int(0, 4));
-        map.Add(new Vector2Int(1, 4));
-        map.Add(new Vector2Int(2, 4));
-        map.Add(new Vector2Int(3, 4));
-        map.Add(new Vector2Int(4, 4));
+            // TODO: Make an alternate path to check.
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(0, 1));
+            expectedPath.Add(new Vector2(0, 2));
+            expectedPath.Add(new Vector2(0, 3));
+            expectedPath.Add(new Vector2(1, 4));
+            expectedPath.Add(new Vector2(2, 3));
+            expectedPath.Add(new Vector2(2, 2));
 
-        expectedPath.Add(new Vector2(1, 1));
-        expectedPath.Add(new Vector2(2, 0));
-        expectedPath.Add(new Vector2(3, 1));
-        expectedPath.Add(new Vector2(4, 2));
-        expectedPath.Add(new Vector2(4, 3));
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
 
-        List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
-
-        try
-        {
-            for (int i = 0; i < expectedPath.Count; i++)
+            Assert.Fail("Not Implemented Yet.");
+            try
             {
-                Assert.AreEqual(expectedPath[i], path[i]);
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    // TODO: Make a check for the main or the alternate path value.
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path);
+                Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
             }
         }
-        catch
+
+        [Test]
+        public void SimpleMazeTest()
         {
-            Assert.Fail("ERROR");
+            // Finds path through simple maze.
+            /*  
+             *  00000
+             *  0XXXF
+             *  000X.
+             *  0SXX.
+             *  00..X
+             */
+            Vector2Int start = new Vector2Int(1, 1);
+            Vector2Int finish = new Vector2Int(4, 3);
+            List<Vector2Int> map = new List<Vector2Int>();
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            map.Add(start);
+            map.Add(finish);
+
+            map.Add(new Vector2Int(0, 0));
+            map.Add(new Vector2Int(1, 0));
+            map.Add(new Vector2Int(2, 0));
+            map.Add(new Vector2Int(3, 0));
+            map.Add(new Vector2Int(0, 1));
+            // 1,1 is start
+            map.Add(new Vector2Int(4, 1));
+            map.Add(new Vector2Int(0, 2));
+            map.Add(new Vector2Int(1, 2));
+            map.Add(new Vector2Int(2, 2));
+            map.Add(new Vector2Int(4, 2));
+            map.Add(new Vector2Int(0, 3));
+            // 4,3 is finish
+            map.Add(new Vector2Int(0, 4));
+            map.Add(new Vector2Int(1, 4));
+            map.Add(new Vector2Int(2, 4));
+            map.Add(new Vector2Int(3, 4));
+            map.Add(new Vector2Int(4, 4));
+
+            expectedPath.Add(new Vector2(1, 1));
+            expectedPath.Add(new Vector2(2, 0));
+            expectedPath.Add(new Vector2(3, 0));
+            expectedPath.Add(new Vector2(4, 1));
+            expectedPath.Add(new Vector2(4, 2));
+            expectedPath.Add(new Vector2(4, 3));
+
+            List<Vector2> path = GridPathfinder.FindShortestPath(map, start, finish);
+
+            try
+            {
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], path[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = PathToString(path);
+                Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
+            }
         }
     }
 }
