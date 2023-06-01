@@ -45,7 +45,7 @@ namespace Pathfinder
                 unvisited.Sort();
             } while (unvisited.Count > 0);
 
-            return null;
+            return new List<Vector2>(); // Return empty set if no path.
         }
 
         /// <summary>
