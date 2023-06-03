@@ -3,11 +3,14 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using FroggyDefense.LevelGeneration;
 using FroggyDefense.Core.Buildings;
+using Pathfinder;
 
 namespace FroggyDefense.Core
 {
     public class BoardManager : MonoBehaviour
     {
+        public GameObject _testMarkerPrefab;
+
         public static BoardManager instance;
 
         public GameObject NexusHealthBarObject;
@@ -69,6 +72,54 @@ namespace FroggyDefense.Core
             LeftBound = -initialMapSize / 2;
             RightBound = initialMapSize / 2;
         }
+
+        private void Start()
+        {
+            // Create passable layers for test path.
+            List<Tilemap> passableLayers = new List<Tilemap>();
+            passableLayers.Add(Tilemaps[1]);    // Just grass layer for now.
+
+            // Create test path
+            List<Vector2> testPath = GridPathfinder.FindShortestPath(CreateTraversableMapView(passableLayers), new Vector2Int(-5, 9), Vector2Int.zero);
+
+            // Make a tile adjustment because the path is going to the bottom right of each tile instead of the middle.
+            float adjustment = Tilemaps[0].cellSize.x / 2;
+            // Create visual test markers.
+            foreach (Vector2 pos in testPath)
+            {
+                Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
+                Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity);
+            }
+        }
+
+        #region Pathfinding
+        /// <summary>
+        /// Merges each tilemap into a flat collection of traversable tiles.
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <returns></returns>
+        public static ICollection<Vector2Int> CreateTraversableMapView(List<Tilemap> layers)
+        {
+            List<Vector2Int> map = new List<Vector2Int>();
+
+            foreach (Tilemap layer in layers)
+            {
+                layer.CompressBounds();
+                for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
+                {
+                    for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
+                    {
+                        if (layer.HasTile(new Vector3Int(x, y)))
+                        {
+                            map.Add(new Vector2Int(x, y));
+                        }
+                    }
+                }
+            }
+
+            return map;
+        }
+        #endregion
 
         /// <summary>
         /// Randomly generates a level using LevelGenerator.

@@ -5,7 +5,7 @@ namespace FroggyDefense.LevelGeneration
 {
     public class LevelGenerator
     {
-        public Tilemap tilemap;
+        //public Tilemap tilemap;
 
         public static int[,] GenerateArray(int _width, int _height, bool _empty)
         {
