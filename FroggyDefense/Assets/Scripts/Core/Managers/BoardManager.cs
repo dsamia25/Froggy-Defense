@@ -24,11 +24,14 @@ namespace FroggyDefense.Core
 
         [Space]
 
-        public Tilemap[] FullMap;
+        public Tilemap[] FullMap;               // The full version of the entire map.
+        public GridTileObject[] MapLayerTiles;  // Which kind of tile is on each layer.
         public int expansionLength = 0;
         public int initialMapSize = 24;
         public int maxMapSize = 64;
         public List<Spawner> MoreSpawners = new List<Spawner>();    // More enemy spawners to be spawned in as the map expands.
+
+        private IDictionary<Vector2Int, GridTile> PathinderMap;     // List of all tiles with their tile info for Pathfinder.
 
         [Space]
         [Header("Size")]
@@ -93,6 +96,35 @@ namespace FroggyDefense.Core
         }
 
         #region Pathfinding
+        // TODO: Test if this works, replace the traverablemapView one, call this in start to build the map to use, make pathfinder use this instead of a list, make this find connectedtiles.
+        /// <summary>
+        /// Builds the pathfinder map using the tilemap layers.
+        /// </summary>
+        private void BuildPathfinderMap()
+        {
+            SortedDictionary<Vector2Int, GridTile> map = new SortedDictionary<Vector2Int, GridTile>();
+
+            for (int i = 0; i < FullMap.Length; i++)
+            {
+                Tilemap layer = FullMap[i];
+                layer.CompressBounds();
+                for(int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
+                {
+                    for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
+                    {
+                        if (layer.HasTile(new Vector3Int(x, y)))
+                        {
+                            Vector2Int pos = new Vector2Int(x, y);
+                            GridTile tile = new GridTile(pos, MapLayerTiles[i]);
+                            map.Add(pos, tile);
+                        }
+                    }
+                }
+            }
+
+            PathinderMap = map;
+        }
+
         /// <summary>
         /// Merges each tilemap into a flat collection of traversable tiles.
         /// </summary>
