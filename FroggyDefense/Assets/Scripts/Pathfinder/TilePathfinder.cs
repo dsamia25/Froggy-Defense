@@ -20,7 +20,8 @@ namespace Pathfinder
 
             List<TileNode> unvisited = new List<TileNode>();                                                        // Which nodes have not been visited yet.
 
-            TileNode startNode = new TileNode(start, start, finish);
+            TileNode startNode = new TileNode(start, start, finish, map[start]);
+            createdNodes.Add(start, startNode);
             unvisited.Add(startNode);
             index.Add(startNode, null);
 
@@ -29,8 +30,7 @@ namespace Pathfinder
                 TileNode curr = unvisited[0];
                 unvisited.Remove(curr);
 
-                CreateNodes(map, createdNodes, unvisited, curr, start, finish);
-                //MapNode(index, curr);
+                MapNode(map, createdNodes, index, unvisited, curr, start, finish);
 
                 unvisited.Sort();
 
@@ -45,23 +45,53 @@ namespace Pathfinder
         }
 
         /// <summary>
-        /// Creates TileNodes using the input map and sets them as neighbors to the node.
+        /// Evaluates the node's neighbors and the quickest route to each.
         /// </summary>
-        /// <param name="map"></param>
-        /// <param name="node"></param>
-        private static void CreateNodes(IDictionary<Vector2Int, GridTile> map, IDictionary<Vector2Int, TileNode> createdNodes, List<TileNode> unvisited, TileNode curr, Vector2Int start, Vector2Int finish)
+        /// <param name="index"></param>
+        /// <param name="curr"></param>
+        private static void MapNode(IDictionary<Vector2Int, GridTile> map, IDictionary<Vector2Int, TileNode> createdNodes, IDictionary<TileNode, TileNode> index, List<TileNode> unvisited, TileNode curr, Vector2Int start, Vector2Int finish)
         {
-            Vector2Int pos;             // Current position to look at.
-            
-            pos = new Vector2Int(curr.Position.x - 1, curr.Position.y + 1);
-            if (map.ContainsKey(pos))
+            // Look at each connected node, check if created and create it if not, check if this is a better path and update it if so.
+            foreach (var connectedTile in curr.TileInfo.ConnectedTiles)
             {
-                //CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                if (createdNodes.ContainsKey(connectedTile.Pos))
+                {
+                    // Check if this path to an already discovered node is better.
+                    TileNode node = createdNodes[connectedTile.Pos];
+                    if (curr.CompareTo(index[node]) < 0)
+                    {
+                        index[node] = curr;
+                        node.UpdateValues(curr);
+                    }
+                } else
+                {
+                    // Create new node.
+                    CreateNode(connectedTile.Pos, map, createdNodes, index, unvisited, curr, finish);
+                }
             }
+        }
 
-            foreach (var connectedTile in map[curr.Position].ConnectedTiles)
+        /// <summary>
+        /// Checks if this node has already been created and then makes it if note. Updates all lists with the new node too.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="map"></param>
+        /// <param name="createdNodes"></param>
+        /// <param name="index"></param>
+        /// <param name="unvisited"></param>
+        /// <param name="curr"></param>
+        /// <param name="finish"></param>
+        private static void CreateNode(Vector2Int pos, IDictionary<Vector2Int, GridTile> map, IDictionary<Vector2Int, TileNode> createdNodes, IDictionary<TileNode, TileNode> index, List<TileNode> unvisited, TileNode curr, Vector2Int finish)
+        {
+            if (!createdNodes.ContainsKey(pos))
             {
-                
+                TileNode node = new TileNode(pos, curr, finish, map[pos]);
+                createdNodes.Add(pos, node);
+                unvisited.Add(node);
+                index.Add(node, curr);
+
+                // Connect nodes.
+                curr.Connect(node);
             }
         }
 
@@ -94,14 +124,16 @@ namespace Pathfinder
         /// </summary>
         private class TileNode : IComparable
         {
+            public GridTile TileInfo { get; private set; }                      // The tile info with travel values.
             public Vector2Int Position { get; private set; }                    // The node's position.
             public float StartDistance { get; private set; }                    // The node's distance from the starting position.
             public float EndDistance { get; private set; }                      // The node's distance from the ending position.
             public float Value { get; private set; }                            // The combined weight of distances.
             public List<TileNode> ConnectedNodes;                               // All of the connected nodes.
 
-            public TileNode(Vector2Int pos, Vector2Int startPos, Vector2Int endPos)
+            public TileNode(Vector2Int pos, Vector2Int startPos, Vector2Int endPos, GridTile tile)
             {
+                TileInfo = tile;
                 ConnectedNodes = new List<TileNode>();
                 Position = pos;
                 StartDistance = Vector2Int.Distance(Position, startPos);
@@ -109,8 +141,9 @@ namespace Pathfinder
                 Value = StartDistance + EndDistance;
             }
 
-            public TileNode(Vector2Int pos, TileNode reference, Vector2Int endPos)
+            public TileNode(Vector2Int pos, TileNode reference, Vector2Int endPos, GridTile tile)
             {
+                TileInfo = tile;
                 ConnectedNodes = new List<TileNode>();
                 Position = pos;
                 StartDistance = reference.StartDistance + Vector2Int.Distance(Position, reference.Position);
@@ -124,8 +157,32 @@ namespace Pathfinder
             /// <param name="node"></param>
             public void UpdateValues(TileNode node)
             {
-                StartDistance = node.StartDistance + Vector2Int.Distance(Position, node.Position);
+                StartDistance = Vector2Int.Distance(Position, node.Position) * TileInfo.Distance(node.TileInfo);
                 Value = StartDistance + EndDistance;
+            }
+
+            /// <summary>
+            /// Connects two nodes together.
+            /// </summary>
+            /// <param name="other"></param>
+            public void Connect(TileNode other)
+            {
+                try
+                {
+                    if (!this.ConnectedNodes.Contains(other))
+                    {
+                        this.ConnectedNodes.Add(other);
+                    }
+
+                    if (!other.ConnectedNodes.Contains(this))
+                    {
+                        other.ConnectedNodes.Add(this);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("Error connecting nodes. " + e.ToString()); ;
+                }
             }
 
             public int CompareTo(object obj)

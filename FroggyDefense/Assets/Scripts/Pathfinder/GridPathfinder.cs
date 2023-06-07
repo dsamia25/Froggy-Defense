@@ -56,49 +56,49 @@ namespace Pathfinder
             pos = new Vector2Int(curr.Position.x - 1, curr.Position.y + 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Top Mid
             pos = new Vector2Int(curr.Position.x, curr.Position.y + 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Top Right
             pos = new Vector2Int(curr.Position.x + 1, curr.Position.y + 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Left Mid
             pos = new Vector2Int(curr.Position.x - 1, curr.Position.y);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Right Mid
             pos = new Vector2Int(curr.Position.x + 1, curr.Position.y);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Bot Left
             pos = new Vector2Int(curr.Position.x - 1, curr.Position.y - 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Bot Mid
             pos = new Vector2Int(curr.Position.x, curr.Position.y - 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
             // Bot Right
             pos = new Vector2Int(curr.Position.x + 1, curr.Position.y - 1);
             if (map.Contains(pos))
             {
-                CreateNode(pos, createdNodes, unvisited, curr, start, finish);
+                CreateNode(pos, createdNodes, unvisited, curr, finish);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Pathfinder
         /// <param name="curr"></param>
         /// <param name="start"></param>
         /// <param name="finish"></param>
-        private static void CreateNode(Vector2Int pos, IDictionary<Vector2Int, GridNode> createdNodes, List<GridNode> unvisited, GridNode curr, Vector2Int start, Vector2Int finish)
+        private static void CreateNode(Vector2Int pos, IDictionary<Vector2Int, GridNode> createdNodes, List<GridNode> unvisited, GridNode curr, Vector2Int finish)
         {
             if (!createdNodes.ContainsKey(pos))
             {
