@@ -15,10 +15,10 @@ namespace Pathfinder
         /// <returns></returns>
         public static List<Vector2> FindShortestPath(ICollection<Vector2Int> map, Vector2Int start, Vector2Int finish)
         {
-            Dictionary<Vector2Int, GridNode> createdNodes = new Dictionary<Vector2Int, GridNode>();     // Keeps track of which node positions have already been created.
-            Dictionary<GridNode, GridNode> index = new Dictionary<GridNode, GridNode>();                // Index for each node and the node to come from for the quickets path.
+            SortedDictionary<Vector2Int, GridNode> createdNodes = new SortedDictionary<Vector2Int, GridNode>();     // Keeps track of which node positions have already been created.
+            Dictionary<GridNode, GridNode> index = new Dictionary<GridNode, GridNode>();                            // Index for each node and the node to come from for the quickets path.
 
-            List<GridNode> unvisited = new List<GridNode>();                                            // Which nodes have not been visited yet.
+            List<GridNode> unvisited = new List<GridNode>();                                                        // Which nodes have not been visited yet.
 
             GridNode startNode = new GridNode(start, start, finish);
             unvisited.Add(startNode);

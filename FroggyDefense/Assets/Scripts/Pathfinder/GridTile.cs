@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace Pathfinder {
     public class GridTile : MonoBehaviour
     {
         public GridTileObject template { get; }                 // Tile properties.
-        public Vector2Int Pos { get; set; }                        // The tile's position.
+        public Vector2Int Pos { get; set; }                     // The tile's position.
         public List<GridTile> ConnectedTiles;                   // List of all connected tiles.
 
         public string Name => template.Name;                    // The kind of tile.
@@ -29,6 +30,26 @@ namespace Pathfinder {
         public float Distance(GridTile other)
         {
             return FromDistance + other.ToDistance;
+        }
+
+        public void Connect(GridTile other)
+        {
+            try
+            {
+                if (!this.ConnectedTiles.Contains(other))
+                {
+                    this.ConnectedTiles.Add(other);
+                }
+
+                if (!other.ConnectedTiles.Contains(this))
+                {
+                    other.ConnectedTiles.Add(this);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Error connecting tiles. " + e.ToString()); ;
+            }
         }
     }
 }

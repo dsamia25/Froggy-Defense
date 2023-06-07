@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -93,10 +94,14 @@ namespace FroggyDefense.Core
                 Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
                 Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity);
             }
+
+            // Build PathfinderMap.
+            // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
+            BuildPathfinderMap();
         }
 
         #region Pathfinding
-        // TODO: Test if this works, replace the traverablemapView one, call this in start to build the map to use, make pathfinder use this instead of a list, make this find connectedtiles.
+        // TODO: Test if this works, replace the traverablemapView one, make pathfinder use this instead of a list, make this find connectedtiles.
         /// <summary>
         /// Builds the pathfinder map using the tilemap layers.
         /// </summary>
@@ -104,11 +109,12 @@ namespace FroggyDefense.Core
         {
             SortedDictionary<Vector2Int, GridTile> map = new SortedDictionary<Vector2Int, GridTile>();
 
+            // Build nodes.
             for (int i = 0; i < FullMap.Length; i++)
             {
                 Tilemap layer = FullMap[i];
                 layer.CompressBounds();
-                for(int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
+                for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
                 {
                     for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
                     {
@@ -122,7 +128,70 @@ namespace FroggyDefense.Core
                 }
             }
 
+            // Assign the map.
             PathinderMap = map;
+
+            // Connect nodes.
+            foreach (var tilePos in map.Keys)
+            {
+                Vector2Int pos = Vector2Int.zero;
+
+                // Top Left
+                pos = new Vector2Int(tilePos.x - 1, tilePos.x + 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Top Mid
+                pos = new Vector2Int(tilePos.x, tilePos.x + 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Top Right
+                pos = new Vector2Int(tilePos.x + 1, tilePos.x + 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Left Mid
+                pos = new Vector2Int(tilePos.x - 1, tilePos.x);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Right Mid
+                pos = new Vector2Int(tilePos.x + 1, tilePos.x);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Bot Left
+                pos = new Vector2Int(tilePos.x - 1, tilePos.x - 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Bot Mid
+                pos = new Vector2Int(tilePos.x, tilePos.x - 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+
+                // Bot Right
+                pos = new Vector2Int(tilePos.x + 1, tilePos.x - 1);
+                if (map.ContainsKey(pos))
+                {
+                    map[tilePos].Connect(map[pos]);
+                }
+            }
         }
 
         /// <summary>
@@ -162,7 +231,7 @@ namespace FroggyDefense.Core
             {
                 do
                 {
-                    Seed = Random.Range(-10000, 10000);
+                    Seed = UnityEngine.Random.Range(-10000, 10000);
                 } while (Seed % 10 == 0);
             }
 
@@ -179,8 +248,8 @@ namespace FroggyDefense.Core
             if (RandomizeNexusSpawn)
             {
                 NexusSpawnLoc = new Vector2Int(
-                    Mathf.RoundToInt(Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth)),
-                    Mathf.RoundToInt(Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth))
+                    Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth)),
+                    Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth))
                     );
             }
 
