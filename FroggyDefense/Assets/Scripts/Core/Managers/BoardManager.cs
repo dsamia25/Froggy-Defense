@@ -32,7 +32,7 @@ namespace FroggyDefense.Core
         public int maxMapSize = 64;
         public List<Spawner> MoreSpawners = new List<Spawner>();    // More enemy spawners to be spawned in as the map expands.
 
-        private IDictionary<Vector2Int, GridTile> PathinderMap;     // List of all tiles with their tile info for Pathfinder.
+        private IDictionary<Vector2Int, GridTile> PathfinderMap;     // List of all tiles with their tile info for Pathfinder.
 
         [Space]
         [Header("Size")]
@@ -79,35 +79,35 @@ namespace FroggyDefense.Core
 
         private void Start()
         {
-            // Create passable layers for test path.
-            List<Tilemap> passableLayers = new List<Tilemap>();
-            passableLayers.Add(Tilemaps[1]);    // Just grass layer for now.
-
-            // Create test path
-            List<Vector2> testPath = GridPathfinder.FindShortestPath(CreateTraversableMapView(passableLayers), new Vector2Int(-5, 9), Vector2Int.zero);
-
             // Make a tile adjustment because the path is going to the bottom right of each tile instead of the middle.
             float adjustment = Tilemaps[0].cellSize.x / 2;
-            // Create visual test markers.
-            foreach (Vector2 pos in testPath)
-            {
-                Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
-                Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity);
-            }
 
             // Build PathfinderMap.
             // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
             BuildPathfinderMap();
+
+            //// Make test LayerInfo
+            //LayerInfo layerInfo = new LayerInfo(false, false);
+
+            //// Create test path
+            //List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, 9), Vector2Int.zero, layerInfo);
+
+            //// Create visual test markers.
+            //foreach (Vector2 pos in testPath)
+            //{
+            //    Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
+            //    Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity);
+            //}
         }
 
         #region Pathfinding
-        // TODO: Test if this works, replace the traverablemapView one, make pathfinder use this instead of a list, make this find connectedtiles.
+        // TODO: Test if this works, replace the traverablemapView one
         /// <summary>
         /// Builds the pathfinder map using the tilemap layers.
         /// </summary>
         private void BuildPathfinderMap()
         {
-            SortedDictionary<Vector2Int, GridTile> map = new SortedDictionary<Vector2Int, GridTile>();
+            Dictionary<Vector2Int, GridTile> map = new Dictionary<Vector2Int, GridTile>();
 
             // Build nodes.
             for (int i = 0; i < FullMap.Length; i++)
@@ -129,7 +129,7 @@ namespace FroggyDefense.Core
             }
 
             // Assign the map.
-            PathinderMap = map;
+            PathfinderMap = map;
 
             // Connect nodes.
             foreach (var tilePos in map.Keys)

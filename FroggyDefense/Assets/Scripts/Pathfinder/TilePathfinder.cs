@@ -4,6 +4,19 @@ using UnityEngine;
 
 namespace Pathfinder
 {
+    // TODO: Find a better way to handle layers.Maybe use LayerMask instead?
+    public struct LayerInfo
+    {
+        public bool includeWater;
+        public bool includeWalls;
+
+        public LayerInfo(bool water, bool walls)
+        {
+            includeWalls = walls;
+            includeWater = water;
+        }
+    }
+
     public static class TilePathfinder
     {
         /// <summary>
@@ -13,9 +26,9 @@ namespace Pathfinder
         /// <param name="start"></param>
         /// <param name="finish"></param>
         /// <returns></returns>
-        public static List<Vector2> FindShortestPath(IDictionary<Vector2Int, GridTile> map, Vector2Int start, Vector2Int finish)
+        public static List<Vector2> FindShortestPath(IDictionary<Vector2Int, GridTile> map, Vector2Int start, Vector2Int finish, LayerInfo layers)
         {
-            SortedDictionary<Vector2Int, TileNode> createdNodes = new SortedDictionary<Vector2Int, TileNode>();     // Keeps track of which node positions have already been created.
+            Dictionary<Vector2Int, TileNode> createdNodes = new Dictionary<Vector2Int, TileNode>();     // Keeps track of which node positions have already been created.
             Dictionary<TileNode, TileNode> index = new Dictionary<TileNode, TileNode>();                            // Index for each node and the node to come from for the quickets path.
 
             List<TileNode> unvisited = new List<TileNode>();                                                        // Which nodes have not been visited yet.
@@ -30,7 +43,7 @@ namespace Pathfinder
                 TileNode curr = unvisited[0];
                 unvisited.Remove(curr);
 
-                MapNode(map, createdNodes, index, unvisited, curr, start, finish);
+                MapNode(map, createdNodes, index, unvisited, curr, finish, layers);
 
                 unvisited.Sort();
 
@@ -49,19 +62,24 @@ namespace Pathfinder
         /// </summary>
         /// <param name="index"></param>
         /// <param name="curr"></param>
-        private static void MapNode(IDictionary<Vector2Int, GridTile> map, IDictionary<Vector2Int, TileNode> createdNodes, IDictionary<TileNode, TileNode> index, List<TileNode> unvisited, TileNode curr, Vector2Int start, Vector2Int finish)
+        private static void MapNode(IDictionary<Vector2Int, GridTile> map, IDictionary<Vector2Int, TileNode> createdNodes, IDictionary<TileNode, TileNode> index, List<TileNode> unvisited, TileNode curr, Vector2Int finish, LayerInfo layers)
         {
             // Look at each connected node, check if created and create it if not, check if this is a better path and update it if so.
             foreach (var connectedTile in curr.TileInfo.ConnectedTiles)
             {
                 if (createdNodes.ContainsKey(connectedTile.Pos))
                 {
-                    // Check if this path to an already discovered node is better.
                     TileNode node = createdNodes[connectedTile.Pos];
-                    if (curr.CompareTo(index[node]) < 0)
-                    {
-                        index[node] = curr;
-                        node.UpdateValues(curr);
+
+                    // TODO: Make a better way to check layers.
+                    // Check if passable.
+                    if ((!connectedTile.isWater || (connectedTile.isWater && layers.includeWater)) && (!connectedTile.isWall || (connectedTile.isWall && layers.includeWalls))) {
+                        // Check if this path to an already discovered node is better.
+                        if (curr.CompareTo(index[node]) < 0)
+                        {
+                            index[node] = curr;
+                            node.UpdateValues(curr);
+                        }
                     }
                 } else
                 {
@@ -187,6 +205,8 @@ namespace Pathfinder
 
             public int CompareTo(object obj)
             {
+                if (obj == null) return -1;
+
                 TileNode otherNode = obj as TileNode;
                 if (this.Value < otherNode.Value)
                 {

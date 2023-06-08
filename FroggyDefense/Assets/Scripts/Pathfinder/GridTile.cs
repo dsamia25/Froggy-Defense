@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pathfinder {
-    public class GridTile : MonoBehaviour
+    public class GridTile
     {
         public GridTileObject template { get; }                 // Tile properties.
         public Vector2Int Pos { get; set; }                     // The tile's position.
@@ -20,6 +20,7 @@ namespace Pathfinder {
         {
             this.template = template;
             Pos = pos;
+            ConnectedTiles = new List<GridTile>();
         }
 
         /// <summary>

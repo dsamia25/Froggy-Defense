@@ -55908,7 +55908,11 @@ MonoBehaviour:
   - {fileID: 373064756}
   - {fileID: 320590486}
   - {fileID: 435202411}
-  MapLayerTiles: []
+  MapLayerTiles:
+  - {fileID: 11400000, guid: d9f6f9a31af6c483eae7947b3b555d15, type: 2}
+  - {fileID: 11400000, guid: 9a5f532d26ee24b9498a0ea8703274f7, type: 2}
+  - {fileID: 11400000, guid: ef501b4c7f1fe401d991f9271e7480e8, type: 2}
+  - {fileID: 11400000, guid: 9d60e1160d3834faa9614c45b6d98dad, type: 2}
   expansionLength: 2
   initialMapSize: 24
   maxMapSize: 64
@@ -72603,7 +72607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005030982
