@@ -10,6 +10,8 @@ namespace FroggyDefense.Core
 {
     public class BoardManager : MonoBehaviour
     {
+        public bool TestMode = false;
+
         public GameObject _testMarkerPrefab;
 
         public static BoardManager instance;
@@ -33,6 +35,10 @@ namespace FroggyDefense.Core
         public List<Spawner> MoreSpawners = new List<Spawner>();    // More enemy spawners to be spawned in as the map expands.
 
         private IDictionary<Vector2Int, GridTile> PathfinderMap;     // List of all tiles with their tile info for Pathfinder.
+
+        public List<GameObject> testPathMarkers;
+        public Vector2Int testPathStart = new Vector2Int(-5, 9);
+        public Vector2Int testPathEnd = Vector2Int.zero;
 
         [Space]
         [Header("Size")]
@@ -79,148 +85,50 @@ namespace FroggyDefense.Core
 
         private void Start()
         {
+            if (!TestMode)
+            {
+                // Build PathfinderMap.
+                // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
+                PathfinderMap = TilePathfinder.BuildNodeMap(FullMap, MapLayerTiles);
+            }
+        }
+
+        public void ClearTestPath()
+        {
+            if (testPathMarkers != null)
+            {
+                foreach (GameObject obj in testPathMarkers)
+                {
+                    Destroy(obj);
+                }
+            }
+            testPathMarkers = null;
+        }
+
+        public void DrawTestPath()
+        {
+            // Clear markers.
+            ClearTestPath();
+            testPathMarkers = new List<GameObject>();
+
             // Make a tile adjustment because the path is going to the bottom right of each tile instead of the middle.
             float adjustment = Tilemaps[0].cellSize.x / 2;
 
-            // Build PathfinderMap.
-            // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
-            BuildPathfinderMap();
+            // Make test LayerInfo
+            LayerInfo layerInfo = new LayerInfo(false, false);
 
-            //// Make test LayerInfo
-            //LayerInfo layerInfo = new LayerInfo(false, false);
+            // Create test path
+            List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, 9), Vector2Int.zero, layerInfo);
 
-            //// Create test path
-            //List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, 9), Vector2Int.zero, layerInfo);
-
-            //// Create visual test markers.
-            //foreach (Vector2 pos in testPath)
-            //{
-            //    Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
-            //    Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity);
-            //}
-        }
-
-        #region Pathfinding
-        // TODO: Test if this works, replace the traverablemapView one
-        /// <summary>
-        /// Builds the pathfinder map using the tilemap layers.
-        /// </summary>
-        private void BuildPathfinderMap()
-        {
-            Dictionary<Vector2Int, GridTile> map = new Dictionary<Vector2Int, GridTile>();
-
-            // Build nodes.
-            for (int i = 0; i < FullMap.Length; i++)
+            // Create visual test markers.
+            foreach (Vector2 pos in testPath)
             {
-                Tilemap layer = FullMap[i];
-                layer.CompressBounds();
-                for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
-                {
-                    for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
-                    {
-                        if (layer.HasTile(new Vector3Int(x, y)))
-                        {
-                            Vector2Int pos = new Vector2Int(x, y);
-                            GridTile tile = new GridTile(pos, MapLayerTiles[i]);
-                            map.Add(pos, tile);
-                        }
-                    }
-                }
+                Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
+                testPathMarkers.Add(Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity));
             }
 
-            // Assign the map.
-            PathfinderMap = map;
-
-            // Connect nodes.
-            foreach (var tilePos in map.Keys)
-            {
-                Vector2Int pos = Vector2Int.zero;
-
-                // Top Left
-                pos = new Vector2Int(tilePos.x - 1, tilePos.x + 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Top Mid
-                pos = new Vector2Int(tilePos.x, tilePos.x + 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Top Right
-                pos = new Vector2Int(tilePos.x + 1, tilePos.x + 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Left Mid
-                pos = new Vector2Int(tilePos.x - 1, tilePos.x);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Right Mid
-                pos = new Vector2Int(tilePos.x + 1, tilePos.x);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Bot Left
-                pos = new Vector2Int(tilePos.x - 1, tilePos.x - 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Bot Mid
-                pos = new Vector2Int(tilePos.x, tilePos.x - 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-
-                // Bot Right
-                pos = new Vector2Int(tilePos.x + 1, tilePos.x - 1);
-                if (map.ContainsKey(pos))
-                {
-                    map[tilePos].Connect(map[pos]);
-                }
-            }
+            Debug.Log($"testPath: ({testPathStart}) -> ({testPathEnd}) {{\n{TilePathfinder.PathToString(testPath)}\n}}");
         }
-
-        /// <summary>
-        /// Merges each tilemap into a flat collection of traversable tiles.
-        /// </summary>
-        /// <param name="layers"></param>
-        /// <returns></returns>
-        public static ICollection<Vector2Int> CreateTraversableMapView(List<Tilemap> layers)
-        {
-            List<Vector2Int> map = new List<Vector2Int>();
-
-            foreach (Tilemap layer in layers)
-            {
-                layer.CompressBounds();
-                for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
-                {
-                    for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
-                    {
-                        if (layer.HasTile(new Vector3Int(x, y)))
-                        {
-                            map.Add(new Vector2Int(x, y));
-                        }
-                    }
-                }
-            }
-
-            return map;
-        }
-        #endregion
 
         /// <summary>
         /// Randomly generates a level using LevelGenerator.

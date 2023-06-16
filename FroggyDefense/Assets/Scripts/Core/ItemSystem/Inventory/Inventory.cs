@@ -233,7 +233,7 @@ namespace FroggyDefense.Core.Items
         /// </summary>
         public void Clear()
         {
-            Debug.Log("Clearing (" + item.Name + ") invntory slot.");
+            Debug.Log("Clearing (" + item.Name + ") inventory slot.");
             item = null;
             count = 0;
         }

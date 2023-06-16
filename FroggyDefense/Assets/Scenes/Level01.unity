@@ -661,7 +661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &109613749
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55892,6 +55892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b2387f1ca2d74134b8763e7d599aadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TestMode: 0
   _testMarkerPrefab: {fileID: 7778735706940409987, guid: 1b1924eb6ad764d81b459f6cf92d1d5f, type: 3}
   NexusHealthBarObject: {fileID: 1423142521}
   Tilemaps:
@@ -55912,7 +55913,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9f6f9a31af6c483eae7947b3b555d15, type: 2}
   - {fileID: 11400000, guid: 9a5f532d26ee24b9498a0ea8703274f7, type: 2}
   - {fileID: 11400000, guid: ef501b4c7f1fe401d991f9271e7480e8, type: 2}
-  - {fileID: 11400000, guid: 9d60e1160d3834faa9614c45b6d98dad, type: 2}
   expansionLength: 2
   initialMapSize: 24
   maxMapSize: 64
@@ -55922,6 +55922,9 @@ MonoBehaviour:
   - {fileID: 662514648}
   - {fileID: 1873247208}
   - {fileID: 1534254973}
+  testPathMarkers: []
+  testPathStart: {x: -5, y: 9}
+  testPathEnd: {x: -6, y: 12}
   LevelWidth: 100
   LevelHeight: 100
   Nexus: {fileID: 98520508}
@@ -63483,7 +63486,7 @@ GameObject:
   - component: {fileID: 684142111}
   - component: {fileID: 684142110}
   m_Layer: 5
-  m_Name: EraseShapeButton (1)
+  m_Name: ErasePath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63554,9 +63557,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 660473379}
-        m_TargetAssemblyTypeName: ShapeDrawer.PolygonDrawer, ShapeDrawerAssembly
-        m_MethodName: EraseShape
+      - m_Target: {fileID: 335975047}
+        m_TargetAssemblyTypeName: FroggyDefense.Core.BoardManager, ScriptsAssembly
+        m_MethodName: ClearTestPath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -65721,7 +65724,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Draw Shape
+  m_text: Draw Path
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -69329,7 +69332,7 @@ GameObject:
   - component: {fileID: 1573920434}
   - component: {fileID: 1573920433}
   m_Layer: 5
-  m_Name: DrawShapeButton
+  m_Name: DrawPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69400,9 +69403,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 660473379}
-        m_TargetAssemblyTypeName: ShapeDrawer.PolygonDrawer, ShapeDrawerAssembly
-        m_MethodName: DrawFilledShape
+      - m_Target: {fileID: 335975047}
+        m_TargetAssemblyTypeName: FroggyDefense.Core.BoardManager, ScriptsAssembly
+        m_MethodName: DrawTestPath
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -72483,7 +72486,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Erase Shape
+  m_text: Erase Path
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
