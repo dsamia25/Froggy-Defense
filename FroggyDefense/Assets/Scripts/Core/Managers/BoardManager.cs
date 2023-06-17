@@ -10,6 +10,7 @@ namespace FroggyDefense.Core
 {
     public class BoardManager : MonoBehaviour
     {
+        public LineRenderer lineRenderer;
         public bool TestMode = false;
 
         public GameObject _testMarkerPrefab;
@@ -39,6 +40,8 @@ namespace FroggyDefense.Core
         public List<GameObject> testPathMarkers;
         public Vector2Int testPathStart = new Vector2Int(-5, 9);
         public Vector2Int testPathEnd = Vector2Int.zero;
+        public bool testPathIncludeWater = false;
+        public bool testPathIncludeWalls = false;
 
         [Space]
         [Header("Size")]
@@ -112,22 +115,26 @@ namespace FroggyDefense.Core
             testPathMarkers = new List<GameObject>();
 
             // Make a tile adjustment because the path is going to the bottom right of each tile instead of the middle.
-            float adjustment = Tilemaps[0].cellSize.x / 2;
+            //float adjustment = Tilemaps[0].cellSize.x / 2;
+            float adjustment = 0;
 
             // Make test LayerInfo
-            LayerInfo layerInfo = new LayerInfo(false, false);
+            LayerInfo layerInfo = new LayerInfo(testPathIncludeWater, testPathIncludeWalls);
 
             // Create test path
-            List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, 9), Vector2Int.zero, layerInfo);
+            List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, testPathStart, testPathEnd, layerInfo);
 
+            lineRenderer.positionCount = testPath.Count;
             // Create visual test markers.
-            foreach (Vector2 pos in testPath)
+            for (int i = 0; i < testPath.Count; i++)
             {
+                Vector2 pos = testPath[i];
                 Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
                 testPathMarkers.Add(Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity));
+                lineRenderer.SetPosition(i, testPath[i]);
             }
 
-            Debug.Log($"testPath: ({testPathStart}) -> ({testPathEnd}) {{\n{TilePathfinder.PathToString(testPath)}\n}}");
+            Debug.Log($"testPath: ({testPathStart}) -> ({testPathEnd}) \n{TilePathfinder.PathToString(testPath)}");
         }
 
         /// <summary>
