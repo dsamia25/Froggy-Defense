@@ -33,6 +33,10 @@ namespace FroggyDefense.Core.Buildings
         [SerializeField] protected bool _splashShield;
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
 
+        // TODO: Implement this somehow.
+        public bool _isInteractable = false;
+        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+
         [Space]
         [Header("Events")]
         public UnityEvent NexusDestroyedEvent;

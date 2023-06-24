@@ -102,6 +102,9 @@ namespace FroggyDefense.Core.Buildings
         public bool CanSelectTargetOptions { get => _canSelectTargetOptions; }
         public TurretStat[] UpgradeOptions { get => _upgradeOptions; }
 
+        // TODO: Implement this somehow.
+        public bool IsInteractable { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
         private float _changeFocusCooldown = 0f;

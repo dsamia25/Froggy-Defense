@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229279e1acbd442d6b01faa9353643ad, type: 3}
+  m_Name: TestTrack2
+  m_EditorClassIdentifier: 
+  Name: Test Track 2
+  Sounds:
+  - Name: Countdown
+    SoundClip: {fileID: 8300000, guid: 36669a3baa6714a9c92b1b4896895a0d, type: 3}
+    Volume: 0.25
+    Pitch: 1
+    Loop: 1
+    VolumeFadeStrength: 0.1
+    VolumeFadeFrequency: 0.75
+    PitchFadeStrength: 0.02
+    PitchFadeFrequency: 2
+    Source: {fileID: 0}
+  - Name: Bass
+    SoundClip: {fileID: 8300000, guid: a32a15bf9a33049169cbc9204426a11f, type: 3}
+    Volume: 0.4
+    Pitch: 1
+    Loop: 1
+    VolumeFadeStrength: 0.05
+    VolumeFadeFrequency: 1
+    PitchFadeStrength: 0
+    PitchFadeFrequency: 0
+    Source: {fileID: 0}
+  - Name: Bass
+    SoundClip: {fileID: 8300000, guid: e6332c94fb67e418e8707f09748910ec, type: 3}
+    Volume: 0.5
+    Pitch: 1
+    Loop: 1
+    VolumeFadeStrength: 0
+    VolumeFadeFrequency: 0
+    PitchFadeStrength: 0
+    PitchFadeFrequency: 0
+    Source: {fileID: 0}

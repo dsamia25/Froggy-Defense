@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229279e1acbd442d6b01faa9353643ad, type: 3}
+  m_Name: ThirdTrack
+  m_EditorClassIdentifier: 
+  Name: Third Song
+  Sounds:
+  - Name: Bass
+    SoundClip: {fileID: 8300000, guid: a32a15bf9a33049169cbc9204426a11f, type: 3}
+    Volume: 0.3
+    Pitch: 0.9
+    Loop: 1
+    VolumeFadeStrength: 0.2
+    VolumeFadeFrequency: 0.25
+    PitchFadeStrength: 0.01
+    PitchFadeFrequency: 0.1
+    Source: {fileID: 0}
+  - Name: Glass
+    SoundClip: {fileID: 8300000, guid: d9c2a6fc473e14c708bbadedf2992421, type: 3}
+    Volume: 0.6
+    Pitch: 1.1
+    Loop: 1
+    VolumeFadeStrength: 0
+    VolumeFadeFrequency: 0
+    PitchFadeStrength: 0.01
+    PitchFadeFrequency: 0.3
+    Source: {fileID: 0}

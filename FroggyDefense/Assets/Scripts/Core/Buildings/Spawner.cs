@@ -17,8 +17,16 @@ namespace FroggyDefense.Core.Buildings
         private void Start()
         {
             // Subscribe to events.
-            GameManager.instance.WaveStartedEvent.AddListener(OnWaveStartedEvent);
-            GameManager.instance.WaveCompletedEvent.AddListener(OnWaveCompletedEvent);
+            GameManager.WaveStartedEvent += OnWaveStartedEvent;
+            GameManager.WaveCompletedEvent += OnWaveCompletedEvent;
+            //GameManager.instance.WaveStartedEvent.AddListener(OnWaveStartedEvent);
+            //GameManager.instance.WaveCompletedEvent.AddListener(OnWaveCompletedEvent);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.WaveStartedEvent -= OnWaveStartedEvent;
+            GameManager.WaveCompletedEvent -= OnWaveCompletedEvent;
         }
 
         /// <summary>

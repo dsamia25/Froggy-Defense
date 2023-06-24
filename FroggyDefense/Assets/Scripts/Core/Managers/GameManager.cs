@@ -68,10 +68,14 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Events")]
         [Space]
-        public UnityEvent WaveStartedEvent;
-        public UnityEvent WaveCompletedEvent;
+        //public UnityEvent WaveStartedEvent;
+        //public UnityEvent WaveCompletedEvent;
         public UnityEvent<int> PointsChangedEvent;
-        public UnityEvent RefreshUIEvent;
+        //public UnityEvent RefreshUIEvent;
+
+        public delegate void GameDelegate();
+        public static event GameDelegate WaveStartedEvent;
+        public static event GameDelegate WaveCompletedEvent;
 
         private void Awake()
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,34 +9,39 @@ namespace FroggyDefense.Shop
 {
     public class TravelingShop : MonoBehaviour, IInteractable
     {
-        public bool ShopIsOpen = true;                                              // If the shop is open an interactable.
+        [Space]
+        [Header("Shop Image")]
+        [Space]
+        public SpriteRenderer spriteRenderer;
+        public Sprite ShopOpenImage;                                              
+        public Sprite ShopClosedImage;
+
         public int ShopSize { get => _items.Count; }                                // How many items are in the shop.
-        //public ShopItemListing[] _itemInventoryTemplates;                           // The list of inventory items to sell.
 
         [SerializeField] private List<ShopItem> _items = new List<ShopItem>();                       // List of all items in the shop.
         public IReadOnlyCollection<ShopItem> Items { get => _items.AsReadOnly(); }  // Returns the items in the shop as a readonly collection.
+
+        public bool IsInteractable { get => ShopIsOpen; set => ShopIsOpen = value; }
 
         [Space]
         [Header("Interact Events")]
         [Space]
         public UnityEvent InteractEvent;
 
-        //private void Awake()
-        //{
-        //    GenerateShopInventory();
-        //}
+        [HideInInspector]
+        public bool ShopIsOpen = true;                                              // If the shop is open an interactable.
 
-        ///// <summary>
-        ///// Converts the ItemObjects in template list to actual items.
-        ///// </summary>
-        //public void GenerateShopInventory()
-        //{
-        //    foreach (ShopItemListing obj in _itemInventoryTemplates)
-        //    {
-        //        ShopItem newItem = new ShopItem(obj);
-        //        _items.Add(newItem);
-        //    }
-        //}
+        private void Awake()
+        {
+            // Subscribe to events
+            GameManager.WaveStartedEvent += CloseShop;
+            GameManager.WaveCompletedEvent += OpenShop;
+        }
+
+        private void Start()
+        {
+            OpenShop();
+        }
 
         /// <summary>
         /// Gets the item at the given index from the shop.
@@ -99,7 +105,39 @@ namespace FroggyDefense.Shop
         /// </summary>
         public void Interact()
         {
-            InteractEvent?.Invoke();
+            if (IsInteractable) InteractEvent?.Invoke();
+        }
+
+        /// <summary>
+        /// Opens the shop and makes it interactable.
+        /// </summary>
+        public void OpenShop()
+        {
+            try
+            {
+                spriteRenderer.sprite = ShopOpenImage;
+                IsInteractable = true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error opening shop: {e}");
+            }
+        }
+
+        /// <summary>
+        /// Closes the shop and makes it not interactable.
+        /// </summary>
+        public void CloseShop()
+        {
+            try
+            {
+                spriteRenderer.sprite = ShopClosedImage;
+                IsInteractable = false;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error closing shop: {e}");
+            }
         }
 
         /// <summary>
@@ -107,12 +145,7 @@ namespace FroggyDefense.Shop
         /// </summary>
         public void OnMouseUpAsButton()
         {
-            // Click on the Nexus to interact with it.
-            if (ShopIsOpen)
-            {
-                Interact();
-            }
+            Interact();
         }
-
     }
 }
