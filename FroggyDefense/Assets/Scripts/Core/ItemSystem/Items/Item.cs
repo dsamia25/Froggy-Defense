@@ -76,7 +76,7 @@ namespace FroggyDefense.Core.Items
                     item = new Item(template);
                     break;
             }
-            Debug.Log("template Type = " + template.Type + ".");
+            Debug.Log($"Creating {template.Name} as a {item.Type.ToString()} item.");
 
             return item;
         }

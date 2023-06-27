@@ -15,5 +15,12 @@ namespace FroggyDefense.Core.Items
         [Header("Stats")]
         [Space]
         public List<StatValuePair> Stats = new List<StatValuePair>();
+
+        [Space]
+        [Header("Random Bonus Stats")]
+        [Space]
+        public bool AddBonusStats = false;
+        public Vector2Int RandomStatsRange = new Vector2Int();
+        public List<StatValueRange> RandomBonusStats = new List<StatValueRange>();
     }
 }

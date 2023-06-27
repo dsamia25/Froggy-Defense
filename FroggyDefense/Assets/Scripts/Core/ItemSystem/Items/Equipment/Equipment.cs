@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,12 +16,6 @@ namespace FroggyDefense.Core.Items
     public class Equipment : Item
     {
         public EquipmentSlot Slot = 0;
-
-        //public int Strength = 0;
-        //public int Dexterity = 0;
-        //public int Agility = 0;
-        //public int Intellect = 0;
-        //public int Spirit = 0;
 
         public List<StatValuePair> Stats = new List<StatValuePair>();
 
@@ -51,9 +46,10 @@ namespace FroggyDefense.Core.Items
 
             foreach (StatValuePair stat in template.Stats)
             {
-                // TODO: Maybe need to create a new struct? Not sure if that will be important.
-                Stats.Add(stat);
+                AddStat(stat.Stat, Mathf.RoundToInt(stat.Value));
             }
+
+            RollBonusStats(template);
         }
 
         public override bool Use()
@@ -61,6 +57,47 @@ namespace FroggyDefense.Core.Items
             Debug.Log("This is equipment. Equipping " + Name + ".");
             GameManager.instance.m_Player.Equip(this);
             return true;
+        }
+
+        /// <summary>
+        /// Adds bonus stats to the item using the random value ranges.
+        /// </summary>
+        /// <param name="template"></param>
+        private void RollBonusStats(EquipmentObject template)
+        {
+            try
+            {
+                if (!template.AddBonusStats) return;
+
+                string str = "Rolling bonus stats for " + Name + ":\n{\n";
+
+                // Get a maximum amount of bonus stats this will have.
+                int index = 0;
+                int bonusStatTotal = UnityEngine.Random.Range(template.RandomStatsRange.x, template.RandomStatsRange.y);
+                while (bonusStatTotal > 0)
+                {
+                    var bonusStat = template.RandomBonusStats[index++ % template.RandomBonusStats.Count];
+                    int statRoll = bonusStat.Value;
+
+                    if (statRoll > bonusStatTotal)
+                    {
+                        statRoll = bonusStatTotal;
+                    }
+
+                    str += bonusStat.Stat.ToString() + ": " + statRoll + " ,\n";
+                    AddStat(bonusStat.Stat, statRoll);
+
+                    bonusStatTotal -= statRoll;
+
+                    // Try to finish by the 10th try or just break.
+                    if (index >= 10) break;
+                }
+                str += "}";
+                Debug.Log(str);
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error adding bonus stats: {e}");
+            }
         }
 
         /// <summary>

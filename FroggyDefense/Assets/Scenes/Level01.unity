@@ -62887,7 +62887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2423155690084508752, guid: 23e65685d75344e66951f1d407af8398, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: -4.45
       objectReference: {fileID: 0}
     - target: {fileID: 2423155690084508752, guid: 23e65685d75344e66951f1d407af8398, type: 3}
       propertyPath: m_LocalPosition.y
@@ -62928,7 +62928,7 @@ PrefabInstance:
     - target: {fileID: 2786344869782774724, guid: 23e65685d75344e66951f1d407af8398, type: 3}
       propertyPath: _setItem
       value: 
-      objectReference: {fileID: 11400000, guid: ec8c987dd0f784e3d974f6da610a5075, type: 2}
+      objectReference: {fileID: 11400000, guid: 27568e2f94dba4c83a3b2d85fcab544f, type: 2}
     - target: {fileID: 3581968915380557600, guid: 23e65685d75344e66951f1d407af8398, type: 3}
       propertyPath: m_Name
       value: Clothes

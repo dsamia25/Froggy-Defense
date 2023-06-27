@@ -484,7 +484,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 284b28bec8ab3495fa2750624feaf513, type: 2}
       dropChance: 0.5
     - item: {fileID: 11400000, guid: 628cc2c1e1e794616be254130be082c8, type: 2}
-      dropChance: 0.1
+      dropChance: 1
 --- !u!1001 &724048808542710039
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -26,6 +26,20 @@ namespace FroggyDefense.Core
     }
 
     [System.Serializable]
+    public struct StatValueRange
+    {
+        public StatType Stat;
+        public Vector2Int ValueRange;
+        public int Value { get => UnityEngine.Random.Range(ValueRange.x, ValueRange.y); }
+
+        public StatValueRange(StatType stat, Vector2Int valueRange)
+        {
+            Stat = stat;
+            ValueRange = valueRange;
+        }
+    }
+
+    [System.Serializable]
     public class StatSheet
     {
         [Space]
