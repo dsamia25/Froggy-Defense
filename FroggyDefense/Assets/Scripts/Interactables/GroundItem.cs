@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using FroggyDefense.Core;
 using FroggyDefense.Core.Items;
 
@@ -6,7 +9,10 @@ namespace FroggyDefense.Interactables
 {
     public class GroundItem : MonoBehaviour, IGroundInteractable
     {
+        public GroundItemRarityColors ItemRarityColors;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private TextMeshProUGUI _itemNameText;
+        [SerializeField] private Image _itemNamePanel;
         [SerializeField] private Rigidbody2D rb;
 
         public Item _item;
@@ -31,8 +37,16 @@ namespace FroggyDefense.Interactables
         /// </summary>
         public void SetItem(Item item)
         {
-            _item = item;
-            _spriteRenderer.sprite = _item.Icon;
+            try
+            {
+                _item = item;
+                _spriteRenderer.sprite = _item.Icon;
+                _itemNamePanel.color = ItemRarityColors.GetColor(item.Rarity);
+                _itemNameText.text = item.Name;
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error setting item: {e}");
+            }
         }
 
         /// <summary>

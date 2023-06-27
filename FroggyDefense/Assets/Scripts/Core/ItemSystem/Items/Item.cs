@@ -9,6 +9,20 @@ namespace FroggyDefense.Core.Items
         Consumable
     }
 
+    public enum ItemRarity
+    {
+        Trash = 0,
+        Common = 1,
+        Uncommon = 2,
+        Rare = 3,
+        Epic = 4,
+        Mythic = 5,
+        Legendary = 6,
+        Cool = 7,
+        Wicked = 8,
+        Sick = 9
+    }
+
     [System.Serializable]
     public class Item
     {
@@ -19,6 +33,7 @@ namespace FroggyDefense.Core.Items
         public bool IsStackable { get; set; } = false;
         public ItemType Type = ItemType.Default;
         public int CountSubtractPerUse = 1;
+        public ItemRarity Rarity = 0;
 
         public Sprite Icon = null;
 
@@ -35,6 +50,7 @@ namespace FroggyDefense.Core.Items
             IsStackable = template.IsStackable;
             Type = template.Type;
             Icon = template.Icon;
+            Rarity = template.Rarity;
         }
 
         /// <summary>

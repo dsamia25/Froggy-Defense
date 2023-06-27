@@ -134,6 +134,7 @@ namespace FroggyDefense.Core.Enemies
             EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, Points, Experience));
             GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, Points, NumberPopupType.EnemyDefeated);
             GetComponent<DropGems>().Drop();
+            GetComponent<DropItems>().Drop();
             Destroy(gameObject);
         }
         #endregion

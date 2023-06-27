@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 using FroggyDefense.Interactables;
 using FroggyDefense.Economy;
 using FroggyDefense.UI;
@@ -37,10 +37,16 @@ namespace FroggyDefense.Core
 
         private void OnDropGemsEvent(DropGemsEventArgs args)
         {
-            Debug.Log("Spawning GemDropper.");
-            GameObject dropper = Instantiate(GemDropperPrefab, args.pos, Quaternion.identity);
-            dropper.transform.SetParent(transform);
-            dropper.GetComponent<GemDropper>().Drop(args.gems);
-        }
+            try
+            {
+                Debug.Log("Spawning GemDropper.");
+                GameObject dropper = Instantiate(GemDropperPrefab, args.pos, Quaternion.identity);
+                dropper.transform.SetParent(transform);
+                dropper.GetComponent<GemDropper>().Drop(args.gems);
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error creating GemDropper: {e}");
+            }
+}
     }
 }

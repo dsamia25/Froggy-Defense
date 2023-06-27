@@ -16,6 +16,7 @@ MonoBehaviour:
   Id: 12
   Description: For special occasions.
   Type: 1
+  Rarity: 5
   Icon: {fileID: 21300000, guid: 8b4596db50a8547ecafd76eb2778eba6, type: 3}
   Slot: 1
   Stats:

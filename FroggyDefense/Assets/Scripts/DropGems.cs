@@ -14,7 +14,7 @@ namespace FroggyDefense.Interactables
         public static DropGemDelegate DropGemsEvent;
 
         /// <summary>
-        /// Invokes the DropGemsEvent for the GemManager to spawn in a GemDropper.
+        /// Invokes the DropGemsEvent for a manager to spawn in a GemDropper.
         /// </summary>
         public void Drop()
         {

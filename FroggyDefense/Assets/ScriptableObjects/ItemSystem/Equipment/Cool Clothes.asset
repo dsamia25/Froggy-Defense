@@ -16,6 +16,7 @@ MonoBehaviour:
   Id: 1
   Description: The coolest around.
   Type: 1
+  Rarity: 3
   Icon: {fileID: 21300000, guid: 137c13a0f1d4944b49ca458808a6822f, type: 3}
   Slot: 1
   Stats:

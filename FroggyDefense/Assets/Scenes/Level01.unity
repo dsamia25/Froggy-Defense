@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 23703767}
   - component: {fileID: 23703768}
   - component: {fileID: 23703769}
+  - component: {fileID: 23703770}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -272,6 +273,21 @@ MonoBehaviour:
   DefaultMenus:
   - {fileID: 796772546}
   - {fileID: 716135801}
+--- !u!114 &23703770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23703763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695677678ff4444d786dbe4470ce6505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundItemPrefab: {fileID: 3581968915380557600, guid: 23e65685d75344e66951f1d407af8398, type: 3}
+  m_DropTimeSpacing: 0.1
+  m_DropForce: 30
 --- !u!1 &51615102
 GameObject:
   m_ObjectHideFlags: 0
@@ -61636,7 +61652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &545024268
 Transform:
   m_ObjectHideFlags: 0
@@ -66724,7 +66740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1355969526
 Transform:
   m_ObjectHideFlags: 0
@@ -69946,6 +69962,7 @@ GameObject:
   - component: {fileID: 1890830043}
   - component: {fileID: 1890830045}
   - component: {fileID: 1890830044}
+  - component: {fileID: 1890830046}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -70139,6 +70156,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1890830046
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890830042}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!114 &1912640162 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4249231093950940447, guid: 15d791611cd44401e98c246f0d075412, type: 3}

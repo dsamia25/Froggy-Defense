@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 3633966445486539865}
   - component: {fileID: -4863954606205119223}
   - component: {fileID: 3274697882266213094}
+  - component: {fileID: 921822201899215134}
   m_Layer: 9
   m_Name: Blob
   m_TagString: Enemy
@@ -370,6 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Blob
   m_HealthBar: {fileID: 2007384587168905277}
+  m_ManaBar: {fileID: 0}
   visualsAnimator: {fileID: 1998022757796020620}
   DamagedMaterial: {fileID: 2100000, guid: 7f36b8828faa24f6fbdaaf21f011c63c, type: 2}
   DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -381,6 +383,7 @@ MonoBehaviour:
   _health: 12
   _maxMana: 100
   _mana: 100
+  _manaRegen: 8
   _moveSpeed: 1
   _stats:
     _level: 1
@@ -462,6 +465,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a688288e8f1b4fda8556e3f0a208b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &921822201899215134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072654201736512015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea3da03baaca48f1ae17ccb2e1f0be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Table:
+    Items:
+    - item: {fileID: 11400000, guid: bd1fc8f3af0ef45d0ac536ac4bf490b1, type: 2}
+      dropChance: 0.5
+    - item: {fileID: 11400000, guid: 284b28bec8ab3495fa2750624feaf513, type: 2}
+      dropChance: 0.5
+    - item: {fileID: 11400000, guid: 628cc2c1e1e794616be254130be082c8, type: 2}
+      dropChance: 0.1
 --- !u!1001 &724048808542710039
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,6 +16,5 @@ MonoBehaviour:
   Id: 5
   Description: A bronze bar.
   Type: 0
+  Rarity: 1
   Icon: {fileID: 0}
-  PriceCurrency: {fileID: 0}
-  ShopPrice: 1

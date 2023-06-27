@@ -47,6 +47,7 @@ namespace FroggyDefense.Core.Items
             Type = template.Type;
             Icon = template.Icon;
             IsStackable = false;
+            Rarity = template.Rarity;
 
             foreach (StatValuePair stat in template.Stats)
             {

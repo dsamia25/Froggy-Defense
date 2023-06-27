@@ -13,6 +13,7 @@ namespace FroggyDefense.Core.Items
         public string Description = "A NEW ITEM";
         public bool IsStackable { get; } = false;
         public ItemType Type = ItemType.Default;
+        public ItemRarity Rarity = 0;
 
         public Sprite Icon = null;
     }
