@@ -88,7 +88,7 @@ namespace FroggyDefense.Core.Enemies
 
                 if (_resetPathFrequencyTimer <= 0f)
                 {
-                    pathfinder.FindPath();
+                    pathfinder.SetPath();
                     _resetPathFrequencyTimer = ResetPathFrequency;
                 } else
                 {
@@ -185,7 +185,8 @@ namespace FroggyDefense.Core.Enemies
             }
 
             // TODO: Currently just draws a straight line to the focus, make a pathfinding class to direct the enemy on an actual path.
-            Vector2 targetLoc = focus.transform.position;
+            //Vector2 targetLoc = focus.transform.position;
+            Vector2 targetLoc = pathfinder.FindPath();
 
             return (targetLoc - (Vector2)transform.position).normalized;
         }

@@ -458,6 +458,9 @@ MonoBehaviour:
   DrawPath: 1
   _pathMarkerPrefab: {fileID: 7778735706940409987, guid: 1b1924eb6ad764d81b459f6cf92d1d5f, type: 3}
   lineRenderer: {fileID: 1357085885923729711}
+  PathfinderNodePrefab: {fileID: 2243677097192610884, guid: 44220e004727a4fe08b1e89cb9ced886, type: 3}
+  PathNodeResetTime: 0.5
+  PathNode: {fileID: 0}
 --- !u!114 &-4863954606205119223
 MonoBehaviour:
   m_ObjectHideFlags: 0
