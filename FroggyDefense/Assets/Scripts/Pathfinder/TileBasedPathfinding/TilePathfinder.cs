@@ -27,7 +27,7 @@ namespace Pathfinder
         /// <param name="start"></param>
         /// <param name="finish"></param>
         /// <returns></returns>
-        public static List<Vector2> FindShortestPath(IDictionary<Vector2Int, GridTile> map, Vector2Int start, Vector2Int finish, LayerInfo layers)
+        public static List<Vector2> FindShortestPath(IDictionary<Vector2Int, PathfinderTile> map, Vector2Int start, Vector2Int finish, LayerInfo layers)
         {
             try
             {
@@ -36,9 +36,14 @@ namespace Pathfinder
                     throw new NullReferenceException("Map cannot be null.");
                 }
 
+                if (map.Count == 0)
+                {
+                    throw new ArgumentException("Map is empty.");
+                }
+
                 if (!(map.ContainsKey(start) && map.ContainsKey(finish)))
                 {
-                    throw new ArgumentException("Either the start or the finish is not in the map.");
+                    throw new ArgumentException($"Either the start ({start}) or the finish ({finish}) is not in the map.");
                 }
 
                 if (layers.Equals(null))
@@ -62,7 +67,7 @@ namespace Pathfinder
                     unvisited.Remove(curr);
 
                     // Check each node in main map.
-                    foreach (GridTile connected in map[curr.Position].ConnectedTiles)
+                    foreach (PathfinderTile connected in map[curr.Position].ConnectedTiles)
                     {
                         // Check if the tile is traversable.
                         if (!IsTraversable(connected, layers))
@@ -118,7 +123,7 @@ namespace Pathfinder
         /// <param name="tile"></param>
         /// <param name="traversableLayers"></param>
         /// <returns></returns>
-        private static bool IsTraversable(GridTile tile, LayerInfo traversableLayers)
+        private static bool IsTraversable(PathfinderTile tile, LayerInfo traversableLayers)
         {
             return (!tile.isWater || (tile.isWater && traversableLayers.includeWater)) && (!tile.isWall || (tile.isWall && traversableLayers.includeWalls));
         }
@@ -190,7 +195,7 @@ namespace Pathfinder
         /// <param name="tilemapLayers"></param>
         /// <param name="layerTileInfo"></param>
         /// <returns></returns>
-        public static Dictionary<Vector2Int, GridTile> BuildNodeMap(Tilemap[] tilemapLayers, GridTileObject[] layerTileInfo)
+        public static Dictionary<Vector2Int, PathfinderTile> BuildNodeMap(Tilemap[] tilemapLayers, PathfinderTileObject[] layerTileInfo)
         {
             try
             {
@@ -199,13 +204,15 @@ namespace Pathfinder
                     throw new ArgumentException("Input arrays must be the same length.");
                 }
 
-                Dictionary<Vector2Int, GridTile> nodeMap = new Dictionary<Vector2Int, GridTile>();
+                Debug.Log($"Starting building node map: {tilemapLayers.Length} layers.");
+                Dictionary<Vector2Int, PathfinderTile> nodeMap = new Dictionary<Vector2Int, PathfinderTile>();
 
                 // Build nodes.
                 for (int i = 0; i < tilemapLayers.Length; i++)
                 {
                     Tilemap layer = tilemapLayers[i];
                     layer.CompressBounds();
+                    Debug.Log($"Layer {i}: x[{Mathf.FloorToInt(layer.localBounds.min.x)}, {Mathf.FloorToInt(layer.localBounds.max.x)}] y[{Mathf.FloorToInt(layer.localBounds.min.y)}, {Mathf.FloorToInt(layer.localBounds.max.y)}]");
                     for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
                     {
                         for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)
@@ -213,7 +220,7 @@ namespace Pathfinder
                             if (layer.HasTile(new Vector3Int(x, y)))
                             {
                                 Vector2Int pos = new Vector2Int(x, y);
-                                GridTile tile = new GridTile(pos, layerTileInfo[i]);
+                                PathfinderTile tile = new PathfinderTile(pos, layerTileInfo[i]);
                                 nodeMap.Add(pos, tile);
                             }
                         }
@@ -241,6 +248,7 @@ namespace Pathfinder
                         }
                     }
                 }
+                Debug.Log("Finished building node map.");
 
                 // Return map.
                 return nodeMap;
@@ -257,13 +265,13 @@ namespace Pathfinder
         /// </summary>
         private class TileNode : IComparable
         {
-            public GridTile TileInfo { get; private set; }                      // The tile info with travel values.
+            public PathfinderTile TileInfo { get; private set; }                      // The tile info with travel values.
             public Vector2Int Position { get; private set; }                    // The node's position.
             public float StartDistance { get; private set; }                    // The node's distance from the starting position.
             public float EndDistance { get; private set; }                      // The node's distance from the ending position.
             public float Value { get; private set; }                            // The combined weight of distances.
 
-            public TileNode(Vector2Int pos, Vector2Int startPos, Vector2Int endPos, GridTile tile)
+            public TileNode(Vector2Int pos, Vector2Int startPos, Vector2Int endPos, PathfinderTile tile)
             {
                 TileInfo = tile;
                 Position = pos;
@@ -272,7 +280,7 @@ namespace Pathfinder
                 Value = StartDistance + EndDistance;
             }
 
-            public TileNode(Vector2Int pos, TileNode reference, Vector2Int endPos, GridTile tile)
+            public TileNode(Vector2Int pos, TileNode reference, Vector2Int endPos, PathfinderTile tile)
             {
                 TileInfo = tile;
                 Position = pos;

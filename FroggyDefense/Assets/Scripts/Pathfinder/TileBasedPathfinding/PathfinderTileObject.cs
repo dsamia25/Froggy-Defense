@@ -3,10 +3,10 @@ using UnityEngine;
 namespace Pathfinder
 {
     /// <summary>
-    /// ScriptableObject containing info about a GridTile.
+    /// ScriptableObject containing info about a PathfinderTile.
     /// </summary>
-    [CreateAssetMenu(fileName = "New GridTile", menuName = "ScriptableObjects/Pathfinder/GridTile")]
-    public class GridTileObject : ScriptableObject
+    [CreateAssetMenu(fileName = "New PathfinderTile", menuName = "ScriptableObjects/Pathfinder/PathfinderTile")]
+    public class PathfinderTileObject : ScriptableObject
     {
         [SerializeField] private string _name;
         [SerializeField] private bool _isWater;

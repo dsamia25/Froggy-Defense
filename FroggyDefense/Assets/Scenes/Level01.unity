@@ -5746,7 +5746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}
@@ -6035,7 +6035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &193943658
 Grid:
   m_ObjectHideFlags: 0
@@ -6055,7 +6055,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193943657}
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6065,7 +6065,7 @@ Transform:
   - {fileID: 725177849}
   m_Father: {fileID: 248401521}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &230939785
 GameObject:
   m_ObjectHideFlags: 0
@@ -55209,7 +55209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 335975048}
-  TestMode: 0
   _testMarkerPrefab: {fileID: 7778735706940409987, guid: 1b1924eb6ad764d81b459f6cf92d1d5f, type: 3}
   NexusHealthBarObject: {fileID: 1423142521}
   Tilemaps:
@@ -55223,9 +55222,9 @@ MonoBehaviour:
   - 0.33
   - 1
   FullMap:
-  - {fileID: 373064756}
-  - {fileID: 320590486}
   - {fileID: 435202411}
+  - {fileID: 320590486}
+  - {fileID: 373064756}
   MapLayerTiles:
   - {fileID: 11400000, guid: d9f6f9a31af6c483eae7947b3b555d15, type: 2}
   - {fileID: 11400000, guid: 9a5f532d26ee24b9498a0ea8703274f7, type: 2}
@@ -61367,7 +61366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}
@@ -64917,6 +64916,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlueBlob
       objectReference: {fileID: 0}
+    - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}
 --- !u!4 &861204020 stripped
@@ -65780,7 +65783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1079136238
 Transform:
   m_ObjectHideFlags: 0
@@ -65872,6 +65875,10 @@ PrefabInstance:
     - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
       propertyPath: m_Name
       value: YellowBlob
+      objectReference: {fileID: 0}
+    - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}
@@ -66740,7 +66747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1355969526
 Transform:
   m_ObjectHideFlags: 0
@@ -66748,7 +66755,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355969525}
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -66758,7 +66765,7 @@ Transform:
   - {fileID: 373064754}
   m_Father: {fileID: 1300118866}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &1355969528
 Grid:
   m_ObjectHideFlags: 0
@@ -71153,7 +71160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}

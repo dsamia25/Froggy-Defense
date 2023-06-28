@@ -3,6 +3,7 @@ using UnityEngine;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Weapons;
 using FroggyDefense.Interactables;
+using Pathfinder;
 
 namespace FroggyDefense.Core.Enemies
 {
@@ -51,10 +52,13 @@ namespace FroggyDefense.Core.Enemies
         public float LeashResetTime => _leashResetTime;
         public GameObject Focus { get => _focus; set { _focus = value; } }
 
-        //public List<StatusEffect> _statusEffects = new List<StatusEffect>();                                                                // List of all status effects applied on the target.
-        //[SerializeField] private Dictionary<string, StatusEffect> _appliedEffects = new Dictionary<string, StatusEffect>();                 // List of all dot names and their applied effects.
-        //public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();                                                         // List of all dots applied on the target.
-        //[SerializeField] private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
+        [Space]
+        [Header("Pathing")]
+        [Space]
+        [SerializeField] private UnitPathfinder pathfinder;
+        public LayerInfo WalkableTiles = new LayerInfo();
+        public float ResetPathFrequency = 1f;                   // How often the enemy checks for a new path.
+        private float _resetPathFrequencyTimer = 0f;
 
         public delegate void EnemyDelegate(EnemyEventArgs args);
         public static EnemyDelegate EnemyDamagedEvent;
@@ -81,6 +85,15 @@ namespace FroggyDefense.Core.Enemies
             if (GameManager.GameStarted)
             {
                 _moveDir = FindPath(_focus);
+
+                if (_resetPathFrequencyTimer <= 0f)
+                {
+                    pathfinder.FindPath();
+                    _resetPathFrequencyTimer = ResetPathFrequency;
+                } else
+                {
+                    _resetPathFrequencyTimer -= Time.deltaTime;
+                }
             }
         }
 
@@ -160,7 +173,6 @@ namespace FroggyDefense.Core.Enemies
             _focus = BoardManager.instance.Nexus;
         }
 
-        // TODO: Utilize pathfinding class.
         /// <summary>
         /// Finds a path from the current position to the focus.
         /// </summary>

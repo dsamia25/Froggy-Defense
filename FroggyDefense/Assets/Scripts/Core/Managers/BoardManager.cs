@@ -11,7 +11,6 @@ namespace FroggyDefense.Core
     public class BoardManager : MonoBehaviour
     {
         public LineRenderer lineRenderer;
-        public bool TestMode = false;
 
         public GameObject _testMarkerPrefab;
 
@@ -28,14 +27,15 @@ namespace FroggyDefense.Core
 
         [Space]
 
-        public Tilemap[] FullMap;               // The full version of the entire map.
-        public GridTileObject[] MapLayerTiles;  // Which kind of tile is on each layer.
+        public Tilemap[] FullMap;                                           // The full version of the entire map.
+        public PathfinderTileObject[] MapLayerTiles;                        // Which kind of tile is on each layer.
         public int expansionLength = 0;
         public int initialMapSize = 24;
         public int maxMapSize = 64;
-        public List<Spawner> MoreSpawners = new List<Spawner>();    // More enemy spawners to be spawned in as the map expands.
+        public List<Spawner> MoreSpawners = new List<Spawner>();            // More enemy spawners to be spawned in as the map expands.
 
-        private IDictionary<Vector2Int, GridTile> PathfinderMap;     // List of all tiles with their tile info for Pathfinder.
+        [HideInInspector]
+        public IDictionary<Vector2Int, PathfinderTile> PathfinderMap;       // List of all tiles with their tile info for Pathfinder.
 
         public List<GameObject> testPathMarkers;
         public Vector2Int testPathStart = new Vector2Int(-5, 9);
@@ -84,16 +84,11 @@ namespace FroggyDefense.Core
             BotBound = -initialMapSize / 2;
             LeftBound = -initialMapSize / 2;
             RightBound = initialMapSize / 2;
-        }
 
-        private void Start()
-        {
-            if (!TestMode)
-            {
-                // Build PathfinderMap.
-                // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
-                PathfinderMap = TilePathfinder.BuildNodeMap(FullMap, MapLayerTiles);
-            }
+            // Build PathfinderMap.
+            // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
+            PathfinderMap = TilePathfinder.BuildNodeMap(FullMap, MapLayerTiles);
+            Debug.Log($"PathfinderMap size = {PathfinderMap.Count}.");
         }
 
         public void ClearTestPath()

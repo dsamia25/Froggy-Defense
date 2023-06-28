@@ -102,7 +102,7 @@ namespace Pathfinder.Tests
 
             // Set up test stuff.
             BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
-            IDictionary<Vector2Int, GridTile> PathfinderMap;
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
             int totalTiles = CountTiles(boardManager.FullMap);
 
             // Test Actions.
@@ -122,7 +122,7 @@ namespace Pathfinder.Tests
 
             // Set up test stuff.
             BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
-            IDictionary<Vector2Int, GridTile> PathfinderMap;
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
 
             // Test Actions.
             PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);

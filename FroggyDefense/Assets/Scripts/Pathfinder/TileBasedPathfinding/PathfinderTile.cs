@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pathfinder {
-    public class GridTile
+    public class PathfinderTile
     {
-        public GridTileObject template { get; }                 // Tile properties.
+        public PathfinderTileObject template { get; }                 // Tile properties.
         public Vector2Int Pos { get; set; }                     // The tile's position.
-        public List<GridTile> ConnectedTiles;                   // List of all connected tiles.
+        public List<PathfinderTile> ConnectedTiles;                   // List of all connected tiles.
 
         public string Name => template.Name;                    // The kind of tile.
         public bool isWater => template.isWater;                // Water tile that most things cannot pass.
@@ -16,11 +16,11 @@ namespace Pathfinder {
         public float ToDistance => template.ToDistance;         // The cost of moving from this tile.
         public float FromDistance => template.FromDistance;     // The cost of moving to this tile.
 
-        public GridTile(Vector2Int pos, GridTileObject template)
+        public PathfinderTile(Vector2Int pos, PathfinderTileObject template)
         {
             this.template = template;
             Pos = pos;
-            ConnectedTiles = new List<GridTile>();
+            ConnectedTiles = new List<PathfinderTile>();
         }
 
         /// <summary>
@@ -28,12 +28,12 @@ namespace Pathfinder {
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public float Distance(GridTile other)
+        public float Distance(PathfinderTile other)
         {
             return FromDistance + other.ToDistance;
         }
 
-        public void Connect(GridTile other)
+        public void Connect(PathfinderTile other)
         {
             try
             {

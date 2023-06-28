@@ -68,10 +68,7 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Events")]
         [Space]
-        //public UnityEvent WaveStartedEvent;
-        //public UnityEvent WaveCompletedEvent;
         public UnityEvent<int> PointsChangedEvent;
-        //public UnityEvent RefreshUIEvent;
 
         public delegate void GameDelegate();
         public static event GameDelegate WaveStartedEvent;
@@ -85,11 +82,6 @@ namespace FroggyDefense.Core
                 return;
             }
             instance = this;    // Set singleton
-
-            if (_boardManager == null)
-            {
-                _boardManager = gameObject.GetComponent<BoardManager>();
-            }
 
             if (_gemManager == null)
             {
@@ -108,6 +100,7 @@ namespace FroggyDefense.Core
 
         private void Start()
         {
+            // Subscribe to events.
             Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
         }
 
