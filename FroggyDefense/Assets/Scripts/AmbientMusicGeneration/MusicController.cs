@@ -2,11 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace AmbientMusicGenerator
 {
     public class MusicController : MonoBehaviour
     {
+        public bool OverridePresetSongMixer = false;        // If enabled, Mixer will not be changed even if changing to a preset using a different mixer.
+        public AudioMixerGroup Mixer = null;                // The AudioMixer to use.
+
         public List<MusicPresetObject> Presets = new List<MusicPresetObject>();     // List of preset music mixes.
         public List<Sound> Sounds = new List<Sound>();                              // List of all sounds.
 
@@ -44,6 +48,7 @@ namespace AmbientMusicGenerator
                 audioSource.clip = sound.SoundClip;
                 sound.Source = audioSource;
                 sound.UpdateSource();
+                sound.Source.outputAudioMixerGroup = Mixer;
             }
         }
 
@@ -76,6 +81,12 @@ namespace AmbientMusicGenerator
                 foreach (Sound sound in Sounds)
                 {
                     sound.UpdateSource();
+
+                    // Only need to update the mixer in Awake if the mixer is not changing.
+                    if (!OverridePresetSongMixer)
+                    {
+                        sound.Source.outputAudioMixerGroup = Mixer;
+                    }
                 }
 
                 if (AutomaticallyTransitionSongs)
@@ -84,6 +95,10 @@ namespace AmbientMusicGenerator
                     {
                         // Pick new song.
                         MusicPresetObject song = GetNextSong();
+                        if (!OverridePresetSongMixer)
+                        {
+                            Mixer = song.Mixer;
+                        }
 
                         // Find a new TrackFadeTime value if enabled.
                         if (UseTrackFadeTimeRange)

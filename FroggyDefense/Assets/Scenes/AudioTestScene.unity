@@ -1250,6 +1250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05e5ecc0edeb442cbf1b29078f9b07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mixer: {fileID: 0}
   Presets:
   - {fileID: 11400000, guid: d31f3b387032c4cba9148fadde0861df, type: 2}
   - {fileID: 11400000, guid: 42d310a24ae5f4d01a86b2d7e50cc7e6, type: 2}
