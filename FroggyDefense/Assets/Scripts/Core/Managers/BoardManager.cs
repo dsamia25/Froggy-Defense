@@ -21,27 +21,19 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Tiles")]
         [Space]
-        public Tilemap[] Tilemaps;
-        public TileBase[] tileSet;
-        public float[] tileHeights = { 0, .3f, .8f };
-
-        [Space]
+        //public Tilemap[] Tilemaps;
+        //public TileBase[] tileSet;
+        //public float[] tileHeights = { 0, .3f, .8f };
 
         public Tilemap[] FullMap;                                           // The full version of the entire map.
         public PathfinderTileObject[] MapLayerTiles;                        // Which kind of tile is on each layer.
         public int expansionLength = 0;
-        public int initialMapSize = 24;
+        public int activeLevelRadius = 12;
         public int maxMapSize = 64;
         public List<Spawner> MoreSpawners = new List<Spawner>();            // More enemy spawners to be spawned in as the map expands.
 
         [HideInInspector]
         public IDictionary<Vector2Int, PathfinderTile> PathfinderMap;       // List of all tiles with their tile info for Pathfinder.
-
-        public List<GameObject> testPathMarkers;
-        public Vector2Int testPathStart = new Vector2Int(-5, 9);
-        public Vector2Int testPathEnd = Vector2Int.zero;
-        public bool testPathIncludeWater = false;
-        public bool testPathIncludeWalls = false;
 
         [Space]
         [Header("Size")]
@@ -80,10 +72,10 @@ namespace FroggyDefense.Core
             }
             instance = this;    // Set singleton
 
-            TopBound = initialMapSize / 2;
-            BotBound = -initialMapSize / 2;
-            LeftBound = -initialMapSize / 2;
-            RightBound = initialMapSize / 2;
+            TopBound = activeLevelRadius;
+            BotBound = -activeLevelRadius;
+            LeftBound = -activeLevelRadius;
+            RightBound = activeLevelRadius;
 
             // Build PathfinderMap.
             // Do this after the map has been built or refresh each time it is changed for accurate pathfinding.
@@ -91,142 +83,107 @@ namespace FroggyDefense.Core
             Debug.Log($"PathfinderMap size = {PathfinderMap.Count}.");
         }
 
-        public void ClearTestPath()
-        {
-            if (testPathMarkers != null)
-            {
-                foreach (GameObject obj in testPathMarkers)
-                {
-                    Destroy(obj);
-                }
-            }
-            testPathMarkers = null;
-        }
+        ///// <summary>
+        ///// Randomly generates a level using LevelGenerator.
+        ///// </summary>
+        //public void BuildLevel()
+        //{
+        //    if (RandomizeSeed)
+        //    {
+        //        do
+        //        {
+        //            Seed = UnityEngine.Random.Range(-10000, 10000);
+        //        } while (Seed % 10 == 0);
+        //    }
 
-        public void DrawTestPath()
-        {
-            // Clear markers.
-            ClearTestPath();
-            testPathMarkers = new List<GameObject>();
+        //    // Generate noise map with noise corresponding to height.
+        //    float[,] heightMap = LevelGenerator.GenerateNoise(LevelWidth, LevelHeight, Seed, Scale);
 
-            // Make a tile adjustment because the path is going to the bottom right of each tile instead of the middle.
-            //float adjustment = Tilemaps[0].cellSize.x / 2;
-            float adjustment = 0;
+        //    // Despawn old Nexus.
+        //    if (Nexus != null)
+        //    {
+        //        Destroy(Nexus);
+        //    }
 
-            // Make test LayerInfo
-            LayerInfo layerInfo = new LayerInfo(testPathIncludeWater, testPathIncludeWalls);
+        //    // Find Nexus spawn position.
+        //    if (RandomizeNexusSpawn)
+        //    {
+        //        NexusSpawnLoc = new Vector2Int(
+        //            Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth)),
+        //            Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth))
+        //            );
+        //    }
 
-            // Create test path
-            List<Vector2> testPath = TilePathfinder.FindShortestPath(PathfinderMap, testPathStart, testPathEnd, layerInfo);
+        //    // Set safe zone around Nexus.
+        //    LevelGenerator.SetArea(
+        //        heightMap,
+        //        new Vector2Int(NexusSpawnLoc.x - NexusBufferZoneWidth / 2, NexusSpawnLoc.x + NexusBufferZoneWidth / 2),
+        //        new Vector2Int(NexusSpawnLoc.y - NexusBufferZoneHeight / 2, NexusSpawnLoc.y + NexusBufferZoneHeight / 2),
+        //        tileHeights[1]);
 
-            lineRenderer.positionCount = testPath.Count;
-            // Create visual test markers.
-            for (int i = 0; i < testPath.Count; i++)
-            {
-                Vector2 pos = testPath[i];
-                Vector2 adjustedPos = new Vector2(pos.x + adjustment, pos.y + adjustment);
-                testPathMarkers.Add(Instantiate(_testMarkerPrefab, adjustedPos, Quaternion.identity));
-                lineRenderer.SetPosition(i, testPath[i]);
-            }
+        //    // Spawn new Nexus.
+        //    Nexus = Instantiate(Nexus_Prefab, new Vector2(NexusSpawnLoc.x, NexusSpawnLoc.y), Quaternion.identity);
 
-            Debug.Log($"testPath: ({testPathStart}) -> ({testPathEnd}) \n{TilePathfinder.PathToString(testPath)}");
-        }
+        //    // Convert height map to tiles.
+        //    int[,] newMap = LevelGenerator.InterpretNoise(heightMap, tileHeights);
 
-        /// <summary>
-        /// Randomly generates a level using LevelGenerator.
-        /// </summary>
-        public void BuildLevel()
-        {
-            if (RandomizeSeed)
-            {
-                do
-                {
-                    Seed = UnityEngine.Random.Range(-10000, 10000);
-                } while (Seed % 10 == 0);
-            }
+        //    // Spawn in tiles.
+        //    LevelGenerator.RenderMap(newMap, Tilemaps, tileSet);
+        //}
 
-            // Generate noise map with noise corresponding to height.
-            float[,] heightMap = LevelGenerator.GenerateNoise(LevelWidth, LevelHeight, Seed, Scale);
-
-            // Despawn old Nexus.
-            if (Nexus != null)
-            {
-                Destroy(Nexus);
-            }
-
-            // Find Nexus spawn position.
-            if (RandomizeNexusSpawn)
-            {
-                NexusSpawnLoc = new Vector2Int(
-                    Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth)),
-                    Mathf.RoundToInt(UnityEngine.Random.Range(NexusSpawnDistanceFromLedge * LevelWidth, (1 - NexusSpawnDistanceFromLedge) * LevelWidth))
-                    );
-            }
-
-            // Set safe zone around Nexus.
-            LevelGenerator.SetArea(
-                heightMap,
-                new Vector2Int(NexusSpawnLoc.x - NexusBufferZoneWidth / 2, NexusSpawnLoc.x + NexusBufferZoneWidth / 2),
-                new Vector2Int(NexusSpawnLoc.y - NexusBufferZoneHeight / 2, NexusSpawnLoc.y + NexusBufferZoneHeight / 2),
-                tileHeights[1]);
-
-            // Spawn new Nexus.
-            Nexus = Instantiate(Nexus_Prefab, new Vector2(NexusSpawnLoc.x, NexusSpawnLoc.y), Quaternion.identity);
-
-            // Convert height map to tiles.
-            int[,] newMap = LevelGenerator.InterpretNoise(heightMap, tileHeights);
-
-            // Spawn in tiles.
-            LevelGenerator.RenderMap(newMap, Tilemaps, tileSet);
-        }
-
-        public void InitBoardSize()
-        {
-            ExpandLevel(initialMapSize / 2);
-        }
+        //public void InitBoardSize()
+        //{
+        //    ExpandLevel(initialMapSize / 2);
+        //}
 
         public void ExpandLevel()
         {
-            ExpandLevel(expansionLength);
-        }
-
-        /// <summary>
-        /// Expands the level by enabling adding the next set of tiles to the
-        /// main tilemaps from the expansion tilemaps.
-        /// </summary>
-        public void ExpandLevel(int expoLength)
-        {
-            // TODO: Maybe get rid of this check for randomly generated maps.
-            // Don't expand past the max size of the map.
-            if (TopBound + expoLength > maxMapSize) return;
-
-            int newTopBound = TopBound + expoLength;
-            int newBotBound = BotBound - expoLength;
-            int newLeftBound = LeftBound - expoLength;
-            int newRightBound = RightBound + expoLength;
-
-            for (int x = newLeftBound; x < newRightBound; x++)
+            activeLevelRadius += expansionLength;
+            if (activeLevelRadius > maxMapSize)
             {
-                for (int y = newBotBound; y < newTopBound; y++)
-                {
-                    if (x > LeftBound && x < RightBound && y > BotBound && y < TopBound) continue;
-                    for (int i = 0; i < Tilemaps.Length; i++)
-                    {
-                        Tilemap mainMap = Tilemaps[i];
-                        Tilemap expoMap = FullMap[i];
-                        Vector3Int pos = new Vector3Int(x, y, 0);
-                        mainMap.SetTile(pos, expoMap.GetTile(pos));
-                    }
-                }
+                activeLevelRadius = maxMapSize;
             }
-
-            TopBound = newTopBound;
-            BotBound = newBotBound;
-            LeftBound = newLeftBound;
-            RightBound = newRightBound;
-
             EnableLevelExpansionSpawners();
         }
+
+        ///// <summary>
+        ///// Expands the level by enabling adding the next set of tiles to the
+        ///// main tilemaps from the expansion tilemaps.
+        ///// </summary>
+        //public void ExpandLevel(int expoLength)
+        //{
+        //    // TODO: Maybe get rid of this check for randomly generated maps.
+        //    // Don't expand past the max size of the map.
+        //    if (TopBound + expoLength > maxMapSize) return;
+
+        //    int newTopBound = TopBound + expoLength;
+        //    int newBotBound = BotBound - expoLength;
+        //    int newLeftBound = LeftBound - expoLength;
+        //    int newRightBound = RightBound + expoLength;
+
+        //    // This is the system for expanding the current map using the full map as a template.
+        //    //for (int x = newLeftBound; x < newRightBound; x++)
+        //    //{
+        //    //    for (int y = newBotBound; y < newTopBound; y++)
+        //    //    {
+        //    //        if (x > LeftBound && x < RightBound && y > BotBound && y < TopBound) continue;
+        //    //        for (int i = 0; i < Tilemaps.Length; i++)
+        //    //        {
+        //    //            Tilemap mainMap = Tilemaps[i];
+        //    //            Tilemap expoMap = FullMap[i];
+        //    //            Vector3Int pos = new Vector3Int(x, y, 0);
+        //    //            mainMap.SetTile(pos, expoMap.GetTile(pos));
+        //    //        }
+        //    //    }
+        //    //}
+
+        //    TopBound = newTopBound;
+        //    BotBound = newBotBound;
+        //    LeftBound = newLeftBound;
+        //    RightBound = newRightBound;
+
+        //    EnableLevelExpansionSpawners();
+        //}
 
         // TODO: Make a randomized way to spawn in a set amount of spawners at random locations in the new expansion zone.
         /// <summary>
@@ -236,10 +193,17 @@ namespace FroggyDefense.Core
         {
             List<Spawner> enabledSpawners = new List<Spawner>();
 
-            foreach(Spawner spawner in MoreSpawners)
+            foreach (Spawner spawner in MoreSpawners)
             {
-                // If the position under the spawner is active then spawn the spawner in and add it to the GameManager's list.
-                if (Tilemaps[1].GetTile(Tilemaps[1].WorldToCell(spawner.transform.position)) != null)
+                // This is the old system of activating spawners once the map is expanded to be beneath them.
+                //// If the position under the spawner is active then spawn the spawner in and add it to the GameManager's list.
+                //if (Tilemaps[1].GetTile(Tilemaps[1].WorldToCell(spawner.transform.position)) != null)
+                //{
+                //    spawner.gameObject.SetActive(true);
+                //    GameManager.instance.Spawners.Add(spawner);
+                //    enabledSpawners.Add(spawner);
+                //}
+                if (InActiveLevel(spawner.transform.position))
                 {
                     spawner.gameObject.SetActive(true);
                     GameManager.instance.Spawners.Add(spawner);
@@ -252,6 +216,18 @@ namespace FroggyDefense.Core
             {
                 MoreSpawners.Remove(spawner);
             }
+        }
+
+        /// <summary>
+        /// Checks if a position is within the active bounds of the level.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public bool InActiveLevel(Vector2 pos)
+        {
+            if (pos.x < -activeLevelRadius && pos.x > activeLevelRadius) return false;
+            if (pos.y < -activeLevelRadius && pos.y > activeLevelRadius) return false;
+            return true;
         }
     }
 }
