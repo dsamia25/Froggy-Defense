@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229279e1acbd442d6b01faa9353643ad, type: 3}
   m_Name: TestTrack2
   m_EditorClassIdentifier: 
+  Mixer: {fileID: 24300002, guid: f5b1ace3c81d646b2afc0d263b8372e5, type: 2}
   Name: Test Track 2
   Sounds:
   - Name: Countdown

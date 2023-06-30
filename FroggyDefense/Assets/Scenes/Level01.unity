@@ -55211,16 +55211,6 @@ MonoBehaviour:
   lineRenderer: {fileID: 335975048}
   _testMarkerPrefab: {fileID: 7778735706940409987, guid: 1b1924eb6ad764d81b459f6cf92d1d5f, type: 3}
   NexusHealthBarObject: {fileID: 1423142521}
-  Tilemaps:
-  - {fileID: 725177851}
-  - {fileID: 118102525}
-  - {fileID: 1890830045}
-  tileSet:
-  - {fileID: 11400000, guid: 4b493f594570d4f44943e44cc06ac4a9, type: 2}
-  - {fileID: 11400000, guid: d92e247acc638463db224ca9a01f8862, type: 2}
-  tileHeights:
-  - 0.33
-  - 1
   FullMap:
   - {fileID: 435202411}
   - {fileID: 320590486}
@@ -55230,7 +55220,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a5f532d26ee24b9498a0ea8703274f7, type: 2}
   - {fileID: 11400000, guid: ef501b4c7f1fe401d991f9271e7480e8, type: 2}
   expansionLength: 2
-  initialMapSize: 24
+  activeLevelRadius: 12
   maxMapSize: 64
   MoreSpawners:
   - {fileID: 1463794742}
@@ -55238,11 +55228,6 @@ MonoBehaviour:
   - {fileID: 662514648}
   - {fileID: 1873247208}
   - {fileID: 1534254973}
-  testPathMarkers: []
-  testPathStart: {x: 12, y: 0}
-  testPathEnd: {x: 0, y: 0}
-  testPathIncludeWater: 0
-  testPathIncludeWalls: 1
   LevelWidth: 100
   LevelHeight: 100
   Nexus: {fileID: 7170658273004979031}
@@ -62966,9 +62951,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clothes
       objectReference: {fileID: 0}
+    - target: {fileID: 6061021124855248535, guid: 23e65685d75344e66951f1d407af8398, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
     - target: {fileID: 6265689603420204472, guid: 23e65685d75344e66951f1d407af8398, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184792864764061766, guid: 23e65685d75344e66951f1d407af8398, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184792864764061766, guid: 23e65685d75344e66951f1d407af8398, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23e65685d75344e66951f1d407af8398, type: 3}

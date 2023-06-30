@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229279e1acbd442d6b01faa9353643ad, type: 3}
   m_Name: ThirdTrack
   m_EditorClassIdentifier: 
+  Mixer: {fileID: 24300002, guid: a991d83c4cc9746dba17b11b21eeac08, type: 2}
   Name: Third Song
   Sounds:
   - Name: Bass
