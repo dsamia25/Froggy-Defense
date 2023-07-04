@@ -31,6 +31,7 @@ namespace FroggyDefense.Core.Items
         public int Id { get => (Template != null ? Template.Id : -1); }
         public string Description = "A NEW ITEM";
         public bool IsStackable { get; set; } = false;
+        public int StackSize => ItemObject.StackSize;
         public ItemType Type = ItemType.Default;
         public int CountSubtractPerUse = 1;
         public ItemRarity Rarity = 0;

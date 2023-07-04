@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Cloth
   Id: 6
   Description: Some cloth.
+  IsStackable: 1
   Type: 0
+  Rarity: 0
   Icon: {fileID: 21300000, guid: ad9a67570819f4912b01985a2f59ed69, type: 3}
-  PriceCurrency: {fileID: 0}
-  ShopPrice: 1

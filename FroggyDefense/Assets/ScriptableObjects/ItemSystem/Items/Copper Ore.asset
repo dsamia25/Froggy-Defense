@@ -15,5 +15,7 @@ MonoBehaviour:
   Name: Copper Ore
   Id: 8
   Description: Some copper ore.
+  IsStackable: 1
   Type: 0
+  Rarity: 0
   Icon: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}

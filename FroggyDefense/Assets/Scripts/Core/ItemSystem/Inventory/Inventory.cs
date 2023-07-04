@@ -7,7 +7,6 @@ namespace FroggyDefense.Core.Items
     {
         private Dictionary<Item, InventorySlot> _contentsIndex;             // A dictionary to find items in the list.
         [SerializeField] private List<InventorySlot> _inventory;            // A list of everything in the inventory.
-        [SerializeField] private List<InventorySlot> _emptySlots;           // A list of all the empty slots on the board.
 
         public int Size { get => _inventory.Count; }
 
@@ -164,6 +163,27 @@ namespace FroggyDefense.Core.Items
             }
             return 0;
         }
+
+        public override string ToString()
+        {
+            string str = "{\n";
+
+            InventorySlot slot = _inventory[0];
+            str += "\t0: " + slot.count + " - " + slot.item.Name;
+            for (int i = 1; i < _inventory.Count; i++)
+            {
+                slot = _inventory[i];
+                str += ",\n\t" + i + ": " + slot.count + " - " + slot.item.Name;
+            }
+            str += "\n}";
+
+            return str;
+        }
+
+        public void Print()
+        {
+            Debug.Log(ToString());
+        }
     }
 
     // Currently unused, could be used for changing from a dictionary back to an array of InventorySlots.
@@ -246,5 +266,7 @@ namespace FroggyDefense.Core.Items
             item.Use();
             parentInventory.Subtract(item, item.CountSubtractPerUse);
         }
+
+
     }
 }

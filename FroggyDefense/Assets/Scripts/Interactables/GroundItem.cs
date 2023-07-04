@@ -4,12 +4,13 @@ using UnityEngine.UI;
 using TMPro;
 using FroggyDefense.Core;
 using FroggyDefense.Core.Items;
+using FroggyDefense.Core.Items.UI;
 
 namespace FroggyDefense.Interactables
 {
     public class GroundItem : MonoBehaviour, IGroundInteractable
     {
-        public GroundItemRarityColors ItemRarityColors;
+        [SerializeField] private ItemRarityColors ItemRarityColors;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private TextMeshProUGUI _itemNameText;
         [SerializeField] private Image _itemNamePanel;

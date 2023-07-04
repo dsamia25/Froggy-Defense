@@ -61,5 +61,16 @@ namespace FroggyDefense.Core
         /// <param name="index"></param>
         /// <returns></returns>
         public int GetCount(ItemObject item);
+
+        /// <summary>
+        /// Returns the contents of the inventory as a string.
+        /// </summary>
+        /// <returns></returns>
+        public string ToString();
+
+        /// <summary>
+        /// Prints out the contents of the inventory to the console.
+        /// </summary>
+        public void Print();
     }
 }

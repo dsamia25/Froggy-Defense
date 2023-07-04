@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Tin Bar
   Id: 10
   Description: A tin bar.
+  IsStackable: 1
   Type: 0
+  Rarity: 0
   Icon: {fileID: 0}
-  PriceCurrency: {fileID: 0}
-  ShopPrice: 1

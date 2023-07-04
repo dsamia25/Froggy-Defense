@@ -15,5 +15,7 @@ MonoBehaviour:
   Name: Tin Ore
   Id: 11
   Description: Some tin ore.
+  IsStackable: 1
   Type: 0
+  Rarity: 0
   Icon: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}

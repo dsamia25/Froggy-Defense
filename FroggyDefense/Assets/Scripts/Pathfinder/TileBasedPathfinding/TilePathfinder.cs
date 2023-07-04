@@ -139,7 +139,7 @@ namespace Pathfinder
         {
             List<Vector2> path = new List<Vector2>();
             TileNode curr = end;
-            Debug.Log($"Pathfinding index: {PathIndexToString(index)}");
+            //Debug.Log($"Pathfinding index: {PathIndexToString(index)}");
             path.Add(curr.Position);
             do
             {

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 698b1511e3cb0462d87173b4ec0e3303, type: 3}
-  m_Name: GroundItemRarityColors
+  m_Name: ItemRarityColors
   m_EditorClassIdentifier: 
   Colors:
   - {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0.88235295}

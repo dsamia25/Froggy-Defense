@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Copper Bar
   Id: 7
   Description: A copper bar.
+  IsStackable: 1
   Type: 0
   Rarity: 1
   Icon: {fileID: 0}

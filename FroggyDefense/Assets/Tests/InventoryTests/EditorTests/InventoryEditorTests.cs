@@ -6,7 +6,7 @@ using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Tests
 {
-    public class InventoryTests
+    public class InventoryEditorTests
     {
         [UnityTest]
         public IEnumerator AddSingleTest()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -5,10 +6,18 @@ using TMPro;
 
 namespace FroggyDefense.Core.Items.UI
 {
-    public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
+    public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] protected Image _iconImage;             // The item's image.
-        [SerializeField] protected TextMeshProUGUI _countText;   // The text displaying the number of items in the slot.
+        [SerializeField] private ItemRarityColors ItemRarityColors;
+
+        [SerializeField] protected Image _iconImage;                // The item's image.
+        [SerializeField] protected TextMeshProUGUI _countText;      // The text displaying the number of items in the slot.
+        [SerializeField] protected Image _itemRarityBorder;         // The color-changing border to indicate an item's rarity.
+        [SerializeField] protected Image _itemBorder;               // The border of the item that highlights when moused over.
+
+        [SerializeField] protected Color _borderHighlightColor;
+        [SerializeField] protected Color _borderDefaultColor;
+
         public InventoryUI HeadInventoryUi;
 
         protected InventorySlot _slot = null;
@@ -24,6 +33,18 @@ namespace FroggyDefense.Core.Items.UI
 
         protected Vector3 SelectedStartingPosition = Vector3.zero;
         protected bool _clickedDownOnButton = false;
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            // Change the highlight border to the highlight color.
+            _itemBorder.color = _borderHighlightColor;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            // Change the highlight border to the default color.
+            _itemBorder.color = _borderDefaultColor;
+        }
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
@@ -66,7 +87,6 @@ namespace FroggyDefense.Core.Items.UI
             _iconImage.transform.position = SelectedStartingPosition;
             _iconImage.transform.SetParent(transform);
             _iconImage.transform.SetAsLastSibling();
-            Debug.Log("Released mouse over button.");
         }
 
         /// <summary>
@@ -74,20 +94,30 @@ namespace FroggyDefense.Core.Items.UI
         /// </summary>
         public virtual void UpdateUI()
         {
-            if (Slot == null || Slot.IsEmpty)
+            try
             {
-                _iconImage.gameObject.SetActive(false);
-                _countText.gameObject.SetActive(false);
-                return;
+                if (Slot == null || Slot.IsEmpty)
+                {
+                    _itemRarityBorder.color = _borderDefaultColor;
+                    _iconImage.gameObject.SetActive(false);
+                    _countText.gameObject.SetActive(false);
+                    return;
+                }
+
+                // Update the sprite.
+                _iconImage.sprite = Slot.item.Icon;
+                _iconImage.gameObject.SetActive(true);
+
+                // Update the rarity color.
+                _itemRarityBorder.color = ItemRarityColors.GetColor(Slot.item.Rarity);
+
+                // Only display the count if stackable.
+                _countText.text = Slot.count.ToString();
+                _countText.gameObject.SetActive(Slot.item.IsStackable);
+            } catch (Exception e)
+            {
+                Debug.Log($"Error updating inventory slot ui: {e}");
             }
-
-            // Update the sprite.
-            _iconImage.sprite = Slot.item.Icon;
-            _iconImage.gameObject.SetActive(true);
-
-            // Only display the count if stackable.
-            _countText.text = Slot.count.ToString();
-            _countText.gameObject.SetActive(Slot.item.IsStackable);
         }
     }
 }
