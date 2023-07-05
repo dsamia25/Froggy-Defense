@@ -1250,16 +1250,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05e5ecc0edeb442cbf1b29078f9b07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mixer: {fileID: 0}
-  Presets:
-  - {fileID: 11400000, guid: d31f3b387032c4cba9148fadde0861df, type: 2}
-  - {fileID: 11400000, guid: 42d310a24ae5f4d01a86b2d7e50cc7e6, type: 2}
-  - {fileID: 11400000, guid: 752bef86692c84a6fb98c464933ff06a, type: 2}
+  Presets: []
   Sounds:
   - Name: Countdown
     SoundClip: {fileID: 8300000, guid: 36669a3baa6714a9c92b1b4896895a0d, type: 3}
-    Volume: 1
-    Pitch: 1
+    Volume: 0
+    Pitch: 1.89
     Loop: 1
     VolumeFadeStrength: 0
     VolumeFadeFrequency: 0
@@ -1268,8 +1264,8 @@ MonoBehaviour:
     Source: {fileID: 0}
   - Name: Deep Hollow Bass
     SoundClip: {fileID: 8300000, guid: a32a15bf9a33049169cbc9204426a11f, type: 3}
-    Volume: 1
-    Pitch: 1
+    Volume: 0.4
+    Pitch: 0.95
     Loop: 1
     VolumeFadeStrength: 0
     VolumeFadeFrequency: 0
@@ -1278,8 +1274,8 @@ MonoBehaviour:
     Source: {fileID: 0}
   - Name: Nightfall
     SoundClip: {fileID: 8300000, guid: 6735d99248f3147dcb63dd9b620e3e26, type: 3}
-    Volume: 1
-    Pitch: 1
+    Volume: 0.233
+    Pitch: 0.95
     Loop: 1
     VolumeFadeStrength: 0
     VolumeFadeFrequency: 0
@@ -1288,8 +1284,8 @@ MonoBehaviour:
     Source: {fileID: 0}
   - Name: Mystery
     SoundClip: {fileID: 8300000, guid: e6332c94fb67e418e8707f09748910ec, type: 3}
-    Volume: 1
-    Pitch: 1
+    Volume: 0.618
+    Pitch: 0
     Loop: 1
     VolumeFadeStrength: 0
     VolumeFadeFrequency: 0
@@ -1298,17 +1294,19 @@ MonoBehaviour:
     Source: {fileID: 0}
   - Name: Glass
     SoundClip: {fileID: 8300000, guid: d9c2a6fc473e14c708bbadedf2992421, type: 3}
-    Volume: 1
-    Pitch: 1
+    Volume: 0.5
+    Pitch: 0.1
     Loop: 1
-    VolumeFadeStrength: 0
-    VolumeFadeFrequency: 0
-    PitchFadeStrength: 0
-    PitchFadeFrequency: 0
+    VolumeFadeStrength: -0.38
+    VolumeFadeFrequency: 0.36
+    PitchFadeStrength: -0.42
+    PitchFadeFrequency: 0.36
     Source: {fileID: 0}
+  OverridePresetSongMixer: 1
+  Mixer: {fileID: 24300002, guid: a991d83c4cc9746dba17b11b21eeac08, type: 2}
   PlayOnStart: 1
-  AutomaticallyTransitionSongs: 1
-  ShuffleSongs: 1
+  AutomaticallyTransitionSongs: 0
+  ShuffleSongs: 0
   EnableDebugMessages: 1
   UseTransitionTrackFrequencyRange: 0
   TransitionTrackFrequencyRange: {x: 12, y: 22}

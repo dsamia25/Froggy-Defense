@@ -51,6 +51,23 @@ namespace AmbientMusicGenerator
         }
 
         /// <summary>
+        /// Creates a copy of the input sound.
+        /// </summary>
+        /// <param name="sound"></param>
+        public Sound (Sound sound)
+        {
+            Name = sound.Name;
+            SoundClip = sound.SoundClip;
+            Volume = sound.Volume;
+            Pitch = sound.Pitch;
+            Loop = sound.Loop;
+            VolumeFadeStrength = sound.VolumeFadeStrength;
+            VolumeFadeFrequency = sound.VolumeFadeFrequency;
+            PitchFadeStrength = sound.PitchFadeStrength;
+            PitchFadeFrequency = sound.PitchFadeFrequency;
+        }
+
+        /// <summary>
         /// Updates the AudioSource values to reflect the Sound settings.
         /// </summary>
         public void UpdateSource()
