@@ -47,72 +47,76 @@ namespace FroggyDefense.Core
 
         private void Update()
         {
-            if (_targetingAbility)
+            if (GameManager.GameStarted)
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mousePos.z = 0;
+                if (_targetingAbility)
+                {
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mousePos.z = 0;
 
-                MoveAbilityTargetOverlay(mousePos, _selectedSpell.TargetRange);
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
-                    _selectedSpell.Cast(new SpellArgs(_player, _spellEffectAreaPreview.transform.position));
-                    ClearAbilityTargetingOverlay();
-                    _targetingAbility = false;
+                    MoveAbilityTargetOverlay(mousePos, _selectedSpell.TargetRange);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
+                        _selectedSpell.Cast(new SpellArgs(_player, _spellEffectAreaPreview.transform.position));
+                        ClearAbilityTargetingOverlay();
+                        _targetingAbility = false;
+                    }
+                    else if (Input.GetMouseButtonDown(1))
+                    {
+                        Debug.Log("Cancelled Spell.");
+                        ClearAbilityTargetingOverlay();
+                        _targetingAbility = false;
+                    }
                 }
-                else if (Input.GetMouseButtonDown(1))
+                else
                 {
-                    Debug.Log("Cancelled Spell.");
-                    ClearAbilityTargetingOverlay();
-                    _targetingAbility = false;
+                    if (Input.GetButtonDown("Ability1"))
+                    {
+                        Spell spell = GameManager.instance.m_Player.Abilities[0];
+                        TargetAbilities(spell);
+                    }
+                    else if (Input.GetButtonDown("Ability2"))
+                    {
+                        Spell spell = GameManager.instance.m_Player.Abilities[1];
+                        TargetAbilities(spell);
+                    }
+                    else if (Input.GetButtonDown("Ability3"))
+                    {
+                        Spell spell = GameManager.instance.m_Player.Abilities[2];
+                        TargetAbilities(spell);
+                    }
+                    else if (Input.GetButtonDown("Ability4"))
+                    {
+                        Spell spell = GameManager.instance.m_Player.Abilities[3];
+                        TargetAbilities(spell);
+                    }
+                    else if (Input.GetMouseButtonUp(0))
+                    {
+                        Debug.Log("Released Attack");
+                        _player.m_WeaponUser.Deactivate();
+                    }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        Debug.Log("Pressed Attack");
+                        if (_player == null)
+                        {
+                            Debug.LogWarning("PLAYER NULL");
+                        }
+                        else if (_player.m_WeaponUser == null)
+                        {
+                            Debug.LogWarning("WEAPON USER NULL");
+                        }
+                        else
+                        {
+                            _player.m_WeaponUser.Attack(Input.mousePosition);
+                        }
+                    }
                 }
+                _moveInput.x = Input.GetAxisRaw("Horizontal");
+                _moveInput.y = Input.GetAxisRaw("Vertical");
+                _player.Move(_moveInput);
             }
-            else
-            {
-                if (Input.GetButtonDown("Ability1"))
-                {
-                    Spell spell = GameManager.instance.m_Player.Abilities[0];
-                    TargetAbilities(spell);
-                }
-                else if (Input.GetButtonDown("Ability2"))
-                {
-                    Spell spell = GameManager.instance.m_Player.Abilities[1];
-                    TargetAbilities(spell);
-                }
-                else if (Input.GetButtonDown("Ability3"))
-                {
-                    Spell spell = GameManager.instance.m_Player.Abilities[2];
-                    TargetAbilities(spell);
-                }
-                else if (Input.GetButtonDown("Ability4"))
-                {
-                    Spell spell = GameManager.instance.m_Player.Abilities[3];
-                    TargetAbilities(spell);
-                } else if (Input.GetMouseButtonUp(0))
-                {
-                    Debug.Log("Released Attack");
-                    _player.m_WeaponUser.Deactivate();
-                }
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    Debug.Log("Pressed Attack");
-                    if (_player == null)
-                    {
-                        Debug.LogWarning("PLAYER NULL");
-                    }
-                    else if (_player.m_WeaponUser == null)
-                    {
-                        Debug.LogWarning("WEAPON USER NULL");
-                    }
-                    else
-                    {
-                        _player.m_WeaponUser.Attack(Input.mousePosition);
-                    }
-                }
-            }
-            _moveInput.x = Input.GetAxisRaw("Horizontal");
-            _moveInput.y = Input.GetAxisRaw("Vertical");
-            _player.Move(_moveInput);
         }
 
         /// <summary>

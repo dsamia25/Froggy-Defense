@@ -65,15 +65,12 @@ namespace FroggyDefense.Core.Items
             switch (template.Type)
             {
                 case ItemType.Default:
-                    Debug.Log("Case Default.");
                     item = new Item(template);
                     break;
                 case ItemType.Equipment:
-                    Debug.Log("Case Equipment.");
                     item = new Equipment((EquipmentObject)template);
                     break;
                 default:
-                    Debug.Log("Default.");
                     item = new Item(template);
                     break;
             }

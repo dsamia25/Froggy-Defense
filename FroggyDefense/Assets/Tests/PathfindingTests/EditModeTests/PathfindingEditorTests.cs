@@ -1,11 +1,11 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using System;
 
 namespace Pathfinder.Tests
 {
-    public class PathfindingEditorTestsScript
+    public class PathfindingEditorTests
     {
         /*  
          *  -------------------------

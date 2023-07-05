@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScenes/PathfinderTestScene.unity
     guid: 733aa296dcc244d5e85eaaebc8282bff
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/GroundItemTestScene.unity
+    guid: 3878af63302664f76b12b3d77e06e1a3
   m_configObjects: {}

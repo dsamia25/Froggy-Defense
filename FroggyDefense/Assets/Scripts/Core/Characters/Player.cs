@@ -53,16 +53,18 @@ namespace FroggyDefense.Core
 
             RefreshSpellBar();
 
-            m_HealthBar.TraceDelay = m_DamagedAnimationTime;
+            if (m_HealthBar != null)
+            {
+                m_HealthBar.TraceDelay = m_DamagedAnimationTime;
+            }
+
+            // Subscribe to events.
             Enemy.EnemyDefeatedEvent += OnEnemyDefeatedEvent;
         }
 
         private void FixedUpdate()
         {
-            if (GameManager.GameStarted)
-            {
-                controller.Move(_moveDir);
-            }
+            controller.Move(_moveDir);
         }
 
         protected override void Update()
@@ -119,11 +121,8 @@ namespace FroggyDefense.Core
         /// <param name="vertical"></param>
         public void Move(float horizontal, float vertical)
         {
-            if (GameManager.GameStarted)
-            {
-                _moveDir.x = Input.GetAxisRaw("Horizontal");
-                _moveDir.y = Input.GetAxisRaw("Vertical");
-            }
+            _moveDir.x = Input.GetAxisRaw("Horizontal");
+            _moveDir.y = Input.GetAxisRaw("Vertical");
         }
 
         /// <summary>
@@ -132,11 +131,8 @@ namespace FroggyDefense.Core
         /// <param name="moveDir"></param>
         public void Move(Vector2 moveDir)
         {
-            if (GameManager.GameStarted)
-            {
-                _moveDir.x = moveDir.x;
-                _moveDir.y = moveDir.y;
-            }
+            _moveDir.x = moveDir.x;
+            _moveDir.y = moveDir.y;
         }
         #endregion
 

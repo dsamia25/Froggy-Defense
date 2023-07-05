@@ -18,8 +18,11 @@ namespace FroggyDefense.UI
 
         private void Start()
         {
-            // Initialize experience bar.
-            _xpBar.SetMaxHealth(_player.Xp, _player.XpNeeded);
+            if (_player != null && _xpBar != null)
+            {
+                // Initialize experience bar.
+                _xpBar.SetMaxHealth(_player.Xp, _player.XpNeeded);
+            }
         }
 
         /// <summary>

@@ -56,6 +56,8 @@ namespace FroggyDefense.Interactables
         /// <param name="user"></param>
         public void Interact(GameObject user)
         {
+            if (_item == null) return;
+
             Debug.Log("Interacting with GroundItem (" + _item.Name + ").");
             if (PickUp(user))
             {
@@ -71,6 +73,8 @@ namespace FroggyDefense.Interactables
         /// <returns></returns>
         public bool PickUp(GameObject user)
         {
+            if (_item == null) return false;
+
             Debug.Log("Trying to pick up GroundItem (" + _item.Name + ").");
             IInventory inventory = null;
             if ((inventory = user.GetComponent<IInventory>()) != null)

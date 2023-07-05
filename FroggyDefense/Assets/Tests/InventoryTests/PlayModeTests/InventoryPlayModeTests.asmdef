@@ -1,11 +1,10 @@
 {
-    "name": "PathfindingTests",
+    "name": "InventoryPlayModeTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "ScriptsAssembly",
-        "PathfinderAssembly"
+        "ScriptsAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

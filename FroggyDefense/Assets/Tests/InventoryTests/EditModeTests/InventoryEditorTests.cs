@@ -2,9 +2,8 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using FroggyDefense.Core.Items;
 
-namespace FroggyDefense.Tests
+namespace FroggyDefense.Core.Items.Tests
 {
     public class InventoryEditorTests
     {

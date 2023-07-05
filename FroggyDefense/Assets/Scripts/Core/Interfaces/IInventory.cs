@@ -8,6 +8,7 @@ namespace FroggyDefense.Core
     /// <typeparam name="T"></typeparam>
     public interface IInventory
     {
+        public int Size { get; }
         public delegate void InventoryDelegate();
         public event InventoryDelegate InventoryChangedEvent;
 

@@ -9,7 +9,7 @@ using FroggyDefense.Core;
 
 namespace Pathfinder.Tests
 {
-    public class PathfindingTestsScript
+    public class PathfindingPlayModeTests
     {
         /*  
          *  -------------------------
@@ -24,6 +24,7 @@ namespace Pathfinder.Tests
          *  -------------------------
          */
 
+        private static string TEST_SCENE = "PathfinderTestScene";
         private bool SceneLoaded = false;
 
         [OneTimeSetUp]
@@ -96,7 +97,7 @@ namespace Pathfinder.Tests
         public IEnumerator BuildNodeMapTest()
         {
             // Set up scene.
-            SceneManager.LoadScene("PathfinderTestScene");
+            SceneManager.LoadScene(TEST_SCENE);
             yield return new WaitWhile(() => SceneLoaded == false);
             SceneLoaded = false;    // Reset for other tests.
 
@@ -116,7 +117,7 @@ namespace Pathfinder.Tests
         public IEnumerator ConnectNodeMapTest()
         {
             // Set up scene.
-            SceneManager.LoadScene("PathfinderTestScene");
+            SceneManager.LoadScene(TEST_SCENE);
             yield return new WaitWhile(() => SceneLoaded == false);
             SceneLoaded = false;    // Reset for other tests.
 
