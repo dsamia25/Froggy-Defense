@@ -37,12 +37,18 @@ namespace AmbientMusicGenerator
         [Space]
         [Header("Transitions Time")]
         [Space]
-        public bool UseTrackFadeTimeRange = true;                     // If the track transition time should use a random range.
-        public Vector2 TrackFadeTimeRange = new Vector2(4f, 8f);      // Range of how long it can take to change tracks.
-        public float TrackFadeTime = 3f;                              // How long it takes to change tracks.
+        public bool UseTrackFadeTimeRange = true;                       // If the track transition time should use a random range.
+        public Vector2 TrackFadeTimeRange = new Vector2(4f, 8f);        // Range of how long it can take to change tracks.
+        public float TrackFadeTime = 3f;                                // How long it takes to change tracks.
+
+        [HideInInspector]
+        internal string lastInputPresetName = "";                       // The last input preset name.
+        [HideInInspector]                   
+        internal string lastInputSavePresetPath = "";                   // The last input save path for presets.
+
 
         private int _currSongIndex = 0;
-        private float _currTransitionSongCountdown = 0;                    // How long until the next song transition.
+        private float _currTransitionSongCountdown = 0;                 // How long until the next song transition.
 
         public void Awake()
         {
@@ -311,9 +317,12 @@ namespace AmbientMusicGenerator
         /// </summary>
         public void SavePreset(string presetName, string savePath)
         {
+            // Save last used values to display in inspector.
+            lastInputPresetName = presetName;
+            lastInputSavePresetPath = savePath;
+
             Debug.Log($"Saving a new preset.");
             MusicPresetObject preset = ScriptableObject.CreateInstance<MusicPresetObject>();
-            preset.Name = "New Preset";
 
             // Make the combined asset path.
             string path = savePath + "/" + presetName;
@@ -327,12 +336,22 @@ namespace AmbientMusicGenerator
                 while (AssetDatabase.LoadAssetAtPath(path + (++i).ToString() + ".asset", typeof(MusicPresetObject)) != null) ;
 
                 // Add the unique number to the name.
+                presetName += i.ToString();
                 path += i.ToString();
             }
 
-            // Create the new ScriptableObject in the database.
-            AssetDatabase.CreateAsset(preset, path + ".asset");
-            
+            try
+            {
+                // Create the new ScriptableObject in the database.
+                AssetDatabase.CreateAsset(preset, path + ".asset");
+            } catch (UnityException e)
+            {
+                Debug.LogWarning($"Error saving preset. Make sure the path exists: {e}");
+                return;
+            }
+
+            preset.Name = presetName;
+            preset.Mixer = Mixer;
             // Save the information about the asset.
             foreach (Sound sound in Sounds)
             {

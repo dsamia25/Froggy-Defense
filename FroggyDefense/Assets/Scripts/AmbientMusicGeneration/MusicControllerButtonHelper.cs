@@ -1,24 +1,47 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace AmbientMusicGenerator.Support
+namespace AmbientMusicGenerator
 {
     [CustomEditor(typeof(MusicController))]
     public class MusicControllerButtonHelper : Editor
     {
+        private string presetName;
+        private string savePath;
+
+        private void Awake()
+        {
+            MusicController controller = (MusicController)target;
+
+            // If there was a previously set name and path then use those.
+            if (controller.lastInputPresetName.Equals(""))
+            {
+                presetName = "New Preset";
+            } else
+            {
+                presetName = controller.lastInputPresetName;
+            }
+
+            if (controller.lastInputPresetName.Equals(""))
+            {
+                savePath = "Assets/ScriptableObjects/AmbientMusicGenerator";
+            } else
+            {
+                savePath = controller.lastInputSavePresetPath;
+            }
+        }
+
         public override void OnInspectorGUI()
         {
             MusicController controller = (MusicController)target;
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Preset Name");
-            string presetName = "New Preset";
             presetName = GUILayout.TextField(presetName, GUILayout.Width(300));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Save Path");
-            string savePath = "Assets/ScriptableObjects/AmbientMusicGenerator";
             savePath = GUILayout.TextField(savePath, GUILayout.Width(300));
             GUILayout.EndHorizontal();
 
