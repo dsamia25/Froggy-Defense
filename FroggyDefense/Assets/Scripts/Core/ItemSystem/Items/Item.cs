@@ -91,13 +91,13 @@ namespace FroggyDefense.Core.Items
             if (obj == null) return false;
 
             Item otherItem = obj as Item;
-            if (IsStackable)
+            if (IsStackable && otherItem.IsStackable)
             {
                 bool result = Id == otherItem.Id;
                 return result;
             }
 
-            return false;
+            return this == otherItem;
         }
 
         public override int GetHashCode()

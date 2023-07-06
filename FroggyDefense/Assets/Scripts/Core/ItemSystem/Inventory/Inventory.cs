@@ -38,51 +38,56 @@ namespace FroggyDefense.Core.Items
         {
             try
             {
-                //// If stackable, look if there is already a stack in the contents index.
-                //if (item.IsStackable)
-                //{
-                //    Debug.Log($"Adding {item.Name} is stackable. Max Stack Size: {item.StackSize}.");
+                // If stackable, look if there is already a stack in the contents index.
+                if (item.IsStackable)
+                {
+                    Debug.Log($"Adding {item.Name} is stackable. Max Stack Size: {item.StackSize}.");
 
-                //    // If not in the index, create a new entry.
-                //    if (!_contentsIndex.ContainsKey(item))
-                //    {
-                //        _contentsIndex.Add(item, new List<InventorySlot>());
-                //    }
+                    // If not in the index, create a new entry.
+                    if (!_contentsIndex.ContainsKey(item))
+                    {
+                        Debug.Log($"Adding {item.Name} to index.");
+                        _contentsIndex.Add(item, new List<InventorySlot>());
+                    }
 
-                //    // Try to add to existing entries, if not any then create a new one.
-                //    var stacks = _contentsIndex[item];
+                    // Try to add to existing entries, if not any then create a new one.
+                    var stacks = _contentsIndex[item];
 
-                //    // Look through each stack in the entry. Add to any existing not full stacks.
-                //    for (int i = 0; i < stacks.Count; i++)
-                //    {
-                //        amount -= stacks[i].Add(item, amount);
-                //        Debug.Log($"{item.Name} stack {i} now has {stacks[i].count}.");
-                //        if (amount <= 0) break;
-                //    }
+                    // Look through each stack in the entry. Add to any existing not full stacks.
+                    for (int i = 0; i < stacks.Count; i++)
+                    {
+                        amount -= stacks[i].Add(item, amount);
+                        Debug.Log($"{item.Name} stack {i} now has {stacks[i].count}.");
+                        if (amount <= 0) break;
+                    }
 
-                //    Debug.Log($"Out of empty stacks for {item.Name}.");
-                //    // If there is still some amount left, create new stacks to fill it out.
-                //    while (amount > 0 && Size < MaxSize)
-                //    {
-                //        // Add a new stack.
-                //        InventorySlot slot = new InventorySlot(this);
-                //        slot.Add(item, amount);
-                //        _inventory.Add(slot);
-                //        _contentsIndex[item].Add(slot);
-                //        amount -= slot.count;      // Count down how much was actually added to the stack.
-                //    }
-                //}
-                //else                 // else, just add it to the inventory
-                //{
-                Debug.Log($"Adding not stackable item {item.Name}");
-                // Not stackable, create a new stack of size 1.
-                //InventorySlot slot = new InventorySlot(this);
-                //slot.Add(item, 1);
-                //_inventory.Add(slot);
-                //_contentsIndex.Add(item, new List<InventorySlot>());
-                //_contentsIndex[item].Add(slot);
-                //}
-            } catch (Exception e)
+                    Debug.Log($"Out of empty stacks for {item.Name}.");
+                    // If there is still some amount left, create new stacks to fill it out.
+                    while (amount > 0 && Size < MaxSize)
+                    {
+                        // Add a new stack.
+                        InventorySlot slot = new InventorySlot(this);
+                        slot.Add(item, amount);
+                        _inventory.Add(slot);
+                        _contentsIndex[item].Add(slot);
+                        amount -= slot.count;      // Count down how much was actually added to the stack.
+                    }
+                }
+                else                 // else, just add it to the inventory
+                {
+                    Debug.Log($"Adding not stackable item {item.Name}");
+                    // Not stackable, create a new stack of size 1.
+                    InventorySlot slot = new InventorySlot(this);
+                    slot.Add(item, 1);
+
+                    _inventory.Add(slot);
+                    Debug.Log($"Inventory size: {Size}.");
+                    _contentsIndex.Add(item, new List<InventorySlot>());
+                    Debug.Log($"Index size: {_contentsIndex.Count}.");
+                    _contentsIndex[item].Add(slot);
+                }
+            }
+            catch (Exception e)
             {
                 Debug.Log($"Error adding item to inventory: {e}");
             }
@@ -308,7 +313,7 @@ namespace FroggyDefense.Core.Items
                 item = _item;
             }
 
-            if (item != _item)
+            if (!item.Equals(_item))
             {
                 return 0;
             }

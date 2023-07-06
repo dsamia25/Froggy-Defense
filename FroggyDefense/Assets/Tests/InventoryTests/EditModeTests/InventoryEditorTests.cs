@@ -29,19 +29,20 @@ namespace FroggyDefense.Core.Items.Tests
             Item item = new Item();
             Item stackableItem = new Item();
             stackableItem.IsStackable = true;
-            int testCount = 300;
+            int testCount = 301;
 
             inventory.Add(item, testCount);
             inventory.Add(stackableItem, testCount);
 
             // Unstackable items always have a value of 1.
-            Assert.AreEqual(1, inventory.GetCount(item));
+            Assert.AreEqual(1, inventory.GetCount(item), "Incorrect numbetr of unstackable items.");
 
             // Stackable items can have an amount.
-            Assert.AreEqual(testCount, inventory.GetCount(stackableItem));
+            Assert.AreEqual(testCount, inventory.GetCount(stackableItem), "Incorrect number of stackable items.");
 
             // 1 stack for unstackable item, 3 for the stackable item.
-            Assert.AreEqual(1 + (testCount / stackableItem.StackSize), inventory.Size);
+            int num = (testCount / stackableItem.StackSize);
+            Assert.AreEqual(1 + num + (testCount % stackableItem.StackSize > 0 ? 1 : 0), inventory.Size, "Incorrect total number of stacks");
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace FroggyDefense.Core.Items.Tests
             Item item = new Item();
             Item stackableItem = new Item();
             stackableItem.IsStackable = true;
-            int testCount = 300;
+            int testCount = 99;
 
             inventory.Add(item, testCount);
             inventory.Add(stackableItem, testCount);
@@ -67,7 +68,7 @@ namespace FroggyDefense.Core.Items.Tests
             Assert.AreEqual(3 * testCount, inventory.GetCount(stackableItem));
 
             // Should only be two stacks.
-            Assert.AreEqual(1 + (3 * testCount) / stackableItem.StackSize, inventory.Size);
+            Assert.AreEqual(1 + ((3 * testCount) / stackableItem.StackSize) + ((3 * testCount) % stackableItem.StackSize > 0 ? 1 : 0), inventory.Size);
         }
 
         [Test]
@@ -198,6 +199,8 @@ namespace FroggyDefense.Core.Items.Tests
             Item otherItem = new Item();
             item.IsStackable = true;
             otherItem.IsStackable = true;
+            item.Name = "A";
+            item.Name = "B";
 
             inventory.Add(item, testCount);
             inventory.Add(otherItem, 2 * testCount);
