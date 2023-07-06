@@ -17,22 +17,6 @@ namespace FroggyDefense.Core.Items
             // TODO: Make a way to load a saved inventory instead of creating a new one.
             // Instantiate the inventory.
             InitInventory();
-
-            //Debug.LogWarning("Testing list order:");
-
-            //List<string> testList = new List<string>();
-            //testList.Add("a");
-            //testList.Add("b");
-            //testList.Add("c");
-            //Debug.LogWarning("First pass: [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
-
-            //testList.Remove("a");
-            //Debug.LogWarning("Removed index 0 (\'a\'): [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
-
-            //testList.Add("a");
-            //Debug.LogWarning("Readded (\'a\'): [" + (0 < testList.Count ? testList[0] : "NULL") + ", " + (1 < testList.Count ? testList[1] : "NULL") + ", " + (2 < testList.Count ? testList[2] : "NULL") + ", " + (3 < testList.Count ? testList[3] : "NULL") + "].");
-
-            //Debug.LogWarning("Ending test.");
         }
 
         public void InitInventory()
