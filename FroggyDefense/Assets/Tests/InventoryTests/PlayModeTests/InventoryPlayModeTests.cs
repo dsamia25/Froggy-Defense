@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-using FroggyDefense.Interactables;
 
 namespace FroggyDefense.Core.Items.Tests
 {
@@ -50,7 +48,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            IInventory inventory = player.CharacterInventory;
+            Inventory inventory = player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");
@@ -74,6 +72,7 @@ namespace FroggyDefense.Core.Items.Tests
             // Check test stuff.
             Assert.True(testItem == null, "testItem is not null.");
             Assert.AreEqual(1, inventory.Size, "Inventory size is incorrect.");
+            Assert.AreEqual(1, inventory.Get(0).count, "Stack size is incorrect.");
         }
 
         [UnityTest]
@@ -88,7 +87,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            IInventory inventory = player.CharacterInventory;
+            Inventory inventory = player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");
@@ -116,6 +115,10 @@ namespace FroggyDefense.Core.Items.Tests
                 Assert.True(item == null, "testItem is not null.");
             }
             Assert.AreEqual(randomAmount, inventory.Size, "Inventory size is incorrect.");
+            for (int i = 0; i < randomAmount; i++)
+            {
+                Assert.AreEqual(1, inventory.Get(i).count, "Stack size is incorrect.");
+            }
         }
 
         [UnityTest]
@@ -130,7 +133,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            IInventory inventory = player.CharacterInventory;
+            Inventory inventory = player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");
@@ -157,6 +160,7 @@ namespace FroggyDefense.Core.Items.Tests
                 Assert.True(item == null, "testItem is not null.");
             }
             Assert.AreEqual(1, inventory.Size, "Inventory size is incorrect.");
+            Assert.AreEqual(3, inventory.Get(0).count, "Stack size is incorrect.");
         }
     }
 }

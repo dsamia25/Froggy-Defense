@@ -7,8 +7,8 @@ namespace FroggyDefense.Core.Items.Tests
 {
     public class InventoryEditorTests
     {
-        [UnityTest]
-        public IEnumerator AddSingleTest()
+        [Test]
+        public void AddSingleTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -17,13 +17,11 @@ namespace FroggyDefense.Core.Items.Tests
 
             inventory.Add(item, 1);
 
-            yield return null;
-
             Assert.True(inventory.Contains(item));
         }
 
-        [UnityTest]
-        public IEnumerator AddAmountTest()
+        [Test]
+        public void AddAmountTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -35,18 +33,19 @@ namespace FroggyDefense.Core.Items.Tests
 
             inventory.Add(item, testCount);
             inventory.Add(stackableItem, testCount);
-
-            yield return null;
 
             // Unstackable items always have a value of 1.
             Assert.AreEqual(1, inventory.GetCount(item));
 
             // Stackable items can have an amount.
             Assert.AreEqual(testCount, inventory.GetCount(stackableItem));
+
+            // 1 stack for unstackable item, 3 for the stackable item.
+            Assert.AreEqual(1 + (testCount / stackableItem.StackSize), inventory.Size);
         }
 
-        [UnityTest]
-        public IEnumerator AddToExistingStackTest()
+        [Test]
+        public void AddToExistingStackTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -61,17 +60,18 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(stackableItem, testCount);
             inventory.Add(stackableItem, testCount);
 
-            yield return null;
-
             // Unstackable items always have a value of 1.
             Assert.AreEqual(1, inventory.GetCount(item));
 
             // Stackable items can have an amount.
             Assert.AreEqual(3 * testCount, inventory.GetCount(stackableItem));
+
+            // Should only be two stacks.
+            Assert.AreEqual(1 + (3 * testCount) / stackableItem.StackSize, inventory.Size);
         }
 
-        [UnityTest]
-        public IEnumerator SubtractNegativeStackTest()
+        [Test]
+        public void SubtractNegativeStackTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -83,14 +83,12 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(stackableItem, testCount);
             inventory.Subtract(stackableItem, -1);
 
-            yield return null;
-
             // Nothing removed.
             Assert.AreEqual(testCount, inventory.GetCount(stackableItem));
         }
 
-        [UnityTest]
-        public IEnumerator SubtractPartialStackTest()
+        [Test]
+        public void SubtractPartialStackTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -102,14 +100,12 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(stackableItem, testCount);
             inventory.Subtract(stackableItem, testCount / 2);
 
-            yield return null;
-
             // Number removed.
             Assert.AreEqual(testCount - (testCount / 2), inventory.GetCount(stackableItem));
         }
 
-        [UnityTest]
-        public IEnumerator SubtractWholeStackTest()
+        [Test]
+        public void SubtractWholeStackTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -121,8 +117,6 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(stackableItem, testCount);
             inventory.Subtract(stackableItem, testCount);
 
-            yield return null;
-
             // Number removed.
             Assert.AreEqual(0, inventory.GetCount(stackableItem));
 
@@ -130,8 +124,8 @@ namespace FroggyDefense.Core.Items.Tests
             Assert.False(inventory.Contains(stackableItem));
         }
 
-        [UnityTest]
-        public IEnumerator SubtractWholeStackOverkillTest()
+        [Test]
+        public void SubtractWholeStackOverkillTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -143,17 +137,18 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(stackableItem, testCount);
             inventory.Subtract(stackableItem, 2 * testCount);
 
-            yield return null;
-
             // Number removed.
             Assert.AreEqual(0, inventory.GetCount(stackableItem));
+
+            // Number removed.
+            Assert.AreEqual(0, inventory.Size);
 
             // Item removed from inventory.
             Assert.False(inventory.Contains(stackableItem));
         }
 
-        [UnityTest]
-        public IEnumerator ContainsTest()
+        [Test]
+        public void ContainsTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -163,14 +158,12 @@ namespace FroggyDefense.Core.Items.Tests
 
             inventory.Add(item, 1);
 
-            yield return null;
-
             Assert.True(inventory.Contains(item));
             Assert.False(inventory.Contains(otherItem));
         }
 
-        [UnityTest]
-        public IEnumerator ContainsAmountTest()
+        [Test]
+        public void ContainsAmountTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -180,8 +173,6 @@ namespace FroggyDefense.Core.Items.Tests
             int testCount = 300;
 
             inventory.Add(stackableItem, testCount);
-
-            yield return null;
 
             // Test under amount
             Assert.False(inventory.Contains(stackableItem, testCount + 1));
@@ -196,8 +187,8 @@ namespace FroggyDefense.Core.Items.Tests
             Assert.True(inventory.Contains(stackableItem, 3 * testCount), "Incorrect equal amount.");
         }
 
-        [UnityTest]
-        public IEnumerator GetCountTest()
+        [Test]
+        public void GetCountTest()
         {
             int testCount = 3;
             GameObject gameObject = new GameObject();
@@ -211,14 +202,12 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Add(item, testCount);
             inventory.Add(otherItem, 2 * testCount);
 
-            yield return null;
-
             Assert.AreEqual(testCount, inventory.GetCount(item));
             Assert.AreEqual(2 * testCount, inventory.GetCount(otherItem));
         }
 
-        [UnityTest]
-        public IEnumerator RemoveItemTest()
+        [Test]
+        public void RemoveItemTest()
         {
             GameObject gameObject = new GameObject();
             Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -234,8 +223,6 @@ namespace FroggyDefense.Core.Items.Tests
             inventory.Remove(firstItem);
             inventory.Remove(otherItem);
             inventory.Remove(lastItem);
-
-            yield return null;
 
             // Removing items slots tests
             Assert.False(inventory.Contains(firstItem));

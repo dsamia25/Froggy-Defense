@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items
@@ -28,10 +29,10 @@ namespace FroggyDefense.Core.Items
     {
         public ItemObject Template;
         public string Name = "ITEM";
-        public int Id { get => (Template != null ? Template.Id : -1); }
+        public int Id { get => (Template == null ? -1 : Template.Id); }
         public string Description = "A NEW ITEM";
         public bool IsStackable { get; set; } = false;
-        public int StackSize => ItemObject.StackSize;
+        public int StackSize { get => ItemObject.StackSize; }
         public ItemType Type = ItemType.Default;
         public int CountSubtractPerUse = 1;
         public ItemRarity Rarity = 0;
@@ -40,7 +41,7 @@ namespace FroggyDefense.Core.Items
 
         public Item ()
         {
-            Name = "ITEM";
+            Name = "DEFAULT ITEM";
         }
 
         public Item(ItemObject template)
@@ -83,6 +84,25 @@ namespace FroggyDefense.Core.Items
         {
             Debug.Log("This is an item. Using " + Name + ".");
             return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+
+            Item otherItem = obj as Item;
+            if (IsStackable)
+            {
+                bool result = Id == otherItem.Id;
+                return result;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
         }
     }
 }

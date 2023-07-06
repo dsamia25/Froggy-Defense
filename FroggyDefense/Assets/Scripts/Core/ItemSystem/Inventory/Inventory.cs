@@ -1,14 +1,16 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FroggyDefense.Core.Items
 {
     public class Inventory : MonoBehaviour, IInventory
     {
-        private Dictionary<Item, InventorySlot> _contentsIndex;             // A dictionary to find items in the list.
-        [SerializeField] private List<InventorySlot> _inventory;            // A list of everything in the inventory.
+        private Dictionary<Item, List<InventorySlot>> _contentsIndex;               // A dictionary to find items in the list.
+        [SerializeField] private List<InventorySlot> _inventory;                    // A list of everything in the inventory.
 
         public int Size { get => _inventory.Count; }
+        public int MaxSize = 32;                                                    // Hard coded mx size for now.
 
         public event IInventory.InventoryDelegate InventoryChangedEvent;
 
@@ -21,59 +23,108 @@ namespace FroggyDefense.Core.Items
 
         public void InitInventory()
         {
-            _contentsIndex = new Dictionary<Item, InventorySlot>();
+            _contentsIndex = new Dictionary<Item, List<InventorySlot>>();
             _inventory = new List<InventorySlot>();
             InventoryChangedEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Add an item to the inventory. Returns the amount added.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public void Add(Item item, int amount)
         {
             try
             {
-                if (item.IsStackable)
-                {
-                    // If the item is stackable, look for it in the dictionary.
-                    if (_contentsIndex.ContainsKey(item))
-                    {
-                        // If the item is already in the dictionary, add to the existing stack.
-                        _contentsIndex[item].Add(item, amount);
-                    }
-                    else
-                    {
-                        // If the item is not already in the dictionary, create a new entry.
-                        var slot = new InventorySlot(this);
-                        slot.Add(item, amount);
-                        _inventory.Add(slot);
-                        _contentsIndex.Add(item, slot);
-                    }
-                }
-                else
-                {
-                    // If the item is not stackable, it will always need a new entry with a size of 1.
-                    var slot = new InventorySlot(this);
-                    slot.Add(item, 1);
-                    _inventory.Add(slot);
-                    _contentsIndex.Add(item, slot);
-                }
-            } catch
+                //// If stackable, look if there is already a stack in the contents index.
+                //if (item.IsStackable)
+                //{
+                //    Debug.Log($"Adding {item.Name} is stackable. Max Stack Size: {item.StackSize}.");
+
+                //    // If not in the index, create a new entry.
+                //    if (!_contentsIndex.ContainsKey(item))
+                //    {
+                //        _contentsIndex.Add(item, new List<InventorySlot>());
+                //    }
+
+                //    // Try to add to existing entries, if not any then create a new one.
+                //    var stacks = _contentsIndex[item];
+
+                //    // Look through each stack in the entry. Add to any existing not full stacks.
+                //    for (int i = 0; i < stacks.Count; i++)
+                //    {
+                //        amount -= stacks[i].Add(item, amount);
+                //        Debug.Log($"{item.Name} stack {i} now has {stacks[i].count}.");
+                //        if (amount <= 0) break;
+                //    }
+
+                //    Debug.Log($"Out of empty stacks for {item.Name}.");
+                //    // If there is still some amount left, create new stacks to fill it out.
+                //    while (amount > 0 && Size < MaxSize)
+                //    {
+                //        // Add a new stack.
+                //        InventorySlot slot = new InventorySlot(this);
+                //        slot.Add(item, amount);
+                //        _inventory.Add(slot);
+                //        _contentsIndex[item].Add(slot);
+                //        amount -= slot.count;      // Count down how much was actually added to the stack.
+                //    }
+                //}
+                //else                 // else, just add it to the inventory
+                //{
+                Debug.Log($"Adding not stackable item {item.Name}");
+                // Not stackable, create a new stack of size 1.
+                //InventorySlot slot = new InventorySlot(this);
+                //slot.Add(item, 1);
+                //_inventory.Add(slot);
+                //_contentsIndex.Add(item, new List<InventorySlot>());
+                //_contentsIndex[item].Add(slot);
+                //}
+            } catch (Exception e)
             {
-                Debug.Log("Error adding item to inventory.");
+                Debug.Log($"Error adding item to inventory: {e}");
             }
+
+            PrintIndex();
             InventoryChangedEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Subtracts the item from the list, return true if anything was removed.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool Subtract(Item item, int amount)
         {
-            if (amount < 0) return false;
+            if (amount <= 0) return false;
 
             if (_contentsIndex.ContainsKey(item))
             {
-                var slot = _contentsIndex[item];
-                slot.Subtract(amount);
-                if (slot.IsEmpty)
+                var stacks = _contentsIndex[item];
+                // Start subtracting from the last slot first.
+                for (int i = stacks.Count - 1; i >= 0; i--)
+                {
+                    if (amount <= 0) break;
+                    
+                    InventorySlot slot = stacks[i];
+                    amount = slot.Subtract(amount);
+
+                    // Remove empty stacks.
+                    if (slot.IsEmpty)
+                    {
+                        stacks.Remove(slot);
+                        _inventory.Remove(slot);
+                    }
+                }
+                // Remove item from index if empty.
+                if (stacks.Count <= 0)
                 {
                     Remove(item);
                 }
+
                 InventoryChangedEvent?.Invoke();
                 return true;
             }
@@ -81,13 +132,26 @@ namespace FroggyDefense.Core.Items
             return false;
         }
 
+        /// <summary>
+        /// Removes an item from the list and contents index.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(Item item)
         {
             if (Contains(item))
             {
-                Debug.Log("Removing (" + item.Name + ") from inventory.");
-                _inventory.Remove(_contentsIndex[item]);
+                Debug.Log($"Removing ({item.Name}) from inventory.");
+
+                // Remove each InventorySlot
+                foreach (var stack in _contentsIndex[item])
+                {
+                    _inventory.Remove(stack);
+                }
+
+                // Remove the index reference.
                 _contentsIndex.Remove(item);
+
                 InventoryChangedEvent?.Invoke();
                 return true;
             }
@@ -117,7 +181,12 @@ namespace FroggyDefense.Core.Items
         {
             if (_contentsIndex.ContainsKey(item))
             {
-                return _contentsIndex[item].count >= amount;
+                int count = 0;
+                foreach (var stack in _contentsIndex[item])
+                {
+                    count += stack.count;
+                }
+                return count >= amount;
             }
             return false;
         }
@@ -126,7 +195,12 @@ namespace FroggyDefense.Core.Items
         {
             if (_contentsIndex.ContainsKey(item))
             {
-                return _contentsIndex[item].count;
+                int count = 0;
+                foreach (var stack in _contentsIndex[item])
+                {
+                    count += stack.count;
+                }
+                return count;
             }
             return 0;
         }
@@ -146,6 +220,29 @@ namespace FroggyDefense.Core.Items
                 }
             }
             return 0;
+        }
+
+        public string IndexToString()
+        {
+            string str = "{\n";
+
+            foreach (var entry in _contentsIndex)
+            {
+                str += "\t" + entry.Key.Name + " (" + entry.Key.Id + "): ";
+                foreach (var stack in entry.Value)
+                {
+                    str += stack.count + ", ";
+                }
+                str += "\n";
+            }
+            str += "}";
+
+            return str;
+        }
+
+        public void PrintIndex()
+        {
+            Debug.Log(IndexToString());
         }
 
         public override string ToString()
@@ -179,7 +276,14 @@ namespace FroggyDefense.Core.Items
     {
         public Item item { get; private set; } = null;
         public int count { get; private set; } = 0;
-
+        public int stackSize
+        {
+            get {
+                if (item == null) return 0;
+                if (item.IsStackable) return ItemObject.StackSize;
+                return 1;
+            }
+        }
         public Inventory parentInventory;
 
         public bool IsEmpty { get => item == null && count == 0; }
@@ -202,14 +306,27 @@ namespace FroggyDefense.Core.Items
             if (item == null)
             {
                 item = _item;
-                count = amount;
-                return amount;
-            } else if (item == _item)
+            }
+
+            if (item != _item)
+            {
+                return 0;
+            }
+
+            if (count >= stackSize)
+            {
+                return 0;
+            }
+
+            if (count + amount >= stackSize)
+            {
+                amount = stackSize - count;
+                count = stackSize;
+            } else
             {
                 count += amount;
-                return amount;
             }
-            return 0;
+            return amount;
         }
 
         /// <summary>
