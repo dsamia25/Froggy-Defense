@@ -1,15 +1,19 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 namespace FroggyDefense.Core.Items.UI
 {
-    public class ItemDetailViewUI : MonoBehaviour, IPointerExitHandler
+    public class ItemDetailViewUI : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI TitleText;
-        [SerializeField] private TextMeshProUGUI StatsText;
-        [SerializeField] private TextMeshProUGUI DescriptionText;
+        [SerializeField] protected TextMeshProUGUI TitleText;
+        [SerializeField] protected TextMeshProUGUI StatsText;
+        [SerializeField] protected TextMeshProUGUI DescriptionText;
+        [SerializeField] protected Image _itemRarityBorder;             // The color-changing border to indicate an item's rarity.
+
+        [SerializeField] protected float _moveDelay = .1f;              // How long the item has held over before being delayed.
 
         private Item _displayedItem;
         public Item DisplayedItem
@@ -23,7 +27,7 @@ namespace FroggyDefense.Core.Items.UI
         }
 
         public delegate void ItemDetailViewDelegate(Item item);
-        public static event ItemDetailViewDelegate MouseExitEvent;
+        public static event ItemDetailViewDelegate UpdatedEvent;
 
         /// <summary>
         /// Opens the detail view.
@@ -45,13 +49,6 @@ namespace FroggyDefense.Core.Items.UI
             gameObject.SetActive(false);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Debug.Log($"Pointer exitting ItemDetailView.");
-            MouseExitEvent?.Invoke(_displayedItem);
-            Close();
-        }
-
         /// <summary>
         /// Update UI components.
         /// </summary>
@@ -63,11 +60,21 @@ namespace FroggyDefense.Core.Items.UI
                 TitleText.text = _displayedItem.Name;
                 DescriptionText.text = _displayedItem.Description;
 
-                // Set text color.
-                TitleText.color = GameManager.instance.m_UiManager.ItemRarityColors.GetColor(_displayedItem.Rarity);
+                // Set colors.
+                Color color = GameManager.instance.m_UiManager.ItemRarityColors.GetColor(_displayedItem.Rarity);
+                TitleText.color = color;
+                _itemRarityBorder.color = color;
+
+                StartCoroutine(WaitForMoveDelay(_moveDelay));
             } catch (Exception e) {
                 Debug.LogWarning($"Error loading detail view: {e}");
             }
+        }
+
+        private IEnumerator WaitForMoveDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            UpdatedEvent?.Invoke(_displayedItem);
         }
     }
 }

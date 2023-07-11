@@ -177,6 +177,24 @@ namespace FroggyDefense.Core.Items
             return _inventory[index].item;
         }
 
+        /// <summary>
+        /// Finds the index of the given item in the inventory or -1 if
+        /// it is not there.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int GetIndex(Item item)
+        {
+            for (int i = 0; i < _inventory.Count; i++)
+            {
+                if (_inventory[i].Equals(item))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         public bool Contains(Item item)
         {
             return _contentsIndex.ContainsKey(item);

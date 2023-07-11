@@ -9,6 +9,7 @@ namespace FroggyDefense.Core.Items.UI
         [SerializeField] private GameObject _itemButtonUiPrefab = null;     // The button prefab.
         [SerializeField] private GameObject _itemDetailViewPrefab = null;   // The prefab for making a new item detail view when an item is moused over.
         [SerializeField] private Transform _itemDetailViewLayer = null;     // The transform to display the item detail views under to ensure they're in the front of the ui.
+        [SerializeField] private float _itemDetailViewOffset = 1f;          // How far to the lesft of right the detail view should be created.
 
         public Inventory _inventory = null;                 // The inventory this is representing
         public Transform _UiParent = null;                  // The transform to spawn the buttons under.
@@ -21,6 +22,7 @@ namespace FroggyDefense.Core.Items.UI
         private List<GameObject> _buttons;                  // The list of all UI buttons.
         private List<InventorySlotUI> _uiButtons;           // The list of all ItemButtonUi components.
         private Dictionary<Item, ItemDetailViewUI> DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
+        private Dictionary<ItemDetailViewUI, InventorySlotUI> ViewSlotLookup = new Dictionary<ItemDetailViewUI, InventorySlotUI>();
 
         private void Start()
         {
@@ -28,9 +30,10 @@ namespace FroggyDefense.Core.Items.UI
             if (_itemDetailViewLayer == null) _itemDetailViewLayer = transform;
 
             DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
+            ViewSlotLookup = new Dictionary<ItemDetailViewUI, InventorySlotUI>();
 
             _inventory.InventoryChangedEvent += UpdateUI;
-            ItemDetailViewUI.MouseExitEvent += CloseItemDetailView;
+            ItemDetailViewUI.UpdatedEvent += MoveItemDetailView;
 
             GenerateInventory();
         }
@@ -112,26 +115,56 @@ namespace FroggyDefense.Core.Items.UI
         /// inventory slot.
         /// </summary>
         /// <param name="slot"></param>
-        public void CreateItemDetailView(Item item)
+        public ItemDetailViewUI CreateItemDetailView(InventorySlotUI slot)
         {
             try
             {
-                Debug.Log($"Opening Item Detail View for {item.Name}.");
+                Debug.Log($"Opening Item Detail View for {slot.Slot.item.Name}.");
 
                 // If there is already an open view for the slot then update it with the current item;
-                if (DisplayedItemDetailViews.ContainsKey(item))
+                if (DisplayedItemDetailViews.ContainsKey(slot.Slot.item))
                 {
-                    return;
+                    return null;
                 }
 
-                ItemDetailViewUI view = Instantiate(_itemDetailViewPrefab, Input.mousePosition, Quaternion.identity).GetComponent<ItemDetailViewUI>();
+                ItemDetailViewUI view = Instantiate(_itemDetailViewPrefab, new Vector2(2 * Screen.width, 2 * Screen.height), Quaternion.identity).GetComponent<ItemDetailViewUI>();
                 view.transform.SetParent(_itemDetailViewLayer);
-                view.Open(item);
-                DisplayedItemDetailViews.Add(item, view);
+                view.Open(slot.Slot.item);
+
+                DisplayedItemDetailViews.Add(slot.Slot.item, view);
+                ViewSlotLookup.Add(view, slot);
+
+                return view;
 
             } catch (Exception e)
             {
                 Debug.LogWarning($"Error creating item detail view: {e}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Move the detail view to be aligned with the right side of the slot.
+        /// </summary>
+        /// <param name="slot"></param>
+        private void MoveItemDetailView(Item item)
+        {
+            try
+            {
+                Debug.Log($"Moving Item Detail View for {item.Name}.");
+
+                if (!DisplayedItemDetailViews.ContainsKey(item)) return;
+
+                ItemDetailViewUI view = DisplayedItemDetailViews[item];
+                InventorySlotUI slot = ViewSlotLookup[view];
+
+                RectTransform slotRect = slot.GetComponent<RectTransform>();
+                RectTransform viewRect = view.GetComponent<RectTransform>();
+                view.transform.position = new Vector2(slot.transform.position.x + (slotRect.rect.width / 2) + (viewRect.rect.width / 2) + _itemDetailViewOffset, slot.transform.position.y);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error closing item detail view: {e}");
             }
         }
 
@@ -146,7 +179,9 @@ namespace FroggyDefense.Core.Items.UI
                 Debug.Log($"Closing Item Detail View for {item.Name}.");
                 if (DisplayedItemDetailViews.ContainsKey(item))
                 {
-                    Destroy(DisplayedItemDetailViews[item].gameObject);
+                    var view = DisplayedItemDetailViews[item];
+                    ViewSlotLookup.Remove(view);
+                    Destroy(view.gameObject);
                     DisplayedItemDetailViews.Remove(item);
                 }
             }

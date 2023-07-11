@@ -130,7 +130,7 @@ namespace FroggyDefense.Core.Items.UI
             if (HeadInventoryUi == null) return;
             if (Slot == null) return;
 
-            HeadInventoryUi.CreateItemDetailView(Slot.item);
+            HeadInventoryUi.CreateItemDetailView(this);
         }
 
         /// <summary>
