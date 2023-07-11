@@ -80,10 +80,24 @@ namespace FroggyDefense.Core.Items
             return item;
         }
 
+        /// <summary>
+        /// Attempts to use the item.
+        /// </summary>
+        /// <returns></returns>
         public virtual bool Use()
         {
             Debug.Log("This is an item. Using " + Name + ".");
             return true;
+        }
+
+        /// <summary>
+        /// Returns the detail text for the item. Should be stats for equipment and
+        /// effect for consumables.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetDetailText()
+        {
+            return "";
         }
 
         public override bool Equals(object obj)

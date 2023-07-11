@@ -60,6 +60,22 @@ namespace FroggyDefense.Core.Items
         }
 
         /// <summary>
+        /// Converts the stats to a text form.
+        /// </summary>
+        /// <returns></returns>
+        public override string GetDetailText()
+        {
+            if (Stats.Count <= 0) return "";
+
+            string str = Stats[0].ToString();
+            for (int i = 1; i < Stats.Count; i++)
+            {
+                str += "\n" + Stats[i].ToString();
+            }
+            return str;
+        }
+
+        /// <summary>
         /// Adds bonus stats to the item using the random value ranges.
         /// </summary>
         /// <param name="template"></param>

@@ -1,16 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 
 namespace FroggyDefense.Core.Items.UI
 {
     public class ItemDetailViewUI : MonoBehaviour
     {
-        [SerializeField] protected TextMeshProUGUI TitleText;
-        [SerializeField] protected TextMeshProUGUI StatsText;
-        [SerializeField] protected TextMeshProUGUI DescriptionText;
+        [SerializeField] protected TextMeshProUGUI TitleText;           // Title header text.
+        [SerializeField] protected TextMeshProUGUI DetailText;          // Effect text used for equipment stats or consumable effects.
+        [SerializeField] protected TextMeshProUGUI DescriptionText;     // Yellow description text.
         [SerializeField] protected Image _itemRarityBorder;             // The color-changing border to indicate an item's rarity.
 
         [SerializeField] protected float _moveDelay = .1f;              // How long the item has held over before being delayed.
@@ -58,6 +58,7 @@ namespace FroggyDefense.Core.Items.UI
             {
                 // Set text.
                 TitleText.text = _displayedItem.Name;
+                DetailText.text = _displayedItem.GetDetailText();
                 DescriptionText.text = _displayedItem.Description;
 
                 // Set colors.

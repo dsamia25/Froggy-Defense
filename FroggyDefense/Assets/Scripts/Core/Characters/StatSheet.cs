@@ -23,6 +23,11 @@ namespace FroggyDefense.Core
             Stat = stat;
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return Stat.ToString() + ": " + Value;
+        }
     }
 
     [System.Serializable]

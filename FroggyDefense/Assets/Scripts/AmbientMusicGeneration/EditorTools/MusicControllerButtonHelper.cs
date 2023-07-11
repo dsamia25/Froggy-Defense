@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using AmbientMusicGenerator;
 
 namespace AmbientMusicGenerator.EditorTools
 {
@@ -48,10 +47,64 @@ namespace AmbientMusicGenerator.EditorTools
 
             if (GUILayout.Button("Save Preset"))
             {
-                controller.SavePreset(presetName, savePath);
+                SavePreset(presetName, savePath, controller);
             }
 
             base.OnInspectorGUI();
+        }
+
+        /// <summary>
+        /// Saves the current Sound values as a new preset.
+        /// </summary>
+        public void SavePreset(string presetName, string savePath, MusicController controller)
+        {
+            // Save last used values to display in inspector.
+            controller.lastInputPresetName = presetName;
+            controller.lastInputSavePresetPath = savePath;
+
+            Debug.Log($"Saving a new preset.");
+            MusicPresetObject preset = ScriptableObject.CreateInstance<MusicPresetObject>();
+
+            // Make the combined asset path.
+            string path = savePath + "/" + presetName;
+
+            // Check if there is already as asset with that name. If so iterate up numbers until there is a unique name.
+            if (AssetDatabase.LoadAssetAtPath(path + ".asset", typeof(MusicPresetObject)) != null)
+            {
+                int i = 0;
+
+                // Iterate up the count until there is a unique number.
+                while (AssetDatabase.LoadAssetAtPath(path + (++i).ToString() + ".asset", typeof(MusicPresetObject)) != null) ;
+
+                // Add the unique number to the name.
+                presetName += i.ToString();
+                path += i.ToString();
+            }
+
+            try
+            {
+                // Create the new ScriptableObject in the database.
+                AssetDatabase.CreateAsset(preset, path + ".asset");
+            }
+            catch (UnityException e)
+            {
+                Debug.LogWarning($"Error saving preset. Make sure the path exists: {e}");
+                return;
+            }
+
+            preset.Name = presetName;
+            preset.Mixer = controller.Mixer;
+
+            // Save the information about the asset.
+            foreach (Sound sound in controller.Sounds)
+            {
+                Debug.Log($"Sound {sound.Name}.");
+                preset.Sounds.Add(new Sound(sound));
+            }
+
+            // Save the modified asset.
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

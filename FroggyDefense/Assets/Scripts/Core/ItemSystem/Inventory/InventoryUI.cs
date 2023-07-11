@@ -93,6 +93,8 @@ namespace FroggyDefense.Core.Items.UI
                 slot.Slot = _inventory.Get(i);
                 slot.UpdateUI();
             }
+
+            CleanItemDetailViews();
         }
 
         /// <summary>
@@ -188,6 +190,27 @@ namespace FroggyDefense.Core.Items.UI
             catch (Exception e)
             {
                 Debug.LogWarning($"Error closing item detail view: {e}");
+            }
+        }
+
+        /// <summary>
+        /// Check if the displayed detail views are still being used and clean up
+        /// all the extra ones.
+        /// </summary>
+        private void CleanItemDetailViews()
+        {
+            List<Item> removed = new List<Item>();
+            foreach (Item item in DisplayedItemDetailViews.Keys)
+            {
+                if (!_inventory.Contains(item))
+                {
+                    removed.Add(item);
+                }
+            }
+
+            foreach (Item item in removed)
+            {
+                CloseItemDetailView(item);
             }
         }
     }
