@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Core.Items.UI
 {
     public class InventoryUI : MonoBehaviour
     {
         [SerializeField] private GameObject _itemButtonUiPrefab = null;     // The button prefab.
+        [SerializeField] private GameObject _itemDetailViewPrefab = null;   // The prefab for making a new item detail view when an item is moused over.
+        [SerializeField] private Transform _itemDetailViewLayer = null;     // The transform to display the item detail views under to ensure they're in the front of the ui.
 
         public Inventory _inventory = null;                 // The inventory this is representing
         public Transform _UiParent = null;                  // The transform to spawn the buttons under.
@@ -18,12 +20,18 @@ namespace FroggyDefense.Core.Items.UI
 
         private List<GameObject> _buttons;                  // The list of all UI buttons.
         private List<InventorySlotUI> _uiButtons;           // The list of all ItemButtonUi components.
+        private Dictionary<Item, ItemDetailViewUI> DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
 
         private void Start()
         {
             if (_UiParent == null) _UiParent = transform;
+            if (_itemDetailViewLayer == null) _itemDetailViewLayer = transform;
+
+            DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
 
             _inventory.InventoryChangedEvent += UpdateUI;
+            ItemDetailViewUI.MouseExitEvent += CloseItemDetailView;
+
             GenerateInventory();
         }
 
@@ -41,6 +49,7 @@ namespace FroggyDefense.Core.Items.UI
                 var slot = _buttons[i].GetComponent<InventorySlotUI>();
                 _uiButtons.Add(slot);
                 slot.Slot = _inventory.Get(i);
+                slot.HeadInventoryUi = this;
                 slot.UpdateUI();
             }
         }
@@ -56,6 +65,7 @@ namespace FroggyDefense.Core.Items.UI
                 var slot = _buttons[i].GetComponent<InventorySlotUI>();
                 _uiButtons.Add(slot);
                 slot.Slot = _inventory.Get(i);
+                slot.HeadInventoryUi = this;
                 slot.UpdateUI();
             }
         }
@@ -95,6 +105,55 @@ namespace FroggyDefense.Core.Items.UI
             }
             _uiButtons = null;
             _buttons = null;
+        }
+
+        /// <summary>
+        /// Creates a new ItemDetailView GameObject using the prefab for the
+        /// inventory slot.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void CreateItemDetailView(Item item)
+        {
+            try
+            {
+                Debug.Log($"Opening Item Detail View for {item.Name}.");
+
+                // If there is already an open view for the slot then update it with the current item;
+                if (DisplayedItemDetailViews.ContainsKey(item))
+                {
+                    return;
+                }
+
+                ItemDetailViewUI view = Instantiate(_itemDetailViewPrefab, Input.mousePosition, Quaternion.identity).GetComponent<ItemDetailViewUI>();
+                view.transform.SetParent(_itemDetailViewLayer);
+                view.Open(item);
+                DisplayedItemDetailViews.Add(item, view);
+
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error creating item detail view: {e}");
+            }
+        }
+
+        /// <summary>
+        /// If the inventory slot has an open ItemDetailView then close it.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void CloseItemDetailView(Item item)
+        {
+            try
+            {
+                Debug.Log($"Closing Item Detail View for {item.Name}.");
+                if (DisplayedItemDetailViews.ContainsKey(item))
+                {
+                    Destroy(DisplayedItemDetailViews[item].gameObject);
+                    DisplayedItemDetailViews.Remove(item);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Error closing item detail view: {e}");
+            }
         }
     }
 }

@@ -7,9 +7,7 @@ using TMPro;
 namespace FroggyDefense.Core.Items.UI
 {
     public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
-    {
-        [SerializeField] private ItemRarityColors ItemRarityColors;
-
+    {        
         [SerializeField] protected Image _iconImage;                // The item's image.
         [SerializeField] protected TextMeshProUGUI _countText;      // The text displaying the number of items in the slot.
         [SerializeField] protected Image _itemRarityBorder;         // The color-changing border to indicate an item's rarity.
@@ -38,12 +36,16 @@ namespace FroggyDefense.Core.Items.UI
         {
             // Change the highlight border to the highlight color.
             _itemBorder.color = _borderHighlightColor;
+
+            OpenItemDetailView();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             // Change the highlight border to the default color.
             _itemBorder.color = _borderDefaultColor;
+
+            CloseItemDetailView();
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
@@ -109,7 +111,7 @@ namespace FroggyDefense.Core.Items.UI
                 _iconImage.gameObject.SetActive(true);
 
                 // Update the rarity color.
-                _itemRarityBorder.color = ItemRarityColors.GetColor(Slot.item.Rarity);
+                _itemRarityBorder.color = GameManager.instance.m_UiManager.ItemRarityColors.GetColor(Slot.item.Rarity);
 
                 // Only display the count if stackable.
                 _countText.text = Slot.count.ToString();
@@ -118,6 +120,28 @@ namespace FroggyDefense.Core.Items.UI
             {
                 Debug.Log($"Error updating inventory slot ui: {e}");
             }
+        }
+
+        /// <summary>
+        /// Opens the detail view showing the item name, stats, and use effects.
+        /// </summary>
+        public void OpenItemDetailView()
+        {
+            if (HeadInventoryUi == null) return;
+            if (Slot == null) return;
+
+            HeadInventoryUi.CreateItemDetailView(Slot.item);
+        }
+
+        /// <summary>
+        /// Closes the item detail view.
+        /// </summary>
+        public void CloseItemDetailView()
+        {
+            if (HeadInventoryUi == null) return;
+            if (Slot == null) return;
+
+            HeadInventoryUi.CloseItemDetailView(Slot.item);
         }
     }
 }

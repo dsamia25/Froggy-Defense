@@ -2,11 +2,14 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using FroggyDefense.Core.Buildings.UI;
+using FroggyDefense.Core.Items.UI;
 
 namespace FroggyDefense.Core
 {
     public class UiManager : MonoBehaviour
     {
+        public ItemRarityColors ItemRarityColors;
+
         public TextMeshProUGUI m_GemsText;
         public TextMeshProUGUI m_PointsText;
 
