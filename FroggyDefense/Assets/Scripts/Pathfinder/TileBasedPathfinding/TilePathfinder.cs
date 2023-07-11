@@ -204,7 +204,6 @@ namespace Pathfinder
                     throw new ArgumentException("Input arrays must be the same length.");
                 }
 
-                Debug.Log($"Starting building node map: {tilemapLayers.Length} layers.");
                 Dictionary<Vector2Int, PathfinderTile> nodeMap = new Dictionary<Vector2Int, PathfinderTile>();
 
                 // Build nodes.
@@ -212,7 +211,6 @@ namespace Pathfinder
                 {
                     Tilemap layer = tilemapLayers[i];
                     layer.CompressBounds();
-                    Debug.Log($"Layer {i}: x[{Mathf.FloorToInt(layer.localBounds.min.x)}, {Mathf.FloorToInt(layer.localBounds.max.x)}] y[{Mathf.FloorToInt(layer.localBounds.min.y)}, {Mathf.FloorToInt(layer.localBounds.max.y)}]");
                     for (int x = Mathf.FloorToInt(layer.localBounds.min.x); x < Mathf.FloorToInt(layer.localBounds.max.x); x++)
                     {
                         for (int y = Mathf.FloorToInt(layer.localBounds.min.y); y < Mathf.FloorToInt(layer.localBounds.max.y); y++)

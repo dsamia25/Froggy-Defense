@@ -71,6 +71,9 @@ namespace FroggyDefense.Core.Items
                 case ItemType.Equipment:
                     item = new Equipment((EquipmentObject)template);
                     break;
+                case ItemType.Consumable:
+                    item = new Consumable((ConsumableObject)template);
+                    break;
                 default:
                     item = new Item(template);
                     break;
