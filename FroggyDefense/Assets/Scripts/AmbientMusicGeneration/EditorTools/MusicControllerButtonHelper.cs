@@ -1,7 +1,8 @@
 using UnityEditor;
 using UnityEngine;
+using AmbientMusicGenerator;
 
-namespace AmbientMusicGenerator
+namespace AmbientMusicGenerator.EditorTools
 {
     [CustomEditor(typeof(MusicController))]
     public class MusicControllerButtonHelper : Editor
