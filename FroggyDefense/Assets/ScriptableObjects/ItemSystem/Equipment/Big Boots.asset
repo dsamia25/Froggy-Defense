@@ -15,8 +15,10 @@ MonoBehaviour:
   Name: Big Boots
   Id: 0
   Description: Very big boots.
+  IsStackable: 0
   Type: 1
   Rarity: 0
+  IsUsable: 1
   Icon: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
   Slot: 2
   Stats:
@@ -24,3 +26,6 @@ MonoBehaviour:
     Value: 6
   - Stat: 0
     Value: 2
+  AddBonusStats: 0
+  RandomStatsRange: {x: 0, y: 0}
+  RandomBonusStats: []

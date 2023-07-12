@@ -15,10 +15,15 @@ MonoBehaviour:
   Name: Fancy Hat
   Id: 2
   Description: A very fancy hat.
+  IsStackable: 0
   Type: 1
   Rarity: 9
+  IsUsable: 1
   Icon: {fileID: 21300000, guid: ba02889fb0f5c433885b6bcbc9118081, type: 3}
   Slot: 0
   Stats:
   - Stat: 3
     Value: 5
+  AddBonusStats: 0
+  RandomStatsRange: {x: 0, y: 0}
+  RandomBonusStats: []

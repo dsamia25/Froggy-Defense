@@ -18,6 +18,7 @@ namespace FroggyDefense.Core.Items
             Name = "Consumable";
             Type = ItemType.Consumable;
             IsStackable = true;
+            IsUsable = true;
         }
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace FroggyDefense.Core.Items
             Icon = template.Icon;
             IsStackable = template.IsStackable;
             Rarity = template.Rarity;
+            IsUsable = true;
 
             healthRestore = template.HealthRestore;
             manaRestore = template.ManaRestore;
@@ -41,7 +43,7 @@ namespace FroggyDefense.Core.Items
 
         public override bool Use()
         {
-            Debug.Log("This is a consumable. Using " + Name + ".");
+            Debug.Log($"Consuming {Name}.");
             return true;
         }
 

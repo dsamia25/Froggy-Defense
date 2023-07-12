@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items
@@ -36,6 +35,7 @@ namespace FroggyDefense.Core.Items
         public ItemType Type = ItemType.Default;
         public int CountSubtractPerUse = 1;
         public ItemRarity Rarity = 0;
+        public bool IsUsable = false;
 
         public Sprite Icon = null;
 
@@ -53,6 +53,7 @@ namespace FroggyDefense.Core.Items
             Type = template.Type;
             Icon = template.Icon;
             Rarity = template.Rarity;
+            IsUsable = template.IsUsable;
         }
 
         /// <summary>
@@ -89,7 +90,12 @@ namespace FroggyDefense.Core.Items
         /// <returns></returns>
         public virtual bool Use()
         {
-            Debug.Log("This is an item. Using " + Name + ".");
+            if (!IsUsable)
+            {
+                Debug.Log($"{Name} is not usable.");
+                return false;
+            }
+            Debug.Log($"Using {Name}.");
             return true;
         }
 

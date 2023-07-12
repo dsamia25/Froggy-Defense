@@ -387,8 +387,10 @@ namespace FroggyDefense.Core.Items
         /// </summary>
         public void UseItem()
         {
-            item.Use();
-            parentInventory.Subtract(item, item.CountSubtractPerUse);
+            if (item.Use())
+            {
+                parentInventory.Subtract(item, item.CountSubtractPerUse);
+            }
         }
 
 

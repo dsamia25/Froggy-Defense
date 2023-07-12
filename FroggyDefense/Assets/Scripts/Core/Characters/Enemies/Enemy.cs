@@ -76,6 +76,8 @@ namespace FroggyDefense.Core.Enemies
                     m_HealthBar.gameObject.SetActive(IsDamaged);
                 }
             }
+
+            ResetFocus();
         }
 
         protected override void Update()

@@ -15,10 +15,15 @@ MonoBehaviour:
   Name: Cool Clothes
   Id: 1
   Description: The coolest around.
+  IsStackable: 0
   Type: 1
   Rarity: 3
+  IsUsable: 1
   Icon: {fileID: 21300000, guid: 137c13a0f1d4944b49ca458808a6822f, type: 3}
   Slot: 1
   Stats:
   - Stat: 0
     Value: 10
+  AddBonusStats: 0
+  RandomStatsRange: {x: 0, y: 0}
+  RandomBonusStats: []

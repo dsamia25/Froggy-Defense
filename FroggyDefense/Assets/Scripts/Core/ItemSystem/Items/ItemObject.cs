@@ -16,6 +16,7 @@ namespace FroggyDefense.Core.Items
         public bool IsStackable = false;
         public ItemType Type = ItemType.Default;
         public ItemRarity Rarity = 0;
+        public bool IsUsable = false;
 
         public Sprite Icon = null;
     }

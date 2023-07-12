@@ -18,6 +18,7 @@ MonoBehaviour:
   IsStackable: 1
   Type: 2
   Rarity: 1
+  IsUsable: 1
   Icon: {fileID: 21300000, guid: 1b1e903e9337941e38ed772675144847, type: 3}
   HealthRestore: 1
   ManaRestore: 0

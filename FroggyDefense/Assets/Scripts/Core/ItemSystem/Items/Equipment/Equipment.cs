@@ -27,6 +27,7 @@ namespace FroggyDefense.Core.Items
             Name = "EQUIPMENT";
             Type = ItemType.Equipment;
             IsStackable = false;
+            IsUsable = true;
         }
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace FroggyDefense.Core.Items
             Icon = template.Icon;
             IsStackable = false;
             Rarity = template.Rarity;
+            IsUsable = true;
 
             foreach (StatValuePair stat in template.Stats)
             {
@@ -54,7 +56,7 @@ namespace FroggyDefense.Core.Items
 
         public override bool Use()
         {
-            Debug.Log("This is equipment. Equipping " + Name + ".");
+            Debug.Log($"Equipping {Name}.");
             GameManager.instance.m_Player.Equip(this);
             return true;
         }
