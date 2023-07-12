@@ -8,7 +8,9 @@ namespace FroggyDefense.Core.Items.Crafting
         public ItemRequirement[] CraftingMaterials;         // The materials needed to make the item.
         public ItemObject Created;                          // The item created for this recipe.
 
-        public CraftingStation NeededCraftingStation = CraftingStation.NULL;
+        public string Name => Created.Name;
+
+        public CraftingStationType NeededCraftingStation = CraftingStationType.NULL;
 
         /// <summary>
         /// Checks if the recipe can be created with the current 
