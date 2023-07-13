@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FroggyDefense.Core.Items.Crafting
 {
@@ -15,7 +16,13 @@ namespace FroggyDefense.Core.Items.Crafting
     {
         [SerializeField] private CraftingStationType StationType;
 
-        public bool IsInteractable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        [SerializeField] protected bool _isInteractable = true;
+        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+
+        [Space]
+        [Header("Interact Events")]
+        [Space]
+        public UnityEvent InteractEvent;
 
         /// <summary>
         /// Attempts to craft the item using the reagents from the given inventory.
@@ -48,7 +55,8 @@ namespace FroggyDefense.Core.Items.Crafting
 
         public void Interact(GameObject user)
         {
-            throw new NotImplementedException();
+            if (IsInteractable) InteractEvent?.Invoke();
         }
+
     }
 }
