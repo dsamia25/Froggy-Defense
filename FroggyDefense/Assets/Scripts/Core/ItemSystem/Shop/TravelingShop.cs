@@ -103,7 +103,7 @@ namespace FroggyDefense.Shop
         /// <summary>
         /// Interact with the object.
         /// </summary>
-        public void Interact()
+        public void Interact(GameObject user)
         {
             if (IsInteractable) InteractEvent?.Invoke();
         }
@@ -145,7 +145,7 @@ namespace FroggyDefense.Shop
         /// </summary>
         public void OnMouseUpAsButton()
         {
-            Interact();
+            Interact(null);
         }
     }
 }

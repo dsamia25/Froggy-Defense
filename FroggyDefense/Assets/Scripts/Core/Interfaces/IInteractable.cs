@@ -1,10 +1,12 @@
+using UnityEngine;
+
 namespace FroggyDefense.Core
 {
     public interface IInteractable
     {
         public bool IsInteractable { get; set; }
 
-        public void Interact();
-        //public void SetInteractable(bool interactable);
+        // TODO: Fix a lot of the user's of this so that they pass in the client's player.
+        public virtual void Interact(GameObject user) { }
     }
 }

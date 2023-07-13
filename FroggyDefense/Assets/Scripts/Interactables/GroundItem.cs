@@ -8,23 +8,18 @@ using FroggyDefense.Core.Items.UI;
 
 namespace FroggyDefense.Interactables
 {
-    public class GroundItem : MonoBehaviour, IGroundInteractable
+    public class GroundItem : GroundObject
     {
         [SerializeField] private ItemRarityColors ItemRarityColors;
-        [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private TextMeshProUGUI _itemNameText;
         [SerializeField] private Image _itemNamePanel;
-        [SerializeField] private Rigidbody2D rb;
 
         public Item _item;
         public ItemObject _setItem = null;
 
-        private void Start()
+        protected override void Start()
         {
-            if (rb == null)
-            {
-                rb = GetComponent<Rigidbody2D>();
-            }
+            base.Start();
 
             // Init the stored item using the set item.
             if (_setItem != null)
@@ -54,7 +49,7 @@ namespace FroggyDefense.Interactables
         /// Tries to interact with the ground item by picking it up.
         /// </summary>
         /// <param name="user"></param>
-        public void Interact(GameObject user)
+        public override void Interact(GameObject user)
         {
             if (_item == null) return;
 
@@ -71,7 +66,7 @@ namespace FroggyDefense.Interactables
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool PickUp(GameObject user)
+        protected override bool PickUp(GameObject user)
         {
             if (_item == null) return false;
 
@@ -85,16 +80,6 @@ namespace FroggyDefense.Interactables
             }
             Debug.Log("Pick up failed.");
             return false;
-        }
-
-        /// <summary>
-        /// Launches the ground item in the set direction.
-        /// Used mainly when the item is dropped.
-        /// </summary>
-        /// <param name="vector"></param>
-        public virtual void Launch(Vector2 vector)
-        {
-            rb.AddForce(vector);
         }
     }
 }

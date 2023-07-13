@@ -56,7 +56,7 @@ namespace FroggyDefense.Shop.UI
             return Shop.Buy(GameManager.instance.m_Player, Item);
         }
 
-        public void Interact()
+        public void Interact(GameObject user)
         {
             Buy();
         }

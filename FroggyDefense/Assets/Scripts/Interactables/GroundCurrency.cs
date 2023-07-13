@@ -5,12 +5,10 @@ using FroggyDefense.Economy;
 
 namespace FroggyDefense.Interactables
 {
-    public class GroundCurrency : MonoBehaviour, IGroundInteractable
+    public class GroundCurrency : GroundObject
     {
-        [SerializeField] protected SpriteRenderer _spriteRenderer;
         [SerializeField] protected CurrencyObject _currency = null;
         [SerializeField] protected int _amount = 0;
-        [SerializeField] private Rigidbody2D rb;
 
         public CurrencyObject Currency {
             get => _currency;
@@ -24,12 +22,9 @@ namespace FroggyDefense.Interactables
         public delegate void GroundCurrencyDelegate(GroundCurrencyEventArgs args);
         public static GroundCurrencyDelegate PickedUpEvent;
 
-        private void Start()
+        protected override void Start()
         {
-            if (rb == null)
-            {
-                rb = GetComponent<Rigidbody2D>();
-            }
+            base.Start();
             SetCurrency(_currency);
         }
 
@@ -48,7 +43,7 @@ namespace FroggyDefense.Interactables
             }
         }
 
-        public virtual void Interact(GameObject user)
+        public override void Interact(GameObject user)
         {
             Debug.Log("Interacting with GroundCurrency (" + _currency.CurrencyName + ").");
             if (PickUp(user))
@@ -59,7 +54,7 @@ namespace FroggyDefense.Interactables
             }
         }
 
-        public virtual bool PickUp(GameObject user)
+        protected override bool PickUp(GameObject user)
         {
             Debug.Log("Trying to pick up GroundCurrency (" + _currency.CurrencyName + ").");
             CurrencyWallet wallet = null;
@@ -73,16 +68,6 @@ namespace FroggyDefense.Interactables
             }
             Debug.Log("Pick up failed.");
             return false;
-        }
-
-        /// <summary>
-        /// Launches the ground item in the set direction.
-        /// Used mainly when the item is dropped.
-        /// </summary>
-        /// <param name="vector"></param>
-        public virtual void Launch(Vector2 vector)
-        {
-            rb.AddForce(vector);
         }
     }
 

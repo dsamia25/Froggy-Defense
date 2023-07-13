@@ -103,7 +103,8 @@ namespace FroggyDefense.Core.Buildings
         public TurretStat[] UpgradeOptions { get => _upgradeOptions; }
 
         // TODO: Implement this somehow.
-        public bool IsInteractable { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        [SerializeField] protected bool _isInteractable = true;
+        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
 
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
@@ -201,13 +202,13 @@ namespace FroggyDefense.Core.Buildings
         /// </summary>
         public void OnMouseUpAsButton()
         {
-            Interact();
+            Interact(null);
         }
 
         /// <summary>
         /// Opens up the TurrestSheetUI menu.
         /// </summary>
-        public void Interact()
+        public void Interact(GameObject user)
         {
             GameManager.instance.m_UiManager.m_TurretSheetUi.m_Turret = this;
             GameManager.instance.m_UiManager.m_TurretSheetUi.gameObject.SetActive(true);

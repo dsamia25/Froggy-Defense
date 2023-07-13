@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items.Crafting
@@ -12,9 +11,11 @@ namespace FroggyDefense.Core.Items.Crafting
         Forge
     }
 
-    public class CraftingStation : MonoBehaviour
+    public class CraftingStation : MonoBehaviour, IInteractable
     {
         [SerializeField] private CraftingStationType StationType;
+
+        public bool IsInteractable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// Attempts to craft the item using the reagents from the given inventory.
@@ -43,6 +44,11 @@ namespace FroggyDefense.Core.Items.Crafting
                 Debug.LogWarning($"Error crafting recipe: {e}");
             }
             return true;
+        }
+
+        public void Interact(GameObject user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

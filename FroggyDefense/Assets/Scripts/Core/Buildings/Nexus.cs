@@ -50,13 +50,13 @@ namespace FroggyDefense.Core.Buildings
         public void OnMouseUpAsButton()
         {
             // Click on the Nexus to interact with it.
-            Interact();
+            Interact(null);
         }
 
         /// <summary>
         /// Starts the next wave.
         /// </summary>
-        public void Interact()
+        public void Interact(GameObject user)
         {
             if (GameManager.instance.WaveActive)
             {

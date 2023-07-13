@@ -5,6 +5,7 @@ using FroggyDefense.Weapons;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Core.Enemies;
+using FroggyDefense.Interactables;
 
 namespace FroggyDefense.Core
 {
@@ -167,10 +168,10 @@ namespace FroggyDefense.Core
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            IGroundInteractable interactable = null;
-            if ((interactable = collision.gameObject.GetComponent<IGroundInteractable>()) != null)
+            GroundObject groundObject = null;
+            if ((groundObject = collision.gameObject.GetComponent<GroundObject>()) != null)
             {
-                interactable.Interact(gameObject);
+                groundObject.Interact(gameObject);
             }
 
             if (collision.tag == "DeathBox")
