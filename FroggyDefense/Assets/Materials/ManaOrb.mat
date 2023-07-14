@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HealthOrb
+  m_Name: ManaOrb
   m_Shader: {fileID: -6465566751694194690, guid: d292d096f543741faa17fc4bf9702fc2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -20,12 +20,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture:
-        m_Texture: {fileID: 2800000, guid: 8ca8ec1f01d91479d927f1c8042083db, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ca8ec1f01d91479d927f1c8042083db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,25 +38,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlobSize: 0.57
-    - _BlobSlimness: 1.29
-    - _BubbleDensity: 14.47
+    - _BlobSize: 1.21
+    - _BlobSlimness: 1.67
+    - _BubbleDensity: 25
     - _BubbleStep: 1
-    - _LiquidAngleOffset: 3.9
-    - _LiquidDensity: 4.21
-    - _LiquidSlimness: 0.23
-    - _Opacity: 0
-    - _RippleDensity: 2.58
-    - _RippleOffsetSpeed: 0.5
-    - _RippleOpacity: 0.34
-    - _RippleSlimness: 2.23
+    - _Opacity: 1
+    - _RippleDensity: 2
+    - _RippleOffsetSpeed: 0.02
+    - _RippleOpacity: 0.3
+    - _RippleSlimness: 5
     m_Colors:
-    - _BaseColor: {r: 0.4056604, g: 0.12837353, b: 0, a: 1}
-    - _BlobColor: {r: 1, g: 0.1457693, b: 0, a: 1}
-    - _BubbleColor: {r: 0.14117648, g: 0.08053262, b: 0, a: 1}
+    - _BaseColor: {r: 0, g: 0.0044518868, b: 0.3962264, a: 0}
+    - _BlobColor: {r: 0, g: 0.48805028, b: 0.9150943, a: 0}
+    - _BubbleColor: {r: 0, g: 0.2466731, b: 1, a: 1}
     - _BubbleSpeed: {r: -0.005, g: -0.05, b: 0, a: 0}
-    - _LiquidColor: {r: 1, g: 0.3482242, b: 0.3160377, a: 1}
-    - _LiquidMoveDirection: {r: -0.05, g: -0.065, b: 0, a: 0}
-    - _RippleColor: {r: 0.745283, g: 0.44522756, b: 0.16522783, a: 1}
-    - _RippleMoveDirection: {r: -0.05, g: -0.065, b: 0, a: 0}
+    - _RippleColor: {r: 0.6462264, g: 0.91680497, b: 1, a: 0}
+    - _RippleMoveDirection: {r: -0.15, g: -0.165, b: 0, a: 0}
   m_BuildTextureStacks: []

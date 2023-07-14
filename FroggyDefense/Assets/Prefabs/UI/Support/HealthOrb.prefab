@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1181643229883496627}
   - component: {fileID: 8976805534033065923}
   - component: {fileID: -1218440039468838241}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthOrb
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  fill: {fileID: 5373752565965274005}
+  fill: {fileID: 0}
   deltaTrace: {fileID: 5370362619390959338}
   _traceHealth: 1
   _traceTime: 1
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 5191994093289030893}
   - component: {fileID: 1529062363622592030}
   - component: {fileID: 7661970691038946356}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 1058064557809300267}
   - component: {fileID: 8824876395501660886}
   - component: {fileID: 2504687185761038049}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Light Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 2051948961934000007}
   - component: {fileID: 6168608663480067738}
   - component: {fileID: 4823280843128934658}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Dark Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,8 +390,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2840881778850422102}
   - component: {fileID: 7041839702940914510}
-  - component: {fileID: 5373752565965274005}
-  m_Layer: 0
+  - component: {fileID: 2890898703482512666}
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +416,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -3.3999987, y: -3.3999982}
+  m_SizeDelta: {x: -3.1999989, y: -3.1999989}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7041839702940914510
 CanvasRenderer:
@@ -426,7 +426,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6905261100542537337}
   m_CullTransparentMesh: 1
---- !u!114 &5373752565965274005
+--- !u!114 &2890898703482512666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6905261100542537337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: c8a8c973c16594f338031d0bd784ef68, type: 2}
@@ -446,16 +446,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2413806693520163455, guid: 8ca8ec1f01d91479d927f1c8042083db, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 1
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 2800000, guid: 8ca8ec1f01d91479d927f1c8042083db, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &7458759283536432279
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +464,7 @@ GameObject:
   - component: {fileID: 6178780848663070963}
   - component: {fileID: 922978408342062146}
   - component: {fileID: 5370362619390959338}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DeltaTrace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
