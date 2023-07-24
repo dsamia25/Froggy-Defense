@@ -290,6 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemButtonUiPrefab: {fileID: 927985858751377245, guid: 30b888ed658084bbda0aec5371f89637, type: 3}
   _itemDetailViewPrefab: {fileID: 0}
+  _itemDetailViewLayer: {fileID: 0}
+  _itemDetailViewOffset: 1
   _inventory: {fileID: 0}
   _UiParent: {fileID: 7223340758081824972}
   DEFAULT_ROW_COUNT: 3
@@ -407,7 +409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 531}
+  m_AnchoredPosition: {x: 0, y: 568}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7223340758081824969

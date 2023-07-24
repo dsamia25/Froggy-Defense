@@ -29,11 +29,26 @@ namespace FroggyDefense.Core
         public bool Subtract(Item item, int amount);
 
         /// <summary>
+        /// Subtracts the item with the given id from the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool Subtract(int itemId, int amount);
+
+        /// <summary>
         /// Removes a given item from the inventory.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public bool Remove(Item item);
+
+        /// <summary>
+        /// Removes the item with the given id from the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public bool Remove(int itemId);
 
         /// <summary>
         /// Checks if a certain item is in the inventory.
@@ -43,11 +58,26 @@ namespace FroggyDefense.Core
         public bool Contains(Item item);
 
         /// <summary>
+        /// Checks if an item with the input id is in the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public bool Contains(int itemId);
+
+        /// <summary>
         /// Checks if there is a certain amount of the given item in the inventory.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public bool Contains(Item item, int amount);
+
+        /// <summary>
+        /// Checks if there is a certain amount of a given item with the input id in the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool Contains(int itemId, int amount);
 
         /// <summary>
         /// Gets the count of a specific item.
@@ -57,11 +87,18 @@ namespace FroggyDefense.Core
         public int GetCount(Item item);
 
         /// <summary>
+        /// Gets the count of a specific item with the given id.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public int GetCount(int itemId);
+
+        /// <summary>
         /// Gets the count of a specific item.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public int GetCount(ItemObject item);
+        //public int GetCount(ItemObject item);
 
         /// <summary>
         /// Returns the contents of the inventory as a string.

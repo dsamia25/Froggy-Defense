@@ -6,16 +6,16 @@ namespace FroggyDefense.Core.Items.UI
 {
     public class InventoryUI : MonoBehaviour
     {
+        public static int COLLUMN_AMOUNT { get; } = 8;
+        public static int DEFAULT_ROW_COUNT { get; } = 3;                  // The initial amount of rows to show in the inventory.
+
         [SerializeField] private GameObject _itemButtonUiPrefab = null;     // The button prefab.
         [SerializeField] private GameObject _itemDetailViewPrefab = null;   // The prefab for making a new item detail view when an item is moused over.
-        [SerializeField] private Transform _itemDetailViewLayer = null;     // The transform to display the item detail views under to ensure they're in the front of the ui.
-        [SerializeField] private float _itemDetailViewOffset = 1f;          // How far to the lesft of right the detail view should be created.
+        [SerializeField] private Transform _itemDetailViewParent = null;     // The transform to display the item detail views under to ensure they're in the front of the ui.
+        [SerializeField] private float _itemDetailViewOffset = 1f;          // How far to the left or right the detail view should be created.
 
         public Inventory _inventory = null;                 // The inventory this is representing
         public Transform _UiParent = null;                  // The transform to spawn the buttons under.
-
-        public int DEFAULT_ROW_COUNT = 24;                  // The initial amount of buttons to show in the inventory.
-        public int COLLUMN_AMOUNT = 8;                      // The amount of buttons to add for each new row.
 
         private int _rows = 3;                              // The current amount of rows in the inventory.
 
@@ -27,7 +27,7 @@ namespace FroggyDefense.Core.Items.UI
         private void Start()
         {
             if (_UiParent == null) _UiParent = transform;
-            if (_itemDetailViewLayer == null) _itemDetailViewLayer = transform;
+            if (_itemDetailViewParent == null) _itemDetailViewParent = transform;
 
             DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
             ViewSlotLookup = new Dictionary<ItemDetailViewUI, InventorySlotUI>();
@@ -130,7 +130,7 @@ namespace FroggyDefense.Core.Items.UI
                 }
 
                 ItemDetailViewUI view = Instantiate(_itemDetailViewPrefab, new Vector2(2 * Screen.width, 2 * Screen.height), Quaternion.identity).GetComponent<ItemDetailViewUI>();
-                view.transform.SetParent(_itemDetailViewLayer);
+                view.transform.SetParent(_itemDetailViewParent);
                 view.Open(slot.Slot.item);
 
                 DisplayedItemDetailViews.Add(slot.Slot.item, view);

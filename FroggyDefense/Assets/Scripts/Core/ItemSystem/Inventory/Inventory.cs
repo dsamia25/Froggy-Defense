@@ -138,6 +138,28 @@ namespace FroggyDefense.Core.Items
         }
 
         /// <summary>
+        /// Subtracts a given amount of the item from the inventory. Uses an item id.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool Subtract(int itemId, int amount)
+        {
+            if (amount <= 0) return false;
+
+            foreach (InventorySlot slot in _inventory)
+            {
+                if (slot.item.Id == itemId)
+                {
+
+                }
+            }
+
+            InventoryChangedEvent?.Invoke();
+            return false;
+        }
+
+        /// <summary>
         /// Removes an item from the list and contents index.
         /// </summary>
         /// <param name="item"></param>
@@ -161,6 +183,11 @@ namespace FroggyDefense.Core.Items
                 return true;
             }
             return false;
+        }
+
+        public bool Remove(int itemId)
+        {
+            throw new NotImplementedException();
         }
 
         public InventorySlot Get(int index)
@@ -200,6 +227,11 @@ namespace FroggyDefense.Core.Items
             return _contentsIndex.ContainsKey(item);
         }
 
+        public bool Contains(int itemId)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Contains(Item item, int amount)
         {
             if (_contentsIndex.ContainsKey(item))
@@ -212,6 +244,11 @@ namespace FroggyDefense.Core.Items
                 return count >= amount;
             }
             return false;
+        }
+
+        public bool Contains(int itemId, int amount)
+        {
+            throw new NotImplementedException();
         }
 
         public int GetCount(Item item)
@@ -228,22 +265,27 @@ namespace FroggyDefense.Core.Items
             return 0;
         }
 
+        public int GetCount(int itemId)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Checks if the inventory contains the input id based on the item id.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int GetCount(ItemObject item)
-        {
-            foreach (InventorySlot slot in _inventory)
-            {
-                if (slot.item.Id == item.Id)
-                {
-                    return slot.count;
-                }
-            }
-            return 0;
-        }
+        //public int GetCount(ItemObject item)
+        //{
+        //    foreach (InventorySlot slot in _inventory)
+        //    {
+        //        if (slot.item.Id == item.Id)
+        //        {
+        //            return slot.count;
+        //        }
+        //    }
+        //    return 0;
+        //}
 
         public string IndexToString()
         {
@@ -392,7 +434,5 @@ namespace FroggyDefense.Core.Items
                 parentInventory.Subtract(item, item.CountSubtractPerUse);
             }
         }
-
-
     }
 }
