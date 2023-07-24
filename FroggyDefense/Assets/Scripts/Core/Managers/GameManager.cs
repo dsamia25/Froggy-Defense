@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Enemies;
+using FroggyDefense.Core.Items;
 
 namespace FroggyDefense.Core
 {
@@ -12,6 +13,9 @@ namespace FroggyDefense.Core
         [SerializeField] private BoardManager _boardManager;
         [SerializeField] private NumberPopupManager _numberPopupManager;
         [SerializeField] private UiManager _uiManager;
+
+        private ItemDatabase _itemDatabase;                     // Master item database.
+        public ItemDatabase ItemList { get => _itemDatabase; }  // Master item database.
 
         public static GameManager instance;
         public GemManager m_GemManager { get => _gemManager; }

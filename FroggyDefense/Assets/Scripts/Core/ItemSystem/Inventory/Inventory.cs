@@ -6,11 +6,11 @@ namespace FroggyDefense.Core.Items
 {
     public class Inventory : MonoBehaviour, IInventory
     {
-        private Dictionary<Item, List<InventorySlot>> _contentsIndex;               // A dictionary to find items in the list.
-        [SerializeField] private List<InventorySlot> _inventory;                    // A list of everything in the inventory.
+        private Dictionary<int, List<InventorySlot>> _contentsIndex;                // References each stack holding the itemId.
+        [SerializeField] private List<InventorySlot> _inventory;                    // Inventory list. InventorySlots hold Items and amounts.
 
         public int Size { get => _inventory.Count; }
-        public int MaxSize = 32;                                                    // Hard coded mx size for now.
+        public int MaxSize = 32;                                                    // Hard coded max size for now.
 
         public event IInventory.InventoryDelegate InventoryChangedEvent;
 
@@ -23,7 +23,7 @@ namespace FroggyDefense.Core.Items
 
         public void InitInventory()
         {
-            _contentsIndex = new Dictionary<Item, List<InventorySlot>>();
+            _contentsIndex = new Dictionary<int, List<InventorySlot>>();
             _inventory = new List<InventorySlot>();
             InventoryChangedEvent?.Invoke();
         }
@@ -44,14 +44,14 @@ namespace FroggyDefense.Core.Items
                     Debug.Log($"Adding {item.Name} is stackable. Max Stack Size: {item.StackSize}.");
 
                     // If not in the index, create a new entry.
-                    if (!_contentsIndex.ContainsKey(item))
+                    if (!_contentsIndex.ContainsKey(item.Id))
                     {
                         Debug.Log($"Adding {item.Name} to index.");
-                        _contentsIndex.Add(item, new List<InventorySlot>());
+                        _contentsIndex.Add(item.Id, new List<InventorySlot>());
                     }
 
                     // Try to add to existing entries, if not any then create a new one.
-                    var stacks = _contentsIndex[item];
+                    var stacks = _contentsIndex[item.Id];
 
                     // Look through each stack in the entry. Add to any existing not full stacks.
                     for (int i = 0; i < stacks.Count; i++)
@@ -69,7 +69,7 @@ namespace FroggyDefense.Core.Items
                         InventorySlot slot = new InventorySlot(this);
                         slot.Add(item, amount);
                         _inventory.Add(slot);
-                        _contentsIndex[item].Add(slot);
+                        _contentsIndex[item.Id].Add(slot);
                         amount -= slot.count;      // Count down how much was actually added to the stack.
                     }
                 }
@@ -82,9 +82,9 @@ namespace FroggyDefense.Core.Items
 
                     _inventory.Add(slot);
                     Debug.Log($"Inventory size: {Size}.");
-                    _contentsIndex.Add(item, new List<InventorySlot>());
+                    _contentsIndex.Add(item.Id, new List<InventorySlot>());
                     Debug.Log($"Index size: {_contentsIndex.Count}.");
-                    _contentsIndex[item].Add(slot);
+                    _contentsIndex[item.Id].Add(slot);
                 }
             }
             catch (Exception e)
@@ -106,9 +106,9 @@ namespace FroggyDefense.Core.Items
         {
             if (amount <= 0) return false;
 
-            if (_contentsIndex.ContainsKey(item))
+            if (_contentsIndex.ContainsKey(item.Id))
             {
-                var stacks = _contentsIndex[item];
+                var stacks = _contentsIndex[item.Id];
                 // Start subtracting from the last slot first.
                 for (int i = stacks.Count - 1; i >= 0; i--)
                 {
@@ -147,14 +147,33 @@ namespace FroggyDefense.Core.Items
         {
             if (amount <= 0) return false;
 
-            foreach (InventorySlot slot in _inventory)
+            if (_contentsIndex.ContainsKey(itemId))
             {
-                if (slot.item.Id == itemId)
+                var stacks = _contentsIndex[itemId];
+                // Start subtracting from the last slot first.
+                for (int i = stacks.Count - 1; i >= 0; i--)
                 {
+                    if (amount <= 0) break;
 
+                    InventorySlot slot = stacks[i];
+                    amount = slot.Subtract(amount);
+
+                    // Remove empty stacks.
+                    if (slot.IsEmpty)
+                    {
+                        stacks.Remove(slot);
+                        _inventory.Remove(slot);
+                    }
                 }
-            }
+                // Remove item from index if empty.
+                if (stacks.Count <= 0)
+                {
+                    Remove(itemId);
+                }
 
+                InventoryChangedEvent?.Invoke();
+                return true;
+            }
             InventoryChangedEvent?.Invoke();
             return false;
         }
@@ -171,13 +190,13 @@ namespace FroggyDefense.Core.Items
                 Debug.Log($"Removing ({item.Name}) from inventory.");
 
                 // Remove each InventorySlot
-                foreach (var stack in _contentsIndex[item])
+                foreach (var stack in _contentsIndex[item.Id])
                 {
                     _inventory.Remove(stack);
                 }
 
                 // Remove the index reference.
-                _contentsIndex.Remove(item);
+                _contentsIndex.Remove(item.Id);
 
                 InventoryChangedEvent?.Invoke();
                 return true;
@@ -185,9 +204,38 @@ namespace FroggyDefense.Core.Items
             return false;
         }
 
+        /// <summary>
+        /// Removes a given item from the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Remove(ItemObject item)
+        {
+            return Remove(item.Id);
+        }
+
+        /// <summary>
+        /// Removes the item with the given id from the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public bool Remove(int itemId)
         {
-            throw new NotImplementedException();
+            if (Contains(itemId))
+            {
+                // Remove each InventorySlot
+                foreach (var stack in _contentsIndex[itemId])
+                {
+                    _inventory.Remove(stack);
+                }
+
+                // Remove the index reference.
+                _contentsIndex.Remove(itemId);
+
+                InventoryChangedEvent?.Invoke();
+                return true;
+            }
+            return false;
         }
 
         public InventorySlot Get(int index)
@@ -222,22 +270,71 @@ namespace FroggyDefense.Core.Items
             return -1;
         }
 
+        // TODO: Should make a way to check if instances are equal (equal enchants and things too).
+        /// <summary>
+        /// Checks if the given Item is in the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(Item item)
         {
-            return _contentsIndex.ContainsKey(item);
+            return Contains(item.Id);
         }
 
+        /// <summary>
+        /// Checks if an instance of the ItemObject is in the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Contains(ItemObject item)
+        {
+            return Contains(item.Id);
+        }
+
+        /// <summary>
+        /// Checks if an instance of the item is in the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public bool Contains(int itemId)
         {
-            throw new NotImplementedException();
+            return _contentsIndex.ContainsKey(itemId);
         }
 
+        /// <summary>
+        /// Checks if there are enough instances of the given ItemObject in the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool Contains(Item item, int amount)
         {
-            if (_contentsIndex.ContainsKey(item))
+            return Contains(item.Id, amount);
+        }
+
+        /// <summary>
+        /// Checks if there are enough instances of the given ItemObject in the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool Contains(ItemObject item, int amount)
+        {
+            return Contains(item.Id, amount);
+        }
+
+        /// <summary>
+        /// Checks if there are enough instances of the given item in the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool Contains(int itemId, int amount)
+        {
+            if (_contentsIndex.ContainsKey(itemId))
             {
                 int count = 0;
-                foreach (var stack in _contentsIndex[item])
+                foreach (var stack in _contentsIndex[itemId])
                 {
                     count += stack.count;
                 }
@@ -246,17 +343,31 @@ namespace FroggyDefense.Core.Items
             return false;
         }
 
-        public bool Contains(int itemId, int amount)
+        /// <summary>
+        /// Gets the count of a specific item with the given id.
+        /// There is no version for Items because there should not checking for multiples
+        /// of a specific instance.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public int GetCount(ItemObject itemId)
         {
-            throw new NotImplementedException();
+            return GetCount(itemId.Id);
         }
 
-        public int GetCount(Item item)
+        /// <summary>
+        /// Gets the count of a specific item with the given id.
+        /// There is no version for Items because there should not checking for multiples
+        /// of a specific instance.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public int GetCount(int itemId)
         {
-            if (_contentsIndex.ContainsKey(item))
+            if (_contentsIndex.ContainsKey(itemId))
             {
                 int count = 0;
-                foreach (var stack in _contentsIndex[item])
+                foreach (var stack in _contentsIndex[itemId])
                 {
                     count += stack.count;
                 }
@@ -265,35 +376,13 @@ namespace FroggyDefense.Core.Items
             return 0;
         }
 
-        public int GetCount(int itemId)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Checks if the inventory contains the input id based on the item id.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        //public int GetCount(ItemObject item)
-        //{
-        //    foreach (InventorySlot slot in _inventory)
-        //    {
-        //        if (slot.item.Id == item.Id)
-        //        {
-        //            return slot.count;
-        //        }
-        //    }
-        //    return 0;
-        //}
-
         public string IndexToString()
         {
             string str = "{\n";
 
             foreach (var entry in _contentsIndex)
             {
-                str += "\t" + entry.Key.Name + " (" + entry.Key.Id + "): ";
+                str += "\t" + GameManager.instance.ItemList.ItemList[entry.Key].Name + " (" + entry.Key + "): ";
                 foreach (var stack in entry.Value)
                 {
                     str += stack.count + ", ";
