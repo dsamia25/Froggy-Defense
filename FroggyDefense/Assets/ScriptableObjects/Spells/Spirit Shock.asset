@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spirit Shock
   m_EditorClassIdentifier: 
   Name: Spirit Shock
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   SpellId: 0
   Type: 0
   Cooldown: 1

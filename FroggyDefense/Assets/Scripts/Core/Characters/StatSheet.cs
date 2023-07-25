@@ -9,7 +9,13 @@ namespace FroggyDefense.Core
         Dexterity,
         Agility,
         Intellect,
-        Spirit
+        Spirit,
+        Physical_Spell_Damage,
+        Poison_Spell_Damage,
+        Bleed_Spell_Damage,
+        Fire_Spell_Damage,
+        Frost_Spell_Damage,
+        Spirit_Spell_Damage
     }
 
     [System.Serializable]
@@ -74,6 +80,10 @@ namespace FroggyDefense.Core
         private Dictionary<StatType, float> _bonusStats = new Dictionary<StatType, float>();    // Dictionary of each increased stat and their values.
         private Dictionary<StatType, float> _statModifiers = new Dictionary<StatType, float>(); // Dictionary of each increased stat and their values.
         private Dictionary<StatType, float> _totalStats = new Dictionary<StatType, float>();    // Dictionary of each increased stat and their values.
+
+        public float AttackPower;
+        public float SpellPower;
+        //public Dictionary<SpellSchool> SpellPowerBonuses;
 
         /// <summary>
         /// Recalculates all the total stat values.

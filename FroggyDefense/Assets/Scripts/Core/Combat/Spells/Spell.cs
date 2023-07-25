@@ -3,6 +3,18 @@ using UnityEngine;
 
 namespace FroggyDefense.Core.Spells
 {
+
+    /// <summary>
+    /// Enum of all kinds of damage.
+    /// </summary>
+    public enum SpellSchool
+    {
+        Fire,
+        Frost,
+        Spirit,
+        Earth
+    }
+
     public class Spell
     {
         public SpellObject Template;
@@ -24,6 +36,8 @@ namespace FroggyDefense.Core.Spells
 
         private float _currCooldown;
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
+
+        public bool OnCooldown => (_currCooldown > 0);
 
         public Spell(SpellObject template)
         {

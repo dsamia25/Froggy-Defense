@@ -13,6 +13,8 @@ namespace FroggyDefense.Core
 
         private Spell _selectedSpell;                                       // The selected spell being cast.
 
+        public delegate void InputCallBack();
+
         /*
          * Inputs:
          * 
@@ -73,23 +75,19 @@ namespace FroggyDefense.Core
                 {
                     if (Input.GetButtonDown("Ability1"))
                     {
-                        Spell spell = GameManager.instance.m_Player.Abilities[0];
-                        TargetAbilities(spell);
+                        AbilityInput(0);
                     }
                     else if (Input.GetButtonDown("Ability2"))
                     {
-                        Spell spell = GameManager.instance.m_Player.Abilities[1];
-                        TargetAbilities(spell);
+                        AbilityInput(1);
                     }
                     else if (Input.GetButtonDown("Ability3"))
                     {
-                        Spell spell = GameManager.instance.m_Player.Abilities[2];
-                        TargetAbilities(spell);
+                        AbilityInput(2);
                     }
                     else if (Input.GetButtonDown("Ability4"))
                     {
-                        Spell spell = GameManager.instance.m_Player.Abilities[3];
-                        TargetAbilities(spell);
+                        AbilityInput(3);
                     }
                     else if (Input.GetMouseButtonUp(0))
                     {
@@ -172,6 +170,12 @@ namespace FroggyDefense.Core
         {
             _spellRangePreview.EraseShape();
             _spellEffectAreaPreview.EraseShape();
+        }
+
+        public void AbilityInput(int num)
+        {
+            Spell spell = GameManager.instance.m_Player.SelectedAbilities[num];
+            TargetAbilities(spell);
         }
     }
 }

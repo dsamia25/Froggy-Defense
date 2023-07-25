@@ -14,8 +14,9 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Spells")]
         [Space]
-        public SpellObject[] AbilityTemplates = new SpellObject[4];
-        public Spell[] Abilities = new Spell[4];
+        public List<Spell> LearnedAbilities = new List<Spell>();        // List of learned abilities.
+        public SpellObject[] AbilityTemplates = new SpellObject[4];     // TODO: TEMP PREFABs FOR LEARNING ABILITIES.
+        public Spell[] SelectedAbilities = new Spell[4];                // Which abilities are selected on the hotbar.
 
         [Space]
         [Header("Turrets")]
@@ -36,6 +37,15 @@ namespace FroggyDefense.Core
         [Space]
         public UnityEvent PlayerDeathEvent;
 
+        public delegate void PlayerActionDelegate();
+        public event PlayerActionDelegate ChangedSpellsEvent;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            RefreshSpellBar();
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -51,8 +61,6 @@ namespace FroggyDefense.Core
                 m_WeaponUser.EquippedWeapon = EquippedWeapon;
                 m_WeaponUser.Deactivate();
             }
-
-            RefreshSpellBar();
 
             if (m_HealthBar != null)
             {
@@ -84,15 +92,16 @@ namespace FroggyDefense.Core
         /// </summary>
         public void RefreshSpellBar()
         {
-            for (int i = 0; i < Abilities.Length; i++)
+            for (int i = 0; i < SelectedAbilities.Length; i++)
             {
                 if (AbilityTemplates[i] == null)
                 {
-                    Abilities[i] = null;
+                    SelectedAbilities[i] = null;
                     continue;
-                } 
-                Abilities[i] = new Spell(AbilityTemplates[i]);
+                }
+                SelectedAbilities[i] = new Spell(AbilityTemplates[i]);
             }
+            ChangedSpellsEvent?.Invoke();
         }
 
         /// <summary>
@@ -100,13 +109,13 @@ namespace FroggyDefense.Core
         /// </summary>
         private void CountdownSpellCooldowns()
         {
-            for (int i = 0; i < Abilities.Length; i++)
+            for (int i = 0; i < SelectedAbilities.Length; i++)
             {
                 if (AbilityTemplates[i] == null)
                 {
                     continue;
                 }
-                Abilities[i].CurrCooldown -= Time.deltaTime;
+                SelectedAbilities[i].CurrCooldown -= Time.deltaTime;
             }
         }
         #endregion

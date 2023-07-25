@@ -12,7 +12,6 @@ namespace FroggyDefense.Core.Items.UI
         [SerializeField] protected TextMeshProUGUI _countText;      // The text displaying the number of items in the slot.
         [SerializeField] protected Image _itemRarityBorder;         // The color-changing border to indicate an item's rarity.
         [SerializeField] protected Image _itemBorder;               // The border of the item that highlights when moused over.
-
         [SerializeField] protected Color _borderHighlightColor;
         [SerializeField] protected Color _borderDefaultColor;
 

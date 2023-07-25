@@ -6,11 +6,12 @@ namespace FroggyDefense.Core.Spells
     public enum StatusEffectType
     {
         Slow,
-        Stun
+        Stun,
+        DamageOverTime
     }
 
     [Serializable]
-    public class StatusEffect
+    public class StatusEffect: AppliedEffect
     {
         private StatusEffectBuilder Template { get; set; }
         public string Name => Template.Name;

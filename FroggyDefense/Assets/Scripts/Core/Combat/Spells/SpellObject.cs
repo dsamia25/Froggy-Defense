@@ -27,7 +27,6 @@ namespace FroggyDefense.Core.Spells
         [Header("Targeting")]
         [Space]
         public LayerMask TargetLayer;   // The layer the targets are on.
-        // TODO: Make a Shape class for the effect shape.
         public float TargetRange;       // How far away the spell can be cast.
 
         [Space]
