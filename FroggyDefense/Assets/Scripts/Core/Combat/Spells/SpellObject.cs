@@ -5,7 +5,7 @@ namespace FroggyDefense.Core.Spells
 {
     public enum SpellType
     {
-        AOE,
+        Area,
         Projectile,
         Targeted
     }

@@ -85,7 +85,7 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         public void UseSpell()
         {
-            controller.AbilityInput(SlotNum);
+            SelectedSpell?.StartInputProtocol();
         }
 
         /// <summary>

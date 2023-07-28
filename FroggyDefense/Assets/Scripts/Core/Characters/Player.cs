@@ -99,7 +99,7 @@ namespace FroggyDefense.Core
                     SelectedAbilities[i] = null;
                     continue;
                 }
-                SelectedAbilities[i] = new Spell(AbilityTemplates[i]);
+                SelectedAbilities[i] = Spell.CreateSpell(AbilityTemplates[i]);
             }
             ChangedSpellsEvent?.Invoke();
         }

@@ -15,7 +15,7 @@ namespace FroggyDefense.Core.Spells
         Earth
     }
 
-    public class Spell
+    public abstract class Spell
     {
         public SpellObject Template;
 
@@ -39,9 +39,55 @@ namespace FroggyDefense.Core.Spells
 
         public bool OnCooldown => (_currCooldown > 0);
 
-        public Spell(SpellObject template)
+        /// <summary>
+        /// Creates a Spell object of the correct inherited type.
+        /// Inputing a ProjectileSpellObject will create a ProjectileSpell spell,
+        /// AreaSpellObject -> SpellArea,
+        /// TargetSpellObject -> TargetSpell,
+        /// ...
+        /// </summary>
+        /// <returns></returns>
+        public static Spell CreateSpell(SpellObject template)
         {
-            Template = template;
+            try
+            {
+                Spell spell = null;
+                switch (template.Type)
+                {
+                    case SpellType.Area:
+                        spell = new AreaSpell(template);
+                        break;
+                    case SpellType.Projectile:
+                        spell = new ProjectileSpell(template);
+                        break;
+                    case SpellType.Targeted:
+                        //spell = new TargetetedSpell
+                        throw new NotImplementedException();
+                        break;
+                    default:
+                        Debug.LogWarning($"Error creating spell: Unknown spell type.");
+                        return null;
+                }
+                return spell;
+            } catch (Exception e)
+            {
+                Debug.Log($"Error creating spell: {e}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Start the needed processes to get spell inputs.
+        /// </summary>
+        public virtual void StartInputProtocol()
+        {
+            if (_currCooldown > 0)
+            {
+                Debug.Log($"Cannot cast spell. {Name} still on cooldown. ({_currCooldown.ToString("0.00")} seconds remaining).");
+                return;
+            }
+
+            Debug.Log($"Looking for input for {Name}.");
         }
 
         /// <summary>
@@ -49,21 +95,15 @@ namespace FroggyDefense.Core.Spells
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public bool Cast(SpellArgs args)
+        public virtual bool Cast(SpellArgs args)
         {
-            if (_currCooldown > 0)
-            {
-                Debug.Log("Cannot cast spell. " + Name + " still on cooldown. (" + _currCooldown.ToString("0.00") + " seconds remaining).");
-                return false;
-            }
-
             if (args.Caster.Mana < ManaCost)
             {
                 Debug.Log("Cannot cast spell. " + Name + " needs " + ManaCost + " mana. (" + (ManaCost - GameManager.instance.m_Player.Mana).ToString("0.00") + " more needed).");
                 return false;
             }
 
-            if (Type == SpellType.AOE)
+            if (Type == SpellType.Area)
             {
                 var targets = GetTargets(args.Position, EffectRadius, Template.TargetLayer);
                 foreach (var collider in targets)

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace FroggyDefense.Core.Spells
 {
-    [CreateAssetMenu(fileName = "New Target Area Spell", menuName = "ScriptableObjects/Spells/New Target Area Spell")]
-    public class TargetAreaSpellObject : SpellObject
+    [CreateAssetMenu(fileName = "New Projectile Spell", menuName = "ScriptableObjects/Spells/New Projectile Spell")]
+    public class ProjectileSpellObject : SpellObject
     {
 
         public AppliedEffect InitialDamageAppliedEffect;
