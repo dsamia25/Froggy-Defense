@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace FroggyDefense.Core.Spells
         public TargetedSpell(SpellObject template)
         {
             Template = template;
+            _overlapTargetList = new List<Collider2D>();
         }
 
         public override void StartInputProtocol()

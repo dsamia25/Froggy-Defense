@@ -76,7 +76,9 @@ MonoBehaviour:
     BurstDelay: 0.25
   Damage: 1
   SpellDamageType: 5
-  EffectRadius: 2
+  EffectShape:
+    Type: 32
+    Dimensions: {x: 3, y: 3}
   AppliesStatusEffect: 1
   AppliedStatusEffect:
     Name: Spirit Shock Stun
@@ -97,7 +99,9 @@ MonoBehaviour:
     DamagePerTick: 1
     TickFrequency: 1
     EffectDamageType: 0
-    EffectRadius: 1
+    EffectShape:
+      Type: 0
+      Dimensions: {x: 0, y: 0}
     TargetLayer:
       serializedVersion: 2
       m_Bits: 0

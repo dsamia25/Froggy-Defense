@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ShapeDrawer
 {
-    public class PolygonDrawer : ShapeDrawer
+    public class CircleDrawer : ShapeDrawer
     {
         public override void DrawFilledShape()
         {
-            Vertices = GetVertices(shape);
+            Vertices = GetCircumferencePoints(shape.Sides, shape.Dimensions.x);
             Uvs = GetUvs();
             Triangles = DrawFilledTriangles(Vertices);
 
@@ -34,65 +34,20 @@ namespace ShapeDrawer
                 mesh.Clear();
                 Vertices = null;
                 Triangles = null;
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 Debug.Log($"Error erasing shape: {e}");
             }
         }
 
         /// <summary>
-        /// Gets the vertices for shape type.
-        /// </summary>
-        /// <param name="shape"></param>
-        /// <returns></returns>
-        private Vector3[] GetVertices(Shape shape)
-        {
-            Vector3[] points = new Vector3[shape.Sides];
-            switch (shape.Type)
-            {
-                case eShape.Circle:
-                    points = GetCirclePoints(shape.Sides, shape.Dimensions.x);
-                    break;
-                case eShape.Rectangle:
-                    points = GetRectanglePoints(shape.Sides, shape.Dimensions);
-                    break;
-                default:
-                    Debug.LogWarning($"Error getting vertices: Unknown shape.");
-                    break;
-            }
-            return points;
-        }
-
-        /// <summary>
         /// Gets the vertex points of a polygon.
         /// More sides should get closer to a circle.
         /// </summary>
         /// <param name="sides"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        private Vector3[] GetRectanglePoints(int sides, Vector2 radius)
-        {
-            Vector3[] points = new Vector3[sides];
-            float radians = 2 * Mathf.PI;
-
-            for (int i = 0; i < sides; i++)
-            {
-                float a = (float)i / sides * radians;
-                points[i] = new Vector3(radius.x * Mathf.Cos(a), radius.y * Mathf.Sin(a), 0);
-            }
-
-            return points;
-        }
-
-        /// <summary>
-        /// Gets the vertex points of a polygon.
-        /// More sides should get closer to a circle.
-        /// </summary>
-        /// <param name="sides"></param>
-        /// <param name="radius"></param>
-        /// <returns></returns>
-        private Vector3[] GetCirclePoints(int sides, float radius)
+        private Vector3[] GetCircumferencePoints(int sides, float radius)
         {
             Vector3[] points = new Vector3[sides];
             float radians = 2 * Mathf.PI;

@@ -140,8 +140,8 @@ namespace FroggyDefense.Core
         /// </summary>
         private void DrawAbilityTargetingOverlay(Spell spell)
         {
-            _spellRangePreview.Width = spell.TargetRange;
-            _spellEffectAreaPreview.Width = spell.EffectRadius;
+            _spellRangePreview.shape = new Shape(eShape.Circle, new Vector2(spell.TargetRange, spell.TargetRange));
+            _spellEffectAreaPreview.shape = spell.EffectShape;
 
             _spellRangePreview.DrawFilledShape();
             _spellEffectAreaPreview.DrawFilledShape();

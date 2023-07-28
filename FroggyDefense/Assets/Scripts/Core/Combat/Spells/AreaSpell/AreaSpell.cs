@@ -9,6 +9,7 @@ namespace FroggyDefense.Core.Spells
         public AreaSpell(SpellObject template)
         {
             Template = template;
+            _overlapTargetList = new List<Collider2D>();
         }
 
         public override void StartInputProtocol()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using ShapeDrawer;
 
@@ -6,23 +7,24 @@ namespace FroggyDefense.Core.Spells
 {
     public class DamageArea : MonoBehaviour
     {
-        [SerializeField] private PolygonDrawer _effectAreaDrawer;
+        [SerializeField] private ShapeDrawer.ShapeDrawer _effectAreaDrawer;
 
         public DamageAreaBuilder Template;
-        public string Name => Template.Name;                     // The effect's name.
-        public int Ticks => Template.Ticks;                       // The total amount of ticks the effect does.
-        public int TicksLeft { get; private set; }                  // The amount of ticks the effect has left.
-        public float DamagePerTick => Template.DamagePerTick;             // The amount of damage applied each tick.
-        public float TickFrequency => Template.TickFrequency;             // How frequent the dot ticks in seconds.
-        public DamageType EffectDamageType => Template.EffectDamageType;     // What type of damage the effect does.
-        public float EffectRadius => Template.EffectRadius;
-        public Character Caster { get; private set; }               // Who applied the effect.
+        public string Name => Template.Name;                                    // The effect's name.
+        public int Ticks => Template.Ticks;                                     // The total amount of ticks the effect does.
+        public int TicksLeft { get; private set; }                              // The amount of ticks the effect has left.
+        public float DamagePerTick => Template.DamagePerTick;                   // The amount of damage applied each tick.
+        public float TickFrequency => Template.TickFrequency;                   // How frequent the dot ticks in seconds.
+        public DamageType EffectDamageType => Template.EffectDamageType;        // What type of damage the effect does.
+        public Shape EffectShape => Template.EffectShape;
+        public Character Caster { get; private set; }                           // Who applied the effect.
 
         public bool AppliesStatusEffect => Template.AppliesStatusEffect;
 
         public float TotalDamage => Ticks * DamagePerTick;          // The total amount of damage the effect will do over its duration.
         public float DamageLeft => TicksLeft * DamagePerTick;       // The amount of damage the effect will apply over the rest of its duration.
 
+        protected List<Collider2D> _overlapTargetList; // Reusable list for Physics2D.Overlap[Circle/Box]
         private float _currTickCooldown;
 
         public void Init(DamageAreaBuilder template)
@@ -30,10 +32,11 @@ namespace FroggyDefense.Core.Spells
             Template = template;
             TicksLeft = template.Ticks;
 
-            _effectAreaDrawer.Width = template.EffectRadius;
+            _effectAreaDrawer.shape = template.EffectShape;
             _effectAreaDrawer.DrawFilledShape();
 
             _currTickCooldown = Template.TickFrequency;
+            _overlapTargetList = new List<Collider2D>();
         }
 
         private void Update()
@@ -56,8 +59,8 @@ namespace FroggyDefense.Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
-                var targets = Spell.GetTargets(transform.position, Template.EffectRadius, Template.TargetLayer);
-                foreach (var collider in targets)
+                Spell.GetTargets(transform.position, Template.EffectShape, Template.TargetLayer, _overlapTargetList);
+                foreach (var collider in _overlapTargetList)
                 {
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
@@ -87,7 +90,7 @@ namespace FroggyDefense.Core.Spells
         public float DamagePerTick = 1;
         public float TickFrequency = 1;
         public DamageType EffectDamageType;
-        public float EffectRadius = 1;
+        public Shape EffectShape;
         public LayerMask TargetLayer;           // The layer the targets are on.
 
         public bool AppliesStatusEffect;

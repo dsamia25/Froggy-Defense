@@ -76,7 +76,9 @@ MonoBehaviour:
     BurstDelay: 0.25
   Damage: 1
   SpellDamageType: 4
-  EffectRadius: 2
+  EffectShape:
+    Type: 32
+    Dimensions: {x: 2, y: 2}
   AppliesStatusEffect: 1
   AppliedStatusEffect:
     Name: Blizzard Slow
@@ -97,7 +99,9 @@ MonoBehaviour:
     DamagePerTick: 2
     TickFrequency: 1
     EffectDamageType: 4
-    EffectRadius: 2
+    EffectShape:
+      Type: 32
+      Dimensions: {x: 2, y: 2}
     TargetLayer:
       serializedVersion: 2
       m_Bits: 1536

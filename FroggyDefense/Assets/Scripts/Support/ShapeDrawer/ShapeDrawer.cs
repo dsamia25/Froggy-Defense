@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ShapeDrawer
@@ -6,8 +7,8 @@ namespace ShapeDrawer
     {
         [SerializeField] protected Mesh mesh;
 
-        public int Sides;
-        public float Width;
+        public Shape shape;
+
         public float LineWidth;
         public bool isFilled;
 
@@ -38,6 +39,27 @@ namespace ShapeDrawer
                 uvs[i] = new Vector2(Vertices[i].x, Vertices[i].y);
             }
             return uvs;
+        }
+    }
+
+    public enum eShape
+    {
+        Circle = 32,
+        Rectangle = 4
+    }
+
+    [Serializable]
+    public struct Shape
+    {
+        public eShape Type;
+        public int Sides => (int)Type;
+        public Vector2 Dimensions;
+
+        public Shape(eShape type, Vector2 dimensions)
+        {
+            Type = type;
+            //Sides = sides;
+            Dimensions = dimensions;
         }
     }
 }

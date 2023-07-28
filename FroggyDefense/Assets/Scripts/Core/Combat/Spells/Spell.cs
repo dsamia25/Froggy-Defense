@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
 {
@@ -25,7 +27,7 @@ namespace FroggyDefense.Core.Spells
         public float Cooldown => Template.Cooldown;
         public float ManaCost => Template.ManaCost;
 
-        public float EffectRadius => Template.EffectRadius;
+        public Shape EffectShape => Template.EffectShape;
         public float TargetRange => Template.TargetRange;
 
         public float Damage => Template.Damage;
@@ -38,6 +40,8 @@ namespace FroggyDefense.Core.Spells
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
 
         public bool OnCooldown => (_currCooldown > 0);
+
+        protected List<Collider2D> _overlapTargetList; // Reusable list for Physics2D.Overlap[Circle/Box]
 
         /// <summary>
         /// Creates a Spell object of the correct inherited type.
@@ -61,8 +65,7 @@ namespace FroggyDefense.Core.Spells
                         spell = new ProjectileSpell(template);
                         break;
                     case SpellType.Targeted:
-                        //spell = new TargetetedSpell
-                        throw new NotImplementedException();
+                        spell = new TargetedSpell(template);
                         break;
                     default:
                         Debug.LogWarning($"Error creating spell: Unknown spell type.");
@@ -105,8 +108,9 @@ namespace FroggyDefense.Core.Spells
 
             if (Type == SpellType.Area)
             {
-                var targets = GetTargets(args.Position, EffectRadius, Template.TargetLayer);
-                foreach (var collider in targets)
+                var targetAmount = GetTargets(args.Position, EffectShape, Template.TargetLayer, _overlapTargetList);
+                Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
+                foreach (var collider in _overlapTargetList)
                 {
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
@@ -129,19 +133,19 @@ namespace FroggyDefense.Core.Spells
                     damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
                 }
 
-                Debug.Log("Casting " + Name + " as an AOE Spell. Damaged " + targets.Length + " targets.");
+                Debug.Log($"Casting {Name} as an AOE Spell. Damaged {targetAmount} targets.");
             }
             else if (Type == SpellType.Projectile)
             {
-                Debug.Log("Casting " + Name + " as a Projectile Spell.");
+                Debug.Log($"Casting {Name} as a Projectile Spell.");
             }
             else if (Type == SpellType.Targeted)
             {
-                Debug.Log("Casting " + Name + " as a Targeted Spell.");
+                Debug.Log($"Casting {Name} as a Targeted Spell.");
             }
             else
             {
-                Debug.Log("ERROR: Casting " + Name + " as an unknown spell type (" + Type.ToString() + ").");
+                Debug.Log($"ERROR: Casting {Name} as an unknown spell type ({Type.ToString()}).");
                 return false;
             }
 
@@ -158,9 +162,27 @@ namespace FroggyDefense.Core.Spells
         /// <param name="radius"></param>
         /// <param name="targetLayer"></param>
         /// <returns></returns>
-        public static Collider2D[] GetTargets(Vector2 pos, float radius, LayerMask targetLayer)
+        public static int GetTargets(Vector2 pos, Shape shape, LayerMask targetLayer, List<Collider2D> targetList)
         {
-            return Physics2D.OverlapCircleAll(pos, radius, targetLayer);
+            int targets = 0;
+            var filter = new ContactFilter2D();
+            filter.SetLayerMask(targetLayer);
+            filter.useTriggers = true;
+            switch (shape.Type)
+            {
+                case eShape.Circle:
+                    targets = Physics2D.OverlapCircle(pos, shape.Dimensions.x, filter, targetList);
+                    break;
+                case eShape.Rectangle:
+                    // TODO: Set angle. (Currently the "0").
+                    targets = Physics2D.OverlapBox(pos, shape.Dimensions, 0, filter, targetList);
+                    break;
+                default:
+                    targetList.Clear();
+                    break;
+            }
+            Debug.Log($"GetTargets: Found {targets} targets. {targetList.Count} in list.");
+            return targets;
         }
 
         /// <summary>

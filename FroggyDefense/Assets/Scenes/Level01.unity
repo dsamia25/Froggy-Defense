@@ -66643,6 +66643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedBlob
       objectReference: {fileID: 0}
+    - target: {fileID: 8902877967718233189, guid: 671fe831585f14539a8585f292440617, type: 3}
+      propertyPath: _moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671fe831585f14539a8585f292440617, type: 3}
 --- !u!4 &1330400327 stripped

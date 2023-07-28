@@ -1,5 +1,6 @@
 using UnityEngine;
 using FroggyDefense.Weapons;
+using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
 {
@@ -10,6 +11,7 @@ namespace FroggyDefense.Core.Spells
         Targeted
     }
 
+    // TODO: Abstractify this.
     [CreateAssetMenu(fileName = "New Spell", menuName = "ScriptableObjects/Spells/New Spell")]
     public class SpellObject : ScriptableObject
     {
@@ -35,7 +37,7 @@ namespace FroggyDefense.Core.Spells
         public ProjectileInfo Projectile;       // Projectile info for projectile type spells.
         public float Damage;                    // How much damage the spell does.
         public DamageType SpellDamageType;
-        public float EffectRadius;              // How wide of an area the spell effects.
+        public Shape EffectShape;              // How wide of an area the spell effects.
 
         [Space]
         [Header("Status Effect")]
