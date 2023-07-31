@@ -79,6 +79,7 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
+        // TODO: Probably remove this and keep the input listening in InputController.
         /// <summary>
         /// Start the needed processes to get spell inputs.
         /// </summary>

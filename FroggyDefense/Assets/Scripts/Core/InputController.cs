@@ -6,14 +6,14 @@ namespace FroggyDefense.Core
 {
     public class InputController : MonoBehaviour
     {
-        [SerializeField] private Player _player;
 
         [SerializeField] private PolygonDrawer _spellRangePreview;          // Draws spell targeting range.
         [SerializeField] private PolygonDrawer _spellEffectAreaPreview;     // Draws spell targeting shape over cursor.
 
         private Spell _selectedSpell;                                       // The selected spell being cast.
+        private Player _player;
 
-        public delegate void InputCallBack();
+        public delegate void InputCallBack(SpellArgs args);
 
         /*
          * Inputs:
@@ -75,19 +75,19 @@ namespace FroggyDefense.Core
                 {
                     if (Input.GetButtonDown("Ability1"))
                     {
-                        AbilityInput(0);
+                        UseAbility(0);
                     }
                     else if (Input.GetButtonDown("Ability2"))
                     {
-                        AbilityInput(1);
+                        UseAbility(1);
                     }
                     else if (Input.GetButtonDown("Ability3"))
                     {
-                        AbilityInput(2);
+                        UseAbility(2);
                     }
                     else if (Input.GetButtonDown("Ability4"))
                     {
-                        AbilityInput(3);
+                        UseAbility(3);
                     }
                     else if (Input.GetMouseButtonUp(0))
                     {
@@ -121,7 +121,7 @@ namespace FroggyDefense.Core
         /// Sets the selected ability to be the spell in the pressed ability slot.
         /// </summary>
         /// <param name="spell"></param>
-        private void TargetAbilities(Spell spell)
+        private void TargetAbility(Spell spell)
         {
             if (spell == null)
             {
@@ -129,10 +129,12 @@ namespace FroggyDefense.Core
                 return;
             }
 
-            Debug.Log("Using ability (" + spell.Name + ").");
             _targetingAbility = true;
             _selectedSpell = spell;
-            DrawAbilityTargetingOverlay(spell);
+
+            // Draw background spell range.
+            DrawAbilityRangeOverlay(spell);
+
         }
 
         /// <summary>
@@ -140,11 +142,27 @@ namespace FroggyDefense.Core
         /// </summary>
         private void DrawAbilityTargetingOverlay(Spell spell)
         {
+            _targetingAbility = true;
+            _selectedSpell = spell;
+
             _spellRangePreview.shape = new Shape(eShape.Circle, new Vector2(spell.TargetRange, spell.TargetRange));
             _spellEffectAreaPreview.shape = spell.EffectShape;
 
             _spellRangePreview.DrawFilledShape();
             _spellEffectAreaPreview.DrawFilledShape();
+        }
+
+        /// <summary>
+        /// Draw the spell range background effect.
+        /// </summary>
+        /// <param name="spell"></param>
+        public void DrawAbilityRangeOverlay(Spell spell)
+        {
+            _targetingAbility = true;
+            _selectedSpell = spell;
+
+            _spellRangePreview.shape = new Shape(eShape.Circle, new Vector2(spell.TargetRange, spell.TargetRange));
+            _spellRangePreview.DrawFilledShape();
         }
 
         /// <summary>
@@ -172,10 +190,14 @@ namespace FroggyDefense.Core
             _spellEffectAreaPreview.EraseShape();
         }
 
-        public void AbilityInput(int num)
+        /// <summary>
+        /// Uses the ability in the number slot.
+        /// </summary>
+        /// <param name="num"></param>
+        public void UseAbility(int num)
         {
             Spell spell = GameManager.instance.m_Player.SelectedAbilities[num];
-            TargetAbilities(spell);
+            TargetAbility(spell);
         }
     }
 }

@@ -37,12 +37,18 @@ namespace FroggyDefense.Core
         [Space]
         public UnityEvent PlayerDeathEvent;
 
+        [HideInInspector]
+        public InputController inputController;
+
         public delegate void PlayerActionDelegate();
         public event PlayerActionDelegate ChangedSpellsEvent;
 
         protected override void Awake()
         {
             base.Awake();
+
+            if (inputController == null) inputController = GetComponent<InputController>();
+
             RefreshSpellBar();
         }
 

@@ -11,6 +11,12 @@ namespace FroggyDefense.Core.Spells
         Targeted
     }
 
+    public enum InputType
+    {
+        Click,
+        Drag
+    }
+
     // TODO: Abstractify this.
     [CreateAssetMenu(fileName = "New Spell", menuName = "ScriptableObjects/Spells/New Spell")]
     public class SpellObject : ScriptableObject
