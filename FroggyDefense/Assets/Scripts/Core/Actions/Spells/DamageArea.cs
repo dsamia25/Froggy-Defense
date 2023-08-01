@@ -59,7 +59,7 @@ namespace FroggyDefense.Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
-                Spell.GetTargets(transform.position, Template.EffectShape, Template.TargetLayer, _overlapTargetList);
+                ActionUtils.GetTargets(transform.position, Template.EffectShape, Template.TargetLayer, _overlapTargetList);
                 foreach (var collider in _overlapTargetList)
                 {
                     IDestructable target = null;

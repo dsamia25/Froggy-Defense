@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
 {
-
     /// <summary>
     /// Enum of all kinds of damage.
     /// </summary>
@@ -15,6 +15,21 @@ namespace FroggyDefense.Core.Spells
         Frost,
         Spirit,
         Earth
+    }
+
+    /// <summary>
+    /// Structure to feed use info into a spell.
+    /// </summary>
+    public struct SpellArgs
+    {
+        public Character Caster;
+        public InputArgs Inputs;
+
+        public SpellArgs(Character caster, InputArgs inputs)
+        {
+            Caster = caster;
+            Inputs = inputs;
+        }
     }
 
     public abstract class Spell
@@ -79,21 +94,6 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
-        // TODO: Probably remove this and keep the input listening in InputController.
-        /// <summary>
-        /// Start the needed processes to get spell inputs.
-        /// </summary>
-        public virtual void StartInputProtocol()
-        {
-            if (_currCooldown > 0)
-            {
-                Debug.Log($"Cannot cast spell. {Name} still on cooldown. ({_currCooldown.ToString("0.00")} seconds remaining).");
-                return;
-            }
-
-            Debug.Log($"Looking for input for {Name}.");
-        }
-
         /// <summary>
         /// Builds the spell effect using the SpellObject's parameters.
         /// </summary>
@@ -109,7 +109,7 @@ namespace FroggyDefense.Core.Spells
 
             if (Type == SpellType.Area)
             {
-                var targetAmount = GetTargets(args.Position, EffectShape, Template.TargetLayer, _overlapTargetList);
+                var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
                 Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
                 foreach (var collider in _overlapTargetList)
                 {
@@ -130,7 +130,7 @@ namespace FroggyDefense.Core.Spells
 
                 if (CreatesDamageZone)
                 {
-                    var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Position, Quaternion.identity);
+                    var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Inputs.point1, Quaternion.identity);
                     damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
                 }
 
@@ -153,63 +153,6 @@ namespace FroggyDefense.Core.Spells
             args.Caster.UseMana(ManaCost);
             _currCooldown = Cooldown;
             return true;
-        }
-
-        /// <summary>
-        /// Returns all colliders in the area.
-        /// Not in any particular order.
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="radius"></param>
-        /// <param name="targetLayer"></param>
-        /// <returns></returns>
-        public static int GetTargets(Vector2 pos, Shape shape, LayerMask targetLayer, List<Collider2D> targetList)
-        {
-            int targets = 0;
-            var filter = new ContactFilter2D();
-            filter.SetLayerMask(targetLayer);
-            filter.useTriggers = true;
-            switch (shape.Type)
-            {
-                case eShape.Circle:
-                    targets = Physics2D.OverlapCircle(pos, shape.Dimensions.x, filter, targetList);
-                    break;
-                case eShape.Rectangle:
-                    // TODO: Set angle. (Currently the "0").
-                    targets = Physics2D.OverlapBox(pos, shape.Dimensions, 0, filter, targetList);
-                    break;
-                default:
-                    targetList.Clear();
-                    break;
-            }
-            Debug.Log($"GetTargets: Found {targets} targets. {targetList.Count} in list.");
-            return targets;
-        }
-
-        /// <summary>
-        /// Returns all colliders in the area up to a specified amount.
-        /// Not in any particular order.
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="radius"></param>
-        /// <param name="targetLayer"></param>
-        /// <param name="max"></param>
-        /// <returns></returns>
-        public static Collider2D[] GetTargetsCapped(Vector2 pos, float radius, LayerMask targetLayer, int max)
-        {
-            var colliders = Physics2D.OverlapCircleAll(pos, radius, targetLayer);
-
-            // Return this if less than the max amount.
-            if (colliders.Length < max)
-            {
-                return colliders;
-            }
-
-            // Return only the input amount from all the targets.
-            Collider2D[] capped = new Collider2D[max];
-            Array.Copy(colliders, capped, max);
-
-            return capped;
         }
     }
 }

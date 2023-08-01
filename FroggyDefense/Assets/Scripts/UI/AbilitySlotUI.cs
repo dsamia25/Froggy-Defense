@@ -33,6 +33,8 @@ namespace FroggyDefense.Core.Spells.UI
         private InputController controller;
         private Player player;
 
+        public event EventHandler ClickedEvent;
+
         private void Start()
         {
             player = GameManager.instance.m_Player;
@@ -85,7 +87,7 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         public void UseSpell()
         {
-            SelectedSpell?.StartInputProtocol();
+            controller.UseAbility(SlotNum);
         }
 
         /// <summary>

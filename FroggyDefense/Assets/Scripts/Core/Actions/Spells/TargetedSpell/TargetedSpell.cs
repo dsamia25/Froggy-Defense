@@ -11,11 +11,11 @@ namespace FroggyDefense.Core.Spells
             _overlapTargetList = new List<Collider2D>();
         }
 
-        public override void StartInputProtocol()
-        {
-            Debug.Log($"Starting Targeted Spell protocol.");
-            base.StartInputProtocol();
-        }
+        //public override void StartInputProtocol()
+        //{
+        //    Debug.Log($"Starting Targeted Spell protocol.");
+        //    base.StartInputProtocol();
+        //}
 
         public override bool Cast(SpellArgs args)
         {

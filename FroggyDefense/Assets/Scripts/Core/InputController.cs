@@ -1,19 +1,20 @@
+using System;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
-using ShapeDrawer;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Core
 {
     public class InputController : MonoBehaviour
     {
+        // Input listeners.
+        public ClickInput ClickListener;            // Component to listen for player click inputs for spells.
+        public DragInput DragListener;              // Component to listen for player drag inputs for spells.
 
-        [SerializeField] private PolygonDrawer _spellRangePreview;          // Draws spell targeting range.
-        [SerializeField] private PolygonDrawer _spellEffectAreaPreview;     // Draws spell targeting shape over cursor.
+        private Spell SelectedSpell;                                       // The selected spell being cast.
+        private Player m_Player;
 
-        private Spell _selectedSpell;                                       // The selected spell being cast.
-        private Player _player;
-
-        public delegate void InputCallBack(SpellArgs args);
+        public delegate void InputCallBack(InputArgs args);
 
         /*
          * Inputs:
@@ -36,14 +37,24 @@ namespace FroggyDefense.Core
          *  
          * 
          */
-        private bool _targetingAbility = false;
+        private bool TargetingAbility => ActionInput.InputListenerActive;
         private Vector2 _moveInput = Vector2.zero;
+
+        /// <summary>
+        /// Enum showing how the user input the action.
+        /// </summary>
+        public enum ActionInputType
+        {
+            NULL,
+            Keyboard,
+            UIButton
+        }
 
         private void Awake()
         {
-            if (_player == null)
+            if (m_Player == null)
             {
-                _player = GetComponent<Player>();
+                m_Player = GetComponent<Player>();
             }    
         }
 
@@ -51,25 +62,26 @@ namespace FroggyDefense.Core
         {
             if (GameManager.GameStarted)
             {
-                if (_targetingAbility)
+                if (TargetingAbility)
                 {
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    mousePos.z = 0;
+                    //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    //mousePos.z = 0;
 
-                    MoveAbilityTargetOverlay(mousePos, _selectedSpell.TargetRange);
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
-                        _selectedSpell.Cast(new SpellArgs(_player, _spellEffectAreaPreview.transform.position));
-                        ClearAbilityTargetingOverlay();
-                        _targetingAbility = false;
-                    }
-                    else if (Input.GetMouseButtonDown(1))
-                    {
-                        Debug.Log("Cancelled Spell.");
-                        ClearAbilityTargetingOverlay();
-                        _targetingAbility = false;
-                    }
+                    //MoveAbilityTargetOverlay(mousePos, SelectedSpell.TargetRange);
+                    //if (Input.GetMouseButtonDown(0))
+                    //{
+                    //    Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
+                    //    SelectedSpell.Cast(new SpellArgs(m_Player, _spellEffectAreaPreview.transform.position));
+                    //    ClearAbilityTargetingOverlay();
+                    //    _targetingAbility = false;
+                    //}
+                    //else if (Input.GetMouseButtonDown(1))
+                    //{
+                    //    Debug.Log("Cancelled Spell.");
+                    //    ClearAbilityTargetingOverlay();
+                    //    _targetingAbility = false;
+                    //}
+                    Debug.Log($"Already targeting an ability.");
                 }
                 else
                 {
@@ -92,102 +104,29 @@ namespace FroggyDefense.Core
                     else if (Input.GetMouseButtonUp(0))
                     {
                         Debug.Log("Released Attack");
-                        _player.m_WeaponUser.Deactivate();
+                        m_Player.m_WeaponUser.Deactivate();
                     }
                     else if (Input.GetMouseButtonDown(0))
                     {
                         Debug.Log("Pressed Attack");
-                        if (_player == null)
+                        if (m_Player == null)
                         {
                             Debug.LogWarning("PLAYER NULL");
                         }
-                        else if (_player.m_WeaponUser == null)
+                        else if (m_Player.m_WeaponUser == null)
                         {
                             Debug.LogWarning("WEAPON USER NULL");
                         }
                         else
                         {
-                            _player.m_WeaponUser.Attack(Input.mousePosition);
+                            m_Player.m_WeaponUser.Attack(Input.mousePosition);
                         }
                     }
                 }
                 _moveInput.x = Input.GetAxisRaw("Horizontal");
                 _moveInput.y = Input.GetAxisRaw("Vertical");
-                _player.Move(_moveInput);
+                m_Player.Move(_moveInput);
             }
-        }
-
-        /// <summary>
-        /// Sets the selected ability to be the spell in the pressed ability slot.
-        /// </summary>
-        /// <param name="spell"></param>
-        private void TargetAbility(Spell spell)
-        {
-            if (spell == null)
-            {
-                Debug.Log("No ability selected.");
-                return;
-            }
-
-            _targetingAbility = true;
-            _selectedSpell = spell;
-
-            // Draw background spell range.
-            DrawAbilityRangeOverlay(spell);
-
-        }
-
-        /// <summary>
-        /// Draws the shapes showing ability range and effect areas.
-        /// </summary>
-        private void DrawAbilityTargetingOverlay(Spell spell)
-        {
-            _targetingAbility = true;
-            _selectedSpell = spell;
-
-            _spellRangePreview.shape = new Shape(eShape.Circle, new Vector2(spell.TargetRange, spell.TargetRange));
-            _spellEffectAreaPreview.shape = spell.EffectShape;
-
-            _spellRangePreview.DrawFilledShape();
-            _spellEffectAreaPreview.DrawFilledShape();
-        }
-
-        /// <summary>
-        /// Draw the spell range background effect.
-        /// </summary>
-        /// <param name="spell"></param>
-        public void DrawAbilityRangeOverlay(Spell spell)
-        {
-            _targetingAbility = true;
-            _selectedSpell = spell;
-
-            _spellRangePreview.shape = new Shape(eShape.Circle, new Vector2(spell.TargetRange, spell.TargetRange));
-            _spellRangePreview.DrawFilledShape();
-        }
-
-        /// <summary>
-        /// Moves the ability effect preview to the input position.
-        /// </summary>
-        private void MoveAbilityTargetOverlay(Vector3 pos, float maxDistance)
-        {
-            float currDistance = Vector2.Distance(pos, transform.position);
-            if (currDistance > maxDistance) {
-                // Outside range area.
-                _spellEffectAreaPreview.transform.position = Vector2.Lerp(transform.position, pos, maxDistance / currDistance);
-            } else
-            {
-                // Inside the range bounds.
-                _spellEffectAreaPreview.transform.position = pos;
-            }
-        }
-
-        /// <summary>
-        /// Clears all shapes.
-        /// </summary>
-        private void ClearAbilityTargetingOverlay()
-        {
-            _spellRangePreview.EraseShape();
-            _spellEffectAreaPreview.EraseShape();
         }
 
         /// <summary>
@@ -197,7 +136,21 @@ namespace FroggyDefense.Core
         public void UseAbility(int num)
         {
             Spell spell = GameManager.instance.m_Player.SelectedAbilities[num];
-            TargetAbility(spell);
+            if (spell == null)
+            {
+                Debug.Log("No ability selected.");
+                return;
+            }
+            
+            SelectedSpell = spell;
+
+            ClickListener.Activate(spell, ConfirmInput);
+            //spell.StartInputProtocol();
+        }
+
+        public void ConfirmInput(InputArgs args)
+        {
+            SelectedSpell.Cast(new SpellArgs(m_Player, args));
         }
     }
 }

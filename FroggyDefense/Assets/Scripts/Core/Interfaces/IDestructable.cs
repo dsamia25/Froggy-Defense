@@ -5,6 +5,7 @@ namespace FroggyDefense.Core
 {
     public interface IDestructable
     {
+
         /// <summary>
         /// Damages the object by the given amount.
         /// </summary>
