@@ -79,7 +79,7 @@ MonoBehaviour:
   SpellDamageType: 3
   EffectShape:
     Type: 32
-    Dimensions: {x: 0.5, y: 0.5}
+    Dimensions: {x: 1, y: 0.5}
   AppliesStatusEffect: 0
   AppliedStatusEffect:
     Name: STATUS EFFECT

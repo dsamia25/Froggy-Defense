@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Weapons;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core {
@@ -69,7 +70,14 @@ namespace FroggyDefense.Core {
         /// <returns></returns>
         public static bool FirePhysicalProjectile()
         {
+            //// Shoots projectile
+            //Projectile projectile = m_ProjectilePool.Get();
+            //projectile.transform.position = _projectileFireLocation.position;
+
+            //projectile.Shoot(_weapon, attackDir);
+            //_currProjectileCooldown = _weapon.ProjectileCooldown;
             throw new NotImplementedException();
+
         }
 
         /// <summary>

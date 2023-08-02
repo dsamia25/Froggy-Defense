@@ -38,8 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Opacity: 1
+    - _Opacity: 0.5
     - _ScrollSpeed: 0.01
     m_Colors:
-    - _Color: {r: 0.5518868, g: 0.8006206, b: 1, a: 1}
+    - _Color: {r: 0.5518868, g: 0.8006206, b: 1, a: 0.6117647}
   m_BuildTextureStacks: []
