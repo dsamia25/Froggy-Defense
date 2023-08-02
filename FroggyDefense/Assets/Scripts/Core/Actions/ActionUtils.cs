@@ -80,5 +80,15 @@ namespace FroggyDefense.Core {
         {
             throw new NotImplementedException();
         }
+
+        public static float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+        {
+            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+        }
+
+        public static float AngleBetweenTwoPoints(Vector3 a, Vector3 b, float angleOffset)
+        {
+            return (Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg) - angleOffset;
+        }
     }
 }

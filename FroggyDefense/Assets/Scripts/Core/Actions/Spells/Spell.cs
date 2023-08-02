@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Core.Actions;
+using FroggyDefense.Core.Actions.Inputs;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
@@ -44,6 +44,7 @@ namespace FroggyDefense.Core.Spells
 
         public Shape EffectShape => Template.EffectShape;
         public float TargetRange => Template.TargetRange;
+        public InputMode TargetMode => Template.TargetMode;
 
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;

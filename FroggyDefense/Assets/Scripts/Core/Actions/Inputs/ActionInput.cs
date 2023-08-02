@@ -1,8 +1,19 @@
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 
-namespace FroggyDefense.Core.Actions
+namespace FroggyDefense.Core.Actions.Inputs
 {
+    /// <summary>
+    /// Enum marking which type of ActionInput should be used. An option for each class
+    /// inheriting from ActionInput.
+    /// </summary>
+    public enum InputMode
+    {
+        AreaInput,
+        DragInput,
+        ProjectileInput
+    }
+
     /// <summary>
     /// Struct for passing inputs for actions.
     /// </summary>

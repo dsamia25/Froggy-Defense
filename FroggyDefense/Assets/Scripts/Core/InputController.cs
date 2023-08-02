@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
-using FroggyDefense.Core.Actions;
+using FroggyDefense.Core.Actions.Inputs;
 
 namespace FroggyDefense.Core
 {
     public class InputController : MonoBehaviour
     {
         // Input listeners.
-        public ClickInput ClickListener;            // Component to listen for player click inputs for spells.
+        public AreaInput AreaListener;              // Component to listen for player click inputs for spells.
+        public ProjectileInput ProjectileListener;  // Component to listen for player projectile inputs for spells.
         public DragInput DragListener;              // Component to listen for player drag inputs for spells.
 
         private Spell SelectedSpell;                                       // The selected spell being cast.
@@ -144,8 +145,21 @@ namespace FroggyDefense.Core
             
             SelectedSpell = spell;
 
-            ClickListener.Activate(spell, ConfirmInput);
-            //spell.StartInputProtocol();
+            switch (spell.TargetMode)
+            {
+                case InputMode.AreaInput:
+                    AreaListener.Activate(spell, ConfirmInput);
+                    break;
+                case InputMode.ProjectileInput:
+                    ProjectileListener.Activate(spell, ConfirmInput);
+                    break;
+                case InputMode.DragInput:
+                    DragListener.Activate(spell, ConfirmInput);
+                    break;
+                default:
+                    Debug.LogWarning($"Unknown input type.");
+                    break;
+            }
         }
 
         public void ConfirmInput(InputArgs args)

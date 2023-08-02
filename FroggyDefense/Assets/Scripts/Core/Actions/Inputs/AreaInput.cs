@@ -5,20 +5,14 @@ using ShapeDrawer;
 
 namespace FroggyDefense.Core.Actions.Inputs
 {
-    public class DragInput : ActionInput
+    public class AreaInput : ActionInput
     {
         // Shape drawers to show the ability range and selected area when looking for inputs.
         [SerializeField] private PolygonDrawer RangeOverlay;
         [SerializeField] private PolygonDrawer TargetOverlay;
 
-        // How long the drag command has been held down.
-        protected float HoldTime = 0;
-
-        // Locations of where the drag started and ended.
-        protected Vector3 StartPos;
-        protected Vector3 EndPos;
-
-        private bool StartedDrag = false;
+        // The area where the input is recorded.
+        protected Vector3 ClickPos;
 
         private void Update()
         {
@@ -27,25 +21,18 @@ namespace FroggyDefense.Core.Actions.Inputs
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
 
-            // TODO: Update target overlay.
-            //MoveTargetOverlay();
+            MoveTargetOverlay(mousePos, SelectedSpell.TargetRange);
 
-            if (Input.GetMouseButtonUp(0))
+            // Listen for inputs
+            if (Input.GetMouseButtonDown(0))
             {
-                // Drag ending.
-                Debug.Log($"Confirmed input drag at ({TargetOverlay.transform.position}).");
-                EndPos = TargetOverlay.transform.position;
+                Debug.Log($"Confirmed input click at ({TargetOverlay.transform.position}).");
+                ClickPos = TargetOverlay.transform.position;
                 Confirm();
-            } else if (Input.GetMouseButtonDown(0))
+            }
+            else if (Input.GetMouseButtonDown(1))
             {
-                // Drag starting.
-                StartedDrag = true;
-                Debug.Log($"Starting input drag at ({TargetOverlay.transform.position}).");
-                StartPos = TargetOverlay.transform.position;
-            } else if (Input.GetMouseButtonDown(1))
-            {
-                // Cancel drag.
-                Debug.Log($"Cancelled input drag.");
+                Debug.Log($"Cancelled input click.");
                 Cancel();
             }
         }
@@ -57,7 +44,6 @@ namespace FroggyDefense.Core.Actions.Inputs
                 return false;
             }
 
-            StartedDrag = false;
             SelectedSpell = spell;
             IsActive = true;
             InputListenerActive = true;
@@ -77,7 +63,7 @@ namespace FroggyDefense.Core.Actions.Inputs
                 IsActive = false;
                 InputListenerActive = false;
                 SelectedSpell = null;
-                ConfirmInputCallBack?.Invoke(new InputArgs(StartPos, EndPos));
+                ConfirmInputCallBack?.Invoke(new InputArgs(ClickPos, Vector3.zero));
                 ConfirmInputCallBack = null;
             }
         }
@@ -103,8 +89,7 @@ namespace FroggyDefense.Core.Actions.Inputs
             {
                 RangeOverlay.shape = new Shape(eShape.Circle, new Vector2(SelectedSpell.TargetRange, SelectedSpell.TargetRange));
                 RangeOverlay.DrawFilledShape();
-            }
-            catch (NullReferenceException e)
+            } catch (NullReferenceException e)
             {
                 Debug.LogWarning($"Error loading spell range preview: {e}");
             }
@@ -115,13 +100,10 @@ namespace FroggyDefense.Core.Actions.Inputs
         /// </summary>
         private void DrawInputTargetOverlay()
         {
-            try
-            {
-                //TargetOverlay.shape = SelectedSpell.EffectShape;
-                TargetOverlay.shape = new Shape(eShape.Rectangle, SelectedSpell.EffectShape.Dimensions);
+            try {
+                TargetOverlay.shape = SelectedSpell.EffectShape;
                 TargetOverlay.DrawFilledShape();
-            }
-            catch (NullReferenceException e)
+            } catch (NullReferenceException e)
             {
                 Debug.LogWarning($"Error loading spell target preview: {e}");
             }
@@ -132,13 +114,6 @@ namespace FroggyDefense.Core.Actions.Inputs
         /// </summary>
         private void MoveTargetOverlay(Vector3 pos, float maxDistance)
         {
-            if (StartedDrag)
-            {
-                TargetOverlay.shape = new Shape(eShape.Rectangle, SelectedSpell.EffectShape.Dimensions);
-
-                TargetOverlay.transform.rotation = Quaternion.Euler(0f, 0f, ActionUtils.AngleBetweenTwoPoints(pos, transform.position));
-            }
-
             float currDistance = Vector2.Distance(pos, transform.position);
             if (currDistance > maxDistance)
             {

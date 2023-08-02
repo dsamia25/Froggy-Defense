@@ -1,18 +1,27 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Actions
+namespace FroggyDefense.Core.Actions.Inputs
 {
-    public class ClickInput : ActionInput
+    public class ProjectileInput : ActionInput
     {
         // Shape drawers to show the ability range and selected area when looking for inputs.
         [SerializeField] private PolygonDrawer RangeOverlay;
         [SerializeField] private PolygonDrawer TargetOverlay;
 
+        [SerializeField] private Transform FirePos;
+
         // The area where the input is recorded.
         protected Vector3 ClickPos;
+
+        private void Start()
+        {
+            if (FirePos == null) FirePos = transform;    
+        }
 
         private void Update()
         {
@@ -26,13 +35,13 @@ namespace FroggyDefense.Core.Actions
             // Listen for inputs
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log($"Confirmed Spell at ({TargetOverlay.transform.position}).");
+                Debug.Log($"Confirmed input click at ({TargetOverlay.transform.position}).");
                 ClickPos = TargetOverlay.transform.position;
                 Confirm();
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                Debug.Log($"Cancelled Spell.");
+                Debug.Log($"Cancelled input click.");
                 Cancel();
             }
         }
@@ -89,7 +98,8 @@ namespace FroggyDefense.Core.Actions
             {
                 RangeOverlay.shape = new Shape(eShape.Circle, new Vector2(SelectedSpell.TargetRange, SelectedSpell.TargetRange));
                 RangeOverlay.DrawFilledShape();
-            } catch (NullReferenceException e)
+            }
+            catch (NullReferenceException e)
             {
                 Debug.LogWarning($"Error loading spell range preview: {e}");
             }
@@ -100,10 +110,12 @@ namespace FroggyDefense.Core.Actions
         /// </summary>
         private void DrawInputTargetOverlay()
         {
-            try {
-                TargetOverlay.shape = SelectedSpell.EffectShape;
+            try
+            {
+                TargetOverlay.shape = new Shape(eShape.Rectangle, new Vector2(SelectedSpell.EffectShape.Dimensions.x, SelectedSpell.TargetRange / 2));
                 TargetOverlay.DrawFilledShape();
-            } catch (NullReferenceException e)
+            }
+            catch (NullReferenceException e)
             {
                 Debug.LogWarning($"Error loading spell target preview: {e}");
             }
@@ -114,17 +126,16 @@ namespace FroggyDefense.Core.Actions
         /// </summary>
         private void MoveTargetOverlay(Vector3 pos, float maxDistance)
         {
+            float angle = ActionUtils.AngleBetweenTwoPoints(transform.position, pos);
+
             float currDistance = Vector2.Distance(pos, transform.position);
-            if (currDistance > maxDistance)
-            {
-                // Outside range area.
-                TargetOverlay.transform.position = Vector2.Lerp(transform.position, pos, maxDistance / currDistance);
-            }
-            else
-            {
-                // Inside the range bounds.
-                TargetOverlay.transform.position = pos;
-            }
+
+            // Move the targeting shape.
+            // NOT SURE WHY THIS WORKS
+            TargetOverlay.transform.position = Vector2.LerpUnclamped(transform.position, pos, (maxDistance / currDistance) / 2);
+            
+            // Rotate
+            TargetOverlay.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
         }
 
         /// <summary>

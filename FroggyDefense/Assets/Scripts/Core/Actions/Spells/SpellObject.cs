@@ -1,5 +1,6 @@
 using UnityEngine;
 using FroggyDefense.Weapons;
+using FroggyDefense.Core.Actions.Inputs;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
@@ -9,12 +10,6 @@ namespace FroggyDefense.Core.Spells
         Area,
         Projectile,
         Targeted
-    }
-
-    public enum InputType
-    {
-        Click,
-        Drag
     }
 
     // TODO: Abstractify this.
@@ -36,6 +31,7 @@ namespace FroggyDefense.Core.Spells
         [Space]
         public LayerMask TargetLayer;   // The layer the targets are on.
         public float TargetRange;       // How far away the spell can be cast.
+        public InputMode TargetMode;    // How the InputController should get the spell inputs.
 
         [Space]
         [Header("Intial Damage")]

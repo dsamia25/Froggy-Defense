@@ -5,6 +5,8 @@ namespace ShapeDrawer
 {
     public class PolygonDrawer : ShapeDrawer
     {
+        public float degreeOffset = 45;
+
         public override void DrawFilledShape()
         {
             Vertices = GetVertices(shape);
@@ -71,16 +73,13 @@ namespace ShapeDrawer
         /// <param name="sides"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        private Vector3[] GetRectanglePoints(int sides, Vector2 radius)
+        private Vector3[] GetRectanglePoints(int sides, Vector2 dimensions)
         {
             Vector3[] points = new Vector3[sides];
-            float radians = 2 * Mathf.PI;
-
-            for (int i = 0; i < sides; i++)
-            {
-                float a = (float)i / sides * radians;
-                points[i] = new Vector3(radius.x * Mathf.Cos(a), radius.y * Mathf.Sin(a), 0);
-            }
+            points[0] = new Vector3(dimensions.x, dimensions.y);
+            points[1] = new Vector3(dimensions.x, -dimensions.y);
+            points[2] = new Vector3(-dimensions.x, -dimensions.y);
+            points[3] = new Vector3(-dimensions.x, dimensions.y);
 
             return points;
         }

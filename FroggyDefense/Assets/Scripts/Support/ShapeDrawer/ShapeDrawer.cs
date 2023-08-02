@@ -58,7 +58,6 @@ namespace ShapeDrawer
         public Shape(eShape type, Vector2 dimensions)
         {
             Type = type;
-            //Sides = sides;
             Dimensions = dimensions;
         }
     }

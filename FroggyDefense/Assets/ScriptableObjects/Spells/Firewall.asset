@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8a378955337943efa60c28c27bbfaff, type: 3}
-  m_Name: Fireball
+  m_Script: {fileID: 11500000, guid: f58d7119934894be38b09b8d506f3654, type: 3}
+  m_Name: Firewall
   m_EditorClassIdentifier: 
-  Name: Fireball
-  Icon: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
+  Name: Firewall
+  Icon: {fileID: 21300000, guid: 3458c119c69e9bc4f9647599c2901dee, type: 3}
   SpellId: 0
-  Type: 1
+  Type: 0
   Cooldown: 0
-  ManaCost: 10
+  ManaCost: 0
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536
-  TargetRange: 5
-  TargetMode: 2
+  TargetRange: 4
+  TargetMode: 1
   Projectile:
     ProjectilePrefab: {fileID: 0}
     ProjectilePoolSize: 8
@@ -75,37 +75,37 @@ MonoBehaviour:
     BurstFireEnabled: 0
     BurstFireAmount: 1
     BurstDelay: 0.25
-  Damage: 3
-  SpellDamageType: 3
+  Damage: 0
+  SpellDamageType: 0
   EffectShape:
-    Type: 32
-    Dimensions: {x: 0.5, y: 0.5}
+    Type: 0
+    Dimensions: {x: 0, y: 0}
   AppliesStatusEffect: 0
   AppliedStatusEffect:
     Name: STATUS EFFECT
     EffectStrength: 1
     StatusType: 0
     EffectTime: 1
-  AppliesDot: 1
+  AppliesDot: 0
   AppliedOverTimeEffect:
-    Name: Burning
-    Ticks: 5
-    DamagePerTick: 1
-    TickFrequency: 1
-    EffectDamageType: 3
-  CreatesDamageArea: 0
-  CreatedDamageArea:
     Name: DOT
     Ticks: 1
     DamagePerTick: 1
     TickFrequency: 1
     EffectDamageType: 0
+  CreatesDamageArea: 1
+  CreatedDamageArea:
+    Name: Firewall Damage Area
+    Ticks: 10
+    DamagePerTick: 1
+    TickFrequency: 0.5
+    EffectDamageType: 3
     EffectShape:
-      Type: 0
-      Dimensions: {x: 0, y: 0}
+      Type: 4
+      Dimensions: {x: 1, y: 1}
     TargetLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1536
     AppliesStatusEffect: 0
     AppliedStatusEffect:
       Name: STATUS EFFECT
