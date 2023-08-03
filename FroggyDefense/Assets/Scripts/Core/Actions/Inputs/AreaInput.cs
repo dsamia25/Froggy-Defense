@@ -125,6 +125,10 @@ namespace FroggyDefense.Core.Actions.Inputs
                 // Inside the range bounds.
                 TargetOverlay.transform.position = pos;
             }
+
+            // Rotate
+            float angle = ActionUtils.AngleBetweenTwoPoints(transform.position, pos);
+            TargetOverlay.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
         }
 
         /// <summary>
