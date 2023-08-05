@@ -1,6 +1,7 @@
 using UnityEngine;
 using FroggyDefense.Core;
 using FroggyDefense.Movement;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Weapons
 {
@@ -29,16 +30,12 @@ namespace FroggyDefense.Weapons
         // Private Stuff
         #region Private Stuff
         private ObjectController _controller;
-        private ProjectilePool m_ProjectilePool = null;
-        private Transform _projectilePoolParent = null;
         private float _currProjectileCooldown = 0;
         #endregion
 
         private void Awake()
         {
             _controller = _player.gameObject.GetComponent<ObjectController>();
-
-            _projectilePoolParent = new GameObject(gameObject.name + "ProjectilePool").transform;
         }
 
         private void Start()
@@ -61,15 +58,6 @@ namespace FroggyDefense.Weapons
         public void UpdateWeapon(Weapon newWeapon)
         {
             _weapon = newWeapon;
-
-            if (_weapon.HasProjectile)
-            {
-                if (m_ProjectilePool != null)
-                {
-                    m_ProjectilePool.Clear();
-                }
-                m_ProjectilePool = new ProjectilePool(_weapon.Projectile.ProjectilePrefab, _projectilePoolParent, _weapon.Projectile.ProjectilePoolSize);
-            }
 
             _currProjectileCooldown = _weapon.ProjectileCooldown;
         }
@@ -95,10 +83,10 @@ namespace FroggyDefense.Weapons
             {
                 if (_currProjectileCooldown <= 0) {
                     // Shoots projectile
-                    Projectile projectile = m_ProjectilePool.Get();
+                    Projectile projectile = ProjectileManager.instance.GetProjectile(_weapon.Projectile);
                     projectile.transform.position = _projectileFireLocation.position;
 
-                    projectile.Shoot(_weapon, attackDir);
+                    projectile.Shoot(_player, attackDir);
                     _currProjectileCooldown = _weapon.ProjectileCooldown;
                 }
             }

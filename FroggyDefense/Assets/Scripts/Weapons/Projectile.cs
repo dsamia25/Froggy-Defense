@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using FroggyDefense.Core;
 
@@ -6,8 +7,21 @@ namespace FroggyDefense.Weapons
     public class Projectile : MonoBehaviour
     {
         private Character Caster;                                       // Who shot the projectile.
-        private Weapon _weapon;                                         // The weapon that fired this projectile.
         [SerializeField] private Vector2 m_StorageLoc;                  // Where the projectile is stored.
+
+        //public
+        private ProjectileInfo template;
+        public ProjectileInfo Template
+        {
+            get => template;
+            private set
+            {
+                template = value;
+
+                // Change image to projectile image.
+
+            }
+        }   // The template to use for info.
 
         private Vector2 m_ShootPos = Vector2.zero;                      // Where the projectile was shot from last. Used to calculate distance.
         private float m_TimeCounter = 0f;                               // Counts how long the projectile has been active.
@@ -43,6 +57,14 @@ namespace FroggyDefense.Weapons
             }
         }
 
+        /// <summary>
+        /// Initializes the Projectile values.
+        /// </summary>
+        public void Init(ProjectileInfo template)
+        {
+            Template = template;
+        }
+
         // **************************************************
         // Update
         // **************************************************
@@ -50,17 +72,17 @@ namespace FroggyDefense.Weapons
         private void FixedUpdate()
         {
             // Only disable after max range if set to.
-            if (_weapon.Projectile.HasMaxRange)
+            if (template.HasMaxRange)
             {
                 // Return the projectile after it's traveled out of range.
-                if (Vector2.Distance(m_ShootPos, transform.position) >= _weapon.Projectile.MaxRange)
+                if (Vector2.Distance(m_ShootPos, transform.position) >= template.MaxRange)
                 {
                     // Include any explosion setting.
                     Explode();
                 }
             }
 
-            if (_weapon.Projectile.HasMaxTime)
+            if (template.HasMaxTime)
             {
                 // Return the projectile after it's traveled out of range.
                 if (m_TimeCounter <= 0)
@@ -73,7 +95,7 @@ namespace FroggyDefense.Weapons
                 }
             }
 
-            if (_weapon.Projectile.HasSeeking)
+            if (template.HasSeeking)
             {
                 // TODO: Implement some sort of way to track after the target using the m_SeekingTurnAngle.
             }
@@ -83,17 +105,18 @@ namespace FroggyDefense.Weapons
         // Methods
         // **************************************************
 
-        public void Shoot(Weapon weapon, Vector2 dir)
+        public void Shoot(Character caster, Vector2 dir)
         {
-            _weapon = weapon;
-            _pierces = weapon.Projectile.MaxPierces;
+            Caster = caster;
+
+            _pierces = template.MaxPierces;
 
             m_PrimaryTarget = null;
             m_ShootPos = transform.position;
-            m_TimeCounter = _weapon.Projectile.TimeLimit;
+            m_TimeCounter = template.TimeLimit;
 
             gameObject.SetActive(true);
-            rb.velocity = _weapon.Projectile.MoveSpeed * dir.normalized;
+            rb.velocity = template.MoveSpeed * dir.normalized;
         }
 
         /// <summary>
@@ -103,6 +126,9 @@ namespace FroggyDefense.Weapons
         {
             rb.velocity = Vector2.zero;
             transform.position = m_StorageLoc;
+
+            ProjectileManager.instance.Return(this);
+
             gameObject.SetActive(false);
         }
 
@@ -112,9 +138,9 @@ namespace FroggyDefense.Weapons
         /// </summary>
         public void Explode()
         {
-            if (_weapon.Projectile.HasSplashDamage)
+            if (template.HasSplashDamage)
             {
-                Collider2D[] targetsHit = Physics2D.OverlapCircleAll(transform.position, _weapon.Projectile.SplashRadius, (_weapon.Projectile.SplashLayer == 0 ? gameObject.layer : _weapon.Projectile.SplashLayer));
+                Collider2D[] targetsHit = Physics2D.OverlapCircleAll(transform.position, template.SplashRadius, (template.SplashLayer == 0 ? gameObject.layer : template.SplashLayer));
                 foreach (Collider2D collider in targetsHit)
                 {
                     IDestructable destructable = null;
@@ -122,7 +148,7 @@ namespace FroggyDefense.Weapons
                     {
                         if (destructable != m_PrimaryTarget)
                         {
-                            destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.SplashDamage + (_weapon.Projectile.HasSplashDamageScaling ? _weapon.GetStatScaling(_weapon.Projectile.SplashDamageScalingFactor) : 0), _weapon.Projectile.SplashDamageType));
+                            destructable.TakeDamage(new DamageAction(Caster, template.SplashDamage + (template.HasSplashDamageScaling ? GetStatScaling(template.SplashDamageScalingFactor) : 0), template.SplashDamageType));
                         }
                     }
                 }
@@ -130,16 +156,34 @@ namespace FroggyDefense.Weapons
             Return();
         }
 
+        /// <summary>
+        /// Returns the calculated scaling factor.
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <returns></returns>
+        public float GetStatScaling(StatValuePair stat)
+        {
+            if (Caster == null) return 0;
+            try
+            {
+                return stat.Value * Caster.Stats.GetTotalStat(stat.Stat);
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error getting stat scaling factor: {e}");
+                return 0;
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(new DamageAction(Caster, _weapon.Projectile.Damage + (_weapon.Projectile.HasProjectileDamageScaling ? _weapon.GetStatScaling(_weapon.Projectile.ProjectileDamageScalingFactor) : 0), _weapon.Projectile.DirectDamageType));
+                destructable.TakeDamage(new DamageAction(Caster, template.Damage + (template.HasProjectileDamageScaling ? GetStatScaling(template.ProjectileDamageScalingFactor) : 0), template.DirectDamageType));
                 m_PrimaryTarget = destructable;
 
                 // Explode if it doesn't have piercing or if it's done with piercing.
-                if (!_weapon.Projectile.HasPiercing || (_weapon.Projectile.HasPiercing && --_pierces < 0))
+                if (!template.HasPiercing || (template.HasPiercing && --_pierces < 0))
                 {
                     Explode();
                 }
@@ -151,10 +195,10 @@ namespace FroggyDefense.Weapons
         /// </summary>
         private void OnDrawGizmosSelected()
         {
-            if (_weapon.Projectile.HasSplashDamage)
+            if (template.HasSplashDamage)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, _weapon.Projectile.SplashRadius);
+                Gizmos.DrawWireSphere(transform.position, template.SplashRadius);
             }
         }
     }

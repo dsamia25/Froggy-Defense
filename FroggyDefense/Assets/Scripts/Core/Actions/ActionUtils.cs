@@ -68,23 +68,26 @@ namespace FroggyDefense.Core {
         /// Fires a physical projectile with a collider.
         /// </summary>
         /// <returns></returns>
-        public static bool FirePhysicalProjectile()
+        public static bool FirePhysicalProjectile(ProjectileInfo projectile, Character caster, Vector2 fireLoc, Vector2 fireDir)
         {
-            //// Shoots projectile
-            //Projectile projectile = m_ProjectilePool.Get();
-            //projectile.transform.position = _projectileFireLocation.position;
-
-            //projectile.Shoot(_weapon, attackDir);
-            //_currProjectileCooldown = _weapon.ProjectileCooldown;
-            throw new NotImplementedException();
-
+            try
+            {
+                Projectile proj = ProjectileManager.instance.GetProjectile(projectile);
+                proj.transform.position = fireLoc;
+                proj.Shoot(caster, fireDir);
+                return true;
+            } catch (Exception e)
+            {
+                Debug.Log($"Error firing projectile: {e}");
+                return false;
+            }
         }
 
         /// <summary>
         /// Fires a simulated moving projectile.
         /// </summary>
         /// <returns></returns>
-        public static bool FireEffectProjectile()
+        public static bool FireVirtualProjectile()
         {
             throw new NotImplementedException();
         }
