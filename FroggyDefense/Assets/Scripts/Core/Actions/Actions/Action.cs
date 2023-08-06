@@ -1,20 +1,21 @@
 using System;
 
-namespace FroggyDefense.Core.Spells
+namespace FroggyDefense.Core.Actions
 {
     public enum ActionType
     {
         FireProjectile,
         CreateDamageZone,
         ApplyEffect,
-        Knockback
+        Knockback,
+        Summon
     }
 
     public abstract class Action
     {
         public ActionArgs args { get; protected set; }
 
-        public abstract void Resolve();
+        public abstract void Resolve(ActionArgs args);
 
         /// <summary>
         /// A packet containing info on an action.
@@ -33,6 +34,8 @@ namespace FroggyDefense.Core.Spells
             }
         }
     }
+
+
 
     //public class DamageAction : Action
     //{

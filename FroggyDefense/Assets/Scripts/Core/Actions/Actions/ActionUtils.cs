@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Weapons;
+using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core {
@@ -62,6 +63,26 @@ namespace FroggyDefense.Core {
             Array.Copy(colliders, capped, max);
 
             return capped;
+        }
+
+        /// <summary>
+        /// Creates a damage area at the target location.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="damageAreaBuilder"></param>
+        /// <returns></returns>
+        public static bool CreateDamageArea(Vector2 pos, DamageAreaBuilder damageAreaBuilder)
+        {
+            try
+            {
+                var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, pos, Quaternion.identity);
+                damageArea.GetComponent<DamageArea>().Init(damageAreaBuilder);
+                return true;
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error creating damage area: {e}.");
+                return false;
+            }
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core.Actions.Inputs;
+using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
@@ -131,8 +132,12 @@ namespace FroggyDefense.Core.Spells
 
                 if (CreatesDamageZone)
                 {
-                    var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Inputs.point1, Quaternion.identity);
-                    damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
+                    // OLD WAY
+                    //var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Inputs.point1, Quaternion.identity);
+                    //damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
+
+                    // NEW WAY
+                    ActionUtils.CreateDamageArea(args.Inputs.point1, Template.CreatedDamageArea);
                 }
 
                 Debug.Log($"Casting {Name} as an AOE Spell. Damaged {targetAmount} targets.");
