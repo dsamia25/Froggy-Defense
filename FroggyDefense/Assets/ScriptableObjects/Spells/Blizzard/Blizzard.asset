@@ -24,7 +24,9 @@ MonoBehaviour:
   TargetRange: 3
   TargetMode: 0
   Projectile:
-    ProjectilePrefab: {fileID: 0}
+    Appearance:
+      sprite: {fileID: 0}
+      transformScale: {x: 0, y: 0}
     ProjectilePoolSize: 8
     Damage: 1
     HasProjectileDamageScaling: 0
@@ -80,19 +82,7 @@ MonoBehaviour:
   EffectShape:
     Type: 32
     Dimensions: {x: 2, y: 2}
-  AppliesStatusEffect: 1
-  AppliedStatusEffect:
-    Name: Blizzard Slow
-    EffectStrength: -20
-    StatusType: 0
-    EffectTime: 2.5
-  AppliesDot: 0
-  AppliedOverTimeEffect:
-    Name: DOT
-    Ticks: 0
-    DamagePerTick: 0
-    TickFrequency: 0
-    EffectDamageType: 0
+  AppliedEffects: []
   CreatesDamageArea: 1
   CreatedDamageArea:
     Name: Blizzard Zone
@@ -106,9 +96,9 @@ MonoBehaviour:
     TargetLayer:
       serializedVersion: 2
       m_Bits: 1536
-    AppliesStatusEffect: 1
-    AppliedStatusEffect:
-      Name: Blizzard Zone Slow
-      EffectStrength: -75
-      StatusType: 0
-      EffectTime: 2.5
+    AppliedEffects: []
+  Actions:
+  - action: {fileID: 11400000, guid: ef54023ab375346de8cbd7fe141d58c8, type: 2}
+    delayTime: 0
+  - action: {fileID: 11400000, guid: ef54023ab375346de8cbd7fe141d58c8, type: 2}
+    delayTime: 0

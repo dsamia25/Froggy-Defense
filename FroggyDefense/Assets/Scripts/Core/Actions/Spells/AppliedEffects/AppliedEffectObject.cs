@@ -1,4 +1,5 @@
 using UnityEngine;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Core.Spells
 {
@@ -12,5 +13,8 @@ namespace FroggyDefense.Core.Spells
         public AppliedEffectType Effect;        // What the intended effect is. (DOT, slow, stun).
         public StatusSchool School;             // Which kind of applied effect. (Curce, bleed, magic...)
         public DamageType DamageType;           // What kind of damage. Only applies for Damage Over Time Effects.
+
+        public ActionObject OnTickActions;      // Special actions to take on every tick.
+        public ActionObject OnExpireActions;    // Special actions to take when expired.
     }
 }

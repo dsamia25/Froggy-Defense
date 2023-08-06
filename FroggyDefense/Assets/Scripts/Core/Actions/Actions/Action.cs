@@ -4,6 +4,7 @@ namespace FroggyDefense.Core.Actions
 {
     public enum ActionType
     {
+        FindTargets,
         FireProjectile,
         CreateDamageZone,
         ApplyEffect,
@@ -35,13 +36,16 @@ namespace FroggyDefense.Core.Actions
         }
     }
 
+    [Serializable]
+    public struct SpellAction
+    {
+        public ActionObject action;
+        public float delayTime;
 
-
-    //public class DamageAction : Action
-    //{
-    //    public override void Resolve()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+        public SpellAction(ActionObject action, float delay)
+        {
+            this.action = action;
+            delayTime = delay;
+        }
+    }
 }

@@ -50,8 +50,6 @@ namespace FroggyDefense.Core.Spells
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;
         public bool AppliedEffect => Template.AppliedEffects.Length > 0;
-        //public bool AppliesStatusEffect => Template.AppliesStatusEffect;
-        //public bool AppliesDot => Template.AppliesDot;
         public bool CreatesDamageZone => Template.CreatesDamageArea;
 
         private float _currCooldown;
