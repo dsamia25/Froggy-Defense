@@ -4,9 +4,8 @@ using UnityEngine;
 namespace FroggyDefense.Core.Spells
 {
     [Serializable]
-    public class DamageOverTimeEffect
+    public class DamageOverTimeEffect: AppliedEffect
     {
-        public string Name { get; private set; }                    // The effect's name.
         public int Ticks { get; private set; }                      // The total amount of ticks the effect does.
         public int TicksLeft { get; private set; }                  // The amount of ticks the effect has left.
         public float DamagePerTick { get; private set; }            // The amount of damage applied each tick.
@@ -20,9 +19,10 @@ namespace FroggyDefense.Core.Spells
 
         private float _currTickCooldown;
 
-        public DamageOverTimeEffect(Character caster, IDestructable target, string name, float damagePerTick, DamageType effectDamageType, int ticks, float tickFrequency)
+        public DamageOverTimeEffect(Character caster, IDestructable target, AppliedEffectObject template, float damagePerTick, DamageType effectDamageType, int ticks, float tickFrequency)
         {
-            Name = name;
+            Template = template;
+            Name = template.Name;
             Target = target;
             Caster = caster;
             DamagePerTick = damagePerTick;
@@ -34,12 +34,7 @@ namespace FroggyDefense.Core.Spells
             _currTickCooldown = TickFrequency;
         }
 
-        /// <summary>
-        /// Returns a new damage instance from the effect. If all ticks are used,
-        /// returns null.
-        /// </summary>
-        /// <returns></returns>
-        public void Tick()
+        public override void Tick()
         {
             if (_currTickCooldown <= 0)
             {
@@ -53,22 +48,16 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
-        /// <summary>
-        /// Refreshs the ticks left to the full amount.
-        /// </summary>
-        public void Refresh()
+        public override void Refresh()
         {
             TicksLeft = Ticks;
         }
     }
 
-    [Serializable]
-    public class DamageOverTimeEffectBuilder
-    {
-        public string Name = "DOT";
-        public int Ticks = 1;
-        public float DamagePerTick = 1;
-        public float TickFrequency = 1;
-        public DamageType EffectDamageType;
-    }
+    // OLD WAY. Made the effect directly builable in the inspector.
+    //[Serializable]
+    //public class DamageOverTimeEffectBuilder: AppliedEffectBuilder
+    //{
+    //    public DamageType DamageType;
+    //}
 }

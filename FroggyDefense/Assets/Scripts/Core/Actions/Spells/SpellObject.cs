@@ -39,19 +39,21 @@ namespace FroggyDefense.Core.Spells
         public ProjectileInfo Projectile;       // Projectile info for projectile type spells.
         public float Damage;                    // How much damage the spell does.
         public DamageType SpellDamageType;
-        public Shape EffectShape;              // How wide of an area the spell effects.
+        public Shape EffectShape;               // How wide of an area the spell effects.
 
-        [Space]
-        [Header("Status Effect")]
-        [Space]
-        public bool AppliesStatusEffect;                            // If the spell applies status effects.
-        public StatusEffectBuilder AppliedStatusEffect;             // List of applied status effects.
+        public AppliedEffectObject[] AppliedEffects;  // List of applied effects.
 
-        [Space]
-        [Header("Dot Effect")]
-        [Space]
-        public bool AppliesDot;                                     // If the spell applies an overtime effect to the hit enemies.
-        public DamageOverTimeEffectBuilder AppliedOverTimeEffect;   // The dot this spell applies.
+        //[Space]
+        //[Header("Status Effect")]
+        //[Space]
+        //public bool AppliesStatusEffect;                            // If the spell applies status effects.
+        //public AppliedEffectBuilder AppliedStatusEffect;             // List of applied status effects.
+
+        //[Space]
+        //[Header("Dot Effect")]
+        //[Space]
+        //public bool AppliesDot;                                     // If the spell applies an overtime effect to the hit enemies.
+        //public DamageOverTimeEffectBuilder AppliedOverTimeEffect;   // The dot this spell applies.
 
         [Space]
         [Header("Damage Area")]

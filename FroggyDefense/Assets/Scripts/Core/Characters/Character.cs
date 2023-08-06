@@ -360,7 +360,26 @@ namespace FroggyDefense.Core
             }
         }
 
-        // TODO: Merge ApplyDot and ApplyStatusEffect into the same method.
+        // TODO: Make there just be one list of applied effects instead of a separate dots and other effects.
+        public void ApplyEffect(AppliedEffect effect)
+        {
+            switch (effect.Effect)
+            {
+                case AppliedEffectType.DamageOverTime:
+                    ApplyDot(effect as DamageOverTimeEffect);
+                    break;
+                case AppliedEffectType.Slow:
+                    ApplyStatusEffect(effect as StatusEffect);
+                    break;
+                case AppliedEffectType.Stun:
+                    ApplyStatusEffect(effect as StatusEffect);
+                    break;
+                default:
+                    Debug.LogWarning($"Error applying status effect.");
+                    break;
+            }
+        }
+
         /// <summary>
         /// Applies an overtime effect to the thing.
         /// </summary>
@@ -391,7 +410,7 @@ namespace FroggyDefense.Core
             _statusEffects.Add(status);
             _appliedEffects.Add(status.Name, status);
 
-            if (status.StatusType == StatusEffectType.Stun)
+            if (status.Effect == AppliedEffectType.Stun)
             {
                 _stunEffectCounter++;
                 _isStunned = true;
@@ -428,11 +447,11 @@ namespace FroggyDefense.Core
             float strongestSlow = 0f;
             foreach (StatusEffect status in _statusEffects)
             {
-                if (status.StatusType == StatusEffectType.Slow)
+                if (status.Effect == AppliedEffectType.Slow)
                 {
-                    if (Mathf.Abs(status.EffectStrength) > strongestSlow)
+                    if (Mathf.Abs(status.Strength) > strongestSlow)
                     {
-                        strongestSlow = status.EffectStrength;
+                        strongestSlow = status.Strength;
                     }
                 }
             }
@@ -445,6 +464,7 @@ namespace FroggyDefense.Core
             controller.MoveSpeedModifier = _moveSpeedModifer;
         }
 
+        // TODO: Makes there just be one method for TickAppliedEffects.
         /// <summary>
         /// Ticks each of the dots in the list.
         /// </summary>
@@ -517,7 +537,7 @@ namespace FroggyDefense.Core
                 _appliedEffects.Remove(status.Name);
                 _statusEffects.Remove(status);
 
-                if (status.StatusType == StatusEffectType.Stun) _stunEffectCounter--;
+                if (status.Effect == AppliedEffectType.Stun) _stunEffectCounter--;
                 if (_stunEffectCounter <= 0) _isStunned = false;
 
                 CalculateMoveSpeedModifer();

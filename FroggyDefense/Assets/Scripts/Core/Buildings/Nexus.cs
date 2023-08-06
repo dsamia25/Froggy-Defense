@@ -82,19 +82,10 @@ namespace FroggyDefense.Core.Buildings
         }
 
         /// <summary>
-        /// Applies an overtime effect to the thing.
+        /// Does nothing
         /// </summary>
         /// <param name="effect"></param>
-        public void ApplyDot(DamageOverTimeEffect dot)
-        {
-
-        }
-
-        /// <summary>
-        /// Applies a status effect.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ApplyStatusEffect(StatusEffect status)
+        public void ApplyEffect(AppliedEffect effect)
         {
 
         }

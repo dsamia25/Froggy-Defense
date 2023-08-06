@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Weapons;
 
-public class FireProjectileActionObject : MonoBehaviour
+namespace FroggyDefense.Core.Actions
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(fileName = "New Fire Projectile Action", menuName = "ScriptableObjects/Actions/New Fire Projectile Action")]
+    public class FireProjectileActionObject : ScriptableObject
     {
-        
-    }
+        public ProjectileInfo projectileInfo;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //public Action[] OnHitActions;
     }
 }

@@ -19,7 +19,7 @@ namespace FroggyDefense.Core.Spells
         public Shape EffectShape => Template.EffectShape;
         public Character Caster { get; private set; }                           // Who applied the effect.
 
-        public bool AppliesStatusEffect => Template.AppliesStatusEffect;
+        public bool AppliesStatusEffect => Template.AppliedEffects.Length > 0;
 
         public float TotalDamage => Ticks * DamagePerTick;          // The total amount of damage the effect will do over its duration.
         public float DamageLeft => TicksLeft * DamagePerTick;       // The amount of damage the effect will apply over the rest of its duration.
@@ -59,6 +59,7 @@ namespace FroggyDefense.Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
+                // TODO: Make a call to a SplashAction
                 ActionUtils.GetTargets(transform.position, Template.EffectShape, Template.TargetLayer, _overlapTargetList);
                 foreach (var collider in _overlapTargetList)
                 {
@@ -66,10 +67,11 @@ namespace FroggyDefense.Core.Spells
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
                         target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType));
-                        if (AppliesStatusEffect)
-                        {
-                            target.ApplyStatusEffect(new StatusEffect(Caster, target, Template.AppliedStatusEffect));
-                        }
+                        //if (AppliesStatusEffect)
+                        //{
+                        //    target.ApplyStatusEffect(new StatusEffect(Caster, target, Template.AppliedStatusEffect));
+                        //}
+                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
                     }
                 }
                 _currTickCooldown = TickFrequency;
@@ -93,7 +95,8 @@ namespace FroggyDefense.Core.Spells
         public Shape EffectShape;
         public LayerMask TargetLayer;           // The layer the targets are on.
 
-        public bool AppliesStatusEffect;
-        public StatusEffectBuilder AppliedStatusEffect;             // List of applied status effects.
+        //public bool AppliesStatusEffect;
+        //public StatusEffectBuilder AppliedStatusEffect;             // List of applied status effects.
+        public AppliedEffectObject[] AppliedEffects;
     }
 }

@@ -49,8 +49,9 @@ namespace FroggyDefense.Core.Spells
 
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;
-        public bool AppliesStatusEffect => Template.AppliesStatusEffect;
-        public bool AppliesDot => Template.AppliesDot;
+        public bool AppliedEffect => Template.AppliedEffects.Length > 0;
+        //public bool AppliesStatusEffect => Template.AppliesStatusEffect;
+        //public bool AppliesDot => Template.AppliesDot;
         public bool CreatesDamageZone => Template.CreatesDamageArea;
 
         private float _currCooldown;
@@ -91,7 +92,7 @@ namespace FroggyDefense.Core.Spells
                 return spell;
             } catch (Exception e)
             {
-                Debug.Log($"Error creating spell: {e}");
+                Debug.LogWarning($"Error creating spell: {e}");
                 return null;
             }
         }
@@ -111,6 +112,7 @@ namespace FroggyDefense.Core.Spells
 
             if (Type == SpellType.Area)
             {
+                // TODO: Make a call to a SplashAction
                 var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
                 Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
                 foreach (var collider in _overlapTargetList)
@@ -119,14 +121,15 @@ namespace FroggyDefense.Core.Spells
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
                         target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
-                        if (AppliesDot)
-                        {
-                            target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
-                        }
-                        if (AppliesStatusEffect)
-                        {
-                            target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
-                        }
+                        //if (AppliesDot)
+                        //{
+                        //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+                        //}
+                        //if (AppliesStatusEffect)
+                        //{
+                        //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
+                        //}
+                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
                     }
                 }
 
