@@ -29,6 +29,8 @@ namespace FroggyDefense.Core {
                 Debug.LogWarning($"Already an instance of ProjectileManager. Destroying new manager.");
                 Destroy(this);
             }
+
+            projectileIndex = new Dictionary<ProjectileInfo, DynamicProjectilePool>();
         }
 
         /// <summary>

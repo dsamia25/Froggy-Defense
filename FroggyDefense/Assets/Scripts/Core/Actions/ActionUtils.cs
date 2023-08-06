@@ -65,10 +65,10 @@ namespace FroggyDefense.Core {
         }
 
         /// <summary>
-        /// Fires a physical projectile with a collider.
+        /// Fires a projectile.
         /// </summary>
         /// <returns></returns>
-        public static bool FirePhysicalProjectile(ProjectileInfo projectile, Character caster, Vector2 fireLoc, Vector2 fireDir)
+        public static bool FireProjectile(ProjectileInfo projectile, Character caster, Vector2 fireLoc, Vector2 fireDir)
         {
             try
             {
@@ -78,18 +78,9 @@ namespace FroggyDefense.Core {
                 return true;
             } catch (Exception e)
             {
-                Debug.Log($"Error firing projectile: {e}");
+                Debug.LogWarning($"Error firing projectile: {e}");
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Fires a simulated moving projectile.
-        /// </summary>
-        /// <returns></returns>
-        public static bool FireVirtualProjectile()
-        {
-            throw new NotImplementedException();
         }
 
         public static float AngleBetweenTwoPoints(Vector3 a, Vector3 b)

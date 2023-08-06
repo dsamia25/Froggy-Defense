@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 using ShapeDrawer;

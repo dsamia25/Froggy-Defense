@@ -6,8 +6,9 @@ namespace FroggyDefense.Weapons
 {
     public class Projectile : MonoBehaviour
     {
+        public SpriteRenderer spriteRenderer;
+
         private Character Caster;                                       // Who shot the projectile.
-        [SerializeField] private Vector2 m_StorageLoc;                  // Where the projectile is stored.
 
         //public
         private ProjectileInfo template;
@@ -19,7 +20,8 @@ namespace FroggyDefense.Weapons
                 template = value;
 
                 // Change image to projectile image.
-
+                spriteRenderer.sprite = template.Appearance.sprite;
+                transform.localScale = template.Appearance.transformScale;
             }
         }   // The template to use for info.
 
@@ -51,10 +53,6 @@ namespace FroggyDefense.Weapons
             }
             rb.velocity = Vector2.zero;
 
-            if (m_StorageLoc == null)
-            {
-                m_StorageLoc = Vector2.zero;
-            }
         }
 
         /// <summary>
@@ -125,7 +123,6 @@ namespace FroggyDefense.Weapons
         public void Return()
         {
             rb.velocity = Vector2.zero;
-            transform.position = m_StorageLoc;
 
             ProjectileManager.instance.Return(this);
 
@@ -190,16 +187,16 @@ namespace FroggyDefense.Weapons
             }
         }
 
-        /// <summary>
-        /// Draws the explosion radius in the editor.
-        /// </summary>
-        private void OnDrawGizmosSelected()
-        {
-            if (template.HasSplashDamage)
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, template.SplashRadius);
-            }
-        }
+        ///// <summary>
+        ///// Draws the explosion radius in the editor.
+        ///// </summary>
+        //private void OnDrawGizmosSelected()
+        //{
+        //    if (template.HasSplashDamage)
+        //    {
+        //        Gizmos.color = Color.yellow;
+        //        Gizmos.DrawWireSphere(transform.position, template.SplashRadius);
+        //    }
+        //}
     }
 }

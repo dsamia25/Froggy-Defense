@@ -4,10 +4,10 @@ namespace FroggyDefense.Core.Spells
 {
     public enum ActionType
     {
-        Damage,
-        Heal,
-        Push,
-        Pull
+        FireProjectile,
+        CreateDamageZone,
+        ApplyEffect,
+        Knockback
     }
 
     public abstract class Action

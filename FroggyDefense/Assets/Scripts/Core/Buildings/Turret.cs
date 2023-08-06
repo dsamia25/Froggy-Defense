@@ -29,7 +29,7 @@ namespace FroggyDefense.Core.Buildings
         Range
     }
 
-    public class Turret : MonoBehaviour, IUseWeapon, IInteractable, IHasStats
+    public class Turret : MonoBehaviour, IInteractable, IHasStats
     {
         public Player m_Player;     // The player that owns the turret.
 

@@ -82,11 +82,14 @@ namespace FroggyDefense.Weapons
             if (_weapon.HasProjectile)
             {
                 if (_currProjectileCooldown <= 0) {
+                    // OLD WAY
                     // Shoots projectile
-                    Projectile projectile = ProjectileManager.instance.GetProjectile(_weapon.Projectile);
-                    projectile.transform.position = _projectileFireLocation.position;
+                    //Projectile projectile = ProjectileManager.instance.GetProjectile(_weapon.Projectile);
+                    //projectile.transform.position = _projectileFireLocation.position;
+                    //projectile.Shoot(_player, attackDir);
 
-                    projectile.Shoot(_player, attackDir);
+                    // NEW WAY
+                    ActionUtils.FireProjectile(_weapon.Projectile, _player, _projectileFireLocation.position, attackDir);
                     _currProjectileCooldown = _weapon.ProjectileCooldown;
                 }
             }
