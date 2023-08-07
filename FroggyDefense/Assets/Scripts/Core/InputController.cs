@@ -165,7 +165,7 @@ namespace FroggyDefense.Core
 
         public void ConfirmInput(InputArgs args)
         {
-            SelectedSpell.Cast(new ActionArgs(m_Player, null, args));
+            SelectedSpell.Cast(new ActionArgs(m_Player, null, args, SelectedSpell.CollisionList));
         }
     }
 }

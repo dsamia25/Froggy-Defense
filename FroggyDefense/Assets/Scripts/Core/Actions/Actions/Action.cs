@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core.Actions.Inputs;
 
@@ -58,12 +59,14 @@ namespace FroggyDefense.Core.Actions
         public Character Caster;
         public Character Target;
         public InputArgs Inputs;
+        public List<Collider2D> CollisionList;
 
-        public ActionArgs(Character caster, Character target, InputArgs inputs)
+        public ActionArgs(Character caster, Character target, InputArgs inputs, List<Collider2D> list)
         {
             Caster = caster;
             Target = target;
             Inputs = inputs;
+            CollisionList = list;
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 using ShapeDrawer;
@@ -30,7 +31,27 @@ namespace FroggyDefense.Core.Actions
 
         public override void Resolve(ActionArgs args)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, Template.EffectShape, Template.TargetLayer, args.CollisionList);
+                Debug.Log($"Cast: Found {targetAmount} targets. {args.CollisionList.Count} in list.");
+                foreach (var collider in args.CollisionList)
+                {
+                    IDestructable target = null;
+                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
+                    {
+                        target.TakeDamage(new DamageAction(args.Caster, Template.Damage, Template.SpellDamageType));
+
+                        foreach (AppliedEffectObject effect in Template.AppliedEffects)
+                        {
+                            args.Target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, args.Target));
+                        }
+                    }
+                }
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
+            }
         }
     }
 }

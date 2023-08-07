@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 
@@ -26,7 +27,13 @@ namespace FroggyDefense.Core.Actions
 
         public override void Resolve(ActionArgs args)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                ActionUtils.CreateDamageArea(args.Inputs.point1, Template.Area);
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error resolving Create Damage Zone Action: {e}");
+            }
         }
     }
 }

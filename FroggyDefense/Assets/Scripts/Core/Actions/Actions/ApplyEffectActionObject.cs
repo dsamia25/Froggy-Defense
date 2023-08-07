@@ -6,7 +6,7 @@ namespace FroggyDefense.Core.Actions
     [CreateAssetMenu(fileName = "New Apply Effect Action", menuName = "ScriptableObjects/Actions/New Apply Effect Action")]
     public class ApplyEffectActionObject : ActionObject
     {
-        public AppliedEffectObject Effect;
+        public AppliedEffectObject[] Effects;
 
         private void Awake()
         {
@@ -30,7 +30,11 @@ namespace FroggyDefense.Core.Actions
                 Debug.LogWarning($"Error resolving Apply Effect Action: Target cannot be null.");
                 return;
             }
-            args.Target.ApplyEffect(AppliedEffect.CreateAppliedEffect(Template.Effect, args.Caster, args.Target));
+
+            foreach (AppliedEffectObject effect in Template.Effects)
+            {
+                args.Target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, args.Target));
+            }
         }
     }
 }

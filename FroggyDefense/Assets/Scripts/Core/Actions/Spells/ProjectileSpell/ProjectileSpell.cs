@@ -9,7 +9,7 @@ namespace FroggyDefense.Core.Spells
         public ProjectileSpell(SpellObject template)
         {
             Template = template;
-            _overlapTargetList = new List<Collider2D>();
+            CollisionList = new List<Collider2D>();
         }
 
         public override bool Cast(ActionArgs args)

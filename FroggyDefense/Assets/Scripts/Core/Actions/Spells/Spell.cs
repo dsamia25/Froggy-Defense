@@ -35,17 +35,17 @@ namespace FroggyDefense.Core.Spells
 
         public SpellAction[] Actions => Template.Actions;           // List of actions the spell should take.
 
-        public float Damage => Template.Damage;
-        public DamageType SpellDamageType => Template.SpellDamageType;
-        public bool AppliedEffect => Template.AppliedEffects.Length > 0;
-        public bool CreatesDamageZone => Template.CreatesDamageArea;
+        //public float Damage => Template.Damage;
+        //public DamageType SpellDamageType => Template.SpellDamageType;
+        //public bool AppliedEffect => Template.AppliedEffects.Length > 0;
+        //public bool CreatesDamageZone => Template.CreatesDamageArea;
 
         private float _currCooldown;
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
 
         public bool OnCooldown => (_currCooldown > 0);
 
-        protected List<Collider2D> _overlapTargetList; // Reusable list for Physics2D.Overlap[Circle/Box]
+        public List<Collider2D> CollisionList; // Reusable list for Physics2D.Overlap[Circle/Box]
 
         /// <summary>
         /// Creates a Spell object of the correct inherited type.
@@ -86,7 +86,7 @@ namespace FroggyDefense.Core.Spells
         protected virtual IEnumerator ResolveAction(SpellAction action, ActionArgs args)
         {
             yield return new WaitForSeconds(action.delayTime);
-            action.action.Resolve(args);
+            //action.action.Resolve(args);
         }
 
         /// <summary>
@@ -129,25 +129,25 @@ namespace FroggyDefense.Core.Spells
         //    if (Type == SpellType.Area)
         //    {
         //        // TODO: Make a call to a SplashAction
-        //        var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
-        //        Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
-        //        foreach (var collider in _overlapTargetList)
-        //        {
-        //            IDestructable target = null;
-        //            if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
-        //            {
-        //                target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
-        //                //if (AppliesDot)
-        //                //{
-        //                //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
-        //                //}
-        //                //if (AppliesStatusEffect)
-        //                //{
-        //                //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
-        //                //}
-        //                // TODO: Do a foreach effect in appliedEffects, apply the effect.
-        //            }
-        //        }
+//        var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
+//        Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
+//                foreach (var collider in _overlapTargetList)
+//                {
+//                    IDestructable target = null;
+//                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
+//                    {
+//                        target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
+//                        //if (AppliesDot)
+//                        //{
+//                        //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+//                        //}
+//                        //if (AppliesStatusEffect)
+//                        //{
+//                        //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
+//                        //}
+//                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
+//                    }
+//}
 
         //        if (CreatesDamageZone)
         //        {
