@@ -21,6 +21,7 @@ namespace FroggyDefense.Core.Actions
         public ApplyEffectAction (ApplyEffectActionObject template)
         {
             Template = template;
+            ActionId = template.ActionId;
         }
 
         public override void Resolve(ActionArgs args)

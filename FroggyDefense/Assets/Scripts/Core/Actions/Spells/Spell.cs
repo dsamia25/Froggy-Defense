@@ -33,7 +33,8 @@ namespace FroggyDefense.Core.Spells
         public float TargetRange => Template.TargetRange;
         public InputMode TargetMode => Template.TargetMode;
 
-        public SpellAction[] Actions => Template.Actions;           // List of actions the spell should take.
+        public SpellAction[] SpellActions => Template.Actions;           // List of actions the spell should take.
+        public Dictionary<int, Actions.Action> ActionIndex;
 
         //public float Damage => Template.Damage;
         //public DamageType SpellDamageType => Template.SpellDamageType;
@@ -83,10 +84,20 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
+        /// <summary>
+        /// Finds the generated action to use and resolves it.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual IEnumerator ResolveAction(SpellAction action, ActionArgs args)
         {
-            yield return new WaitForSeconds(action.delayTime);
-            //action.action.Resolve(args);
+            Actions.Action ac = GetAction(action.action);
+            if (ac != null)
+            {
+                yield return new WaitForSeconds(action.delayTime);
+                ac.Resolve(args);
+            }
         }
 
         /// <summary>
@@ -103,14 +114,38 @@ namespace FroggyDefense.Core.Spells
             }
 
             // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
-            foreach (SpellAction action in Actions)
+            foreach (SpellAction action in SpellActions)
             {
-
+                //StartCoroutine();
+                // TODO: Need to make a way to start a coroutine or equivalent kind of delay.
+                Debug.Log($"Starting action \"{action.action.name}\" ({action.action.ActionId}). Delayed {action.delayTime} seconds");
             }
 
             args.Caster.UseMana(ManaCost);
             _currCooldown = Cooldown;
             return true;
+        }
+
+        /// <summary>
+        /// Gets the created action for the spell to use.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private Actions.Action GetAction(ActionObject action)
+        {
+            try
+            {
+                if (!ActionIndex.ContainsKey(action.ActionId))
+                {
+                    ActionIndex.Add(action.ActionId, Actions.Action.CreateAction(action));
+                }
+
+                return ActionIndex[action.ActionId];
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error getting spell action: {e}");
+                return null;
+            }
         }
 
         ///// <summary>
@@ -129,25 +164,25 @@ namespace FroggyDefense.Core.Spells
         //    if (Type == SpellType.Area)
         //    {
         //        // TODO: Make a call to a SplashAction
-//        var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
-//        Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
-//                foreach (var collider in _overlapTargetList)
-//                {
-//                    IDestructable target = null;
-//                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
-//                    {
-//                        target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
-//                        //if (AppliesDot)
-//                        //{
-//                        //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
-//                        //}
-//                        //if (AppliesStatusEffect)
-//                        //{
-//                        //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
-//                        //}
-//                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
-//                    }
-//}
+        //        var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
+        //        Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
+        //                foreach (var collider in _overlapTargetList)
+        //                {
+        //                    IDestructable target = null;
+        //                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
+        //                    {
+        //                        target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
+        //                        //if (AppliesDot)
+        //                        //{
+        //                        //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+        //                        //}
+        //                        //if (AppliesStatusEffect)
+        //                        //{
+        //                        //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
+        //                        //}
+        //                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
+        //                    }
+        //}
 
         //        if (CreatesDamageZone)
         //        {

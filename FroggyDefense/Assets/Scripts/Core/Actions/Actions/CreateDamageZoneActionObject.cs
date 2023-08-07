@@ -23,6 +23,7 @@ namespace FroggyDefense.Core.Actions
         public CreateDamageZoneAction(CreateDamageZoneActionObject template)
         {
             Template = template;
+            ActionId = template.ActionId;
         }
 
         public override void Resolve(ActionArgs args)

@@ -23,6 +23,7 @@ namespace FroggyDefense.Core.Actions
         public FireProjectileAction(FireProjectileActionObject template)
         {
             Template = template;
+            ActionId = template.ActionId;
         }
 
         public override void Resolve(ActionArgs args)

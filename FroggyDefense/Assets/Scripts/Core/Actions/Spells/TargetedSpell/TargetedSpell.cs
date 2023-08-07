@@ -10,13 +10,8 @@ namespace FroggyDefense.Core.Spells
         {
             Template = template;
             CollisionList = new List<Collider2D>();
+            ActionIndex = new Dictionary<int, Actions.Action>();
         }
-
-        //public override void StartInputProtocol()
-        //{
-        //    Debug.Log($"Starting Targeted Spell protocol.");
-        //    base.StartInputProtocol();
-        //}
 
         public override bool Cast(ActionArgs args)
         {

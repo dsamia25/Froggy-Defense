@@ -15,6 +15,8 @@ namespace FroggyDefense.Core.Actions
 
     public abstract class Action
     {
+        public int ActionId = -1;
+
         public abstract void Resolve(ActionArgs args);
 
         /// <summary>
@@ -22,7 +24,7 @@ namespace FroggyDefense.Core.Actions
         /// </summary>
         /// <param name="template"></param>
         /// <returns></returns>
-        public Action CreateAction(ActionObject template)
+        public static Action CreateAction(ActionObject template)
         {
             try
             {

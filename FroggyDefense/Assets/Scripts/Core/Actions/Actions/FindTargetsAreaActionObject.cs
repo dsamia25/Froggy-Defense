@@ -27,6 +27,7 @@ namespace FroggyDefense.Core.Actions
         public FindTargetsAreaAction(FindTargetsAreaActionObject template)
         {
             Template = template;
+            ActionId = template.ActionId;
         }
 
         public override void Resolve(ActionArgs args)
