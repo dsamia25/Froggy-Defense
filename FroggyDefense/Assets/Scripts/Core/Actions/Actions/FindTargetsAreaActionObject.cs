@@ -12,5 +12,25 @@ namespace FroggyDefense.Core.Actions
         public float Damage;                            // How much damage the spell does.
         public DamageType SpellDamageType;              // What kind of damage is applied (If applicable).
         public AppliedEffectObject[] AppliedEffects;    // List of applied effects.
+
+        private void Awake()
+        {
+            Type = ActionType.FindTargetsArea;
+        }
+    }
+
+    public class FindTargetsAreaAction : Action
+    {
+        FindTargetsAreaActionObject Template;
+
+        public FindTargetsAreaAction(FindTargetsAreaActionObject template)
+        {
+            Template = template;
+        }
+
+        public override void Resolve(ActionArgs args)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

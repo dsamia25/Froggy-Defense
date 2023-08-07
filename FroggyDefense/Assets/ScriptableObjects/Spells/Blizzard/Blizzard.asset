@@ -18,6 +18,9 @@ MonoBehaviour:
   Type: 0
   Cooldown: 1
   ManaCost: 30
+  Description: Deal 1 damage to enemies in an area and slow them by 25% for 1 second.
+    Creates a damage area for 5 seconds that deals 2 damage every second and slows
+    enemies by 50% for 2 seconds.
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536

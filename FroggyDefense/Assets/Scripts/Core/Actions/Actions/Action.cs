@@ -1,38 +1,69 @@
 using System;
+using UnityEngine;
+using FroggyDefense.Core.Actions.Inputs;
 
 namespace FroggyDefense.Core.Actions
 {
     public enum ActionType
     {
-        FindTargets,
+        FindTargetsArea,
         FireProjectile,
         CreateDamageZone,
-        ApplyEffect,
-        Knockback,
-        Summon
+        ApplyEffect        
     }
 
     public abstract class Action
     {
-        public ActionArgs args { get; protected set; }
-
         public abstract void Resolve(ActionArgs args);
 
         /// <summary>
-        /// A packet containing info on an action.
+        /// Builds an action object.
         /// </summary>
-        public struct ActionArgs
+        /// <param name="template"></param>
+        /// <returns></returns>
+        public Action CreateAction(ActionObject template)
         {
-            Character Sub;      // The Subject, who is doing the action.
-            Character Obj;      // The Direct Object, who is the action being down to.
-            float Value;        // What number is involved in the action.
-
-            public ActionArgs(Character sub, Character obj, float value)
+            try
             {
-                Sub = sub;
-                Obj = obj;
-                Value = value;
+                Action action = null;
+                switch (template.Type)
+                {
+                    case ActionType.FindTargetsArea:
+                        action = new FindTargetsAreaAction(template as FindTargetsAreaActionObject);
+                        break;
+                    case ActionType.FireProjectile:
+                        action = new FireProjectileAction(template as FireProjectileActionObject);
+                        break;
+                    case ActionType.CreateDamageZone:
+                        action = new CreateDamageZoneAction(template as CreateDamageZoneActionObject);
+                        break;
+                    case ActionType.ApplyEffect:
+                        action = new ApplyEffectAction(template as ApplyEffectActionObject);
+                        break;
+                }
+                return action;
+            } catch (Exception e)
+            {
+                Debug.LogWarning($"Error creating action: {e}");
+                return null;
             }
+        }
+    }
+
+    /// <summary>
+    /// Structure to feed use info into a spell.
+    /// </summary>
+    public struct ActionArgs
+    {
+        public Character Caster;
+        public Character Target;
+        public InputArgs Inputs;
+
+        public ActionArgs(Character caster, Character target, InputArgs inputs)
+        {
+            Caster = caster;
+            Target = target;
+            Inputs = inputs;
         }
     }
 

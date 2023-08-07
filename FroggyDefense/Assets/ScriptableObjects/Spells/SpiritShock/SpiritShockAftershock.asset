@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00c302d64d1934b5f9685f5cf624b552, type: 3}
+  m_Name: SpiritShockAftershock
+  m_EditorClassIdentifier: 
+  Type: 0
+  Effect: {fileID: 11400000, guid: 0fe055e398fac467992cf82aec0a6570, type: 2}

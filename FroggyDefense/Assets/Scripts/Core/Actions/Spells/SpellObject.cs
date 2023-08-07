@@ -13,7 +13,6 @@ namespace FroggyDefense.Core.Spells
         Targeted
     }
 
-    // TODO: Abstractify this.
     [CreateAssetMenu(fileName = "New Spell", menuName = "ScriptableObjects/Spells/New Spell")]
     public class SpellObject : ScriptableObject
     {
@@ -26,6 +25,9 @@ namespace FroggyDefense.Core.Spells
         public SpellType Type;                          // The type of spell cast.
         public float Cooldown;                          // How long until the spell can be used again.
         public float ManaCost;                          // How much mana to cast the spell.
+
+        [TextArea(3, 5)]
+        public string Description;                      // The spell's description.
 
         [Space]
         [Header("Targeting")]

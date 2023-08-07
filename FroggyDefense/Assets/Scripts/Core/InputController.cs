@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Core.Actions.Inputs;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Core
 {
@@ -164,7 +165,7 @@ namespace FroggyDefense.Core
 
         public void ConfirmInput(InputArgs args)
         {
-            SelectedSpell.Cast(new SpellArgs(m_Player, args));
+            SelectedSpell.Cast(new ActionArgs(m_Player, null, args));
         }
     }
 }

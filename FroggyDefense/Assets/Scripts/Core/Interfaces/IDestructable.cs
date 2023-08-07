@@ -18,19 +18,6 @@ namespace FroggyDefense.Core
         /// <param name="damage"></param>
         public abstract void TakeDamage(DamageAction damage);
 
-        //// TODO: Merge ApplyDot and ApplyStatusEffect into the same method.
-        ///// <summary>
-        ///// Applies a damage over time effect.
-        ///// </summary>
-        ///// <param name="effect"></param>
-        //public void ApplyDot(DamageOverTimeEffect dot);
-
-        ///// <summary>
-        ///// Applies a status effect.
-        ///// </summary>
-        ///// <param name="status"></param>
-        //public void ApplyStatusEffect(StatusEffect status);
-
         /// <summary>
         /// Applies a status effect.
         /// </summary>

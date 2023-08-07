@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Core.Spells
 {
@@ -17,7 +18,7 @@ namespace FroggyDefense.Core.Spells
         //    base.StartInputProtocol();
         //}
 
-        public override bool Cast(SpellArgs args)
+        public override bool Cast(ActionArgs args)
         {
             return base.Cast(args);
         }

@@ -9,22 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f58d7119934894be38b09b8d506f3654, type: 3}
-  m_Name: Firewall
+  m_Script: {fileID: 11500000, guid: b8a378955337943efa60c28c27bbfaff, type: 3}
+  m_Name: Spirit Shock
   m_EditorClassIdentifier: 
-  Name: Firewall
-  Icon: {fileID: 21300000, guid: 3458c119c69e9bc4f9647599c2901dee, type: 3}
+  Name: Spirit Shock
+  Icon: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   SpellId: 0
   Type: 0
-  Cooldown: 0
-  ManaCost: 0
+  Cooldown: 1
+  ManaCost: 50
+  Description: Stun all nearby enemies for 2 seconds. When the stun expires, they
+    are slowed by 25% for 1 second.
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536
-  TargetRange: 4
-  TargetMode: 1
+  TargetRange: 0
+  TargetMode: 0
   Projectile:
-    ProjectilePrefab: {fileID: 0}
+    Appearance:
+      sprite: {fileID: 0}
+      transformScale: {x: 0, y: 0}
     ProjectilePoolSize: 8
     Damage: 1
     HasProjectileDamageScaling: 0
@@ -75,40 +79,24 @@ MonoBehaviour:
     BurstFireEnabled: 0
     BurstFireAmount: 1
     BurstDelay: 0.25
-  Damage: 0
-  SpellDamageType: 0
+  Damage: 1
+  SpellDamageType: 5
   EffectShape:
-    Type: 0
-    Dimensions: {x: 0, y: 0}
-  AppliesStatusEffect: 0
-  AppliedStatusEffect:
-    Name: STATUS EFFECT
-    EffectStrength: 1
-    StatusType: 0
-    EffectTime: 1
-  AppliesDot: 0
-  AppliedOverTimeEffect:
-    Name: DOT
+    Type: 32
+    Dimensions: {x: 3, y: 3}
+  AppliedEffects: []
+  CreatesDamageArea: 0
+  CreatedDamageArea:
+    Name: DAMAGE AREA
     Ticks: 1
     DamagePerTick: 1
     TickFrequency: 1
     EffectDamageType: 0
-  CreatesDamageArea: 1
-  CreatedDamageArea:
-    Name: Firewall Damage Area
-    Ticks: 10
-    DamagePerTick: 1
-    TickFrequency: 0.5
-    EffectDamageType: 3
     EffectShape:
-      Type: 4
-      Dimensions: {x: 1, y: 1}
+      Type: 0
+      Dimensions: {x: 0, y: 0}
     TargetLayer:
       serializedVersion: 2
-      m_Bits: 1536
-    AppliesStatusEffect: 0
-    AppliedStatusEffect:
-      Name: STATUS EFFECT
-      EffectStrength: 1
-      StatusType: 0
-      EffectTime: 1
+      m_Bits: 0
+    AppliedEffects: []
+  Actions: []

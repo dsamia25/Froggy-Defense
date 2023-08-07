@@ -4,6 +4,7 @@ namespace FroggyDefense.Core.Actions
 {
     public abstract class ActionObject : ScriptableObject
     {
-        public ActionType Type;
+        [HideInInspector]
+        public ActionType Type { get; protected set; }
     }
 }

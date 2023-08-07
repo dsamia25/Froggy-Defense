@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core.Actions.Inputs;
@@ -18,21 +19,6 @@ namespace FroggyDefense.Core.Spells
         Earth
     }
 
-    /// <summary>
-    /// Structure to feed use info into a spell.
-    /// </summary>
-    public struct SpellArgs
-    {
-        public Character Caster;
-        public InputArgs Inputs;
-
-        public SpellArgs(Character caster, InputArgs inputs)
-        {
-            Caster = caster;
-            Inputs = inputs;
-        }
-    }
-
     public abstract class Spell
     {
         public SpellObject Template;
@@ -46,6 +32,8 @@ namespace FroggyDefense.Core.Spells
         public Shape EffectShape => Template.EffectShape;
         public float TargetRange => Template.TargetRange;
         public InputMode TargetMode => Template.TargetMode;
+
+        public SpellAction[] Actions => Template.Actions;           // List of actions the spell should take.
 
         public float Damage => Template.Damage;
         public DamageType SpellDamageType => Template.SpellDamageType;
@@ -95,12 +83,18 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
+        protected virtual IEnumerator ResolveAction(SpellAction action, ActionArgs args)
+        {
+            yield return new WaitForSeconds(action.delayTime);
+            action.action.Resolve(args);
+        }
+
         /// <summary>
         /// Builds the spell effect using the SpellObject's parameters.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public virtual bool Cast(SpellArgs args)
+        public virtual bool Cast(ActionArgs args)
         {
             if (args.Caster.Mana < ManaCost)
             {
@@ -108,58 +102,82 @@ namespace FroggyDefense.Core.Spells
                 return false;
             }
 
-            if (Type == SpellType.Area)
+            // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
+            foreach (SpellAction action in Actions)
             {
-                // TODO: Make a call to a SplashAction
-                var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
-                Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
-                foreach (var collider in _overlapTargetList)
-                {
-                    IDestructable target = null;
-                    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
-                    {
-                        target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
-                        //if (AppliesDot)
-                        //{
-                        //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
-                        //}
-                        //if (AppliesStatusEffect)
-                        //{
-                        //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
-                        //}
-                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
-                    }
-                }
 
-                if (CreatesDamageZone)
-                {
-                    // OLD WAY
-                    //var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Inputs.point1, Quaternion.identity);
-                    //damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
-
-                    // NEW WAY
-                    ActionUtils.CreateDamageArea(args.Inputs.point1, Template.CreatedDamageArea);
-                }
-
-                Debug.Log($"Casting {Name} as an AOE Spell. Damaged {targetAmount} targets.");
-            }
-            else if (Type == SpellType.Projectile)
-            {
-                Debug.Log($"Casting {Name} as a Projectile Spell.");
-            }
-            else if (Type == SpellType.Targeted)
-            {
-                Debug.Log($"Casting {Name} as a Targeted Spell.");
-            }
-            else
-            {
-                Debug.Log($"ERROR: Casting {Name} as an unknown spell type ({Type.ToString()}).");
-                return false;
             }
 
             args.Caster.UseMana(ManaCost);
             _currCooldown = Cooldown;
             return true;
         }
+
+        ///// <summary>
+        ///// Builds the spell effect using the SpellObject's parameters.
+        ///// </summary>
+        ///// <param name="args"></param>
+        ///// <returns></returns>
+        //public virtual bool Cast(ActionArgs args)
+        //{
+        //    if (args.Caster.Mana < ManaCost)
+        //    {
+        //        Debug.Log("Cannot cast spell. " + Name + " needs " + ManaCost + " mana. (" + (ManaCost - GameManager.instance.m_Player.Mana).ToString("0.00") + " more needed).");
+        //        return false;
+        //    }
+
+        //    if (Type == SpellType.Area)
+        //    {
+        //        // TODO: Make a call to a SplashAction
+        //        var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, EffectShape, Template.TargetLayer, _overlapTargetList);
+        //        Debug.Log($"Cast: Found {targetAmount} targets. {_overlapTargetList.Count} in list.");
+        //        foreach (var collider in _overlapTargetList)
+        //        {
+        //            IDestructable target = null;
+        //            if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
+        //            {
+        //                target.TakeDamage(new DamageAction(args.Caster, Damage, SpellDamageType));
+        //                //if (AppliesDot)
+        //                //{
+        //                //target.ApplyDot(new DamageOverTimeEffect(args.Caster, target, Template.AppliedOverTimeEffect.Name, Template.AppliedOverTimeEffect.DamagePerTick, Template.AppliedOverTimeEffect.EffectDamageType, Template.AppliedOverTimeEffect.Ticks, Template.AppliedOverTimeEffect.TickFrequency));
+        //                //}
+        //                //if (AppliesStatusEffect)
+        //                //{
+        //                //    target.ApplyStatusEffect(new StatusEffect(args.Caster, target, Template.AppliedStatusEffect));
+        //                //}
+        //                // TODO: Do a foreach effect in appliedEffects, apply the effect.
+        //            }
+        //        }
+
+        //        if (CreatesDamageZone)
+        //        {
+        //            // OLD WAY
+        //            //var damageArea = GameObject.Instantiate(GameManager.instance.m_DamageAreaPrefab, args.Inputs.point1, Quaternion.identity);
+        //            //damageArea.GetComponent<DamageArea>().Init(Template.CreatedDamageArea);
+
+        //            // NEW WAY
+        //            ActionUtils.CreateDamageArea(args.Inputs.point1, Template.CreatedDamageArea);
+        //        }
+
+        //        Debug.Log($"Casting {Name} as an AOE Spell. Damaged {targetAmount} targets.");
+        //    }
+        //    else if (Type == SpellType.Projectile)
+        //    {
+        //        Debug.Log($"Casting {Name} as a Projectile Spell.");
+        //    }
+        //    else if (Type == SpellType.Targeted)
+        //    {
+        //        Debug.Log($"Casting {Name} as a Targeted Spell.");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log($"ERROR: Casting {Name} as an unknown spell type ({Type.ToString()}).");
+        //        return false;
+        //    }
+
+        //    args.Caster.UseMana(ManaCost);
+        //    _currCooldown = Cooldown;
+        //    return true;
+        //}
     }
 }

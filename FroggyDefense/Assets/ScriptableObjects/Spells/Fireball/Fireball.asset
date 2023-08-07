@@ -18,13 +18,18 @@ MonoBehaviour:
   Type: 1
   Cooldown: 0
   ManaCost: 10
+  Description: Shoot a fireball, exploding on the first enemy hit, dealing 3 damage
+    to the primary target and 2 to all other targets. Enemies hit will burn for 4
+    damage over 2 seconds.
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536
   TargetRange: 5
   TargetMode: 2
   Projectile:
-    ProjectilePrefab: {fileID: 0}
+    Appearance:
+      sprite: {fileID: 0}
+      transformScale: {x: 0, y: 0}
     ProjectilePoolSize: 8
     Damage: 1
     HasProjectileDamageScaling: 0
@@ -80,19 +85,7 @@ MonoBehaviour:
   EffectShape:
     Type: 32
     Dimensions: {x: 1, y: 0.5}
-  AppliesStatusEffect: 0
-  AppliedStatusEffect:
-    Name: STATUS EFFECT
-    EffectStrength: 1
-    StatusType: 0
-    EffectTime: 1
-  AppliesDot: 1
-  AppliedOverTimeEffect:
-    Name: Burning
-    Ticks: 5
-    DamagePerTick: 1
-    TickFrequency: 1
-    EffectDamageType: 3
+  AppliedEffects: []
   CreatesDamageArea: 0
   CreatedDamageArea:
     Name: DOT
@@ -106,9 +99,5 @@ MonoBehaviour:
     TargetLayer:
       serializedVersion: 2
       m_Bits: 0
-    AppliesStatusEffect: 0
-    AppliedStatusEffect:
-      Name: STATUS EFFECT
-      EffectStrength: 1
-      StatusType: 0
-      EffectTime: 1
+    AppliedEffects: []
+  Actions: []
