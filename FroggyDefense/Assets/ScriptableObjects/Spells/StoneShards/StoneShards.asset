@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Stone Shards
   Icon: {fileID: 21300000, guid: 1bb69cd91685d9248a58b144052746f3, type: 3}
-  SpellId: 0
+  SpellId: 3
   Type: 1
   Cooldown: 2
   ManaCost: 15
-  TargetMode: 0
+  TargetMode: 2
   EffectShape:
-    Type: 0
-    Dimensions: {x: 0, y: 0}
+    Type: 4
+    Dimensions: {x: 0.25, y: 3}
   TargetRange: 6
   Actions:
   - action: {fileID: 11400000, guid: c67e3b08a64a54a10a8b24f2a9f6363e, type: 2}
     delayTime: 0
   - action: {fileID: 11400000, guid: c67e3b08a64a54a10a8b24f2a9f6363e, type: 2}
-    delayTime: 0.33
+    delayTime: 0.25
   - action: {fileID: 11400000, guid: c67e3b08a64a54a10a8b24f2a9f6363e, type: 2}
-    delayTime: 0.67
+    delayTime: 0.5
   Description: Fire 3 projectiles that deal 2 damage each .3 seconds apart.

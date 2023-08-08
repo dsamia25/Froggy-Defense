@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc3b934c1b74f2686cdcac8d90f44c, type: 3}
   m_Name: StoneShardsProjectile
   m_EditorClassIdentifier: 
-  Type: 0
+  ActionId: 5
   projectileInfo:
     Appearance:
       sprite: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
@@ -24,7 +24,7 @@ MonoBehaviour:
       Stat: 0
       Value: 0
     DirectDamageType: 0
-    MoveSpeed: 5
+    MoveSpeed: 8
     HasSplashDamage: 0
     SplashDamage: 0
     SplashDamageType: 0

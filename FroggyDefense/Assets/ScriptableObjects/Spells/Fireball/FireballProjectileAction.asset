@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc3b934c1b74f2686cdcac8d90f44c, type: 3}
   m_Name: FireballProjectileAction
   m_EditorClassIdentifier: 
+  ActionId: 2
   projectileInfo:
     Appearance:
       sprite: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
@@ -23,7 +24,7 @@ MonoBehaviour:
       Stat: 0
       Value: 0
     DirectDamageType: 3
-    MoveSpeed: 1
+    MoveSpeed: 6
     HasSplashDamage: 0
     SplashDamage: 0
     SplashDamageType: 0
