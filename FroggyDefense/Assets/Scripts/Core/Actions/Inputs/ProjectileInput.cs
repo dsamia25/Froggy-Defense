@@ -29,12 +29,12 @@ namespace FroggyDefense.Core.Actions.Inputs
             mousePos.z = 0;
 
             MoveTargetOverlay(mousePos, SelectedSpell.TargetRange);
-
             // Listen for inputs
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log($"Confirmed input click at ({TargetOverlay.transform.position}).");
-                ClickPos = TargetOverlay.transform.position;
+                Vector2 attackDir = (TargetOverlay.transform.position - FirePos.position).normalized;
+                Debug.Log($"Confirmed input direction at ({attackDir}).");
+                ClickPos = attackDir;
                 Confirm();
             }
             else if (Input.GetMouseButtonDown(1))

@@ -64,28 +64,7 @@ namespace FroggyDefense.Core
         {
             if (GameManager.GameStarted)
             {
-                if (TargetingAbility)
-                {
-                    //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    //mousePos.z = 0;
-
-                    //MoveAbilityTargetOverlay(mousePos, SelectedSpell.TargetRange);
-                    //if (Input.GetMouseButtonDown(0))
-                    //{
-                    //    Debug.Log("Confirmed Spell at (" + _spellEffectAreaPreview.transform.position + ").");
-                    //    SelectedSpell.Cast(new SpellArgs(m_Player, _spellEffectAreaPreview.transform.position));
-                    //    ClearAbilityTargetingOverlay();
-                    //    _targetingAbility = false;
-                    //}
-                    //else if (Input.GetMouseButtonDown(1))
-                    //{
-                    //    Debug.Log("Cancelled Spell.");
-                    //    ClearAbilityTargetingOverlay();
-                    //    _targetingAbility = false;
-                    //}
-                    Debug.Log($"Already targeting an ability.");
-                }
-                else
+                if (!TargetingAbility)
                 {
                     if (Input.GetButtonDown("Ability1"))
                     {

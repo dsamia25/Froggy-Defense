@@ -7,20 +7,20 @@ namespace FroggyDefense.Core.Actions
     [CreateAssetMenu(fileName = "New Action Database", menuName = "ScriptableObjects/Actions/Action Database")]
     public class ActionDatabase : ScriptableObject
     {
-        public static ActionDatabase instance;      // Singleton
+        //public static ActionDatabase instance;      // Singleton
 
         public ActionObject[] ActionList;           // List of all actions in the game.
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Debug.LogWarning($"Error: already instance of ItemDatabase.");
-            }
+            //if (instance == null)
+            //{
+            //    instance = this;
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"Error: already instance of ItemDatabase.");
+            //}
 
             AssignIds();
         }
@@ -30,7 +30,11 @@ namespace FroggyDefense.Core.Actions
         /// </summary>
         private void AssignIds()
         {
-            if (ActionList == null) return;
+            if (ActionList == null)
+            {
+                Debug.Log($"Cannot assign action Id's. ActionList is null.");
+                return;
+            }
 
             for (int i = 0; i < ActionList.Length; i++)
             {

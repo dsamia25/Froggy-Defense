@@ -18,90 +18,16 @@ MonoBehaviour:
   Type: 0
   Cooldown: 1
   ManaCost: 30
-  Description: Deal 1 damage to enemies in an area and slow them by 25% for 1 second.
-    Creates a damage area for 5 seconds that deals 2 damage every second and slows
-    enemies by 50% for 2 seconds.
-  TargetLayer:
-    serializedVersion: 2
-    m_Bits: 1536
-  TargetRange: 3
   TargetMode: 0
-  Projectile:
-    Appearance:
-      sprite: {fileID: 0}
-      transformScale: {x: 0, y: 0}
-    ProjectilePoolSize: 8
-    Damage: 1
-    HasProjectileDamageScaling: 0
-    ProjectileDamageScalingFactor:
-      Stat: 0
-      Value: 0
-    DirectDamageType: 0
-    MoveSpeed: 1
-    HasSplashDamage: 0
-    SplashDamage: 0
-    SplashDamageType: 0
-    HasSplashDamageScaling: 0
-    SplashDamageScalingFactor:
-      Stat: 0
-      Value: 0
-    SplashLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    SplashRadius: 0
-    HasMaxSplashTargets: 0
-    MaxSplashTargets: 100
-    HasPiercing: 0
-    MaxPierces: 0
-    HasMaxRange: 1
-    MaxRange: 20
-    HasRangeEffectModifier: 0
-    TravelDistanceEffectModifierRange: {x: 1, y: 1}
-    HasMaxTime: 1
-    TimeLimit: 20
-    HasTimeEffectModifier: 0
-    TimeEffectModifierRange: {x: 1, y: 1}
-    HasSeeking: 0
-    SeekingTurnAngle: 0.05
-    SeekingTargetPriority: 0
-    HasBounce: 0
-    Bounces: 3
-    BounceTargetLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    BounceTargetPriority: 0
-    BounceRadius: 0
-    BounceEffectModifier: -0.1
-    OnlyEffectFirstBounce: 0
-    CanBounceToRepeatTargets: 0
-    HasSprayPattern: 0
-    SprayPattern: []
-    SprayPatternCooldown: 1
-    BurstFireEnabled: 0
-    BurstFireAmount: 1
-    BurstDelay: 0.25
-  Damage: 1
-  SpellDamageType: 4
   EffectShape:
     Type: 32
     Dimensions: {x: 2, y: 2}
-  AppliedEffects: []
-  CreatesDamageArea: 1
-  CreatedDamageArea:
-    Name: Blizzard Zone
-    Ticks: 5
-    DamagePerTick: 2
-    TickFrequency: 1
-    EffectDamageType: 4
-    EffectShape:
-      Type: 32
-      Dimensions: {x: 2, y: 2}
-    TargetLayer:
-      serializedVersion: 2
-      m_Bits: 1536
-    AppliedEffects: []
+  TargetRange: 3
   Actions:
-  - action: {fileID: 11400000, guid: ef54023ab375346de8cbd7fe141d58c8, type: 2}
+  - action: {fileID: 11400000, guid: 94048e13376b340d68b8630167eb70ad, type: 2}
     delayTime: 0
   - action: {fileID: 11400000, guid: ef54023ab375346de8cbd7fe141d58c8, type: 2}
     delayTime: 0
+  Description: Deal 1 damage to enemies in an area and slow them by 25% for 1 second.
+    Creates a damage area for 5 seconds that deals 2 damage every second and slows
+    enemies by 50% for 2 seconds.

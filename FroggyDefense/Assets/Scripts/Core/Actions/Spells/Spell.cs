@@ -36,11 +36,6 @@ namespace FroggyDefense.Core.Spells
         public SpellAction[] SpellActions => Template.Actions;           // List of actions the spell should take.
         public Dictionary<int, Actions.Action> ActionIndex;
 
-        //public float Damage => Template.Damage;
-        //public DamageType SpellDamageType => Template.SpellDamageType;
-        //public bool AppliedEffect => Template.AppliedEffects.Length > 0;
-        //public bool CreatesDamageZone => Template.CreatesDamageArea;
-
         private float _currCooldown;
         public float CurrCooldown { get => _currCooldown; set => _currCooldown = value; }
 
@@ -116,8 +111,7 @@ namespace FroggyDefense.Core.Spells
             // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
             foreach (SpellAction action in SpellActions)
             {
-                //StartCoroutine();
-                // TODO: Need to make a way to start a coroutine or equivalent kind of delay.
+                args.Caster.StartCoroutine(ResolveAction(action, args));
                 Debug.Log($"Starting action \"{action.action.name}\" ({action.action.ActionId}). Delayed {action.delayTime} seconds");
             }
 

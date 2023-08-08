@@ -30,7 +30,7 @@ namespace FroggyDefense.Core.Actions
         {
             try
             {
-                ActionUtils.FireProjectile(Template.projectileInfo, args.Caster, args.Inputs.point1, args.Inputs.point2);
+                ActionUtils.FireProjectile(Template.projectileInfo, args.Caster, args.Caster.transform.position, args.Inputs.point1);
             } catch (Exception e)
             {
                 Debug.LogWarning($"Error resolving Fire Projectile Action: {e}");

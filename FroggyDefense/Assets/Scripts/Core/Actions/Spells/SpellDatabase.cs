@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Spells
@@ -7,20 +5,20 @@ namespace FroggyDefense.Core.Spells
     [CreateAssetMenu(fileName = "New Spell Database", menuName = "ScriptableObjects/Spells/Spell Database")]
     public class SpellDatabase : ScriptableObject
     {
-        public static SpellDatabase instance;      // Singleton
+        //public static SpellDatabase instance;      // Singleton
 
         public SpellObject[] SpellList;           // List of all actions in the game.
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Debug.LogWarning($"Error: already instance of ItemDatabase.");
-            }
+            //if (instance == null)
+            //{
+            //    instance = this;
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"Error: already instance of ItemDatabase.");
+            //}
 
             AssignIds();
         }
@@ -30,7 +28,11 @@ namespace FroggyDefense.Core.Spells
         /// </summary>
         private void AssignIds()
         {
-            if (SpellList == null) return;
+            if (SpellList == null)
+            {
+                Debug.Log($"Cannot assign spell Id's. SpellList is null.");
+                return;
+            }
 
             for (int i = 0; i < SpellList.Length; i++)
             {
