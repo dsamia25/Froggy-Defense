@@ -14,7 +14,7 @@ namespace FroggyDefense.Core
         [SerializeField] private NumberPopupManager _numberPopupManager;
         [SerializeField] private UiManager _uiManager;
 
-        private ItemDatabase _itemDatabase;                     // Master item database.
+        [SerializeField] private ItemDatabase _itemDatabase;                     // Master item database.
         public ItemDatabase ItemList { get => _itemDatabase; }  // Master item database.
 
         public static GameManager instance;

@@ -376,12 +376,18 @@ namespace FroggyDefense.Core.Items
             return 0;
         }
 
+        /// <summary>
+        /// Converts the item index into a string.
+        /// </summary>
+        /// <returns></returns>
         public string IndexToString()
         {
             string str = "{\n";
 
             foreach (var entry in _contentsIndex)
             {
+                if (entry.Value == null) continue;
+
                 str += "\t" + GameManager.instance.ItemList.ItemList[entry.Key].Name + " (" + entry.Key + "): ";
                 foreach (var stack in entry.Value)
                 {

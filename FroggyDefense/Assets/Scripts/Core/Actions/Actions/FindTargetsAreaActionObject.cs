@@ -34,19 +34,31 @@ namespace FroggyDefense.Core.Actions
         {
             try
             {
-                var targetAmount = ActionUtils.GetTargets(args.Inputs.point1, Template.EffectShape, Template.TargetLayer, args.CollisionList);
+                int targetAmount = ActionUtils.GetTargets(args.Inputs.point1, Template.EffectShape, Template.TargetLayer, args.CollisionList);
                 Debug.Log($"Cast: Found {targetAmount} targets. {args.CollisionList.Count} in list.");
-                foreach (var collider in args.CollisionList)
+                for (int i = 0; i < targetAmount; i++)
                 {
+                    Collider2D collider = args.CollisionList[i];
+                    if (collider == null)
+                    {
+                        Debug.Log($"Collider is null.");
+                        continue;
+                    }
+                    Debug.Log($"Loop {i} of {targetAmount}");
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
+                        Debug.Log($"Applying damage to {collider.gameObject.name} (collider {i}).");
                         target.TakeDamage(new DamageAction(args.Caster, Template.Damage, Template.SpellDamageType));
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
                             args.Target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, args.Target));
                         }
+                    }
+                    else
+                    {
+                        Debug.Log($"Could not find IDestructable for {collider.gameObject.name} (collider {i}).");
                     }
                 }
             } catch (Exception e)
