@@ -71,7 +71,10 @@ namespace FroggyDefense.Core.Spells
                         //{
                         //    target.ApplyStatusEffect(new StatusEffect(Caster, target, Template.AppliedStatusEffect));
                         //}
-                        // TODO: Do a foreach effect in appliedEffects, apply the effect.
+                        foreach (AppliedEffectObject effect in Template.AppliedEffects)
+                        {
+                            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, Caster, target));
+                        }
                     }
                 }
                 _currTickCooldown = TickFrequency;

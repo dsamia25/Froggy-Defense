@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b823c6a702f641389419ad71b33e9b2, type: 3}
   m_Name: SpiritShockHit
   m_EditorClassIdentifier: 
-  Type: 0
+  ActionId: 3
   TargetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1536
   EffectShape:
-    Type: 0
-    Dimensions: {x: 0, y: 0}
+    Type: 32
+    Dimensions: {x: 3, y: 3}
   Damage: 0
-  SpellDamageType: 0
+  SpellDamageType: 5
   AppliedEffects:
   - {fileID: 11400000, guid: 567475157003a4c15b98e7856da9b944, type: 2}

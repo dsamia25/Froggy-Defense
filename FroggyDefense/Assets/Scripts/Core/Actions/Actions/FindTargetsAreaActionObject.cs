@@ -32,8 +32,8 @@ namespace FroggyDefense.Core.Actions
 
         public override void Resolve(ActionArgs args)
         {
-            try
-            {
+            //try
+            //{
                 int targetAmount = ActionUtils.GetTargets(args.Inputs.point1, Template.EffectShape, Template.TargetLayer, args.CollisionList);
                 Debug.Log($"Cast: Found {targetAmount} targets. {args.CollisionList.Count} in list.");
                 for (int i = 0; i < targetAmount; i++)
@@ -53,7 +53,7 @@ namespace FroggyDefense.Core.Actions
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
-                            args.Target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, args.Target));
+                            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, target));
                         }
                     }
                     else
@@ -61,10 +61,10 @@ namespace FroggyDefense.Core.Actions
                         Debug.Log($"Could not find IDestructable for {collider.gameObject.name} (collider {i}).");
                     }
                 }
-            } catch (Exception e)
-            {
-                Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
-            }
+            //} catch (Exception e)
+            //{
+            //    Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
+            //}
         }
     }
 }

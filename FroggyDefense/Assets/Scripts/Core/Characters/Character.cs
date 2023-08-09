@@ -97,10 +97,10 @@ namespace FroggyDefense.Core
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
         public bool IsDamaged => _health < _maxHealth;
 
-        public List<StatusEffect> _statusEffects = new List<StatusEffect>();                                                                // List of all status effects applied on the target.
-        private Dictionary<string, StatusEffect> _appliedEffects = new Dictionary<string, StatusEffect>();                 // List of all dot names and their applied effects.
-        public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();                                                         // List of all dots applied on the target.
-        private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
+        public List<AppliedEffect> _appliedEffectList = new List<AppliedEffect>();                                                                // List of all status effects applied on the target.
+        private Dictionary<string, AppliedEffect> _appliedEffectIndex = new Dictionary<string, AppliedEffect>();                 // List of all dot names and their applied effects.
+        //public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();                                                         // List of all dots applied on the target.
+        //private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
 
         [Space]
         [Header("Equipment")]
@@ -189,7 +189,7 @@ namespace FroggyDefense.Core
             // Regen Mana
             Mana += _manaRegen * Time.deltaTime;
 
-            TickDots();
+            //TickDots();
             TickStatusEffects();
         }
         #endregion
@@ -363,37 +363,39 @@ namespace FroggyDefense.Core
         // TODO: Make there just be one list of applied effects instead of a separate dots and other effects.
         public void ApplyEffect(AppliedEffect effect)
         {
-            switch (effect.Effect)
+            if (_appliedEffectIndex.ContainsKey(effect.Name))
             {
-                case AppliedEffectType.DamageOverTime:
-                    ApplyDot(effect as DamageOverTimeEffect);
-                    break;
-                case AppliedEffectType.Slow:
-                    ApplyStatusEffect(effect as StatusEffect);
-                    break;
-                case AppliedEffectType.Stun:
-                    ApplyStatusEffect(effect as StatusEffect);
-                    break;
-                default:
-                    Debug.LogWarning($"Error applying status effect.");
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Applies an overtime effect to the thing.
-        /// </summary>
-        /// <param name="effect"></param>
-        public void ApplyDot(DamageOverTimeEffect dot)
-        {
-            if (_appliedDots.ContainsKey(dot.Name))
-            {
-                _appliedDots[dot.Name].Refresh();
+                _appliedEffectIndex[effect.Name].Refresh();
+                Debug.Log("Refreshed status effect [" + effect.Name + "] on [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
                 return;
             }
-            _dots.Add(dot);
-            _appliedDots.Add(dot.Name, dot);
+            _appliedEffectList.Add(effect);
+            _appliedEffectIndex.Add(effect.Name, effect);
+
+            if (effect.Effect == AppliedEffectType.Stun)
+            {
+                _stunEffectCounter++;
+                _isStunned = true;
+            }
+
+            Debug.Log("Applied a new status effect [" + effect.Name + "] to [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
+            CalculateMoveSpeedModifer();
         }
+
+        ///// <summary>
+        ///// Applies an overtime effect to the thing.
+        ///// </summary>
+        ///// <param name="effect"></param>
+        //public void ApplyDot(DamageOverTimeEffect dot)
+        //{
+        //    if (_appliedDots.ContainsKey(dot.Name))
+        //    {
+        //        _appliedDots[dot.Name].Refresh();
+        //        return;
+        //    }
+        //    _dots.Add(dot);
+        //    _appliedDots.Add(dot.Name, dot);
+        //}
 
         /// <summary>
         /// Applies a status effect.
@@ -401,14 +403,14 @@ namespace FroggyDefense.Core
         /// <param name="status"></param>
         public void ApplyStatusEffect(StatusEffect status)
         {
-            if (_appliedEffects.ContainsKey(status.Name))
+            if (_appliedEffectIndex.ContainsKey(status.Name))
             {
-                _appliedEffects[status.Name].Refresh();
-                Debug.Log("Refreshed status effect [" + status.Name + "] on [" + gameObject.name + "]. There are now (" + _statusEffects.Count + ") status effects.");
+                _appliedEffectIndex[status.Name].Refresh();
+                Debug.Log("Refreshed status effect [" + status.Name + "] on [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
                 return;
             }
-            _statusEffects.Add(status);
-            _appliedEffects.Add(status.Name, status);
+            _appliedEffectList.Add(status);
+            _appliedEffectIndex.Add(status.Name, status);
 
             if (status.Effect == AppliedEffectType.Stun)
             {
@@ -416,7 +418,7 @@ namespace FroggyDefense.Core
                 _isStunned = true;
             }
 
-            Debug.Log("Applied a new status effect [" + status.Name + "] to [" + gameObject.name + "]. There are now (" + _statusEffects.Count + ") status effects.");
+            Debug.Log("Applied a new status effect [" + status.Name + "] to [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
             CalculateMoveSpeedModifer();
         }
 
@@ -445,7 +447,7 @@ namespace FroggyDefense.Core
             }
 
             float strongestSlow = 0f;
-            foreach (StatusEffect status in _statusEffects)
+            foreach (StatusEffect status in _appliedEffectList)
             {
                 if (status.Effect == AppliedEffectType.Slow)
                 {
@@ -460,7 +462,7 @@ namespace FroggyDefense.Core
             {
                 _moveSpeedModifer = .1f;
             }
-            Debug.Log("Calculated Move Speed [" + _moveSpeedModifer + "%] for [" + gameObject.name + "]. There are now (" + _statusEffects.Count + ") status effects.");
+            Debug.Log("Calculated Move Speed [" + _moveSpeedModifer + "%] for [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
             controller.MoveSpeedModifier = _moveSpeedModifer;
         }
 
@@ -468,24 +470,24 @@ namespace FroggyDefense.Core
         /// <summary>
         /// Ticks each of the dots in the list.
         /// </summary>
-        public void TickDots()
-        {
-            List<DamageOverTimeEffect> expiredEffects = new List<DamageOverTimeEffect>();
-            foreach (DamageOverTimeEffect dot in _dots)
-            {
-                dot.Tick();
+        //public void TickDots()
+        //{
+        //    List<DamageOverTimeEffect> expiredEffects = new List<DamageOverTimeEffect>();
+        //    foreach (DamageOverTimeEffect dot in _dots)
+        //    {
+        //        dot.Tick();
 
-                if (dot.TicksLeft <= 0)
-                {
-                    expiredEffects.Add(dot);
-                }
-            }
+        //        if (dot.TicksLeft <= 0)
+        //        {
+        //            expiredEffects.Add(dot);
+        //        }
+        //    }
 
-            foreach (DamageOverTimeEffect dot in expiredEffects)
-            {
-                RemoveDot(dot);
-            }
-        }
+        //    foreach (DamageOverTimeEffect dot in expiredEffects)
+        //    {
+        //        RemoveDot(dot);
+        //    }
+        //}
 
         /// <summary>
         /// Ticks each of the dots in the list.
@@ -493,7 +495,7 @@ namespace FroggyDefense.Core
         public void TickStatusEffects()
         {
             List<StatusEffect> expiredEffects = new List<StatusEffect>();
-            foreach (StatusEffect status in _statusEffects)
+            foreach (StatusEffect status in _appliedEffectList)
             {
                 status.Tick();
 
@@ -513,18 +515,18 @@ namespace FroggyDefense.Core
         /// Removes the dot from the lists.
         /// </summary>
         /// <param name="dot"></param>
-        private void RemoveDot(DamageOverTimeEffect dot)
-        {
-            try
-            {
-                _appliedDots.Remove(dot.Name);
-                _dots.Remove(dot);
-            }
-            catch
-            {
-                Debug.LogWarning("Aborting removing DOT (" + dot.Name + ").");
-            }
-        }
+        //private void RemoveDot(DamageOverTimeEffect dot)
+        //{
+        //    try
+        //    {
+        //        _appliedDots.Remove(dot.Name);
+        //        _dots.Remove(dot);
+        //    }
+        //    catch
+        //    {
+        //        Debug.LogWarning("Aborting removing DOT (" + dot.Name + ").");
+        //    }
+        //}
 
         /// <summary>
         /// Removes the dot from the lists.
@@ -534,14 +536,14 @@ namespace FroggyDefense.Core
         {
             try
             {
-                _appliedEffects.Remove(status.Name);
-                _statusEffects.Remove(status);
+                _appliedEffectIndex.Remove(status.Name);
+                _appliedEffectList.Remove(status);
 
                 if (status.Effect == AppliedEffectType.Stun) _stunEffectCounter--;
                 if (_stunEffectCounter <= 0) _isStunned = false;
 
                 CalculateMoveSpeedModifer();
-                Debug.Log("Removed a new status effect [" + status.Name + "] from [" + gameObject.name + "]. There are now (" + _statusEffects.Count + ") status effects.");
+                Debug.Log("Removed a new status effect [" + status.Name + "] from [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
             }
             catch
             {
