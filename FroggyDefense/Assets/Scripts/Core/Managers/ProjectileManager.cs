@@ -6,7 +6,7 @@ using FroggyDefense.Weapons;
 namespace FroggyDefense.Core {
     public class ProjectileManager : MonoBehaviour
     {
-        public static ProjectileManager instance;
+        //public static ProjectileManager instance;
 
         [Header("Projectile Spawning")]
         [Space]
@@ -17,20 +17,20 @@ namespace FroggyDefense.Core {
         public GameObject ProjectilePrefab { get => projectilePrefab; }
         public Vector3 ProjectileSpawnLoc { get => projectileSpawnLoc; }
 
-        private Dictionary<ProjectileInfo, DynamicProjectilePool> projectileIndex;
+        private Dictionary<ProjectileObject, DynamicProjectilePool> projectileIndex;
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            } else
-            {
-                Debug.LogWarning($"Already an instance of ProjectileManager. Destroying new manager.");
-                Destroy(this);
-            }
+            //if (instance == null)
+            //{
+            //    instance = this;
+            //} else
+            //{
+            //    Debug.LogWarning($"Already an instance of ProjectileManager. Destroying new manager.");
+            //    Destroy(this);
+            //}
 
-            projectileIndex = new Dictionary<ProjectileInfo, DynamicProjectilePool>();
+            projectileIndex = new Dictionary<ProjectileObject, DynamicProjectilePool>();
         }
 
         /// <summary>
@@ -39,13 +39,13 @@ namespace FroggyDefense.Core {
         /// </summary>
         /// <param name="projectile"></param>
         /// <returns></returns>
-        public Projectile GetProjectile(ProjectileInfo projectile)
+        public Projectile GetProjectile(ProjectileObject projectile)
         {
             // Check if the pool already has this projectile type.
             if (!projectileIndex.ContainsKey(projectile))
             {
                 // If not, create a new entry.
-                projectileIndex.Add(projectile, new DynamicProjectilePool(projectile));
+                projectileIndex.Add(projectile, new DynamicProjectilePool(projectile, this));
             }
 
             return Grab(projectile);
@@ -57,7 +57,7 @@ namespace FroggyDefense.Core {
         /// </summary>
         /// <param name="projectile"></param>
         /// <returns></returns>
-        private Projectile Grab(ProjectileInfo projectile)
+        private Projectile Grab(ProjectileObject projectile)
         {
             try
             {

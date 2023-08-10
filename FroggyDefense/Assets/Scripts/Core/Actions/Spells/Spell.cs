@@ -79,21 +79,21 @@ namespace FroggyDefense.Core.Spells
             }
         }
 
-        /// <summary>
-        /// Finds the generated action to use and resolves it.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        protected virtual IEnumerator ResolveAction(SpellAction action, ActionArgs args)
-        {
-            Actions.Action ac = GetAction(action.action);
-            if (ac != null)
-            {
-                yield return new WaitForSeconds(action.delayTime);
-                ac.Resolve(args);
-            }
-        }
+        ///// <summary>
+        ///// Finds the generated action to use and resolves it.
+        ///// </summary>
+        ///// <param name="action"></param>
+        ///// <param name="args"></param>
+        ///// <returns></returns>
+        //protected virtual IEnumerator ResolveAction(SpellAction action, ActionArgs args)
+        //{
+        //    Actions.Action ac = GetAction(action.action);
+        //    if (ac != null)
+        //    {
+        //        yield return new WaitForSeconds(action.delayTime);
+        //        ac.Resolve(args);
+        //    }
+        //}
 
         /// <summary>
         /// Builds the spell effect using the SpellObject's parameters.
@@ -111,7 +111,11 @@ namespace FroggyDefense.Core.Spells
             // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
             foreach (SpellAction action in SpellActions)
             {
-                args.Caster.StartCoroutine(ResolveAction(action, args));
+                Actions.Action ac = GetAction(action.action);
+                if (ac != null)
+                {
+                    ActionUtils.ResolveAction(ac, action.delayTime, args);
+                }
                 Debug.Log($"Starting action \"{action.action.name}\" ({action.action.ActionId}). Delayed {action.delayTime} seconds");
             }
 

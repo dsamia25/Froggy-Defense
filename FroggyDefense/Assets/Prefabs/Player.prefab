@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 6414132035353026446}
   - component: {fileID: 6414132035353026449}
   - component: {fileID: 6414132035353026451}
+  - component: {fileID: -2631032873833228077}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -283,8 +284,6 @@ MonoBehaviour:
   _stunEffectCounter: 0
   _invincible: 0
   _splashShield: 0
-  _statusEffects: []
-  _dots: []
   _inventory: {fileID: 6414132035353026447}
   _wallet: {fileID: 6414132035353026449}
   CharacterStatsChanged:
@@ -405,6 +404,19 @@ MonoBehaviour:
   AreaListener: {fileID: 0}
   ProjectileListener: {fileID: 0}
   DragListener: {fileID: 0}
+--- !u!114 &-2631032873833228077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414132035353026434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b447d6b04741a48e5afce1e2b4135c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 2432403938571207135, guid: c12ad4ac3bc7c475891c0136e2ac40e5, type: 3}
 --- !u!1 &6414132036049425200
 GameObject:
   m_ObjectHideFlags: 0

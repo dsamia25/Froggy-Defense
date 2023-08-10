@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
 namespace FroggyDefense.Core.Spells
@@ -59,7 +60,6 @@ namespace FroggyDefense.Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
-                // TODO: Make a call to a SplashAction
                 ActionUtils.GetTargets(transform.position, Template.EffectShape, Template.TargetLayer, _overlapTargetList);
                 foreach (var collider in _overlapTargetList)
                 {
@@ -67,10 +67,7 @@ namespace FroggyDefense.Core.Spells
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
                         target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType));
-                        //if (AppliesStatusEffect)
-                        //{
-                        //    target.ApplyStatusEffect(new StatusEffect(Caster, target, Template.AppliedStatusEffect));
-                        //}
+                        
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
                             target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, Caster, target));

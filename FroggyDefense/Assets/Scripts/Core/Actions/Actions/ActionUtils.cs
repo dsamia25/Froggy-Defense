@@ -1,13 +1,26 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Weapons;
 using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core {
+namespace FroggyDefense.Core.Actions {
     public static class ActionUtils
     {
+        /// <summary>
+        /// Finds the generated action to use and resolves it.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static IEnumerator ResolveAction(Action action, float delayTime, ActionArgs args)
+        {
+            yield return new WaitForSeconds(delayTime);
+            action.Resolve(args);
+        }
+
         /// <summary>
         /// Returns all colliders in the area.
         /// Not in any particular order.
@@ -89,13 +102,13 @@ namespace FroggyDefense.Core {
         /// Fires a projectile.
         /// </summary>
         /// <returns></returns>
-        public static bool FireProjectile(ProjectileInfo projectile, Character caster, Vector2 fireLoc, Vector2 fireDir)
+        public static bool FireProjectile(ProjectileObject projectile, ActionArgs args, Vector2 fireLoc)
         {
             try
             {
-                Projectile proj = ProjectileManager.instance.GetProjectile(projectile);
+                Projectile proj = args.Caster.m_ProjectileManager.GetProjectile(projectile);
                 proj.transform.position = fireLoc;
-                proj.Shoot(caster, fireDir);
+                proj.Shoot(args);
                 return true;
             } catch (Exception e)
             {

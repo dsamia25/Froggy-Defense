@@ -7,8 +7,7 @@ namespace FroggyDefense.Core.Actions
     [CreateAssetMenu(fileName = "New Fire Projectile Action", menuName = "ScriptableObjects/Actions/New Fire Projectile Action")]
     public class FireProjectileActionObject : ActionObject
     {
-        public ProjectileInfo projectileInfo;
-        //public Action[] OnHitActions;
+        public ProjectileObject projectileInfo;
 
         private void Awake()
         {
@@ -30,7 +29,7 @@ namespace FroggyDefense.Core.Actions
         {
             try
             {
-                ActionUtils.FireProjectile(Template.projectileInfo, args.Caster, args.Caster.transform.position, args.Inputs.point1);
+                ActionUtils.FireProjectile(Template.projectileInfo, args, args.Caster.transform.position);
             } catch (Exception e)
             {
                 Debug.LogWarning($"Error resolving Fire Projectile Action: {e}");

@@ -10,16 +10,19 @@ namespace FroggyDefense.Weapons
         private List<Projectile> active;                        // List of currently active projectiles.
         private List<Projectile> available;                     // List of currently available projectiles.
 
-        public ProjectileInfo Template { get; private set; }    // The projectile to create.
+        public ProjectileObject Template { get; private set; }  // The projectile to create.
         public int Count => active.Count + available.Count;     // Total amount of projectiles in the pool.
         public int ActiveCount => active.Count;                 // Amount of currently active projectiles in the pool.
         public int AvailableCount => available.Count;           // Amount of currently available projectiles in the pool.
 
-        public DynamicProjectilePool(ProjectileInfo template)
+        private ProjectileManager manager;
+
+        public DynamicProjectilePool(ProjectileObject template, ProjectileManager manager)
         {
             Template = template;
             active = new List<Projectile>();
             available = new List<Projectile>();
+            this.manager = manager;
         }
 
         /// <summary>
@@ -52,7 +55,7 @@ namespace FroggyDefense.Weapons
         /// <returns></returns>
         private Projectile Create()
         {
-            Projectile proj = GameObject.Instantiate(ProjectileManager.instance.ProjectilePrefab, ProjectileManager.instance.ProjectileSpawnLoc, Quaternion.identity).GetComponent<Projectile>();
+            Projectile proj = GameObject.Instantiate(manager.ProjectilePrefab, manager.ProjectileSpawnLoc, Quaternion.identity).GetComponent<Projectile>();
             proj.Init(Template);
             return proj;
         }

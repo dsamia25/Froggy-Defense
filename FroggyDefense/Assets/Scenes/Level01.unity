@@ -138,7 +138,6 @@ GameObject:
   - component: {fileID: 23703768}
   - component: {fileID: 23703769}
   - component: {fileID: 23703770}
-  - component: {fileID: 23703771}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -291,19 +290,6 @@ MonoBehaviour:
   GroundItemPrefab: {fileID: 3581968915380557600, guid: 23e65685d75344e66951f1d407af8398, type: 3}
   m_DropTimeSpacing: 0.1
   m_DropForce: 30
---- !u!114 &23703771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23703763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b447d6b04741a48e5afce1e2b4135c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 2432403938571207135, guid: c12ad4ac3bc7c475891c0136e2ac40e5, type: 3}
 --- !u!1 &51615102
 GameObject:
   m_ObjectHideFlags: 0

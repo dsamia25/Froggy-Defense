@@ -42,10 +42,9 @@ namespace FroggyDefense.Weapons
         [Space]
         [SerializeField] private bool _shootsProjectile = true;                     // If the weapon shoots a projectile.
         [SerializeField] private float _projectileCooldown = .25f;                  // How long between the projectile will be shot again.
-        [SerializeField] private ProjectileInfo _projectile;                        // If the weapon has a melee attack component.
+        [SerializeField] private ProjectileObject _projectile;                        // If the weapon has a melee attack component.
         public bool ShootsProjectile => _shootsProjectile;
         public float ProjectileCooldown => _projectileCooldown;
-        public ProjectileInfo Projectile => _projectile;
-        
+        public ProjectileObject Projectile => _projectile;
     }
 }

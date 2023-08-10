@@ -15,8 +15,8 @@ MonoBehaviour:
   ActionId: 1
   Area:
     Name: Blizzard Damage Zone
-    Ticks: 2
-    DamagePerTick: 1
+    Ticks: 5
+    DamagePerTick: 2
     TickFrequency: 1
     EffectDamageType: 4
     EffectShape:

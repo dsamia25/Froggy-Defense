@@ -32,23 +32,15 @@ namespace FroggyDefense.Core.Actions
 
         public override void Resolve(ActionArgs args)
         {
-            //try
-            //{
+            try
+            {
                 int targetAmount = ActionUtils.GetTargets(args.Inputs.point1, Template.EffectShape, Template.TargetLayer, args.CollisionList);
                 Debug.Log($"Cast: Found {targetAmount} targets. {args.CollisionList.Count} in list.");
-                for (int i = 0; i < targetAmount; i++)
+                foreach (var collider in args.CollisionList)
                 {
-                    Collider2D collider = args.CollisionList[i];
-                    if (collider == null)
-                    {
-                        Debug.Log($"Collider is null.");
-                        continue;
-                    }
-                    Debug.Log($"Loop {i} of {targetAmount}");
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        Debug.Log($"Applying damage to {collider.gameObject.name} (collider {i}).");
                         target.TakeDamage(new DamageAction(args.Caster, Template.Damage, Template.SpellDamageType));
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
@@ -56,15 +48,11 @@ namespace FroggyDefense.Core.Actions
                             target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, target));
                         }
                     }
-                    else
-                    {
-                        Debug.Log($"Could not find IDestructable for {collider.gameObject.name} (collider {i}).");
-                    }
                 }
-            //} catch (Exception e)
-            //{
-            //    Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
-            //}
-        }
+        } catch (Exception e)
+            {
+                Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
+            }
+}
     }
 }

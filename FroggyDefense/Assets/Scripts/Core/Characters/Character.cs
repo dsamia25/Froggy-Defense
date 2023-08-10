@@ -99,8 +99,11 @@ namespace FroggyDefense.Core
 
         public List<AppliedEffect> _appliedEffectList = new List<AppliedEffect>();                                                                // List of all status effects applied on the target.
         private Dictionary<string, AppliedEffect> _appliedEffectIndex = new Dictionary<string, AppliedEffect>();                 // List of all dot names and their applied effects.
-        //public List<DamageOverTimeEffect> _dots = new List<DamageOverTimeEffect>();                                                         // List of all dots applied on the target.
-        //private Dictionary<string, DamageOverTimeEffect> _appliedDots = new Dictionary<string, DamageOverTimeEffect>();    // List of all dot names and their applied effects.
+
+        [Space]
+        [Header("Projectiles")]
+        [Space]
+        public ProjectileManager m_ProjectileManager = null;
 
         [Space]
         [Header("Equipment")]
@@ -137,6 +140,8 @@ namespace FroggyDefense.Core
         protected virtual void Awake()
         {
             controller = GetComponent<ObjectController>();
+
+            if (m_ProjectileManager == null) m_ProjectileManager = GetComponent<ProjectileManager>();
 
             if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
 

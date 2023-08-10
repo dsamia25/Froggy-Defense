@@ -89,7 +89,7 @@ namespace FroggyDefense.Weapons
                     //projectile.Shoot(_player, attackDir);
 
                     // NEW WAY
-                    ActionUtils.FireProjectile(_weapon.Projectile, _player, _projectileFireLocation.position, attackDir);
+                    //ActionUtils.FireProjectile(_weapon.Projectile, _player, _projectileFireLocation.position, attackDir);
                     _currProjectileCooldown = _weapon.ProjectileCooldown;
                 }
             }
