@@ -42,7 +42,9 @@ namespace FroggyDefense.Core.Spells
                 Target.TakeDamage(damage);
                 _currTickCooldown = TickFrequency;
                 TicksLeft--;
-            } else
+                if (TicksLeft <= 0) IsExpired = true;
+            }
+            else
             {
                 _currTickCooldown -= Time.deltaTime;
             }
@@ -51,6 +53,7 @@ namespace FroggyDefense.Core.Spells
         public override void Refresh()
         {
             TicksLeft = Ticks;
+            IsExpired = false;
         }
     }
 

@@ -49,10 +49,11 @@ namespace FroggyDefense.Core.Actions
                         }
                     }
                 }
-        } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.LogWarning($"Error resolving Find Targets Area Action: {e}");
             }
-}
+        }
     }
 }

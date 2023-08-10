@@ -195,7 +195,7 @@ namespace FroggyDefense.Core
             Mana += _manaRegen * Time.deltaTime;
 
             //TickDots();
-            TickStatusEffects();
+            TickAppliedEffects();
         }
         #endregion
 
@@ -269,7 +269,6 @@ namespace FroggyDefense.Core
             _equipmentSlots[slot] = null;                       // Clear the equipment slot.
         }
 
-        // TODO: Make the stat increases in equipment a list that can be dynamically sorted through instead of hard-coding it like this.
         /// <summary>
         /// Removes the equipment's stats from the player's stats.
         /// </summary>
@@ -365,7 +364,10 @@ namespace FroggyDefense.Core
             }
         }
 
-        // TODO: Make there just be one list of applied effects instead of a separate dots and other effects.
+        /// <summary>
+        /// Applies an AppliedEffect such as a slow, stun, or DOT to the target.
+        /// </summary>
+        /// <param name="effect"></param>
         public void ApplyEffect(AppliedEffect effect)
         {
             if (_appliedEffectIndex.ContainsKey(effect.Name))
@@ -384,46 +386,6 @@ namespace FroggyDefense.Core
             }
 
             Debug.Log("Applied a new status effect [" + effect.Name + "] to [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
-            CalculateMoveSpeedModifer();
-        }
-
-        ///// <summary>
-        ///// Applies an overtime effect to the thing.
-        ///// </summary>
-        ///// <param name="effect"></param>
-        //public void ApplyDot(DamageOverTimeEffect dot)
-        //{
-        //    if (_appliedDots.ContainsKey(dot.Name))
-        //    {
-        //        _appliedDots[dot.Name].Refresh();
-        //        return;
-        //    }
-        //    _dots.Add(dot);
-        //    _appliedDots.Add(dot.Name, dot);
-        //}
-
-        /// <summary>
-        /// Applies a status effect.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ApplyStatusEffect(StatusEffect status)
-        {
-            if (_appliedEffectIndex.ContainsKey(status.Name))
-            {
-                _appliedEffectIndex[status.Name].Refresh();
-                Debug.Log("Refreshed status effect [" + status.Name + "] on [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
-                return;
-            }
-            _appliedEffectList.Add(status);
-            _appliedEffectIndex.Add(status.Name, status);
-
-            if (status.Effect == AppliedEffectType.Stun)
-            {
-                _stunEffectCounter++;
-                _isStunned = true;
-            }
-
-            Debug.Log("Applied a new status effect [" + status.Name + "] to [" + gameObject.name + "]. There are now (" + _appliedEffectList.Count + ") status effects.");
             CalculateMoveSpeedModifer();
         }
 
@@ -452,7 +414,7 @@ namespace FroggyDefense.Core
             }
 
             float strongestSlow = 0f;
-            foreach (StatusEffect status in _appliedEffectList)
+            foreach (AppliedEffect status in _appliedEffectList)
             {
                 if (status.Effect == AppliedEffectType.Slow)
                 {
@@ -471,48 +433,25 @@ namespace FroggyDefense.Core
             controller.MoveSpeedModifier = _moveSpeedModifer;
         }
 
-        // TODO: Makes there just be one method for TickAppliedEffects.
         /// <summary>
         /// Ticks each of the dots in the list.
         /// </summary>
-        //public void TickDots()
-        //{
-        //    List<DamageOverTimeEffect> expiredEffects = new List<DamageOverTimeEffect>();
-        //    foreach (DamageOverTimeEffect dot in _dots)
-        //    {
-        //        dot.Tick();
-
-        //        if (dot.TicksLeft <= 0)
-        //        {
-        //            expiredEffects.Add(dot);
-        //        }
-        //    }
-
-        //    foreach (DamageOverTimeEffect dot in expiredEffects)
-        //    {
-        //        RemoveDot(dot);
-        //    }
-        //}
-
-        /// <summary>
-        /// Ticks each of the dots in the list.
-        /// </summary>
-        public void TickStatusEffects()
+        public void TickAppliedEffects()
         {
-            List<StatusEffect> expiredEffects = new List<StatusEffect>();
-            foreach (StatusEffect status in _appliedEffectList)
+            List<AppliedEffect> expiredEffects = new List<AppliedEffect>();
+            foreach (AppliedEffect status in _appliedEffectList)
             {
                 status.Tick();
 
-                if (status.TimeLeft <= 0)
+                if (status.IsExpired)
                 {
                     expiredEffects.Add(status);
                 }
             }
 
-            foreach (StatusEffect status in expiredEffects)
+            foreach (AppliedEffect status in expiredEffects)
             {
-                RemoveStatusEffect(status);
+                RemoveAppliedEffect(status);
             }
         }
 
@@ -520,24 +459,7 @@ namespace FroggyDefense.Core
         /// Removes the dot from the lists.
         /// </summary>
         /// <param name="dot"></param>
-        //private void RemoveDot(DamageOverTimeEffect dot)
-        //{
-        //    try
-        //    {
-        //        _appliedDots.Remove(dot.Name);
-        //        _dots.Remove(dot);
-        //    }
-        //    catch
-        //    {
-        //        Debug.LogWarning("Aborting removing DOT (" + dot.Name + ").");
-        //    }
-        //}
-
-        /// <summary>
-        /// Removes the dot from the lists.
-        /// </summary>
-        /// <param name="dot"></param>
-        private void RemoveStatusEffect(StatusEffect status)
+        private void RemoveAppliedEffect(AppliedEffect status)
         {
             try
             {

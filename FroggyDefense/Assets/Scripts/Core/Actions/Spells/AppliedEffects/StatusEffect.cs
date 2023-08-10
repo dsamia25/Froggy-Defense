@@ -28,11 +28,13 @@ namespace FroggyDefense.Core.Spells
         public override void Tick()
         {
             TimeLeft -= Time.deltaTime;
+            if (TimeLeft <= 0) IsExpired = true;
         }
 
         public override void Refresh()
         {
             TimeLeft = EffectTime;
+            IsExpired = false;
         }
     }
 }

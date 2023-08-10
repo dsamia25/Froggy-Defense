@@ -30,6 +30,8 @@ namespace FroggyDefense.Core.Spells
         public AppliedEffectType Effect;        // What the intended effect is. (DOT, slow, stun).
         public StatusSchool School;             // Which kind of applied effect. (Curce, bleed, magic...)
 
+        public bool IsExpired = false;
+
         public static AppliedEffect CreateAppliedEffect(AppliedEffectObject template, Character caster, IDestructable target)
         {
             try

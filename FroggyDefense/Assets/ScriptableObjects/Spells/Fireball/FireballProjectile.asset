@@ -13,39 +13,27 @@ MonoBehaviour:
   m_Name: FireballProjectile
   m_EditorClassIdentifier: 
   Appearance:
-    sprite: {fileID: 0}
-    transformScale: {x: 0, y: 0}
-  ProjectilePoolSize: 8
-  Damage: 1
+    sprite: {fileID: 21300000, guid: 5f5d0298c6c5e41ce8ea5273072b6e9a, type: 3}
+    transformScale: {x: 0.33, y: 0.33}
+  ProjectilePoolSize: 4
+  Damage: 3
   HasProjectileDamageScaling: 0
   ProjectileDamageScalingFactor:
     Stat: 0
     Value: 0
-  DirectDamageType: 0
-  MoveSpeed: 1
+  DirectDamageType: 3
+  MoveSpeed: 5
   OnHitActions: []
-  OnExpireActions: []
-  HasSplashDamage: 0
-  SplashDamage: 0
-  SplashDamageType: 0
-  HasSplashDamageScaling: 0
-  SplashDamageScalingFactor:
-    Stat: 0
-    Value: 0
-  SplashLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  SplashRadius: 0
-  HasMaxSplashTargets: 0
-  MaxSplashTargets: 100
-  HasPiercing: 0
+  OnExpireActions:
+  - action: {fileID: 11400000, guid: b188cbe2e78a64e8db3788f12319405b, type: 2}
+    delayTime: 0
   MaxPierces: 0
   HasMaxRange: 1
-  MaxRange: 20
+  MaxRange: 6
   HasRangeEffectModifier: 0
   TravelDistanceEffectModifierRange: {x: 1, y: 1}
   HasMaxTime: 1
-  TimeLimit: 20
+  TimeLimit: 3
   HasTimeEffectModifier: 0
   TimeEffectModifierRange: {x: 1, y: 1}
   HasSeeking: 0

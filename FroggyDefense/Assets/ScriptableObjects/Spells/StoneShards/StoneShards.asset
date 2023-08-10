@@ -22,7 +22,7 @@ MonoBehaviour:
   EffectShape:
     Type: 4
     Dimensions: {x: 0.25, y: 3}
-  TargetRange: 6
+  TargetRange: 8
   Actions:
   - action: {fileID: 11400000, guid: c67e3b08a64a54a10a8b24f2a9f6363e, type: 2}
     delayTime: 0

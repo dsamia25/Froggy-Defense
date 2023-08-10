@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b823c6a702f641389419ad71b33e9b2, type: 3}
   m_Name: FireballProjectileExplosionAction
   m_EditorClassIdentifier: 
-  ActionId: 0
+  ActionId: 6
   TargetLayer:
     serializedVersion: 2
     m_Bits: 1536
   EffectShape:
     Type: 32
-    Dimensions: {x: 1, y: 1}
-  Damage: 0
+    Dimensions: {x: 2, y: 2}
+  Damage: 1
   SpellDamageType: 3
   AppliedEffects:
   - {fileID: 11400000, guid: 2388cf899e3d64ab6a44691a1c3ad027, type: 2}

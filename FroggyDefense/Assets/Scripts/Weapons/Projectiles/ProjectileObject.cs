@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core;
 using FroggyDefense.Core.Buildings;
@@ -23,21 +22,6 @@ namespace FroggyDefense.Weapons
         public SpellAction[] OnHitActions;
         public SpellAction[] OnExpireActions;
 
-        
-        //public bool HasSplashDamage = false;
-        //public float SplashDamage = 0f;                                             // Base splash damage.
-        //public DamageType SplashDamageType;
-        //// TODO: Add these effects to Weapon.
-        //public bool HasSplashDamageScaling = false;
-        //public StatValuePair SplashDamageScalingFactor;                             // What stat the splash damage scales with.
-
-        //public LayerMask SplashLayer = 0;                                           // Which layer is effected by splash damage.
-        //public float SplashRadius = 0f;                                             // How wide the splash radius is.
-        //// TODO: Add these effects to Weapon.
-        //public bool HasMaxSplashTargets = false;                                    // If the amount of enemeis effected by splash damage is capped.
-        //public float MaxSplashTargets = 100;                                        // The max amount of enemies that can be effected by the weapon splash.
-
-        //public bool HasPiercing = false;                                            // If the weapon projectil pierces.
         public int MaxPierces = 0;                                                  // How many times the weapon projectile pierces.
 
         [Space]

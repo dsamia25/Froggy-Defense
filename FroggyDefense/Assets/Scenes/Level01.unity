@@ -68143,6 +68143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6140ebe128096403ba95709c1ecd55fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1556132730 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2631032873833228077, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+  m_PrefabInstance: {fileID: 6414132035909404705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b447d6b04741a48e5afce1e2b4135c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1560828755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72922,6 +72933,10 @@ PrefabInstance:
       propertyPath: m_HealthBar
       value: 
       objectReference: {fileID: 1844956719}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: m_ProjectileManager
+      value: 
+      objectReference: {fileID: 1556132730}
     - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: AbilityTemplates.Array.data[3]
       value: 

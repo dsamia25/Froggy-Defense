@@ -114,9 +114,8 @@ namespace FroggyDefense.Core.Spells
                 Actions.Action ac = GetAction(action.action);
                 if (ac != null)
                 {
-                    ActionUtils.ResolveAction(ac, action.delayTime, args);
+                    args.Caster.StartCoroutine(ActionUtils.ResolveAction(ac, action.delayTime, args));
                 }
-                Debug.Log($"Starting action \"{action.action.name}\" ({action.action.ActionId}). Delayed {action.delayTime} seconds");
             }
 
             args.Caster.UseMana(ManaCost);

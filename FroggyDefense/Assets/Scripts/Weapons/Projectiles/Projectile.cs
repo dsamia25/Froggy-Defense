@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Core;
 using FroggyDefense.Core.Actions;
-using ShapeDrawer;
 
 namespace FroggyDefense.Weapons
 {
     public class Projectile : MonoBehaviour
     {
         public SpriteRenderer spriteRenderer;
-
-        private Character Caster;                                               // Who shot the projectile.
 
         // TODO: Maybe make just one dictionary in the Character class.
         public SpellAction[] OnHitActions => Template.OnHitActions;             // List of actions the spell should take.
@@ -47,10 +44,9 @@ namespace FroggyDefense.Weapons
          */
 
         private ActionArgs args;
+        private Character Caster => args.Caster;                                               // Who shot the projectile.
 
         private Rigidbody2D rb = null;  // The projectile Rigidbody2D.
-
-        private IDestructable m_PrimaryTarget = null;
 
         // **************************************************
         // Init
@@ -64,6 +60,7 @@ namespace FroggyDefense.Weapons
             }
             rb.velocity = Vector2.zero;
             CollisionList = new List<Collider2D>();
+            ActionIndex = new Dictionary<int, Core.Actions.Action>();
         }
 
         /// <summary>
@@ -120,7 +117,6 @@ namespace FroggyDefense.Weapons
 
             _pierces = template.MaxPierces;
 
-            m_PrimaryTarget = null;
             m_ShootPos = transform.position;
             m_TimeCounter = template.TimeLimit;
 
@@ -146,48 +142,13 @@ namespace FroggyDefense.Weapons
         /// </summary>
         public void Explode()
         {
-            //if (template.HasSplashDamage)
-            //{
-            //Collider2D[] targetsHit = Physics2D.OverlapCircleAll(transform.position, template.SplashRadius, (template.SplashLayer == 0 ? gameObject.layer : template.SplashLayer));
-            //foreach (Collider2D collider in targetsHit)
-            //{
-            //    IDestructable destructable = null;
-            //    if ((destructable = collider.gameObject.GetComponent<IDestructable>()) != null)
-            //    {
-            //        if (destructable != m_PrimaryTarget)
-            //        {
-            //            destructable.TakeDamage(new DamageAction(Caster, template.SplashDamage + (template.HasSplashDamageScaling ? GetStatScaling(template.SplashDamageScalingFactor) : 0), template.SplashDamageType));
-            //        }
-            //    }
-            //}
-
-            //int targetAmount = ActionUtils.GetTargets(args.Inputs.point1, , Template.TargetLayer, args.CollisionList);
-            //Debug.Log($"Cast: Found {targetAmount} targets. {args.CollisionList.Count} in list.");
-            //foreach (var collider in args.CollisionList)
-            //{
-            //    IDestructable target = null;
-            //    if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
-            //    {
-            //        target.TakeDamage(new DamageAction(args.Caster, Template.Damage, Template.SpellDamageType));
-
-            //        foreach (AppliedEffectObject effect in Template.AppliedEffects)
-            //        {
-            //            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, target));
-            //        }
-            //    }
-            //}
-            //}
-
             // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
             foreach (SpellAction action in OnExpireActions)
             {
-                //args.Caster.StartCoroutine(ResolveAction(action, args));
-                //Debug.Log($"Starting action \"{action.action.name}\" ({action.action.ActionId}). Delayed {action.delayTime} seconds");
-
                 Core.Actions.Action ac = GetAction(action.action);
                 if (ac != null)
                 {
-                    ActionUtils.ResolveAction(ac, action.delayTime, new ActionArgs(args.Caster, null, args.Inputs, CollisionList));
+                    Caster.StartCoroutine(ActionUtils.ResolveAction(ac, action.delayTime, new ActionArgs(args.Caster, null, new Core.Actions.Inputs.InputArgs(transform.position, args.Inputs.point2), CollisionList)));
                 }
             }
 
@@ -212,7 +173,7 @@ namespace FroggyDefense.Weapons
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error getting spell action: {e}");
+                Debug.LogWarning($"Error getting projectile action: {e}");
                 return null;
             }
         }
@@ -241,7 +202,16 @@ namespace FroggyDefense.Weapons
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
                 destructable.TakeDamage(new DamageAction(Caster, template.Damage + (template.HasProjectileDamageScaling ? GetStatScaling(template.ProjectileDamageScalingFactor) : 0), template.DirectDamageType));
-                m_PrimaryTarget = destructable;
+
+                // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
+                foreach (SpellAction action in OnHitActions)
+                {
+                    Core.Actions.Action ac = GetAction(action.action);
+                    if (ac != null)
+                    {
+                        Caster.StartCoroutine(ActionUtils.ResolveAction(ac, action.delayTime, new ActionArgs(args.Caster, destructable, args.Inputs, CollisionList)));
+                    }
+                }
 
                 if (--_pierces < 0)
                 {
@@ -249,17 +219,5 @@ namespace FroggyDefense.Weapons
                 }
             }
         }
-
-        ///// <summary>
-        ///// Draws the explosion radius in the editor.
-        ///// </summary>
-        //private void OnDrawGizmosSelected()
-        //{
-        //    if (template.HasSplashDamage)
-        //    {
-        //        Gizmos.color = Color.yellow;
-        //        Gizmos.DrawWireSphere(transform.position, template.SplashRadius);
-        //    }
-        //}
     }
 }

@@ -59,11 +59,11 @@ namespace FroggyDefense.Core.Actions
     public struct ActionArgs
     {
         public Character Caster;
-        public Character Target;
+        public IDestructable Target;
         public InputArgs Inputs;
         public List<Collider2D> CollisionList;
 
-        public ActionArgs(Character caster, Character target, InputArgs inputs, List<Collider2D> list)
+        public ActionArgs(Character caster, IDestructable target, InputArgs inputs, List<Collider2D> list)
         {
             Caster = caster;
             Target = target;
