@@ -36,5 +36,12 @@ namespace FroggyDefense.Core.Spells
             TimeLeft = EffectTime;
             IsExpired = false;
         }
+
+        public override void Clear()
+        {
+            IsExpired = true;
+            TimeLeft = 0;
+            Target = null;
+        }
     }
 }

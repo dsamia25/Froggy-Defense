@@ -70,5 +70,10 @@ namespace FroggyDefense.Core.Spells
         /// Refreshs the ticks left to the full amount.
         /// </summary>
         public abstract void Refresh();
+
+        /// <summary>
+        /// Clears the effect.
+        /// </summary>
+        public abstract void Clear();
     }
 }

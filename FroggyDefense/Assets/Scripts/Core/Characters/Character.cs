@@ -484,6 +484,14 @@ namespace FroggyDefense.Core
         public virtual void Die()
         {
             Debug.Log("Character " + Name + " died.");
+
+            // Clear applied effects list.
+            for (int i = _appliedEffectList.Count; i >= 0; i--)
+            {
+                var effect = _appliedEffectList[i];
+                effect.Clear();
+                _appliedEffectList.Remove(effect);
+            }
         }
         #endregion
 

@@ -55,6 +55,13 @@ namespace FroggyDefense.Core.Spells
             TicksLeft = Ticks;
             IsExpired = false;
         }
+
+        public override void Clear()
+        {
+            IsExpired = true;
+            TicksLeft = 0;
+            Target = null;
+        }
     }
 
     // OLD WAY. Made the effect directly builable in the inspector.
