@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 namespace FroggyDefense.UI
@@ -6,6 +7,7 @@ namespace FroggyDefense.UI
     public class PointsText : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI m_Text;
+        [SerializeField] private Image m_Icon;
 
         public float m_RaiseTextHeight;
         public float m_RaiseTextTime;
@@ -23,6 +25,7 @@ namespace FroggyDefense.UI
             m_Text.text = Mathf.Floor(num).ToString();
         }
 
+        // TODO: This seems inefficient to keep reassigning a color variable when called from elsewhere instead of doing the loop in here.
         /// <summary>
         /// Sets the text opacity to the input percent between 0 and 1.
         /// </summary>
@@ -33,6 +36,13 @@ namespace FroggyDefense.UI
             if (fade > 1) fade = 1;
 
             m_Text.alpha = fade;
+
+            if (m_Icon != null)
+            {
+                Color color = m_Icon.color;
+                color.a = fade;
+                m_Icon.color = color;
+            }
         }
     }
 }
