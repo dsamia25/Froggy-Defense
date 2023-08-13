@@ -73746,6 +73746,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2631032873833228077, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 1518581345127190162, guid: 859cba8859c354f0da4673e70fd24009, type: 3}
     - target: {fileID: 3337697968021947668, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: degreeOffset
       value: 45

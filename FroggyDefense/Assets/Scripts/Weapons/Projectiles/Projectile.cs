@@ -25,7 +25,7 @@ namespace FroggyDefense.Weapons
 
                 // Change image to projectile image.
                 spriteRenderer.sprite = template.Appearance.sprite;
-                transform.localScale = template.Appearance.transformScale;
+                //transform.localScale = template.Appearance.transformScale;
             }
         }   // The template to use for info.
 
