@@ -62,52 +62,49 @@ namespace FroggyDefense.Core
 
         private void Update()
         {
-            if (GameManager.GameStarted)
+            if (!TargetingAbility)
             {
-                if (!TargetingAbility)
+                if (Input.GetButtonDown("Ability1"))
                 {
-                    if (Input.GetButtonDown("Ability1"))
+                    UseAbility(0);
+                }
+                else if (Input.GetButtonDown("Ability2"))
+                {
+                    UseAbility(1);
+                }
+                else if (Input.GetButtonDown("Ability3"))
+                {
+                    UseAbility(2);
+                }
+                else if (Input.GetButtonDown("Ability4"))
+                {
+                    UseAbility(3);
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    Debug.Log("Released Attack");
+                    m_Player.m_WeaponUser.Deactivate();
+                }
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("Pressed Attack");
+                    if (m_Player == null)
                     {
-                        UseAbility(0);
+                        Debug.LogWarning("PLAYER NULL");
                     }
-                    else if (Input.GetButtonDown("Ability2"))
+                    else if (m_Player.m_WeaponUser == null)
                     {
-                        UseAbility(1);
+                        Debug.LogWarning("WEAPON USER NULL");
                     }
-                    else if (Input.GetButtonDown("Ability3"))
+                    else
                     {
-                        UseAbility(2);
-                    }
-                    else if (Input.GetButtonDown("Ability4"))
-                    {
-                        UseAbility(3);
-                    }
-                    else if (Input.GetMouseButtonUp(0))
-                    {
-                        Debug.Log("Released Attack");
-                        m_Player.m_WeaponUser.Deactivate();
-                    }
-                    else if (Input.GetMouseButtonDown(0))
-                    {
-                        Debug.Log("Pressed Attack");
-                        if (m_Player == null)
-                        {
-                            Debug.LogWarning("PLAYER NULL");
-                        }
-                        else if (m_Player.m_WeaponUser == null)
-                        {
-                            Debug.LogWarning("WEAPON USER NULL");
-                        }
-                        else
-                        {
-                            m_Player.m_WeaponUser.Attack(Input.mousePosition);
-                        }
+                        m_Player.m_WeaponUser.Attack(Input.mousePosition);
                     }
                 }
-                _moveInput.x = Input.GetAxisRaw("Horizontal");
-                _moveInput.y = Input.GetAxisRaw("Vertical");
-                m_Player.Move(_moveInput);
             }
+            _moveInput.x = Input.GetAxisRaw("Horizontal");
+            _moveInput.y = Input.GetAxisRaw("Vertical");
+            m_Player.Move(_moveInput);
         }
 
         /// <summary>
