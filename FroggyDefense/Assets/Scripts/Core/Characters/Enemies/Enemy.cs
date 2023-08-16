@@ -146,7 +146,7 @@ namespace FroggyDefense.Core.Enemies
         #region IDestructable
         public override void Die()
         {
-            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, Points, Experience));
+            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(this, transform.position, -1, Points, Experience));
             GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, Points, NumberPopupType.EnemyDefeated);
             GetComponent<DropGems>().Drop();
             GetComponent<DropItems>().Drop();
@@ -159,7 +159,7 @@ namespace FroggyDefense.Core.Enemies
         /// </summary>
         public void Kill()
         {
-            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(transform.position, -1, -1, -1));
+            EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(this, transform.position, -1, -1, -1));
             Destroy(gameObject);
         }
 
@@ -234,13 +234,15 @@ namespace FroggyDefense.Core.Enemies
     // TODO: Make a more generic system event that has an enum for event type like "Enemy Defeated", "Damage Action", "Item Pickup", "Currency Pickup", etc...
     public class EnemyEventArgs : EventArgs
     {
+        public Enemy enemy;     // Who died.
         public Vector2 pos;     // The position of the event.
         public float damage;    // How much damage was dealt to the enemy.
         public int points;      // How much points the enemy is worth.
         public int experience;  // How much experience points the enemy is worth.
 
-        public EnemyEventArgs (Vector2 _pos, float _damage, int _points, int _experience)
+        public EnemyEventArgs (Enemy _enemy, Vector2 _pos, float _damage, int _points, int _experience)
         {
+            enemy = _enemy;
             pos = _pos;
             damage = _damage;
             points = _points;

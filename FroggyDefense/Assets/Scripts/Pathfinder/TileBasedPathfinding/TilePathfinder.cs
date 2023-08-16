@@ -139,18 +139,12 @@ namespace Pathfinder
         {
             List<Vector2> path = new List<Vector2>();
             TileNode curr = end;
-            //Debug.Log($"Pathfinding index: {PathIndexToString(index)}");
             path.Add(curr.Position);
             do
             {
                 curr = index[curr];
                 if (curr != null)
                 {
-                    //if (path.Contains(curr.Position))
-                    //{
-                    //    Debug.LogWarning("Leaving BuildPath early.");
-                    //    return path;
-                    //}
                     path.Add(curr.Position);
                 }
             } while (curr != start && curr != null);
@@ -207,7 +201,7 @@ namespace Pathfinder
                 Dictionary<Vector2Int, PathfinderTile> nodeMap = new Dictionary<Vector2Int, PathfinderTile>();
 
                 // Build nodes.
-                for (int i = 0; i < tilemapLayers.Length; i++)
+                for (int i = tilemapLayers.Length - 1; i >= 0; i--)
                 {
                     Tilemap layer = tilemapLayers[i];
                     layer.CompressBounds();
@@ -218,8 +212,14 @@ namespace Pathfinder
                             if (layer.HasTile(new Vector3Int(x, y)))
                             {
                                 Vector2Int pos = new Vector2Int(x, y);
-                                PathfinderTile tile = new PathfinderTile(pos, layerTileInfo[i]);
-                                nodeMap.Add(pos, tile);
+                                if (!nodeMap.ContainsKey(pos))
+                                {
+                                    PathfinderTile tile = new PathfinderTile(pos, layerTileInfo[i]);
+                                    nodeMap.Add(pos, tile);
+                                } else
+                                {
+                                    Debug.Log($"Already contains key: {nodeMap[pos].Name}");
+                                }
                             }
                         }
                     }
