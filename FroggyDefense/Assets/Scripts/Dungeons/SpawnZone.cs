@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Core.Enemies;
+using Pathfinder;
 
 namespace FroggyDefense.Core
 {
     public class SpawnZone : MonoBehaviour
     {
-        private int MAXIMUM_GET_SPAWN_POINT_TRIES = 20;                 // Maximum amount of times GetSpawnPoint will try to get a random point before failing.
         [SerializeField] private SpawnInfo[] spawns;                    // What can spawn.
         [SerializeField] private Vector2 spawnTimerRange;               // Range of times until the next spawn.
         [SerializeField] private Vector2Int spawnAmountRange;           // Range of how many units can spawn at a time. Will choose highest possible amount.
@@ -15,17 +16,40 @@ namespace FroggyDefense.Core
         [SerializeField] private HashSet<GameObject> activeSpawnList;   // List of all active spawns. To check if an enemy is owned by this zone.
         public int ActiveSpawns => activeSpawnList.Count;               // How many spawns are currently active.
 
-        private Vector2 xRange;         // Range of x values to spawn things in between,
-        private Vector2 yRange;         // Range of y values to spawn things in between.
+        [SerializeField] private List<Vector2> validSpawnTiles;         // List of all valid spawn tiles in the range.
+
+        private float spawnTickTimer = 0;
 
         private void Start()
         {
             activeSpawnList = new HashSet<GameObject>();
 
-            xRange = new Vector2(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2);
-            yRange = new Vector2(transform.position.y - transform.localScale.y / 2, transform.position.y + transform.localScale.y / 2);
+            BuildValidSpawnTileList();
 
-            //Enemy.EnemyDefeatedEvent += OnEnemyDefeated;
+            spawnTickTimer = Random.Range(spawnTimerRange.x, spawnTimerRange.y);
+            Enemy.EnemyDefeatedEvent += OnEnemyDefeated;
+        }
+
+        private void Update()
+        {
+            if (spawnTickTimer <= 0)
+            {
+                if (ActiveSpawns < maxActiveSpawns)
+                {
+                    int amount = Random.Range(spawnAmountRange.x, spawnAmountRange.y + 1);
+                    if (ActiveSpawns + amount > maxActiveSpawns)
+                    {
+                        amount = maxActiveSpawns - ActiveSpawns;
+                    }
+                    for (int i = 0; i < amount; i++) {
+                        Spawn();
+                    }
+                }
+                spawnTickTimer = Random.Range(spawnTimerRange.x, spawnTimerRange.y);
+            } else
+            {
+                spawnTickTimer -= Time.deltaTime;
+            }
         }
 
         /// <summary>
@@ -33,48 +57,76 @@ namespace FroggyDefense.Core
         /// </summary>
         public void Spawn()
         {
-            GameObject spawn = Instantiate(spawns[0].prefab, GetSpawnPoint(), Quaternion.identity);
-            activeSpawnList.Add(spawn);
+            Vector2 pos;
+            if (GetSpawnPoint(out pos)) {
+                GameObject spawn = Instantiate(spawns[0].prefab, pos, Quaternion.identity);
+                activeSpawnList.Add(spawn);
+                Debug.Log($"Spawning thing at ({pos}).");
+            } else
+            {
+                Debug.Log($"Could not find valid spawn point.");
+            }
         }
 
         /// <summary>
         /// Gets a random spawn point within the range of the spawn zone.
+        /// Returns true if successful and false is failed.
         /// </summary>
         /// <returns></returns>
-        private Vector2 GetSpawnPoint()
+        private bool GetSpawnPoint(out Vector2 pos)
         {
-            BoardManager board = GameManager.instance.BoardManager;
-            Vector2Int spawnPos;
-
-            int loops = 0;
-            while (loops++ < MAXIMUM_GET_SPAWN_POINT_TRIES)
+            if (validSpawnTiles == null || validSpawnTiles.Count <= 0)
             {
-                spawnPos = new Vector2Int(Mathf.RoundToInt(Random.Range(xRange.x, xRange.y)), Mathf.RoundToInt(Random.Range(yRange.x, yRange.y)));
-                
-                if (!(board.PathfinderMap[spawnPos].isWall || board.PathfinderMap[spawnPos].isWater))
-                {
-                    Debug.Log($"RETURNING SPAWN POINT {spawnPos}. ({board.PathfinderMap[spawnPos].Name}) (isWall = {board.PathfinderMap[spawnPos].isWall}) (isWater = {board.PathfinderMap[spawnPos].isWater}).");
-                    return spawnPos;
-                }
+                pos = new Vector2();
+                return false;
             }
 
-            // Default case is to spawn the enemey in at the center of the spawn point.
-            return transform.position;
+            int rand = Random.Range(0, validSpawnTiles.Count);
+            pos = validSpawnTiles[rand];
+            return true;
         }
 
-        ///// <summary>
-        ///// When an enemy spawned by this zone dies, remove it from the active count.
-        ///// </summary>
-        ///// <param name="args"></param>
-        //private void OnEnemyDefeated(EnemyEventArgs args)
-        //{
-        //    // If the defeated enemy is owned by this spawn zone, remove it from the count.
-        //    if (activeSpawnList.Contains(args.enemy.gameObject))
-        //    {
-        //        activeSpawnList.Remove(args.enemy.gameObject);
-        //        activeSpawns--;
-        //    }
-        //}
+        /// <summary>
+        /// Builds the list of valid spawn tiles.
+        /// </summary>
+        /// <returns></returns>
+        private void BuildValidSpawnTileList()
+        {
+            Vector2Int xRange = new Vector2Int(Mathf.CeilToInt(transform.position.x - transform.localScale.x / 2), Mathf.CeilToInt(transform.position.x + transform.localScale.x / 2));
+            Vector2Int yRange = new Vector2Int(Mathf.CeilToInt(transform.position.y - transform.localScale.y / 2), Mathf.CeilToInt(transform.position.y + transform.localScale.y / 2));
+            BoardManager board = GameManager.instance.BoardManager;
+
+            validSpawnTiles = new List<Vector2>();
+
+            for (int x = xRange.x; x < xRange.y; x++)
+            {
+                for (int y = yRange.x; y < yRange.y; y++)
+                {
+                    Vector2Int tilePos = new Vector2Int(x, y);
+                    PathfinderTile tile = board.PathfinderMap[tilePos];
+                    if (!(tile.isImpassable || tile.isWater || tile.isWall))
+                    {
+                        validSpawnTiles.Add(tilePos);
+                    } else
+                    {
+                        Debug.Log($"Tile ({tilePos}) ({tile.Name}) ({tile.template.name}) not valid: (isImpassable: {tile.isImpassable}) (isWater: {tile.isWater}) (isWall: {tile.isWall})");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// When an enemy spawned by this zone dies, remove it from the active count.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnEnemyDefeated(EnemyEventArgs args)
+        {
+            // If the defeated enemy is owned by this spawn zone, remove it from the count.
+            if (activeSpawnList.Contains(args.enemy.gameObject))
+            {
+                activeSpawnList.Remove(args.enemy.gameObject);
+            }
+        }
 
         /// <summary>
         /// Holds info for what kinds of enemies can spawn in this zone.
