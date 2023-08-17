@@ -827,10 +827,10 @@
     "m_Guid": {
         "m_GuidSerialized": "b6b338c6-76ef-4502-95da-008fb9bb3762"
     },
-    "m_Name": "FadeScale",
+    "m_Name": "FadeAmount",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "FadeScale",
-    "m_DefaultReferenceName": "_FadeScale",
+    "m_RefNameGeneratedByDisplayName": "FadeAmount",
+    "m_DefaultReferenceName": "_FadeAmount",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -839,7 +839,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 1.0,
+    "m_Value": 0.0,
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
@@ -3418,7 +3418,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "a9e7b0d298524503bebef32bd1508619",
     "m_Id": 0,
-    "m_DisplayName": "FadeScale",
+    "m_DisplayName": "FadeAmount",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

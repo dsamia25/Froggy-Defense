@@ -4882,9 +4882,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1364056815727905990}
-  burnMaterial: {fileID: 2100000, guid: 510df22b3001242f7810255c99047d5a, type: 2}
-  burnAnimationDelay: 1
-  burnAnimationTime: 1.5
+  randomName: {fileID: 2100000, guid: 510df22b3001242f7810255c99047d5a, type: 2}
+  fadeTime: 1
+  burnAnimationDelay: 0.1
+  burnAnimationTime: 0.6
   chalkScaleRange: {x: 25, y: 35}
   burnScaleRange: {x: 4.5, y: 5.5}
 --- !u!95 &1364056815727905990
