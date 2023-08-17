@@ -30,7 +30,7 @@ namespace FroggyDefense.UI
         /// </summary>
         private void OnXpGainedEvent()
         {
-            _xpBar.SetHealth(_player.Xp);
+            _xpBar?.SetHealth(_player.Xp);
         }
 
         private void OnLeveledUpEvent()

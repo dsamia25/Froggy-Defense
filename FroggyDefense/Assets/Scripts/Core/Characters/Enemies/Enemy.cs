@@ -52,6 +52,8 @@ namespace FroggyDefense.Core.Enemies
         public float LeashResetTime => _leashResetTime;
         public GameObject Focus { get => _focus; set { _focus = value; } }
 
+        public SpawnZone spawner { get; set; }                              // What spawned in this enemy.
+
         [Space]
         [Header("Pathing")]
         [Space]
@@ -168,11 +170,18 @@ namespace FroggyDefense.Core.Enemies
         /// </summary>
         public void ResetFocus()
         {
-            if (BoardManager.instance.Nexus == null)
+            //if (BoardManager.instance.Nexus == null)
+            //{
+            //    Debug.LogWarning("Cannot find Nexus.");
+            //}
+            //_focus = BoardManager.instance.Nexus;
+            if (spawner != null)
             {
-                Debug.LogWarning("Cannot find Nexus.");
+                _focus = spawner.gameObject;
+            } else
+            {
+                _focus = null;
             }
-            _focus = BoardManager.instance.Nexus;
         }
 
         /// <summary>
