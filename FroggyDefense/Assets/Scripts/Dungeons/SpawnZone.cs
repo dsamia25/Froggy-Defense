@@ -67,7 +67,6 @@ namespace FroggyDefense.Core
                 {
                     enemy.spawner = this;
                 }
-                Debug.Log($"Spawning thing at ({pos}).");
             } else
             {
                 Debug.Log($"Could not find valid spawn point.");
@@ -113,9 +112,6 @@ namespace FroggyDefense.Core
                     if (!(tile.isImpassable || tile.isWater || tile.isWall))
                     {
                         validSpawnTiles.Add(tilePos);
-                    } else
-                    {
-                        Debug.Log($"Tile ({tilePos}) ({tile.Name}) ({tile.template.name}) not valid: (isImpassable: {tile.isImpassable}) (isWater: {tile.isWater}) (isWall: {tile.isWall})");
                     }
                 }
             }

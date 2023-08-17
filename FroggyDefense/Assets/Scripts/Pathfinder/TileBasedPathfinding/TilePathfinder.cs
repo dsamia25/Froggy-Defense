@@ -216,9 +216,6 @@ namespace Pathfinder
                                 {
                                     PathfinderTile tile = new PathfinderTile(pos, layerTileInfo[i]);
                                     nodeMap.Add(pos, tile);
-                                } else
-                                {
-                                    Debug.Log($"Already contains key: {nodeMap[pos].Name}");
                                 }
                             }
                         }
