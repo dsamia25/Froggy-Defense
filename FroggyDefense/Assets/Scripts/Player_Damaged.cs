@@ -3,7 +3,7 @@ using FroggyDefense.Core;
 
 public class Player_Damaged : StateMachineBehaviour
 {
-    private Character player = null;
+    private Character character = null;
     public SpriteRenderer renderer = null;
     public float DamagedAnimationTime = 1f;
     public float currTime = 0f;
@@ -12,14 +12,13 @@ public class Player_Damaged : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player = animator.gameObject.GetComponentInParent<Character>();
-        player.m_Invincible = true;
-        DamagedAnimationTime = player.m_DamagedAnimationTime;
+        character = animator.gameObject.GetComponentInParent<Character>();
+        DamagedAnimationTime = character.m_DamagedAnimationTime;
         currTime = 0f;
         animationPercent = 0f;
 
         renderer = animator.gameObject.GetComponent<SpriteRenderer>();
-        renderer.material = new Material(player.DamagedMaterial);
+        renderer.material = new Material(character.DamagedMaterial);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,12 +32,12 @@ public class Player_Damaged : StateMachineBehaviour
             }
             else
             {
-                animator.SetBool("DamagedInvincibility", false);
+                animator.SetBool("DamagedAnimation", false);
             }
         } catch
         {
             Debug.LogWarning("Abandoning Player_Damaged animation.");
-            animator.SetBool("DamagedInvincibility", false);
+            animator.SetBool("DamagedAnimation", false);
         }
 
         currTime += Time.deltaTime;
@@ -48,7 +47,6 @@ public class Player_Damaged : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        renderer.material = new Material(player.DefaultMaterial);
-        player.m_Invincible = false;
+        renderer.material = new Material(character.DefaultMaterial);
     }
 }

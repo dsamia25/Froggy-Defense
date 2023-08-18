@@ -105,7 +105,7 @@ namespace FroggyDefense.Core.Enemies
         {
             if (GameManager.GameStarted)
             {
-                if (_isStunned)
+                if (_isStunned || BeingSummoned)
                 {
                     controller.Freeze();
                 } else

@@ -59,7 +59,8 @@ namespace FroggyDefense.Core
         {
             Vector2 pos;
             if (GetSpawnPoint(out pos)) {
-                GameObject spawn = Instantiate(spawns[0].prefab, pos, Quaternion.identity);
+                //GameObject spawn = Instantiate(spawns[0].prefab, pos, Quaternion.identity);
+                GameObject spawn = SpawnManager.instance.Spawn(spawns[0].prefab, pos);
                 activeSpawnList.Add(spawn);
 
                 Enemy enemy = null;

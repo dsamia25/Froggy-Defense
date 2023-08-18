@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,8 @@ namespace FroggyDefense.Core
 {
     public class Character : MonoBehaviour, IHasStats, IDestructable
     {
+        public float DamagedInvinciblityTime = 0f;
+        
         [Space]
         [Header("Character Info")]
         [Space]
@@ -96,6 +99,7 @@ namespace FroggyDefense.Core
         public bool m_Invincible { get => _invincible; set { _invincible = value; } }
         public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
         public bool IsDamaged => _health < _maxHealth;
+        public bool BeingSummoned = false;
 
         public List<AppliedEffect> _appliedEffectList = new List<AppliedEffect>();                                                                // List of all status effects applied on the target.
         private Dictionary<string, AppliedEffect> _appliedEffectIndex = new Dictionary<string, AppliedEffect>();                 // List of all dot names and their applied effects.
@@ -338,7 +342,12 @@ namespace FroggyDefense.Core
             }
             else
             {
-                visualsAnimator?.SetBool("DamagedInvincibility", true);
+                visualsAnimator?.SetBool("DamagedAnimation", true);
+            }
+
+            if (DamagedInvinciblityTime > 0)
+            {
+                StartCoroutine(DamagedInvincibility());
             }
         }
 
@@ -360,7 +369,12 @@ namespace FroggyDefense.Core
             }
             else
             {
-                visualsAnimator?.SetBool("DamagedInvincibility", true);
+                visualsAnimator?.SetBool("DamagedAnimation", true);
+            }
+
+            if (DamagedInvinciblityTime > 0)
+            {
+                StartCoroutine(DamagedInvincibility());
             }
         }
 
@@ -494,6 +508,13 @@ namespace FroggyDefense.Core
             }
         }
         #endregion
+
+        private IEnumerator DamagedInvincibility()
+        {
+            m_Invincible = true;
+            yield return new WaitForSeconds(DamagedInvinciblityTime);
+            m_Invincible = false;
+        }
 
         /// <summary>
         /// Adds experice to the player and checks if they should level up.

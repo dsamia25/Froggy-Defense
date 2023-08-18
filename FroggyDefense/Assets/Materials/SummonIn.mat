@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpawnSigil
-  m_Shader: {fileID: -6465566751694194690, guid: bf0aac0a4ec3449fcac24c94a696ec3e, type: 3}
+  m_Name: SummonIn
+  m_Shader: {fileID: -6465566751694194690, guid: a5da382ac3e73466f8325623b9ca0847, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e6b3f57ecffe44f3f8555eec67fdf774, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8b4596db50a8547ecafd76eb2778eba6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -38,15 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BurnAmount: 0
-    - _BurnOffset: 0.1
-    - _BurnScale: 5
-    - _ChalkScale: 30
-    - _FadeAmount: 1
-    - _FadeScale: 0
-    - _FillSpeed: 0.5
+    - _Fill: 0
+    - _FillOffset: 0.05
     m_Colors:
-    - _Center: {r: 0, g: 0, b: 0, a: 0}
-    - _InnerBurnColor: {r: 0.4528302, g: 0, b: 0, a: 0}
-    - _OuterBurnColor: {r: 2, g: 1.3176471, b: 0, a: 1}
+    - _PhaseColor: {r: 1, g: 0.6351262, b: 0, a: 0}
   m_BuildTextureStacks: []
