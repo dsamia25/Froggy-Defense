@@ -552,6 +552,15 @@ namespace FroggyDefense.Core
         }
 
         /// <summary>
+        /// Triggers the summoning visuals. Enemy will override this to set their
+        /// behaviour too.
+        /// </summary>
+        public virtual void SummonAnimation()
+        {
+            visualsAnimator.SetTrigger("SummonAnimation");
+        }
+
+        /// <summary>
         /// Updates the health bar using the current health and max health.
         /// </summary>
         public virtual void UpdateHealthBar()

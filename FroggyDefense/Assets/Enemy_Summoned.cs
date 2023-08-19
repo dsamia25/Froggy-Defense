@@ -11,6 +11,9 @@ namespace FroggyDefense.Core
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log($"Enemy_Summoned enter.");
+            animator.ResetTrigger("SummonAnimation");
+
             character = animator.gameObject.GetComponentInParent<Character>();
             character.BeingSummoned = true;
 
@@ -20,6 +23,7 @@ namespace FroggyDefense.Core
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log($"Enemy_Summoned time: {currTime}.");
             if (currTime > animationTime)
             {
                 animator.SetTrigger("FinishedSummon");

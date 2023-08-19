@@ -93,7 +93,7 @@ namespace FroggyDefense.Core.Enemies
                     }
                     else if (path.Count > 0)
                     {
-                        PathNode = Instantiate(PathfinderNodePrefab, path[1], Quaternion.identity);
+                        PathNode = Instantiate(PathfinderNodePrefab, path[0], Quaternion.identity);
                     }
                 }
                 if (DrawPath)

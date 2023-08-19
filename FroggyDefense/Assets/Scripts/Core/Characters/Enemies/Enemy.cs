@@ -9,6 +9,7 @@ namespace FroggyDefense.Core.Enemies
 {
     public class Enemy : Character, IDestructable
     {
+        [SerializeField] protected Animator BehaviourAnimator;
         [SerializeField] protected bool m_HideHealthBarAtFull = true;
 
         public int Points = 10;                                             // How many points the enemy is worth.
@@ -163,6 +164,12 @@ namespace FroggyDefense.Core.Enemies
         {
             EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(this, transform.position, -1, -1, -1));
             Destroy(gameObject);
+        }
+
+        public override void SummonAnimation()
+        {
+            base.SummonAnimation();
+            BehaviourAnimator.SetTrigger("SummonAnimation");
         }
 
         /// <summary>

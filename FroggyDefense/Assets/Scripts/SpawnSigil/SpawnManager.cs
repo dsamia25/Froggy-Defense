@@ -33,7 +33,7 @@ namespace FroggyDefense.Core
             Character character;
             if ((character = spawn.GetComponent<Character>()) != null)
             {
-                character.visualsAnimator.SetTrigger("SummonAnimation");
+                character.SummonAnimation();
             }
             return spawn;
         }

@@ -22,18 +22,19 @@ namespace FroggyDefense.Core
         public BoardManager BoardManager { get => _boardManager; }
         public NumberPopupManager m_NumberPopupManager { get => _numberPopupManager; }
         public UiManager m_UiManager { get => _uiManager; }
-        public Spawner spawner;
         public GameObject m_DamageAreaPrefab;
         public Player m_Player;
 
         public static bool GameStarted { get; private set; }        // If the game has been started.
         public static bool ShootingEnabled { get; private set; }    // If anything is currently allowed to shoot.
 
+        // TODO: No longer need this
         [Space]
         [Header("Level Settings")]
         [Space]
         [SerializeField] private int WavesPerMapExpansion = 3;
 
+        // TODO: No longer need this
         [Space]
         [Header("Points")]
         [Space]
@@ -51,6 +52,7 @@ namespace FroggyDefense.Core
             }
         }   // The amount of points the player has.
 
+        // TODO: No longer need this
         [Space]
         [Header("Wave Info")]
         [Space]
@@ -59,6 +61,7 @@ namespace FroggyDefense.Core
         public int WaveNumber { get => _waveNumber; private set => _waveNumber = value; }
         public bool WaveActive { get => _waveActive; private set { _waveActive = value; } }
 
+        // TODO: No longer need this
         [Space]
         [Header("Enemies")]
         [Space]
@@ -69,6 +72,7 @@ namespace FroggyDefense.Core
         public List<Enemy> Enemies = new List<Enemy>();                                                     // List of all enemies on the map.
         public List<Spawner> Spawners = new List<Spawner>();                                                // List of all spawners on the map.
 
+        // TODO: No longer need this
         [Space]
         [Header("Events")]
         [Space]

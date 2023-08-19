@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7c2c2d9359f4766a0fc3b8bd1e45a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamagedInvinciblityTime: 0
   _name: Blob
   m_HealthBar: {fileID: 2007384587168905277}
   m_ManaBar: {fileID: 0}
@@ -394,18 +395,21 @@ MonoBehaviour:
     _agilityPerLevel: 1
     _intellectPerLevel: 1
     _spiritPerLevel: 1
+    AttackPower: 0
+    SpellPower: 0
   _isStunned: 0
   _moveSpeedModifer: 1
   _stunEffectCounter: 0
   _invincible: 0
   _splashShield: 0
-  _statusEffects: []
-  _dots: []
+  BeingSummoned: 0
+  m_ProjectileManager: {fileID: 0}
   _inventory: {fileID: 0}
   _wallet: {fileID: 0}
   CharacterStatsChanged:
     m_PersistentCalls:
       m_Calls: []
+  BehaviourAnimator: {fileID: 6305815107222301036}
   m_HideHealthBarAtFull: 1
   Points: 75
   Experience: 10
@@ -538,7 +542,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 684823905
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Positions:
   - {x: 0, y: 0, z: 0}
