@@ -8,10 +8,8 @@ namespace FroggyDefense.Weapons
     [CreateAssetMenu(fileName = "New Projectile", menuName = "ScriptableObjects/Weapons/New Projectile")]
     public class ProjectileObject: ScriptableObject
     {
-        [Space]
-        [Header("Basic")]
-        [Space]
-        public ProjectileAppearance Appearance;                                     // The projectile prefab.
+        public GameObject Vfx;                                                      // The projectile's prefab.
+        //public ProjectileAppearance Appearance;                                     // The projectile prefab.
         public int ProjectilePoolSize = 8;                                          // Max number of projectiles active in the pool.
         public float Damage = 1f;                                                   // How much damage the projectile does.
         public bool HasProjectileDamageScaling = false;                             // If the projectile damage scales with a particular stat.

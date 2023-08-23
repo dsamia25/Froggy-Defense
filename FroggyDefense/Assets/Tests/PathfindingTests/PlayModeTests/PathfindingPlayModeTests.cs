@@ -114,6 +114,68 @@ namespace Pathfinder.Tests
         }
 
         [UnityTest]
+        public IEnumerator NullMapTest()
+        {
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+            int totalTiles = CountTiles(boardManager.FullMap);
+
+            // Test Actions.
+            PathfinderMap = null;
+
+            // Check test stuff.
+            Assert.Throws<System.NullReferenceException>(() => TilePathfinder.FindShortestPath(PathfinderMap, Vector2Int.zero, Vector2Int.zero, new LayerInfo(false, false)));
+        }
+
+        [UnityTest]
+        public IEnumerator EmptyMapTest()
+        {
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+            int totalTiles = CountTiles(boardManager.FullMap);
+
+            // Test Actions.
+            PathfinderMap = new Dictionary<Vector2Int, PathfinderTile>();
+
+            // Check test stuff.
+            Assert.Throws<System.ArgumentException>(() => TilePathfinder.FindShortestPath(PathfinderMap, Vector2Int.zero, Vector2Int.zero, new LayerInfo(false, false)));
+        }
+
+        [UnityTest]
+        public IEnumerator InvalidPositionsTest()
+        {
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+            int totalTiles = CountTiles(boardManager.FullMap);
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            // Check test stuff.
+            Assert.Throws<System.ArgumentException>(() => TilePathfinder.FindShortestPath(PathfinderMap, Vector2Int.zero, new Vector2Int(400, 400), new LayerInfo(false, false)));
+            Assert.Throws<System.ArgumentException>(() => TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-400, -400), Vector2Int.zero, new LayerInfo(false, false)));
+            Assert.Throws<System.ArgumentException>(() => TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-400, -400), new Vector2Int(400, 400), new LayerInfo(false, false)));
+        }
+
+        [UnityTest]
         public IEnumerator ConnectNodeMapTest()
         {
             // Set up scene.
@@ -140,67 +202,186 @@ namespace Pathfinder.Tests
         [UnityTest]
         public IEnumerator NoPathTest()
         {
-            // TODO: Finds no valid path, (returns empty set).
-            Assert.Fail();
-            yield return null;
+            // Finds no valid path, (returns empty set).
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            List<Vector2> testpath = TilePathfinder.FindShortestPath(PathfinderMap, Vector2Int.zero, new Vector2Int(4, 4), new LayerInfo(false, false));
+
+            Assert.NotNull(testpath);
+            Assert.AreEqual(0, testpath.Count);
         }
 
         [UnityTest]
         public IEnumerator SimpleLineTest()
         {
-            // TODO: Makes a simple straight line.
-            Assert.Fail();
-            yield return null;
+            // Makes a simple straight line.
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            List<Vector2> testpath = TilePathfinder.FindShortestPath(PathfinderMap, Vector2Int.zero, new Vector2Int(0, 3), new LayerInfo(false, false));
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(0, 1));
+            expectedPath.Add(new Vector2(0, 2));
+            expectedPath.Add(new Vector2(0, 3));
+
+            Assert.NotNull(testpath);
+            Assert.AreEqual(4, testpath.Count);
+            try
+            {
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], testpath[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                string str = PathToString(testpath); Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
+            }
         }
 
         [UnityTest]
         public IEnumerator DiagonalLineTest()
         {
-            // TODO: Makes a simple diagonal line.
-            Assert.Fail();
-            yield return null;
+            // Makes a simple diagonal line.
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            List<Vector2> testpath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(0, -5), new Vector2Int(-3, -2), new LayerInfo(false, false));
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            expectedPath.Add(new Vector2(0, -5));
+            expectedPath.Add(new Vector2(-1, -4));
+            expectedPath.Add(new Vector2(-2, -3));
+            expectedPath.Add(new Vector2(-3, -2));
+
+            Assert.NotNull(testpath);
+            Assert.AreEqual(4, testpath.Count);
+            try
+            {
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], testpath[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                string str = PathToString(testpath); Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
+            }
         }
 
         [UnityTest]
         public IEnumerator SimpleBlockTest()
         {
-            // TODO: Finds path around block in center of map.
-            /*  00000
-             *  XXXX0
-             *  0XXX0
-             *  0XXX0
-             *  00000
-             */
-            Assert.Fail();
-            yield return null;
-        }
+            // Finds path around blocker.
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
 
-        [UnityTest]
-        public IEnumerator TwoOptionsTest()
-        {
-            // TODO: Finds path around block in center of map, either of two options. Right then down or down then right.
-            /*  00000
-             *  0XXX0
-             *  0XXX0
-             *  0XXX0
-             *  00000
-             */
-            Assert.Fail();
-            yield return null;
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            List<Vector2> testpath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, -1), new Vector2Int(-2, -1), new LayerInfo(false, false));
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            expectedPath.Add(new Vector2(-5, -1));
+            expectedPath.Add(new Vector2(-4, -2));
+            expectedPath.Add(new Vector2(-3, -2));
+            expectedPath.Add(new Vector2(-2, -1));
+
+            Assert.NotNull(testpath);
+            Assert.AreEqual(4, testpath.Count);
+            try
+            {
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], testpath[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                string str = PathToString(testpath); Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
+            }
         }
 
         [UnityTest]
         public IEnumerator SimpleMazeTest()
         {
-            // TODO: Finds path through simple maze.
-            /*  00000
-             *  0XXX0
-             *  0XXX0
-             *  0XXX0
-             *  00000
-             */
-            Assert.Fail();
-            yield return null;
+            // Finds path through simple maze.
+            // Set up scene.
+            SceneManager.LoadScene(TEST_SCENE);
+            yield return new WaitWhile(() => SceneLoaded == false);
+            SceneLoaded = false;    // Reset for other tests.
+
+            // Set up test stuff.
+            BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+            IDictionary<Vector2Int, PathfinderTile> PathfinderMap;
+
+            // Test Actions.
+            PathfinderMap = TilePathfinder.BuildNodeMap(boardManager.FullMap, boardManager.MapLayerTiles);
+
+            List<Vector2> testpath = TilePathfinder.FindShortestPath(PathfinderMap, new Vector2Int(-5, 3), new Vector2Int(4, -4), new LayerInfo(false, false));
+            List<Vector2> expectedPath = new List<Vector2>();
+
+            expectedPath.Add(new Vector2(-5, 3));
+            expectedPath.Add(new Vector2(-4, 4));
+            expectedPath.Add(new Vector2(-3, 4));
+            expectedPath.Add(new Vector2(-2, 3));
+            expectedPath.Add(new Vector2(-2, 2));
+            expectedPath.Add(new Vector2(-1, 1));
+            expectedPath.Add(new Vector2(0, 0));
+            expectedPath.Add(new Vector2(1, -1));
+            expectedPath.Add(new Vector2(2, -2));
+            expectedPath.Add(new Vector2(3, -3));
+            expectedPath.Add(new Vector2(4, -4));
+
+            Assert.NotNull(testpath);
+            Assert.AreEqual(11, testpath.Count);
+            try
+            {
+                for (int i = 0; i < expectedPath.Count; i++)
+                {
+                    Assert.AreEqual(expectedPath[i], testpath[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                string str = PathToString(testpath); Assert.Fail("ERROR: " + ex.ToString() + "\n" + str);
+            }
         }
     }
 }

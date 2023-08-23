@@ -29,23 +29,23 @@ namespace Pathfinder
         /// <returns></returns>
         public static List<Vector2> FindShortestPath(IDictionary<Vector2Int, PathfinderTile> map, Vector2Int start, Vector2Int finish, LayerInfo layers)
         {
+            if (map == null)
+            {
+                throw new NullReferenceException("Map cannot be null.");
+            }
+
+            if (map.Count == 0)
+            {
+                throw new ArgumentException("Map is empty.");
+            }
+
+            if (!(map.ContainsKey(start) && map.ContainsKey(finish)))
+            {
+                throw new ArgumentException($"Either the start ({start}) or the finish ({finish}) is not in the map.");
+            }
+
             try
             {
-                if (map == null)
-                {
-                    throw new NullReferenceException("Map cannot be null.");
-                }
-
-                if (map.Count == 0)
-                {
-                    throw new ArgumentException("Map is empty.");
-                }
-
-                if (!(map.ContainsKey(start) && map.ContainsKey(finish)))
-                {
-                    throw new ArgumentException($"Either the start ({start}) or the finish ({finish}) is not in the map.");
-                }
-
                 if (layers.Equals(null))
                 {
                     layers = new LayerInfo(false, false);

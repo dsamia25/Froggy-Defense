@@ -6,30 +6,19 @@ using FroggyDefense.Weapons;
 namespace FroggyDefense.Core {
     public class ProjectileManager : MonoBehaviour
     {
-        //public static ProjectileManager instance;
-
         [Header("Projectile Spawning")]
         [Space]
         [SerializeField]
-        private GameObject projectilePrefab;
+        //private GameObject projectilePrefab;
         private Vector3 projectileSpawnLoc;
 
-        public GameObject ProjectilePrefab { get => projectilePrefab; }
+        //public GameObject ProjectilePrefab { get => projectilePrefab; }
         public Vector3 ProjectileSpawnLoc { get => projectileSpawnLoc; }
 
         private Dictionary<ProjectileObject, DynamicProjectilePool> projectileIndex;
 
         private void Awake()
         {
-            //if (instance == null)
-            //{
-            //    instance = this;
-            //} else
-            //{
-            //    Debug.LogWarning($"Already an instance of ProjectileManager. Destroying new manager.");
-            //    Destroy(this);
-            //}
-
             projectileIndex = new Dictionary<ProjectileObject, DynamicProjectilePool>();
         }
 

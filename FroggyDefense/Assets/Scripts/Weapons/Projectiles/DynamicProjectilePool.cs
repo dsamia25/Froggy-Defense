@@ -55,7 +55,7 @@ namespace FroggyDefense.Weapons
         /// <returns></returns>
         private Projectile Create()
         {
-            Projectile proj = GameObject.Instantiate(manager.ProjectilePrefab, manager.ProjectileSpawnLoc, Quaternion.identity).GetComponent<Projectile>();
+            Projectile proj = GameObject.Instantiate(Template.Vfx, manager.ProjectileSpawnLoc, Quaternion.identity).GetComponent<Projectile>();
             proj.Init(Template);
             return proj;
         }

@@ -20515,7 +20515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21895,6 +21895,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1646140091
       objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026449, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: CurrencyList
+      value: 
+      objectReference: {fileID: 11400000, guid: 7407722022cf543a193bc86c3c55e9c9, type: 2}
     - target: {fileID: 6414132035353026451, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: AreaListener
       value: 

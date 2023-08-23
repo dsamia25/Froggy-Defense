@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b203945d3e7df43418b21582f89ffd42, type: 3}
   m_Name: StoneShardsProjectile
   m_EditorClassIdentifier: 
-  Appearance:
-    sprite: {fileID: 21300000, guid: 6126b0e9e304d4eaa9c54d784ed9c44c, type: 3}
-    transformScale: {x: 0.2, y: 0.2}
+  Vfx: {fileID: 8439795043833637421, guid: 2c57d890cf5494ca6a52d8d86f56064a, type: 3}
   ProjectilePoolSize: 5
   Damage: 2
   HasProjectileDamageScaling: 0
