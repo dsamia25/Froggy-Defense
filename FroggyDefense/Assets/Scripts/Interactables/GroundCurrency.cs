@@ -63,7 +63,7 @@ namespace FroggyDefense.Interactables
                 Debug.Log("Trying to add GroundCurrency (" + _currency.CurrencyName + ") to wallet.");
                 var result = wallet.Add(_currency, _amount);
                 GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, Amount, NumberPopupType.GemPickup);
-                Debug.Log("Adding GroundCurrency (" + _currency.CurrencyName + ") to wallet was " + (result ? "successful" : "a failure") + ".");
+                Debug.Log("Adding GroundCurrency (" + _currency.CurrencyName + ") to wallet was " + (result > 0 ? "successful" : "a failure") + ".");
                 return true;
             }
             Debug.Log("Pick up failed.");

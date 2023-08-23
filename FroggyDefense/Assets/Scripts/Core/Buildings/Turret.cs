@@ -341,7 +341,7 @@ namespace FroggyDefense.Core.Buildings
         {
             if (currLevel < maxLevel)
             {
-                if (m_Player.CharacterWallet.Charge(GameManager.instance.m_GemManager.GemCurrencyObject, upgradeCosts[currLevel]))
+                if (m_Player.CharacterWallet.Charge(GameManager.instance.m_GemManager.GemCurrencyObject, upgradeCosts[currLevel]) > 0)
                 {
                     var result = currValue + upgradeValues[currLevel];
                     return result;

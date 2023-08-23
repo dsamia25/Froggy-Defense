@@ -423,7 +423,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: cbb965203a8454f24aa5eafb421a7cff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19849,6 +19849,7 @@ MonoBehaviour:
   _totalTime: 0
   _dayCycleTime: 24000
   timeSpeed: 1000
+  DayCycleMaterial: {fileID: 2100000, guid: cbb965203a8454f24aa5eafb421a7cff, type: 2}
   Phase: 0
   StandardTime: 0
   DayTimeRange: {x: 7, y: 7}
@@ -20514,7 +20515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -22486,7 +22487,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: cbb965203a8454f24aa5eafb421a7cff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

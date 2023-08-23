@@ -241,6 +241,55 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &1517781830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1517781832}
+  - component: {fileID: 1517781831}
+  m_Layer: 0
+  m_Name: EconomyTestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1517781831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517781830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed4012deb3fbe4777870b14cdb558314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testCurrency: {fileID: 11400000, guid: 619ffbbc186dd4ab0b0933bb46375c3e, type: 2}
+  testMaxAmtCurrency: {fileID: 11400000, guid: 69073571a6d1d4ebeaac75cb455059c6, type: 2}
+  testMinAmtCurrency: {fileID: 11400000, guid: 69073571a6d1d4ebeaac75cb455059c6, type: 2}
+  testStartingAmtPosCurrency: {fileID: 11400000, guid: d7d2f2fd0126d4a9ea11932778a238d5, type: 2}
+  testStartingAmtNegCurrency: {fileID: 11400000, guid: 27d80632111da49fa8727ce39177dc7d, type: 2}
+--- !u!4 &1517781832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517781830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576597679
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,5 +392,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026449, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: CurrencyList
+      value: 
+      objectReference: {fileID: 11400000, guid: b5c3309e777e14ae0b09ee20dd36df24, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}

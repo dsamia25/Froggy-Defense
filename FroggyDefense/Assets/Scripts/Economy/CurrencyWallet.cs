@@ -6,7 +6,7 @@ namespace FroggyDefense.Economy
 {
     public class CurrencyWallet : MonoBehaviour
     {
-        public CurrencyListObject _currencyList = null;
+        public CurrencyListObject CurrencyList = null;
 
         private Dictionary<CurrencyObject, int> _currencies = new Dictionary<CurrencyObject, int>();
         private List<WalletEventArgs> _transactionHistory = new List<WalletEventArgs>();                // List of all additions and subtractions to the wallet.
@@ -24,7 +24,7 @@ namespace FroggyDefense.Economy
         /// </summary>
         public void UpdateCurrencies()
         {
-            foreach (CurrencyObject currency in _currencyList.ListOfCurrencies)
+            foreach (CurrencyObject currency in CurrencyList.ListOfCurrencies)
             {
                 _currencies.TryAdd(currency, currency.StartingAmount);
             }
@@ -68,12 +68,12 @@ namespace FroggyDefense.Economy
         /// <param name="currency"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool Add(CurrencyObject currency, int amount)
+        public int Add(CurrencyObject currency, int amount)
         {
             if (currency == null)
             {
                 Debug.LogWarning("ERROR: Input currency is NULL.");
-                return false;
+                return 0;
             }
 
             if (!_currencies.ContainsKey(currency))
@@ -84,7 +84,7 @@ namespace FroggyDefense.Economy
             // If this currency is not in the main list, return false.
             if (!_currencies.ContainsKey(currency))
             {
-                return false;
+                return 0;
             }
 
             int before = _currencies[currency];
@@ -93,11 +93,11 @@ namespace FroggyDefense.Economy
                 int trueAmountAdded = currency.MaximumAmount - _currencies[currency];   // The actual amount added if it tries to add over the cap.
                 _currencies[currency] = currency.MaximumAmount;
                 LogTransaction(currency, true, trueAmountAdded, before);
-                return true;
+                return trueAmountAdded;
             }
             _currencies[currency] += amount;
             LogTransaction(currency, true, amount, before);
-            return true;
+            return amount;
         }
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace FroggyDefense.Economy
         /// <param name="currency"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool Charge(CurrencyObject currency, int amount)
+        public int Charge(CurrencyObject currency, int amount)
         {
             if (currency == null)
             {
                 Debug.LogWarning("ERROR: Input currency is NULL.");
-                return false;
+                return 0;
             }
 
             if (!_currencies.ContainsKey(currency))
@@ -125,19 +125,19 @@ namespace FroggyDefense.Economy
             // If this currency is not in the main list, return false.
             if (!_currencies.ContainsKey(currency))
             {
-                return false;
+                return 0;
             }
 
             if ((currency.HasMinimumAmount) && (_currencies[currency] - amount < currency.MinimumAmount))
             {
                 // Abandon transaction if not enough of the currency.
-                return false;
+                return 0;
             }
 
             int before = _currencies[currency];
             _currencies[currency] -= amount;
             LogTransaction(currency, false, amount, before);
-            return true;
+            return amount;
         }
 
         /// <summary>

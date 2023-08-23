@@ -75,7 +75,7 @@ namespace FroggyDefense.Shop
             }
 
             // Only buy if the transaction goes through.
-            if (buyer.CharacterWallet.Charge(item.PriceCurrency, item.Price))
+            if (buyer.CharacterWallet.Charge(item.PriceCurrency, item.Price) > 0)
             {
                 buyer.CharacterInventory.Add(Item.CreateItem(item.m_Item), 1);
 

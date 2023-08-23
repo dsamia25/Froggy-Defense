@@ -1,13 +1,14 @@
 {
-    "name": "EconomyTests",
+    "name": "TextParserTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "EconomyAssembly",
-        "ScriptsAssembly"
+        "ConsoleCommandsAssembly"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

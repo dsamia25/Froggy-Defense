@@ -2,10 +2,10 @@ using UnityEngine;
 
 public enum DayPhase
 {
-    Dawn,
-    Day,
-    Dusk,
-    Night
+    Dawn = 500,
+    Day = 700,
+    Dusk = 630,
+    Night = 830
 }
 
 public class DayCycle : MonoBehaviour
@@ -15,6 +15,8 @@ public class DayCycle : MonoBehaviour
     [SerializeField] private float _totalTime = 0;
     [SerializeField] private float _dayCycleTime = 2400;
     [SerializeField] private float timeSpeed = 1;
+
+    [SerializeField] private Material DayCycleMaterial;         // The environment shader based on the day time.
 
     public DayPhase Phase;  // TODO: Make a way of changing this at time of the day.
 
@@ -48,5 +50,33 @@ public class DayCycle : MonoBehaviour
         Second = Mathf.FloorToInt(TotalTime % 60);
         Minute = Mathf.FloorToInt((TotalTime / 60) % 60);
         Hour = Mathf.FloorToInt((TotalTime / 60 / 60) % 24);
+
+        UpdateMaterials();
+    }
+
+    /// <summary>
+    /// Sets the total time to the input time.
+    /// </summary>
+    /// <param name="time"></param>
+    public void SetTime(float time)
+    {
+        _totalTime = time;
+    }
+
+    /// <summary>
+    /// Converts the DayPhase to its equivalent time and sets the time.
+    /// </summary>
+    /// <param name="time"></param>
+    public void SetTime(DayPhase time)
+    {
+        SetTime((float)time);
+    }
+
+    /// <summary>
+    /// Updates materials dependent on the time of day. 
+    /// </summary>
+    private void UpdateMaterials()
+    {
+        DayCycleMaterial.SetFloat("DayPercent", StandardTime / DayCycleTime);
     }
 }
