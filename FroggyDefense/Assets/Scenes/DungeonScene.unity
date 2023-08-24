@@ -21887,6 +21887,10 @@ PrefabInstance:
       propertyPath: DamagedInvinciblityTime
       value: 0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: AbilityTemplates.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: c44e6d32986a944658797fe5e9466b39, type: 2}
     - target: {fileID: 6414132035353026443, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: m_SortingLayer
       value: 1

@@ -115,6 +115,8 @@ namespace FroggyDefense.Weapons
         {
             this.args = args;
 
+            transform.rotation = Quaternion.Euler(0f, 0f, ActionUtils.AngleBetweenTwoPoints(args.Inputs.point2, args.Inputs.point1, -90));
+
             _pierces = template.MaxPierces;
 
             m_ShootPos = transform.position;
