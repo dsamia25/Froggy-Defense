@@ -12,8 +12,8 @@ namespace FroggyDefense.UI
         private void Awake()
         {
             // Subscribe to events.
-            _player.CharacterExperienceChanged += OnXpGainedEvent;
-            _player.CharacterLeveledUp += OnLeveledUpEvent;
+            _player.ExperienceChanged += OnXpGainedEvent;
+            _player.LeveledUp += OnLeveledUpEvent;
         }
 
         private void Start()
@@ -21,7 +21,7 @@ namespace FroggyDefense.UI
             if (_player != null && _xpBar != null)
             {
                 // Initialize experience bar.
-                _xpBar.SetMaxHealth(_player.Xp, _player.XpNeeded);
+                _xpBar.SetMaxHealth(_player.Xp, _player.MaxXp);
             }
         }
 
@@ -47,7 +47,7 @@ namespace FroggyDefense.UI
             // Reset bar to 0.
             _xpBar.ClearBar();
             // Fill bar to amount.
-            _xpBar.SetMaxHealth(_player.Xp, _player.XpNeeded);
+            _xpBar.SetMaxHealth(_player.Xp, _player.MaxXp);
             yield return null;
         }
     }

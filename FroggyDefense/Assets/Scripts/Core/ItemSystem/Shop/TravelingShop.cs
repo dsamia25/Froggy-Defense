@@ -61,7 +61,7 @@ namespace FroggyDefense.Shop
         /// <param name="buyer"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Buy(Character buyer, ShopItem item)
+        public bool Buy(Player buyer, ShopItem item)
         {
             if (buyer.CharacterInventory == null)
             {

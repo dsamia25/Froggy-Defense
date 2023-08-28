@@ -10,8 +10,8 @@ namespace FroggyDefense.Core.Actions
     {
         public LayerMask TargetLayer;                   // The layer the targets are on.
         public Shape EffectShape;                       // How wide of an area the spell effects.
-        public float Damage;                            // How much damage the spell does.
-        public DamageType SpellDamageType;              // What kind of damage is applied (If applicable).
+        public ActionDamageArgs DamageArgs;             // How much damage the action does.
+
         public AppliedEffectObject[] AppliedEffects;    // List of applied effects.
 
         private void Awake()
@@ -41,7 +41,7 @@ namespace FroggyDefense.Core.Actions
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        target.TakeDamage(new DamageAction(args.Caster, Template.Damage, Template.SpellDamageType));
+                        target.TakeDamage(DamageAction.CreateDamageAction(args.Caster, Template.DamageArgs.Damage, Template.DamageArgs.SpellPowerRatio, Template.DamageArgs.SpellDamageType, Template.DamageArgs.CritChanceModifier, Template.DamageArgs.CritBonusModifier));
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {

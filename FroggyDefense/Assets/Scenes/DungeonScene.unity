@@ -20515,7 +20515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21884,6 +21884,38 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._maxMana
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._critBonus
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._critChance
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._spellPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._attackPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._healthRegen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: DamagedInvinciblityTime
       value: 0.125
       objectReference: {fileID: 0}
@@ -21891,6 +21923,10 @@ PrefabInstance:
       propertyPath: AbilityTemplates.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: c44e6d32986a944658797fe5e9466b39, type: 2}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _stats._damagedInvincibilityTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6414132035353026443, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: m_SortingLayer
       value: 1

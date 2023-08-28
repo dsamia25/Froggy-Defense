@@ -203,7 +203,7 @@ namespace FroggyDefense.Weapons
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(new DamageAction(Caster, template.Damage + (template.HasProjectileDamageScaling ? GetStatScaling(template.ProjectileDamageScalingFactor) : 0), template.DirectDamageType));
+                destructable.TakeDamage(new DamageAction(Caster, template.Damage + (template.HasProjectileDamageScaling ? GetStatScaling(template.ProjectileDamageScalingFactor) : 0), template.DirectDamageType, false));
 
                 // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
                 foreach (SpellAction action in OnHitActions)

@@ -18,7 +18,7 @@ namespace FroggyDefense.Core.Items.UI
             GenerateEquipmentSlots();
 
             // Subscribe to events.
-            GameManager.instance.m_Player.CharacterStatsChanged.AddListener(UpdateUI);
+            GameManager.instance.m_Player.StatsChanged += UpdateUI;
         }
 
         /// <summary>

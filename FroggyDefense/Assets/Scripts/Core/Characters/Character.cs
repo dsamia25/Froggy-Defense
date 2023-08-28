@@ -2,26 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using FroggyDefense.Core.Items;
 using FroggyDefense.UI;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Movement;
-using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core
 {
     public class Character : MonoBehaviour, IHasStats, IDestructable
-    {
-        public float DamagedInvinciblityTime = 0f;
-        
+    {        
         [Space]
         [Header("Character Info")]
         [Space]
         [SerializeField] private string _name = "NAME HERE";    
-        public string Name { get => _name; }                    // The character's name.
         [SerializeField] protected HealthBar m_HealthBar = null;
         [SerializeField] protected HealthBar m_ManaBar = null;
+        public ProjectileManager m_ProjectileManager = null;
+
+        public string Name => _name;
+
+        // TODO: Toggle InCombat when in combat.
+        [SerializeField] protected bool _inCombat = false;
+        public bool InCombat => _inCombat;
+
+        // TODO: Find a place to put this.
+        public bool BeingSummoned = false;
 
         [Space]
         [Header("Animations")]
@@ -35,107 +40,97 @@ namespace FroggyDefense.Core
         [Header("Experience")]
         [Space]
         [SerializeField] private float _xp = 0f;
-        [SerializeField] private float _xpNeeded = 0f;
+        [SerializeField] private float _maxXp = 0f;
         [SerializeField] private CharacterLevelExperienceFunction _experienceFunction = null;
         public float Xp { get => _xp; }                                     // The character's experience points.
-        public float XpNeeded { get => _xpNeeded; }                         // The amount of xp required to level up.
+        public float MaxXp { get => _maxXp; }                         // The amount of xp required to level up.
         public CharacterLevelExperienceFunction ExperienceFunction { get => _experienceFunction; }  // Function used to calculate experience needed to level up.
 
         [Space]
         [Header("Stats")]
         [Space]
-        [SerializeField] protected float _maxHealth = 1f;
-        [SerializeField] protected float _health = 1f;
-        [SerializeField] protected float _maxMana = 100;
-        [SerializeField] protected float _mana = 100;
-        [SerializeField] protected float _manaRegen = 8;
-        [SerializeField] protected float _moveSpeed = 1f;
         [SerializeField] protected StatSheet _stats;                        // List of base stats and their growth per level.
-        public float MaxHealth { get => _maxHealth; }
+        [SerializeField] protected float _health = 1f;
+        [SerializeField] protected float _mana = 100;
+        public StatSheet Stats => _stats;
+        public float MaxHealth => _stats.MaxHealth;
+        public float HealthRegen => _stats.HealthRegen * (InCombat ? _stats.CombatHealthRegenModifier : 1);
+        public float MaxMana => _stats.MaxMana;
+        public float ManaRegen => _stats.ManaRegen * (InCombat ? _stats.CombatManaRegenModifier : 1);
+        public float MoveSpeed => _stats.MoveSpeed;
+        public float CritChance => _stats.CritChance;
+        public float CritBonus => _stats.CritBonus;
+        public float DamagedInvincibilityTime => _stats.DamagedInvincibilityTime;
+
         public float Health
         {
             get => _health;
             set
             {
                 float amount = value;
-                if (amount > _maxHealth)
+                if (amount > MaxHealth)
                 {
-                    amount = _maxHealth;
+                    amount = MaxHealth;
                 }
                 _health = amount;
 
                 UpdateHealthBar();
             }
         }
-        public float MaxMana { get => _maxMana; }
         public float Mana {
             get => _mana;
             set
             {
                 float amount = value;
-                if (amount > _maxMana)
+                if (amount > MaxMana)
                 {
-                    amount = _maxMana;
+                    amount = MaxMana;
                 }
                 _mana = amount;
 
                 UpdateManaBar();
             }
         }
-        public float ManaRegen { get => _manaRegen; }
-        public float MoveSpeed => _moveSpeed;   // The player's total attack speed with all buffs applied.
-        public StatSheet Stats => _stats;
 
         [Space]
         [Header("Status Effects")]
         [Space]
-        [SerializeField] protected bool _isStunned = false;                 // True if currently stunned.
+        protected List<AppliedEffect> _appliedEffectList = new List<AppliedEffect>();                                               // List of all status effects applied on the target.
+        protected Dictionary<string, AppliedEffect> _appliedEffectIndex = new Dictionary<string, AppliedEffect>();                 // List of all dot names and their applied effects.
+        protected bool _isPoisoned = false;
+        protected bool _isChilled = false;
+        protected bool _isBleeding = false;
+        protected bool _isBurning = false;
+        protected bool _isRooted = false;
+        protected bool _isSlowed = false;
+        protected bool _isStunned = false;
+        public bool IsPoisoned => _isPoisoned;  // TODO: Implement
+        public bool IsChilled => _isChilled;    // TODO: Implement
+        public bool IsBleeding => _isBleeding;  // TODO: Implement
+        public bool IsBurning => _isBurning;    // TODO: Implement
+        public bool IsRooted => _isRooted;      // TODO: Implement
+        public bool IsSlowed => _isSlowed;      // TODO: Implement
+        public bool IsStunned => _isStunned;
+
         [SerializeField] protected float _moveSpeedModifer = 1f;            // The percent modifier effecting movement speed.
         [SerializeField] protected int _stunEffectCounter = 0;              // Tracks how many stun effects have been applied. If 0 then is not stunned.
         [SerializeField] protected bool _invincible = false;
-        [SerializeField] protected bool _splashShield = false;
-        public bool IsStunned => _isStunned;
         public float MoveSpeedModifer => _moveSpeedModifer;
         public bool m_Invincible { get => _invincible; set { _invincible = value; } }
-        public bool m_SplashShield { get => _splashShield; set { _splashShield = value; } }
-        public bool IsDamaged => _health < _maxHealth;
-        public bool BeingSummoned = false;
-
-        public List<AppliedEffect> _appliedEffectList = new List<AppliedEffect>();                                                                // List of all status effects applied on the target.
-        private Dictionary<string, AppliedEffect> _appliedEffectIndex = new Dictionary<string, AppliedEffect>();                 // List of all dot names and their applied effects.
-
-        [Space]
-        [Header("Projectiles")]
-        [Space]
-        public ProjectileManager m_ProjectileManager = null;
+        public bool IsDamaged => _health < MaxHealth;
 
         [Space]
         [Header("Equipment")]
         [Space]
-        private Equipment[] _equipmentSlots;
-
-        [Space]
-        [Header("Inventory")]
-        [Space]
-        [SerializeField] private Inventory _inventory;
-        public Inventory CharacterInventory { get => _inventory; }
-
-        [Space]
-        [Header("Wallet")]
-        [SerializeField] private CurrencyWallet _wallet;
-        public CurrencyWallet CharacterWallet { get => _wallet; }
-
-        [Space]
-        [Header("Character Events")]
-        [Space]
-        public UnityEvent CharacterStatsChanged;        // TODO: Change this to a normal C# event like the CharacterExperienceChanged event below.
+        protected Equipment[] _equipmentSlots;
 
         protected ObjectController controller;
         protected Vector2 _moveDir = Vector2.zero;
 
-        public delegate void CharacterDelegate();
-        public event CharacterDelegate CharacterExperienceChanged;
-        public event CharacterDelegate CharacterLeveledUp;                  // Event when the character levels up.
+        public delegate void CharacterDelegate();   
+        public event CharacterDelegate ExperienceChanged;           // Event when the character has gained experience.
+        public event CharacterDelegate LeveledUp;                   // Event when the character levels up.
+        public event CharacterDelegate StatsChanged;                // Event triggered when the character's stats have changed.
 
         // ********************************************************************
         // Stats
@@ -147,17 +142,15 @@ namespace FroggyDefense.Core
 
             if (m_ProjectileManager == null) m_ProjectileManager = GetComponent<ProjectileManager>();
 
-            if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
-
             // TODO: Make a way to take in an existing equipment spread.
             InitEquipmentSlots();
 
             if (_experienceFunction == null)
             {
-                _xpNeeded = 99999999;
+                _maxXp = 99999999;
             } else
             {
-                _xpNeeded = _experienceFunction.GetXpNeeded(_stats.Level);
+                _maxXp = _experienceFunction.GetMaxXp(_stats.Level);
             }
 
             if (_stats == null)
@@ -169,16 +162,16 @@ namespace FroggyDefense.Core
 
         protected virtual void Start()
         {
-            _health = _maxHealth;
+            _health = MaxHealth;
             if (m_HealthBar != null)
             {
-                m_HealthBar.InitBar(_maxHealth);
+                m_HealthBar.InitBar(MaxHealth);
             }
 
-            _mana = _maxMana;
+            _mana = MaxMana;
             if (m_ManaBar != null)
             {
-                m_ManaBar.InitBar(_maxMana);
+                m_ManaBar.InitBar(MaxMana);
             }
         }
 
@@ -195,10 +188,10 @@ namespace FroggyDefense.Core
         #region Update
         protected virtual void Update()
         {
-            // Regen Mana
-            Mana += _manaRegen * Time.deltaTime;
+            // Regen Health and Mana
+            Health += HealthRegen * Time.deltaTime;
+            Mana += ManaRegen * Time.deltaTime;
 
-            //TickDots();
             TickAppliedEffects();
         }
         #endregion
@@ -222,7 +215,17 @@ namespace FroggyDefense.Core
         protected void UpdateStats()
         {
             _stats.UpdateStats();
-            CharacterStatsChanged?.Invoke();
+            StatsChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Gets the spell power for the type damage.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public float GetSpellPower(DamageType type)
+        {
+            return _stats.GetSpellPower(type);
         }
         #endregion
 
@@ -268,7 +271,7 @@ namespace FroggyDefense.Core
             if (_equipmentSlots[slot] == null) return;
             RemoveEquipmentStats(_equipmentSlots[slot]);
 
-            _inventory?.Add(_equipmentSlots[slot], 1);          // Place the item in the inventory if possible.
+            //_inventory?.Add(_equipmentSlots[slot], 1);          // Place the item in the inventory if possible.
             
             _equipmentSlots[slot] = null;                       // Clear the equipment slot.
         }
@@ -318,7 +321,7 @@ namespace FroggyDefense.Core
         public void UseMana(float mana)
         {
             Mana -= mana;
-            Debug.Log("Using " + mana + ". " + Name + " now has " + _mana + "/" + _maxMana + " mana.");
+            Debug.Log("Using " + mana + ". " + Name + " now has " + _mana + "/" + MaxMana + " mana.");
         }
 
         // ********************************************************************
@@ -345,7 +348,7 @@ namespace FroggyDefense.Core
                 visualsAnimator?.SetBool("DamagedAnimation", true);
             }
 
-            if (DamagedInvinciblityTime > 0)
+            if (DamagedInvincibilityTime > 0)
             {
                 StartCoroutine(DamagedInvincibility());
             }
@@ -372,7 +375,7 @@ namespace FroggyDefense.Core
                 visualsAnimator?.SetBool("DamagedAnimation", true);
             }
 
-            if (DamagedInvinciblityTime > 0)
+            if (DamagedInvincibilityTime > 0)
             {
                 StartCoroutine(DamagedInvincibility());
             }
@@ -512,7 +515,7 @@ namespace FroggyDefense.Core
         private IEnumerator DamagedInvincibility()
         {
             m_Invincible = true;
-            yield return new WaitForSeconds(DamagedInvinciblityTime);
+            yield return new WaitForSeconds(DamagedInvincibilityTime);
             m_Invincible = false;
         }
 
@@ -526,13 +529,13 @@ namespace FroggyDefense.Core
 
             _xp += experience;
 
-            if (_xp >= _xpNeeded)
+            if (_xp >= _maxXp)
             {
                 LevelUp();
             }
             else
             {
-                CharacterExperienceChanged?.Invoke();   // Event that the character's experience changed.
+                ExperienceChanged?.Invoke();   // Event that the character's experience changed.
             }
         }
 
@@ -544,11 +547,11 @@ namespace FroggyDefense.Core
         {
             _stats.LevelUp();
 
-            _xp = _xp - _xpNeeded;
-            _xpNeeded = _experienceFunction.GetXpNeeded(_stats.Level);
+            _xp = _xp - _maxXp;
+            _maxXp = _experienceFunction.GetMaxXp(_stats.Level);
 
-            if (_xp >= _xpNeeded) LevelUp();
-            CharacterLeveledUp?.Invoke();
+            if (_xp >= _maxXp) LevelUp();
+            LeveledUp?.Invoke();
         }
 
         /// <summary>
@@ -567,7 +570,7 @@ namespace FroggyDefense.Core
         {
             if (m_HealthBar != null)
             {
-                m_HealthBar.SetMaxHealth(_health, _maxHealth);
+                m_HealthBar.SetMaxHealth(_health, MaxHealth);
             }
         }
 
@@ -578,7 +581,7 @@ namespace FroggyDefense.Core
         {
             if (m_ManaBar != null)
             {
-                m_ManaBar.SetMaxHealth(_mana, _maxMana);
+                m_ManaBar.SetMaxHealth(_mana, MaxMana);
             }
         }
     }

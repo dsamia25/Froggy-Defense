@@ -40,7 +40,6 @@ namespace FroggyDefense.Core
         }
     }
 
-    // TODO: Not sure if it should be a struct or a class.
     /// <summary>
     /// Holds the info on how much damage is being dealt and what kind of damage it was.
     /// </summary>
@@ -49,12 +48,47 @@ namespace FroggyDefense.Core
         public float Damage;
         public DamageType Type;
         public Character Attacker;
+        public bool IsCriticalStrike;
 
-        public DamageAction(Character attacker, float damage, DamageType type)
+        public DamageAction(Character attacker, float damage, DamageType type, bool isCriticalStrike)
         {
             Attacker = attacker;
             Damage = damage;
             Type = type;
+            IsCriticalStrike = isCriticalStrike;
+        }
+
+        /// <summary>
+        /// Creates a damage action.
+        /// </summary>
+        /// <param name="attacker"></param>
+        /// <param name="baseDamage"></param>
+        /// <param name="spellPowerRatio"></param>
+        /// <param name="type"></param>
+        /// <param name="critChanceModifier"></param>
+        /// <param name="critBonusModifier"></param>
+        /// <returns></returns>
+        public static DamageAction CreateDamageAction(Character attacker, float baseDamage, float spellPowerRatio, DamageType type, float critChanceModifier, float critBonusModifier)
+        {
+            float damage = baseDamage + spellPowerRatio * attacker.GetSpellPower(type);
+            bool crit = false;
+            if (CritRoll(attacker.CritChance, critChanceModifier))
+            {
+                // TODO: Invoke a Character.CriticalStrike event.
+                damage *= critBonusModifier * attacker.CritBonus;
+                crit = true;
+            }
+            return new DamageAction(attacker, damage, type, crit);
+        }
+
+        /// <summary>
+        /// Rolls for a critical strike.
+        /// </summary>
+        /// <returns></returns>
+        public static bool CritRoll(float critChance, float critChanceModifier)
+        {
+            float roll = Random.value;
+            return roll < critChanceModifier * critChance;
         }
     }
 

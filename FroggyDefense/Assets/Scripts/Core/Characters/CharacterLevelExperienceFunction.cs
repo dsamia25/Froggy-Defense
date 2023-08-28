@@ -8,7 +8,7 @@ namespace FroggyDefense.Core
         public float BaseLevelXp = 50f;
         public float XpIncreasePerLevel = 25f;
 
-        public float GetXpNeeded(int level)
+        public float GetMaxXp(int level)
         {
             return BaseLevelXp + ((level + 1) * XpIncreasePerLevel);
         }

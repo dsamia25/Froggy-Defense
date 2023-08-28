@@ -84,4 +84,23 @@ namespace FroggyDefense.Core.Actions
             delayTime = delay;
         }
     }
+
+    [Serializable]
+    public struct ActionDamageArgs
+    {
+        public float Damage;                            // How much damage the spell does.
+        public float SpellPowerRatio;                   // Extra damage based on percent of spell power.
+        public DamageType SpellDamageType;              // What kind of damage is applied (If applicable).
+        public float CritChanceModifier;                // Extra criticial strike chance.
+        public float CritBonusModifier;                 // Extra critical strike bonus modifier.
+
+        public ActionDamageArgs (float damage, float spellPowerRatio, DamageType type, float critChanceModifier, float critBonusModifier)
+        {
+            Damage = damage;
+            SpellPowerRatio = spellPowerRatio;
+            SpellDamageType = type;
+            CritChanceModifier = critChanceModifier;
+            CritBonusModifier = critBonusModifier;
+        }
+    }
 }

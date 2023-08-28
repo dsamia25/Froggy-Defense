@@ -6,11 +6,24 @@ using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Core.Enemies;
 using FroggyDefense.Interactables;
+using FroggyDefense.Core.Items;
+using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core
 {
     public class Player : Character
     {
+        [Space]
+        [Header("Inventory")]
+        [Space]
+        [SerializeField] private Inventory _inventory;
+        public Inventory CharacterInventory { get => _inventory; }
+
+        [Space]
+        [Header("Wallet")]
+        [SerializeField] private CurrencyWallet _wallet;
+        public CurrencyWallet CharacterWallet { get => _wallet; }
+
         [Space]
         [Header("Spells")]
         [Space]
@@ -48,6 +61,7 @@ namespace FroggyDefense.Core
             base.Awake();
 
             if (inputController == null) inputController = GetComponent<InputController>();
+            if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
 
             RefreshSpellBar();
         }
@@ -163,7 +177,7 @@ namespace FroggyDefense.Core
         public override void LevelUp()
         {
             base.LevelUp();
-            Health = _maxHealth;  // Heal to full on levelup.
+            Health = MaxHealth;  // Heal to full on levelup.
         }
         #endregion
 
@@ -180,6 +194,13 @@ namespace FroggyDefense.Core
             PlayerDeathEvent?.Invoke();
         }
         #endregion
+
+        public override void Unequip(int slot)
+        {
+            base.Unequip(slot);
+            _inventory?.Add(_equipmentSlots[slot], 1);          // Place the item in the inventory if possible.
+        }
+
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

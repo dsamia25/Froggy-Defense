@@ -38,7 +38,7 @@ namespace FroggyDefense.Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
-                DamageAction damage = new DamageAction(Caster, DamagePerTick, EffectDamageType);
+                DamageAction damage = new DamageAction(Caster, DamagePerTick, EffectDamageType, false);
                 Target.TakeDamage(damage);
                 _currTickCooldown = TickFrequency;
                 TicksLeft--;

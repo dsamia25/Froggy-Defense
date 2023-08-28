@@ -53,37 +53,71 @@ namespace FroggyDefense.Core
     [System.Serializable]
     public class StatSheet
     {
-        [Space]
-        [Header("Level")]
-        [Space]
         [SerializeField] private int _level = 1;
         public int Level { get => _level; set => _level = value; }
 
         [SerializeField] private float _moveSpeed;
-        public float MoveSpeed { get => _moveSpeed; }
+        [SerializeField] private float _maxHealth;
+        [SerializeField] private float _healthRegen;
+        [SerializeField] private float _combatHealthRegenModifier = .5f;
+        [SerializeField] private float _maxMana;
+        [SerializeField] private float _manaRegen;
+        [SerializeField] private float _combatManaRegenModifier = .5f;
+        [SerializeField] private float _attackPower;
+        [SerializeField] private float _spellPower;
+        [SerializeField] private float _critChance;
+        [SerializeField] private float _critBonus;
+        [SerializeField] private float _damagedInvincibilityTime;
 
-        [Space]
-        [Header("Base Stats Per Level")]
-        [Space]
-        [SerializeField] private float _strengthPerLevel = 1f;        // How much of this stat is added on leveling up.
-        [SerializeField] private float _dexterityPerLevel = 1f;       // How much of this stat is added on leveling up.
-        [SerializeField] private float _agilityPerLevel = 1f;         // How much of this stat is added on leveling up.
-        [SerializeField] private float _intellectPerLevel = 1f;       // How much of this stat is added on leveling up.
-        [SerializeField] private float _spiritPerLevel = 1f;          // How much of this stat is added on leveling up.
-        public float BaseStrengthPerLevel => _strengthPerLevel;
-        public float BaseDexterityPerLevel => _dexterityPerLevel;
-        public float BaseAgilityPerLevel => _agilityPerLevel;
-        public float BaseIntellectPerLevel => _intellectPerLevel;
-        public float BaseSpiritPerLevel => _spiritPerLevel;
+        public float MoveSpeed => _moveSpeed;
+        public float MaxHealth => _maxHealth;
+        public float HealthRegen => _healthRegen;
+        public float CombatHealthRegenModifier => _combatHealthRegenModifier;
+        public float MaxMana => _maxMana;
+        public float ManaRegen => _manaRegen;
+        public float CombatManaRegenModifier => _combatManaRegenModifier;
+        public float AttackPower => _attackPower;
+        public float SpellPower => _spellPower;
+        public float CritChance => _critChance;
+        public float CritBonus => _critBonus;
+        public float DamagedInvincibilityTime => _damagedInvincibilityTime;
+
+        public Dictionary<DamageType, float> SpellPowerIndex = new Dictionary<DamageType, float>(); // Index holding additional spell power bonuses for each type of damage. Defaults to 0.
+
+        // Stamina, Fortitude, Resilience, Endurance => Tankiness
+        // Strength, Courage, Might => Power
+        // Agility, Dexterity, Finesse, Artistry => Combos
+        // Intellect => Magic / Utility
+        // Spirit, Essence, Vitality, Will => Regeneration
+
+        [SerializeField] private float _stamina = 1f;
+        [SerializeField] private float _strength = 1f;
+        [SerializeField] private float _agility = 1f;
+        [SerializeField] private float _intellect = 1f;
+        [SerializeField] private float _spirit = 1f;
+        public float Stamina => _stamina;
+        public float Strength => _strength;
+        public float Agility => _agility;
+        public float Intellect => _intellect;
+        public float Spirit => _spirit;
 
         private Dictionary<StatType, float> _baseStats = new Dictionary<StatType, float>();     // Dictionary of each base stat and their value.
         private Dictionary<StatType, float> _bonusStats = new Dictionary<StatType, float>();    // Dictionary of each increased stat and their values.
         private Dictionary<StatType, float> _statModifiers = new Dictionary<StatType, float>(); // Dictionary of each increased stat and their values.
         private Dictionary<StatType, float> _totalStats = new Dictionary<StatType, float>();    // Dictionary of each increased stat and their values.
 
-        public float AttackPower;
-        public float SpellPower;
-        //public Dictionary<SpellSchool> SpellPowerBonuses;
+        /// <summary>
+        /// Gets the total spell power for the type of spell school.
+        /// </summary>
+        /// <returns></returns>
+        public float GetSpellPower(DamageType type)
+        {
+            if (!SpellPowerIndex.ContainsKey(type))
+            {
+                SpellPowerIndex.Add(type, 0);
+            }
+            return SpellPower + SpellPowerIndex[type];
+        }
 
         /// <summary>
         /// Recalculates all the total stat values.
@@ -266,11 +300,11 @@ namespace FroggyDefense.Core
         public void SetLevel(int level)
         {
             _level = Level;
-            SetBaseStat(StatType.Strength, _level * _strengthPerLevel);
-            SetBaseStat(StatType.Dexterity, _level * _dexterityPerLevel);
-            SetBaseStat(StatType.Agility, _level * _agilityPerLevel);
-            SetBaseStat(StatType.Intellect, _level * _intellectPerLevel);
-            SetBaseStat(StatType.Spirit, _level * _spiritPerLevel);
+            SetBaseStat(StatType.Dexterity, _level);
+            SetBaseStat(StatType.Strength, _level);
+            SetBaseStat(StatType.Agility, _level);
+            SetBaseStat(StatType.Intellect, _level);
+            SetBaseStat(StatType.Spirit, _level);
             UpdateStats();
         }
 
@@ -280,11 +314,11 @@ namespace FroggyDefense.Core
         public void LevelUp()
         {
             _level++;
-            SetBaseStat(StatType.Strength, _level * _strengthPerLevel);
-            SetBaseStat(StatType.Dexterity, _level * _dexterityPerLevel);
-            SetBaseStat(StatType.Agility, _level * _agilityPerLevel);
-            SetBaseStat(StatType.Intellect, _level * _intellectPerLevel);
-            SetBaseStat(StatType.Spirit, _level * _spiritPerLevel);
+            SetBaseStat(StatType.Dexterity, _level);
+            SetBaseStat(StatType.Strength, _level);
+            SetBaseStat(StatType.Agility, _level);
+            SetBaseStat(StatType.Intellect, _level);
+            SetBaseStat(StatType.Spirit, _level);
             UpdateStats();
         }
     }

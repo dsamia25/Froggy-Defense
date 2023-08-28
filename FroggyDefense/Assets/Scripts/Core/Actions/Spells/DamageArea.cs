@@ -66,7 +66,7 @@ namespace FroggyDefense.Core.Spells
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType));
+                        target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType, false));
                         
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
