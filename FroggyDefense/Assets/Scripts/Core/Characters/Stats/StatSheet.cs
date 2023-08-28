@@ -5,17 +5,25 @@ namespace FroggyDefense.Core
 {
     public enum StatType
     {
+        Endurance,
         Strength,
-        Dexterity,
         Agility,
         Intellect,
         Spirit,
-        Physical_Spell_Damage,
-        Poison_Spell_Damage,
-        Bleed_Spell_Damage,
-        Fire_Spell_Damage,
-        Frost_Spell_Damage,
-        Spirit_Spell_Damage
+        Spell_Power,
+        Physical_Spell_Power,
+        Poison_Spell_Power,
+        Bleed_Spell_Power,
+        Fire_Spell_Power,
+        Frost_Spell_Power,
+        Spirit_Spell_Power,
+        Critical_Strike_Chance,
+        Critical_Strike_Bonus,
+        Max_Health,
+        Health_Regen,
+        Max_Mana,
+        Mana_Regen,
+        Movement_Speed
     }
 
     [System.Serializable]
@@ -53,21 +61,33 @@ namespace FroggyDefense.Core
     [System.Serializable]
     public class StatSheet
     {
+        private static readonly float BASE_MOVEMENT_SPEED = 7;
+        private static readonly float BASE_CRITICAL_STRIKE_CHANCE = .05f;
+        private static readonly float BASE_CRITICAL_STRIKE_BONUS = 1.5f;
+
+        private float MAX_HEALTH { get => 10 + (2 * Endurance) + (1 * Spirit); }
+        private float HEALTH_REGEN { get => .25f + (.05f * Spirit) + (.025f * Endurance); }
+        private float MAX_MANA { get => 50 + (2 * Endurance) + (1 * Spirit) + (.5f * Intellect); }
+        private float MANA_REGEN { get => .5f + (.075f * Spirit) + (.0375f * Endurance) + (.025f * Intellect); }
+        private float SPELL_POWER { get => 1 + (2 * Strength) + (1.5f * Intellect) + (1 * Agility); }
+        private float CRITICAL_STRIKE_CHANCE { get => BASE_CRITICAL_STRIKE_CHANCE * (1.05f * Agility) * (1.025f * Intellect); }
+        private float CRITICAL_STRIKE_BONUS { get => BASE_CRITICAL_STRIKE_BONUS * (1.05f * Agility) * (1.025f * Strength); }
+
         [SerializeField] private int _level = 1;
         public int Level { get => _level; set => _level = value; }
 
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _maxHealth;
-        [SerializeField] private float _healthRegen;
+        [SerializeField] private float _moveSpeed = 0;
+        [SerializeField] private float _maxHealth = 1;
+        [SerializeField] private float _healthRegen = 0;
         [SerializeField] private float _combatHealthRegenModifier = .5f;
-        [SerializeField] private float _maxMana;
-        [SerializeField] private float _manaRegen;
+        [SerializeField] private float _maxMana = 0;
+        [SerializeField] private float _manaRegen = 0;
         [SerializeField] private float _combatManaRegenModifier = .5f;
-        [SerializeField] private float _attackPower;
-        [SerializeField] private float _spellPower;
-        [SerializeField] private float _critChance;
-        [SerializeField] private float _critBonus;
-        [SerializeField] private float _damagedInvincibilityTime;
+        [SerializeField] private float _attackPower = 0;
+        [SerializeField] private float _spellPower = 0;
+        [SerializeField] private float _critChance = 0;
+        [SerializeField] private float _critBonus = 1.5f;
+        [SerializeField] private float _damagedInvincibilityTime = 0;
 
         public float MoveSpeed => _moveSpeed;
         public float MaxHealth => _maxHealth;
@@ -84,18 +104,18 @@ namespace FroggyDefense.Core
 
         public Dictionary<DamageType, float> SpellPowerIndex = new Dictionary<DamageType, float>(); // Index holding additional spell power bonuses for each type of damage. Defaults to 0.
 
-        // Stamina, Fortitude, Resilience, Endurance => Tankiness
+        // endurance, Fortitude, Resilience, Endurance => Endurance
         // Strength, Courage, Might => Power
         // Agility, Dexterity, Finesse, Artistry => Combos
         // Intellect => Magic / Utility
         // Spirit, Essence, Vitality, Will => Regeneration
 
-        [SerializeField] private float _stamina = 1f;
+        [SerializeField] private float _endurance = 1f;
         [SerializeField] private float _strength = 1f;
         [SerializeField] private float _agility = 1f;
         [SerializeField] private float _intellect = 1f;
         [SerializeField] private float _spirit = 1f;
-        public float Stamina => _stamina;
+        public float Endurance => _endurance;
         public float Strength => _strength;
         public float Agility => _agility;
         public float Intellect => _intellect;
@@ -124,22 +144,54 @@ namespace FroggyDefense.Core
         /// </summary>
         public void UpdateStats()
         {
-            Dictionary<StatType, float> newTotal = new Dictionary<StatType, float>();
+            if (_totalStats == null)
+            {
+                _totalStats = new Dictionary<StatType, float>();
+            }
+
             foreach (StatType stat in _baseStats.Keys)
             {
-                float total = _baseStats[stat];
-                if (_bonusStats.ContainsKey(stat))
-                {
-                    total += _bonusStats[stat];
-                }
-                if (_statModifiers.ContainsKey(stat))
-                {
-                    total *= _statModifiers[stat];
-                }
+                float total = CalculateTotalStat(stat, _level);
 
-                newTotal.TryAdd(stat, total);
+                if (_totalStats.ContainsKey(stat))
+                {
+                    _totalStats[stat] = total;
+                } else
+                {
+                    _totalStats.TryAdd(stat, total);
+                }
             }
-            _totalStats = newTotal;
+
+            // Effective Stats
+            _moveSpeed = CalculateTotalStat(StatType.Movement_Speed, BASE_MOVEMENT_SPEED);
+            _maxHealth = CalculateTotalStat(StatType.Max_Health, MAX_HEALTH);
+            _healthRegen = CalculateTotalStat(StatType.Health_Regen, HEALTH_REGEN);
+            _maxMana = CalculateTotalStat(StatType.Max_Mana, MAX_MANA);
+            _manaRegen = CalculateTotalStat(StatType.Mana_Regen, MANA_REGEN);
+            //AttackPower => _attackPo
+            _spellPower = CalculateTotalStat(StatType.Spell_Power, SPELL_POWER);
+            _critChance = CalculateTotalStat(StatType.Critical_Strike_Chance, CRITICAL_STRIKE_CHANCE);
+            _critBonus = CalculateTotalStat(StatType.Critical_Strike_Bonus, CRITICAL_STRIKE_BONUS);
+        }
+
+        /// <summary>
+        /// Calculates a total stat using any bonus stats or percent modifiers.
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <param name="baseStat"></param>
+        /// <returns></returns>
+        private float CalculateTotalStat(StatType stat, float baseStat)
+        {
+            float total = baseStat;
+            if (_bonusStats.ContainsKey(stat))
+            {
+                total += _bonusStats[stat];
+            }
+            if (_statModifiers.ContainsKey(stat))
+            {
+                total *= _statModifiers[stat];
+            }
+            return total;
         }
 
         /// <summary>
@@ -300,7 +352,7 @@ namespace FroggyDefense.Core
         public void SetLevel(int level)
         {
             _level = Level;
-            SetBaseStat(StatType.Dexterity, _level);
+            SetBaseStat(StatType.Endurance, _level);
             SetBaseStat(StatType.Strength, _level);
             SetBaseStat(StatType.Agility, _level);
             SetBaseStat(StatType.Intellect, _level);
@@ -314,7 +366,7 @@ namespace FroggyDefense.Core
         public void LevelUp()
         {
             _level++;
-            SetBaseStat(StatType.Dexterity, _level);
+            SetBaseStat(StatType.Endurance, _level);
             SetBaseStat(StatType.Strength, _level);
             SetBaseStat(StatType.Agility, _level);
             SetBaseStat(StatType.Intellect, _level);

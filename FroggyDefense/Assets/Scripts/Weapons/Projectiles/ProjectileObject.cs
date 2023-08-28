@@ -9,14 +9,9 @@ namespace FroggyDefense.Weapons
     public class ProjectileObject: ScriptableObject
     {
         public GameObject Vfx;                                                      // The projectile's prefab.
-        //public ProjectileAppearance Appearance;                                     // The projectile prefab.
         public int ProjectilePoolSize = 8;                                          // Max number of projectiles active in the pool.
-        public float Damage = 1f;                                                   // How much damage the projectile does.
-        public bool HasProjectileDamageScaling = false;                             // If the projectile damage scales with a particular stat.
-        public StatValuePair ProjectileDamageScalingFactor;                         // What stat the projectile damage scales with.
-        public DamageType DirectDamageType;                                         // What type of damage the projectile does.
         public float MoveSpeed = 1f;                                                // How fast the projectile moves.
-
+        public DamageActionArgs DamageArgs;
         public SpellAction[] OnHitActions;
         public SpellAction[] OnExpireActions;
 

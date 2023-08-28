@@ -59,6 +59,17 @@ namespace FroggyDefense.Core
         }
 
         /// <summary>
+        /// Creates a damage action using just the attacker and damage args.
+        /// </summary>
+        /// <param name="attacker"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static DamageAction CreateDamageAction(Character attacker, DamageActionArgs args)
+        {
+            return CreateDamageAction(attacker, args.Damage, args.SpellPowerRatio, args.SpellDamageType, args.CritChanceModifier, args.CritBonusModifier);
+        }
+
+        /// <summary>
         /// Creates a damage action.
         /// </summary>
         /// <param name="attacker"></param>
@@ -89,6 +100,25 @@ namespace FroggyDefense.Core
         {
             float roll = Random.value;
             return roll < critChanceModifier * critChance;
+        }
+    }
+
+    [System.Serializable]
+    public struct DamageActionArgs
+    {
+        public float Damage;                            // How much damage the spell does.
+        public float SpellPowerRatio;                   // Extra damage based on percent of spell power.
+        public DamageType SpellDamageType;              // What kind of damage is applied (If applicable).
+        public float CritChanceModifier;                // Extra criticial strike chance.
+        public float CritBonusModifier;                 // Extra critical strike bonus modifier.
+
+        public DamageActionArgs(float damage, float spellPowerRatio, DamageType type, float critChanceModifier, float critBonusModifier)
+        {
+            Damage = damage;
+            SpellPowerRatio = spellPowerRatio;
+            SpellDamageType = type;
+            CritChanceModifier = critChanceModifier;
+            CritBonusModifier = critBonusModifier;
         }
     }
 

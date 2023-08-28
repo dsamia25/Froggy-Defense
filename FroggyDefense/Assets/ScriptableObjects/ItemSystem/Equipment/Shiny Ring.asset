@@ -24,6 +24,10 @@ MonoBehaviour:
   Stats:
   - Stat: 1
     Value: 1
+  - Stat: 14
+    Value: 2
+  - Stat: 15
+    Value: 0.1
   AddBonusStats: 1
   RandomStatsRange: {x: 1, y: 3}
   RandomBonusStats:

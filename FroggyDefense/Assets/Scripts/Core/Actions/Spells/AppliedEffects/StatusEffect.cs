@@ -14,7 +14,6 @@ namespace FroggyDefense.Core.Spells
         {
             Template = template;
             Name = Template.Name;
-            Strength = template.Strength;
             EffectTime = Template.EffectTime;
             Frequency = Template.Frequency;
             Effect = template.Effect;

@@ -88,7 +88,7 @@ namespace FroggyDefense.Tests
             // Store current stats.
             StatSheet stats = character.GetStats();
             float strength = stats.GetTotalStat(StatType.Strength);
-            float dexterity = stats.GetTotalStat(StatType.Dexterity);
+            float Endurance = stats.GetTotalStat(StatType.Endurance);
             float agility = stats.GetTotalStat(StatType.Agility);
             float intellect = stats.GetTotalStat(StatType.Intellect);
             float spirit = stats.GetTotalStat(StatType.Spirit);
@@ -99,7 +99,7 @@ namespace FroggyDefense.Tests
 
             // Check if stats updated correctly.
             Assert.AreEqual(strength + hat.GetStat(StatType.Strength), stats.GetTotalStat(StatType.Strength), "Incorrect Strength.");
-            Assert.AreEqual(dexterity + hat.GetStat(StatType.Dexterity), stats.GetTotalStat(StatType.Dexterity), "Incorrect Dexterity.");
+            Assert.AreEqual(Endurance + hat.GetStat(StatType.Endurance), stats.GetTotalStat(StatType.Endurance), "Incorrect Endurance.");
             Assert.AreEqual(agility + hat.GetStat(StatType.Agility), stats.GetTotalStat(StatType.Agility), "Incorrect Agility.");
             Assert.AreEqual(intellect + hat.GetStat(StatType.Intellect), stats.GetTotalStat(StatType.Intellect), "Incorrect Intellect.");
             Assert.AreEqual(spirit + hat.GetStat(StatType.Spirit), stats.GetTotalStat(StatType.Spirit), "Incorrect Spirit.");
@@ -126,7 +126,7 @@ namespace FroggyDefense.Tests
             // Store current stats.
             StatSheet stats = character.GetStats();
             float strength = stats.GetTotalStat(StatType.Strength);
-            float dexterity = stats.GetTotalStat(StatType.Dexterity);
+            float Endurance = stats.GetTotalStat(StatType.Endurance);
             float agility = stats.GetTotalStat(StatType.Agility);
             float intellect = stats.GetTotalStat(StatType.Intellect);
             float spirit = stats.GetTotalStat(StatType.Spirit);
@@ -137,7 +137,7 @@ namespace FroggyDefense.Tests
 
             // Check if stats updated correctly.
             Assert.AreEqual(strength - hat.GetStat(StatType.Strength), stats.GetTotalStat(StatType.Strength), "Incorrect Strength.");
-            Assert.AreEqual(dexterity - hat.GetStat(StatType.Dexterity), stats.GetTotalStat(StatType.Dexterity), "Incorrect Dexterity.");
+            Assert.AreEqual(Endurance - hat.GetStat(StatType.Endurance), stats.GetTotalStat(StatType.Endurance), "Incorrect Endurance.");
             Assert.AreEqual(agility - hat.GetStat(StatType.Agility), stats.GetTotalStat(StatType.Agility), "Incorrect Agility.");
             Assert.AreEqual(intellect - hat.GetStat(StatType.Intellect), stats.GetTotalStat(StatType.Intellect), "Incorrect Intellect.");
             Assert.AreEqual(spirit - hat.GetStat(StatType.Spirit), stats.GetTotalStat(StatType.Spirit), "Incorrect Spirit.");

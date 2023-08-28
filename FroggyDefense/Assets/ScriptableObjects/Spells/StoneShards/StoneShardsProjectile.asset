@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Vfx: {fileID: 5544026977014796518, guid: fd75f3ea04e7d46588d7d60ae7aeb928, type: 3}
   ProjectilePoolSize: 5
-  Damage: 2
-  HasProjectileDamageScaling: 0
-  ProjectileDamageScalingFactor:
-    Stat: 0
-    Value: 0
-  DirectDamageType: 0
   MoveSpeed: 8
+  DamageArgs:
+    Damage: 2
+    SpellPowerRatio: 1.25
+    SpellDamageType: 0
+    CritChanceModifier: 1
+    CritBonusModifier: 1.5
   OnHitActions:
   - action: {fileID: 11400000, guid: 901c1f8c3e3cd40d194105979f0dd984, type: 2}
     delayTime: 0

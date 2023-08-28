@@ -24,11 +24,13 @@ namespace FroggyDefense.Core.Spells
         protected AppliedEffectObject Template { get; set; }
 
         public string Name = "APPLIED EFFECT";
-        public float Strength = 1;              // Damage or slow amount.
+        public DamageActionArgs EffectArgs;     // Damage or slow amount, also has crit info and damage type.
         public float EffectTime = 1;            // Ticks or seconds.
         public float Frequency = 1;             // Tick Frequency or countdown speed modifier.
         public AppliedEffectType Effect;        // What the intended effect is. (DOT, slow, stun).
         public StatusSchool School;             // Which kind of applied effect. (Curce, bleed, magic...)
+
+        public float Strength => EffectArgs.Damage;
 
         public bool IsExpired = false;
 
@@ -41,7 +43,7 @@ namespace FroggyDefense.Core.Spells
                 switch (template.Effect)
                 {
                     case AppliedEffectType.DamageOverTime:
-                        effect = new DamageOverTimeEffect(caster, target, template, template.Strength, template.DamageType, Mathf.FloorToInt(template.EffectTime), template.Frequency);
+                        effect = new DamageOverTimeEffect(caster, target, template, template.EffectArgs, Mathf.FloorToInt(template.EffectTime), template.Frequency);
                         break;
                     case AppliedEffectType.Slow:
                         effect = new StatusEffect(caster, target, template);

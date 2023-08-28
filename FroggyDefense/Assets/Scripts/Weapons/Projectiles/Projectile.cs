@@ -10,7 +10,6 @@ namespace FroggyDefense.Weapons
     {
         public SpriteRenderer spriteRenderer;
 
-        // TODO: Maybe make just one dictionary in the Character class.
         public SpellAction[] OnHitActions => Template.OnHitActions;             // List of actions the spell should take.
         public SpellAction[] OnExpireActions => Template.OnExpireActions;
         public Dictionary<int, Core.Actions.Action> ActionIndex;
@@ -203,7 +202,7 @@ namespace FroggyDefense.Weapons
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(new DamageAction(Caster, template.Damage + (template.HasProjectileDamageScaling ? GetStatScaling(template.ProjectileDamageScalingFactor) : 0), template.DirectDamageType, false));
+                destructable.TakeDamage(DamageAction.CreateDamageAction(Caster, Template.DamageArgs));
 
                 // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
                 foreach (SpellAction action in OnHitActions)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FroggyDefense.Core
 {
-    [CreateAssetMenu(fileName = "New LevelUp Xp Function", menuName = "ScriptableObjects/Character Level/LevelUp Xp Function")]
+    [CreateAssetMenu(fileName = "New LevelUp Xp Function", menuName = "ScriptableObjects/Character/LevelUp Xp Function")]
     public class CharacterLevelExperienceFunction : ScriptableObject
     {
         public float BaseLevelXp = 50f;

@@ -19762,6 +19762,7 @@ GameObject:
   - component: {fileID: 1383481009}
   - component: {fileID: 1383481010}
   - component: {fileID: 1383481011}
+  - component: {fileID: 1383481012}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -19870,6 +19871,24 @@ MonoBehaviour:
   SpawnDelay: 0.5
   SpawnAnimationTime: 1
   SpawnPositionOffset: {x: 0, y: 0.2}
+--- !u!114 &1383481012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383481006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb23fc8faeb44e60bbdb19cf16810fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatIncreases:
+  - {fileID: 11400000, guid: c29b04321e8794208812a6bd7dc25478, type: 2}
+  - {fileID: 11400000, guid: ba68ed7a624524d579032b2263a17443, type: 2}
+  - {fileID: 11400000, guid: e1f4f5801a49840faaf15d52b18295de, type: 2}
+  - {fileID: 11400000, guid: 6af36bd83b92c4199aadbe531f332722, type: 2}
+  - {fileID: 11400000, guid: 2d95186149bf44faab275585f839f376, type: 2}
 --- !u!4 &1389428245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7947911505737750448, guid: 41ea6afb203377e42995d7d016ea5907, type: 3}
