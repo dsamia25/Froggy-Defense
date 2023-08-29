@@ -61,17 +61,23 @@ namespace FroggyDefense.Core
     [System.Serializable]
     public class StatSheet
     {
+        private static readonly float MAJOR_STATS_PER_LEVEL = 1.1f;
         private static readonly float BASE_MOVEMENT_SPEED = 7;
+        private static readonly float BASE_MAX_HEALTH = 10;
+        private static readonly float BASE_HEALTH_REGEN = .25f;
+        private static readonly float BASE_MAX_MANA = 50;
+        private static readonly float BASE_MANA_REGEN = 1.5f;
+        private static readonly float BASE_SPELL_POWER = 1f;
         private static readonly float BASE_CRITICAL_STRIKE_CHANCE = .05f;
-        private static readonly float BASE_CRITICAL_STRIKE_BONUS = 1.5f;
+        private static readonly float BASE_CRITICAL_STRIKE_BONUS = 1.25f;
 
-        private float MAX_HEALTH { get => 10 + (2 * Endurance) + (1 * Spirit); }
-        private float HEALTH_REGEN { get => .25f + (.05f * Spirit) + (.025f * Endurance); }
-        private float MAX_MANA { get => 50 + (2 * Endurance) + (1 * Spirit) + (.5f * Intellect); }
-        private float MANA_REGEN { get => .5f + (.075f * Spirit) + (.0375f * Endurance) + (.025f * Intellect); }
-        private float SPELL_POWER { get => 1 + (2 * Strength) + (1.5f * Intellect) + (1 * Agility); }
-        private float CRITICAL_STRIKE_CHANCE { get => BASE_CRITICAL_STRIKE_CHANCE * (1.05f * Agility) * (1.025f * Intellect); }
-        private float CRITICAL_STRIKE_BONUS { get => BASE_CRITICAL_STRIKE_BONUS * (1.05f * Agility) * (1.025f * Strength); }
+        private float MAX_HEALTH { get => BASE_MAX_HEALTH + (2 * Endurance) + (1 * Spirit); }
+        private float HEALTH_REGEN { get => BASE_HEALTH_REGEN + (.05f * Spirit) + (.025f * Endurance); }
+        private float MAX_MANA { get => BASE_MAX_MANA + (2 * Endurance) + (1 * Spirit) + (.5f * Intellect); }
+        private float MANA_REGEN { get => BASE_MANA_REGEN + (.075f * Spirit) + (.0375f * Endurance) + (.025f * Intellect); }
+        private float SPELL_POWER { get => BASE_SPELL_POWER + (2 * Strength) + (1.5f * Intellect) + (1 * Agility); }
+        private float CRITICAL_STRIKE_CHANCE { get => BASE_CRITICAL_STRIKE_CHANCE + (.0005f * Agility) + (.00025f * Intellect); }
+        private float CRITICAL_STRIKE_BONUS { get => BASE_CRITICAL_STRIKE_BONUS + (.0005f * Agility) * (.00025f + Strength); }
 
         [SerializeField] private int _level = 1;
         public int Level { get => _level; set => _level = value; }
@@ -149,9 +155,10 @@ namespace FroggyDefense.Core
                 _totalStats = new Dictionary<StatType, float>();
             }
 
+            // TODO: Probably don't need this part anymore.
             foreach (StatType stat in _baseStats.Keys)
             {
-                float total = CalculateTotalStat(stat, _level);
+                float total = CalculateTotalStat(stat, MAJOR_STATS_PER_LEVEL * _level);
 
                 if (_totalStats.ContainsKey(stat))
                 {
@@ -161,6 +168,13 @@ namespace FroggyDefense.Core
                     _totalStats.TryAdd(stat, total);
                 }
             }
+
+            // Major Stats
+            _endurance = CalculateTotalStat(StatType.Endurance, MAJOR_STATS_PER_LEVEL * _level);
+            _strength = CalculateTotalStat(StatType.Strength, MAJOR_STATS_PER_LEVEL * _level);
+            _agility = CalculateTotalStat(StatType.Agility, MAJOR_STATS_PER_LEVEL * _level);
+            _intellect = CalculateTotalStat(StatType.Intellect, MAJOR_STATS_PER_LEVEL * _level);
+            _spirit = CalculateTotalStat(StatType.Spirit, MAJOR_STATS_PER_LEVEL * _level);
 
             // Effective Stats
             _moveSpeed = CalculateTotalStat(StatType.Movement_Speed, BASE_MOVEMENT_SPEED);
@@ -351,7 +365,7 @@ namespace FroggyDefense.Core
         /// <param name="level"></param>
         public void SetLevel(int level)
         {
-            _level = Level;
+            _level = level;
             SetBaseStat(StatType.Endurance, _level);
             SetBaseStat(StatType.Strength, _level);
             SetBaseStat(StatType.Agility, _level);

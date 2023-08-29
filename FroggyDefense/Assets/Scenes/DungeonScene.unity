@@ -19762,7 +19762,6 @@ GameObject:
   - component: {fileID: 1383481009}
   - component: {fileID: 1383481010}
   - component: {fileID: 1383481011}
-  - component: {fileID: 1383481012}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -19871,24 +19870,6 @@ MonoBehaviour:
   SpawnDelay: 0.5
   SpawnAnimationTime: 1
   SpawnPositionOffset: {x: 0, y: 0.2}
---- !u!114 &1383481012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383481006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fb23fc8faeb44e60bbdb19cf16810fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StatIncreases:
-  - {fileID: 11400000, guid: c29b04321e8794208812a6bd7dc25478, type: 2}
-  - {fileID: 11400000, guid: ba68ed7a624524d579032b2263a17443, type: 2}
-  - {fileID: 11400000, guid: e1f4f5801a49840faaf15d52b18295de, type: 2}
-  - {fileID: 11400000, guid: 6af36bd83b92c4199aadbe531f332722, type: 2}
-  - {fileID: 11400000, guid: 2d95186149bf44faab275585f839f376, type: 2}
 --- !u!4 &1389428245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7947911505737750448, guid: 41ea6afb203377e42995d7d016ea5907, type: 3}
@@ -20255,6 +20236,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad02cb1ceafe47329ccfdc7ba4dbcbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1503531024 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2631032873833228077, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+  m_PrefabInstance: {fileID: 1990741388}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b447d6b04741a48e5afce1e2b4135c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1517040866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9190641724256565491, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
+  m_PrefabInstance: {fileID: 1635461011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3708f2f32455460cb33c250098db6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1519057117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20446,6 +20449,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4800845c2c4caa84eb6194552ae9c841, type: 3}
+--- !u!114 &1570745991 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1353417232027508495, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
+  m_PrefabInstance: {fileID: 1635461011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3708f2f32455460cb33c250098db6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1579282830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20534,7 +20548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 225095208061206025, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21560,6 +21574,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1365424424466870936, guid: af67ceadc087899479232f75d2b79d59, type: 3}
   m_PrefabInstance: {fileID: 316196981}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1926869595 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9190641724363963433, guid: f4e48169e767143229bd29a339e41c6c, type: 3}
+  m_PrefabInstance: {fileID: 1635461011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3708f2f32455460cb33c250098db6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1949639171
 GameObject:
   m_ObjectHideFlags: 0
@@ -21903,6 +21928,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: m_ManaBar
+      value: 
+      objectReference: {fileID: 1926869595}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: m_HealthBar
+      value: 
+      objectReference: {fileID: 1517040866}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: _stats._maxMana
       value: 100
       objectReference: {fileID: 0}
@@ -21935,6 +21968,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: m_ProjectileManager
+      value: 
+      objectReference: {fileID: 1503531024}
+    - target: {fileID: 6414132035353026437, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: DamagedInvinciblityTime
       value: 0.125
       objectReference: {fileID: 0}
@@ -21954,6 +21991,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1646140091
       objectReference: {fileID: 0}
+    - target: {fileID: 6414132035353026446, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: _xpBar
+      value: 
+      objectReference: {fileID: 1570745991}
     - target: {fileID: 6414132035353026449, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: CurrencyList
       value: 
@@ -25619,6 +25660,14 @@ PrefabInstance:
       propertyPath: spawns.Array.data[0].prefab
       value: 
       objectReference: {fileID: 5072654201736512015, guid: 671fe831585f14539a8585f292440617, type: 3}
+    - target: {fileID: 7046720564046550401, guid: e6f45c005ca5c483285c62f81b798dde, type: 3}
+      propertyPath: spawns.Array.data[0].levelRange.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046720564046550401, guid: e6f45c005ca5c483285c62f81b798dde, type: 3}
+      propertyPath: spawns.Array.data[0].levelRange.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7046720564046550402, guid: e6f45c005ca5c483285c62f81b798dde, type: 3}
       propertyPath: m_Name
       value: SpawnZone

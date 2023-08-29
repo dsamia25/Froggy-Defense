@@ -60,7 +60,7 @@ namespace FroggyDefense.Core
             Vector2 pos;
             if (GetSpawnPoint(out pos)) {
                 //GameObject spawn = Instantiate(spawns[0].prefab, pos, Quaternion.identity);
-                GameObject spawn = SpawnManager.instance.Spawn(spawns[0].prefab, pos);
+                GameObject spawn = SpawnManager.instance.Spawn(spawns[0].prefab, Random.Range(spawns[0].levelRange.x, spawns[0].levelRange.y + 1), pos);
                 activeSpawnList.Add(spawn);
 
                 Enemy enemy = null;
@@ -138,10 +138,12 @@ namespace FroggyDefense.Core
         private struct SpawnInfo
         {
             public GameObject prefab;
+            public Vector2Int levelRange;
             
-            public SpawnInfo (GameObject prefab)
+            public SpawnInfo (GameObject prefab, Vector2Int levelRange)
             {
                 this.prefab = prefab;
+                this.levelRange = levelRange;
             }
         }
     }

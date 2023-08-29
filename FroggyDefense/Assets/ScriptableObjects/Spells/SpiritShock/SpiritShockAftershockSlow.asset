@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: SpiritShockAftershockSlow
   m_EditorClassIdentifier: 
   Name: Aftershock Slow
-  Strength: 0.25
+  EffectArgs:
+    Damage: 0.75
+    SpellPowerRatio: 0
+    SpellDamageType: 5
+    CritChanceModifier: 0
+    CritBonusModifier: 0
   EffectTime: 1
   Frequency: 1
   Effect: 0
   School: 0
-  DamageType: 5
   OnTickActions: {fileID: 0}
   OnExpireActions: {fileID: 0}

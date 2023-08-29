@@ -25,7 +25,7 @@ namespace FroggyDefense.Core
             }
         }
 
-        public GameObject Spawn(GameObject prefab, Vector2 pos)
+        public GameObject Spawn(GameObject prefab, int spawnLevel, Vector2 pos)
         {
             // TODO: Make an object pool for sigils.
             GameObject sigil = Instantiate(SpawnSigilPrefab, pos, Quaternion.identity);
@@ -33,6 +33,7 @@ namespace FroggyDefense.Core
             Character character;
             if ((character = spawn.GetComponent<Character>()) != null)
             {
+                character.SetLevel(spawnLevel);
                 character.SummonAnimation();
             }
             return spawn;

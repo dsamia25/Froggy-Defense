@@ -19,7 +19,11 @@ MonoBehaviour:
   EffectShape:
     Type: 32
     Dimensions: {x: 3, y: 3}
-  Damage: 0
-  SpellDamageType: 5
+  DamageArgs:
+    Damage: 0
+    SpellPowerRatio: 0
+    SpellDamageType: 5
+    CritChanceModifier: 0
+    CritBonusModifier: 0
   AppliedEffects:
   - {fileID: 11400000, guid: 567475157003a4c15b98e7856da9b944, type: 2}
