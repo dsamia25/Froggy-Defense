@@ -82,6 +82,8 @@ namespace FroggyDefense.Core
         [SerializeField] private int _level = 1;
         public int Level { get => _level; set => _level = value; }
 
+        [SerializeField] private bool _hardSetStats = false;
+
         [SerializeField] private float _moveSpeed = 0;
         [SerializeField] private float _maxHealth = 1;
         [SerializeField] private float _healthRegen = 0;
@@ -167,6 +169,12 @@ namespace FroggyDefense.Core
                 {
                     _totalStats.TryAdd(stat, total);
                 }
+            }
+
+            // Should not change stats if hard set.
+            if (_hardSetStats)
+            {
+                return;
             }
 
             // Major Stats
