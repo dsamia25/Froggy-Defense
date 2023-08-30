@@ -7,6 +7,7 @@ namespace FroggyDefense.Core
 {
     public class SpawnZone : MonoBehaviour
     {
+        [SerializeField] private Transform[] spawnAreas;                      // List of areas that the spawn zone spawns stuff in. Finds all tiles within the areas of the transforms to create list of calid spawn tiles.
         [SerializeField] private SpawnInfo[] spawns;                    // What can spawn.
         [SerializeField] private Vector2 spawnTimerRange;               // Range of times until the next spawn.
         [SerializeField] private Vector2Int spawnAmountRange;           // Range of how many units can spawn at a time. Will choose highest possible amount.
@@ -98,21 +99,25 @@ namespace FroggyDefense.Core
         /// <returns></returns>
         private void BuildValidSpawnTileList()
         {
-            Vector2Int xRange = new Vector2Int(Mathf.CeilToInt(transform.position.x - transform.localScale.x / 2), Mathf.CeilToInt(transform.position.x + transform.localScale.x / 2));
-            Vector2Int yRange = new Vector2Int(Mathf.CeilToInt(transform.position.y - transform.localScale.y / 2), Mathf.CeilToInt(transform.position.y + transform.localScale.y / 2));
-            BoardManager board = GameManager.instance.BoardManager;
-
             validSpawnTiles = new List<Vector2>();
-
-            for (int x = xRange.x; x < xRange.y; x++)
+            Vector2Int xRange;
+            Vector2Int yRange;
+            foreach (Transform area in spawnAreas)
             {
-                for (int y = yRange.x; y < yRange.y; y++)
+                xRange = new Vector2Int(Mathf.CeilToInt(area.position.x - area.localScale.x / 2), Mathf.CeilToInt(area.position.x + area.localScale.x / 2));
+                yRange = new Vector2Int(Mathf.CeilToInt(area.position.y - area.localScale.y / 2), Mathf.CeilToInt(area.position.y + area.localScale.y / 2));
+                //Debug.Log($"{area.name} center: {area.position}. xRange ({xRange}). yRange ({yRange}).");
+
+                for (int x = xRange.x; x < xRange.y; x++)
                 {
-                    Vector2Int tilePos = new Vector2Int(x, y);
-                    PathfinderTile tile = board.PathfinderMap[tilePos];
-                    if (!(tile.isImpassable || tile.isWater || tile.isWall))
+                    for (int y = yRange.x; y < yRange.y; y++)
                     {
-                        validSpawnTiles.Add(tilePos);
+                        Vector2Int tilePos = new Vector2Int(x, y);
+                        PathfinderTile tile = GameManager.instance.BoardManager.PathfinderMap[tilePos];
+                        if (!(tile.isImpassable || tile.isWater || tile.isWall) && !validSpawnTiles.Contains(tilePos))
+                        {
+                            validSpawnTiles.Add(tilePos);
+                        }
                     }
                 }
             }
