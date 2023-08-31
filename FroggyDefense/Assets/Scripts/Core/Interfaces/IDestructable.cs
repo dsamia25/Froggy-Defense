@@ -32,6 +32,12 @@ namespace FroggyDefense.Core
         public void KnockBack(Vector2 dir, float strength, float knockBackTime, float moveLockTime);
 
         /// <summary>
+        /// Gets the GameObject this component is on.
+        /// </summary>
+        /// <returns></returns>
+        public abstract GameObject GetGameObject();
+
+        /// <summary>
         /// Resolves any death effects for the object.
         /// </summary>
         public virtual void Die()

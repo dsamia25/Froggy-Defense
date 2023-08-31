@@ -13,7 +13,7 @@ namespace FroggyDefense.Core.Spells
         public AppliedEffectType Effect;        // What the intended effect is. (DOT, slow, stun).
         public StatusSchool School;             // Which kind of applied effect. (Curce, bleed, magic...)
 
-        public ActionObject OnTickActions;      // Special actions to take on every tick.
-        public ActionObject OnExpireActions;    // Special actions to take when expired.
+        public SpellAction[] OnTickActions;      // Special actions to take on every tick.
+        public SpellAction[] OnExpireActions;    // Special actions to take when expired.
     }
 }

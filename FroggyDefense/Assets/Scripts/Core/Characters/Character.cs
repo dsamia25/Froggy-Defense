@@ -418,6 +418,11 @@ namespace FroggyDefense.Core
             controller.Lunge(dir, strength, knockBackTime, moveLockTime);
         }
 
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
+
         /// <summary>
         /// Finds the new strongest slow and stun effects.
         /// </summary>

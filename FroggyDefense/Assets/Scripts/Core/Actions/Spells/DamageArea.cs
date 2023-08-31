@@ -70,7 +70,8 @@ namespace FroggyDefense.Core.Spells
                         
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
-                            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, Caster, target));
+                            // TODO: Replace this apply with args. Make args saved in DamageArea.
+                            //target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, Caster, target));
                         }
                     }
                 }

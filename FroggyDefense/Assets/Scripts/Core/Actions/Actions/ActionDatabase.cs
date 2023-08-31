@@ -7,21 +7,10 @@ namespace FroggyDefense.Core.Actions
     [CreateAssetMenu(fileName = "New Action Database", menuName = "ScriptableObjects/Actions/Action Database")]
     public class ActionDatabase : ScriptableObject
     {
-        //public static ActionDatabase instance;      // Singleton
-
         public ActionObject[] ActionList;           // List of all actions in the game.
 
         private void Awake()
         {
-            //if (instance == null)
-            //{
-            //    instance = this;
-            //}
-            //else
-            //{
-            //    Debug.LogWarning($"Error: already instance of ItemDatabase.");
-            //}
-
             AssignIds();
         }
 
@@ -42,9 +31,9 @@ namespace FroggyDefense.Core.Actions
             }
         }
 
-        public void OnAfterDeserialize()
-        {
-            AssignIds();
-        }
+        //public void OnAfterDeserialize()
+        //{
+        //    AssignIds();
+        //}
     }
 }

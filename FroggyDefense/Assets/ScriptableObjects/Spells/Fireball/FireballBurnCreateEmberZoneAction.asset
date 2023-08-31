@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9423c90fab684a8eaaaf16b660ddc35, type: 3}
+  m_Name: FireballBurnCreateEmberZoneAction
+  m_EditorClassIdentifier: 
+  ActionId: 0
+  Area:
+    Name: Fireball Burn Embers
+    Ticks: 4
+    DamagePerTick: 0.25
+    TickFrequency: 1
+    EffectDamageType: 3
+    EffectShape:
+      Type: 32
+      Dimensions: {x: 4, y: 4}
+    TargetLayer:
+      serializedVersion: 2
+      m_Bits: 1536
+    AppliedEffects: []

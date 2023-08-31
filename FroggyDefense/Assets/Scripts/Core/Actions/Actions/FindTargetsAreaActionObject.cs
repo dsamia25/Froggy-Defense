@@ -45,7 +45,7 @@ namespace FroggyDefense.Core.Actions
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {
-                            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args.Caster, target));
+                            target.ApplyEffect(AppliedEffect.CreateAppliedEffect(effect, args, target));
                         }
                     }
                 }

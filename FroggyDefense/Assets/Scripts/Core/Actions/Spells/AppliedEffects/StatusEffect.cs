@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using FroggyDefense.Core.Actions;
 
 namespace FroggyDefense.Core.Spells
 {
@@ -7,10 +8,8 @@ namespace FroggyDefense.Core.Spells
     public class StatusEffect: AppliedEffect
     {
         public float TimeLeft { get; private set; }
-        public Character Caster { get; private set; }
-        public IDestructable Target { get; private set; }
 
-        public StatusEffect(Character caster, IDestructable target, AppliedEffectObject template)
+        public StatusEffect(ActionArgs args, IDestructable target, AppliedEffectObject template)
         {
             Template = template;
             Name = Template.Name;
@@ -19,15 +18,22 @@ namespace FroggyDefense.Core.Spells
             Effect = template.Effect;
             School = Template.School;
 
+            ActionIndex = new System.Collections.Generic.Dictionary<int, Actions.Action>();
+
+            Args = args;
             Target = target;
-            Caster = caster;
+            //Caster = caster;
             TimeLeft = template.EffectTime;
         }
 
         public override void Tick()
         {
             TimeLeft -= Time.deltaTime;
-            if (TimeLeft <= 0) IsExpired = true;
+            if (TimeLeft <= 0)
+            {
+                IsExpired = true;
+                ResolveOnExpireActions();
+            }
         }
 
         public override void Refresh()

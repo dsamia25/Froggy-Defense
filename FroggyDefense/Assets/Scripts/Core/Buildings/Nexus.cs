@@ -95,6 +95,11 @@ namespace FroggyDefense.Core.Buildings
             // Immune to knock back. Do nothing.
         }
 
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
+
         public void Die()
         {
             m_Health = 0;
