@@ -1791,7 +1791,7 @@ GameObject:
   - component: {fileID: 566232490954177577}
   - component: {fileID: 6333627240840406189}
   m_Layer: 5
-  m_Name: CraftingMenu
+  m_Name: CraftingMenu_OLD_VERSION
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
