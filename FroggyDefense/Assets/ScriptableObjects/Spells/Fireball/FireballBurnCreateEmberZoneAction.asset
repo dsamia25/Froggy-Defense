@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9423c90fab684a8eaaaf16b660ddc35, type: 3}
   m_Name: FireballBurnCreateEmberZoneAction
   m_EditorClassIdentifier: 
-  ActionId: 0
+  ActionId: 10
   Area:
     Name: Fireball Burn Embers
     Ticks: 4
@@ -21,7 +21,7 @@ MonoBehaviour:
     EffectDamageType: 3
     EffectShape:
       Type: 32
-      Dimensions: {x: 4, y: 4}
+      Dimensions: {x: 0.5, y: 0.5}
     TargetLayer:
       serializedVersion: 2
       m_Bits: 1536

@@ -23,9 +23,7 @@ MonoBehaviour:
   Frequency: 0.5
   Effect: 2
   School: 0
-  OnTickActions:
-  - action: {fileID: 11400000, guid: f4664e66329804414b110697f819ae00, type: 2}
-    delayTime: 0
+  OnTickActions: []
   OnExpireActions:
-  - action: {fileID: 11400000, guid: ef54023ab375346de8cbd7fe141d58c8, type: 2}
+  - action: {fileID: 11400000, guid: f4664e66329804414b110697f819ae00, type: 2}
     delayTime: 0
