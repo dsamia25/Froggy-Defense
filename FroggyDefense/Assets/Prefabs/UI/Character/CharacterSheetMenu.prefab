@@ -1270,6 +1270,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryGridBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 7223340758081824972, guid: 41634456610eb41a6a74004707d22aab, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 235.64005
+      objectReference: {fileID: 0}
     - target: {fileID: 9171509517950362189, guid: 41634456610eb41a6a74004707d22aab, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -21,19 +21,19 @@ namespace FroggyDefense.Core.Items.UI
 
         private List<GameObject> _buttons;                  // The list of all UI buttons.
         private List<InventorySlotUI> _uiButtons;           // The list of all ItemButtonUi components.
-        private Dictionary<Item, ItemDetailViewUI> DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
-        private Dictionary<ItemDetailViewUI, InventorySlotUI> ViewSlotLookup = new Dictionary<ItemDetailViewUI, InventorySlotUI>();
+        private Dictionary<Item, ItemViewUI> DisplayedItemDetailViews = new Dictionary<Item, ItemViewUI>();
+        private Dictionary<ItemViewUI, InventorySlotUI> ViewSlotLookup = new Dictionary<ItemViewUI, InventorySlotUI>();
 
         private void Start()
         {
             if (_UiParent == null) _UiParent = transform;
             if (_itemDetailViewParent == null) _itemDetailViewParent = transform;
 
-            DisplayedItemDetailViews = new Dictionary<Item, ItemDetailViewUI>();
-            ViewSlotLookup = new Dictionary<ItemDetailViewUI, InventorySlotUI>();
+            DisplayedItemDetailViews = new Dictionary<Item, ItemViewUI>();
+            ViewSlotLookup = new Dictionary<ItemViewUI, InventorySlotUI>();
 
             _inventory.InventoryChangedEvent += UpdateUI;
-            ItemDetailViewUI.UpdatedEvent += MoveItemDetailView;
+            ItemViewUI.UpdatedEvent += MoveItemDetailView;
 
             GenerateInventory();
         }
@@ -117,7 +117,7 @@ namespace FroggyDefense.Core.Items.UI
         /// inventory slot.
         /// </summary>
         /// <param name="slot"></param>
-        public ItemDetailViewUI CreateItemDetailView(InventorySlotUI slot)
+        public ItemViewUI CreateItemDetailView(InventorySlotUI slot)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace FroggyDefense.Core.Items.UI
                     return null;
                 }
 
-                ItemDetailViewUI view = Instantiate(_itemDetailViewPrefab, new Vector2(2 * Screen.width, 2 * Screen.height), Quaternion.identity).GetComponent<ItemDetailViewUI>();
+                ItemViewUI view = Instantiate(_itemDetailViewPrefab, new Vector2(2 * Screen.width, 2 * Screen.height), Quaternion.identity).GetComponent<ItemViewUI>();
                 view.transform.SetParent(_itemDetailViewParent);
                 view.Open(slot.Slot.item);
 
@@ -157,7 +157,7 @@ namespace FroggyDefense.Core.Items.UI
 
                 if (!DisplayedItemDetailViews.ContainsKey(item)) return;
 
-                ItemDetailViewUI view = DisplayedItemDetailViews[item];
+                ItemViewUI view = DisplayedItemDetailViews[item];
                 InventorySlotUI slot = ViewSlotLookup[view];
 
                 RectTransform slotRect = slot.GetComponent<RectTransform>();

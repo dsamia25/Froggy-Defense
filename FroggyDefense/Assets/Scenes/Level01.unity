@@ -167,7 +167,6 @@ MonoBehaviour:
   _numberPopupManager: {fileID: 23703767}
   _uiManager: {fileID: 23703768}
   _itemDatabase: {fileID: 11400000, guid: 746e4943b1cc54b53a8f4c8ea733bfae, type: 2}
-  spawner: {fileID: 0}
   m_DamageAreaPrefab: {fileID: 3351013210083071110, guid: f4e6d602b05734f1ba4e84c04deddd95, type: 3}
   m_Player: {fileID: 595515300}
   WavesPerMapExpansion: 2
@@ -71649,7 +71648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2669329702014278770, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 591.44464
+      value: 1026.4447
       objectReference: {fileID: 0}
     - target: {fileID: 2669329702014278770, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -71841,7 +71840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4489592409560167521, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 562
+      value: -308.00012
       objectReference: {fileID: 0}
     - target: {fileID: 4489592409560167521, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: m_SizeDelta.y
@@ -71864,9 +71863,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 504877667}
     - target: {fileID: 6020614322381999077, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
+      propertyPath: _itemDetailViewParent
+      value: 
+      objectReference: {fileID: 504877667}
+    - target: {fileID: 6020614322381999077, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: _itemDetailViewPrefab
       value: 
-      objectReference: {fileID: 1408121985561373641, guid: 69126d2c9c8b04659b46984534ee2d11, type: 3}
+      objectReference: {fileID: 8054323052161136194, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}
     - target: {fileID: 7882928697149921314, guid: e0d691abc0b2c40199748020c1ed47b9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -72910,6 +72913,10 @@ PrefabInstance:
       propertyPath: _xpBar
       value: 
       objectReference: {fileID: 259087794}
+    - target: {fileID: 6414132035353026449, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
+      propertyPath: CurrencyList
+      value: 
+      objectReference: {fileID: 11400000, guid: 7407722022cf543a193bc86c3c55e9c9, type: 2}
     - target: {fileID: 6414132035353026451, guid: f569f954e8c144e5fbdd0cf47e9128fe, type: 3}
       propertyPath: AreaListener
       value: 
@@ -73019,7 +73026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7333323431412667450, guid: fc3dcad4b49ca4b57a10a0bccbd56f24, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 61.55536
+      value: 61.55542
       objectReference: {fileID: 0}
     - target: {fileID: 7333323431412667450, guid: fc3dcad4b49ca4b57a10a0bccbd56f24, type: 3}
       propertyPath: m_AnchoredPosition.y
