@@ -21,23 +21,23 @@ namespace FroggyDefense
         /// <param name="num"></param>
         public void SetIcon(int num)
         {
-            if (num > 100)
+            if (num >= 100)
             {
                 Icon.color = color100;
             }
-            else if (num > 50)
+            else if (num >= 50)
             {
                 Icon.color = color50;
             }
-            else if (num > 10)
+            else if (num >= 10)
             {
                 Icon.color = color10;
             }
-            else if (num > 5)
+            else if (num >= 5)
             {
                 Icon.color = color5;
             }
-            else if (num > 1)
+            else if (num >= 1)
             {
                 Icon.color = color1;
             } else

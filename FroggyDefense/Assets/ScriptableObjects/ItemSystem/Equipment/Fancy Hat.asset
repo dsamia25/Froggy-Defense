@@ -23,7 +23,7 @@ MonoBehaviour:
   Slot: 0
   Stats:
   - Stat: 3
-    Value: 5
+    Value: 49
   AddBonusStats: 0
   RandomStatsRange: {x: 0, y: 0}
   RandomBonusStats: []

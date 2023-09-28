@@ -27,7 +27,7 @@ MonoBehaviour:
   - Stat: 14
     Value: 2
   - Stat: 15
-    Value: 0.1
+    Value: 99
   AddBonusStats: 1
   RandomStatsRange: {x: 1, y: 3}
   RandomBonusStats:

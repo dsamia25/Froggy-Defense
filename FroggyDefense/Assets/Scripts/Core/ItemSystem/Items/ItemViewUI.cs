@@ -9,7 +9,9 @@ namespace FroggyDefense.Core.Items.UI
 {
     public class ItemViewUI : MonoBehaviour
     {
+        [SerializeField] protected Image ItemIcon;                      // The item image.
         [SerializeField] protected TextMeshProUGUI TitleText;           // Title header text.
+        [SerializeField] protected Image TitleBackground;               // The colored background for the title.
         [SerializeField] protected TextMeshProUGUI DetailText;          // Detail text.
         [SerializeField] protected TextMeshProUGUI DescriptionText;     // Yellow description text.
         [SerializeField] protected Image _itemRarityBorder;             // The color-changing border to indicate an item's rarity.
@@ -61,10 +63,11 @@ namespace FroggyDefense.Core.Items.UI
         {
             if (_displayedItem.Type == ItemType.Equipment)
             {
-                // Cycle through each stat in the item and update the row to match it.
-                List<StatValuePair> stats = ((Equipment)_displayedItem).Stats;
+                StatRowParent.gameObject.SetActive(true);
+                //var newStatRow = Instantiate(StatRowPrefab, StatRowParent).GetComponent<StatRowUI>();
+                //StatRows.Add(newStatRow);
 
-                // TODO: This size adjustment section needs to be tested by adding and removing stats to an item midgame.
+                List<StatValuePair> stats = ((Equipment)_displayedItem).Stats;
                 if (StatRows.Count < stats.Count)
                 {
                     // Add new rows until same amount.
@@ -73,7 +76,8 @@ namespace FroggyDefense.Core.Items.UI
                         var newStatRow = Instantiate(StatRowPrefab, StatRowParent).GetComponent<StatRowUI>();
                         StatRows.Add(newStatRow);
                     }
-                } else if (StatRows.Count > stats.Count)
+                }
+                else if (StatRows.Count > stats.Count)
                 {
                     // Remove rows until same amount.
                     for (int i = StatRows.Count; i > stats.Count; i--)
@@ -86,14 +90,21 @@ namespace FroggyDefense.Core.Items.UI
                 for (int i = 0; i < stats.Count; i++)
                 {
                     StatValuePair stat = stats[i];
-                    StatRows[i].SetStatRow(stat.Stat.ToString(), Mathf.FloorToInt(stat.Value));
+                    StatRows[i].SetStatRow(stat.Stat.ToString().Replace('_', ' '), Mathf.FloorToInt(stat.Value));
                 }
+            }
+            else
+            {
+                StatRowParent.gameObject.SetActive(false);
             }
         }
 
+        /// <summary>
+        /// Updates the detail text.
+        /// </summary>
         private void UpdateDetailText()
         {
-            if (_displayedItem.Type == ItemType.Equipment)
+            if (_displayedItem.Type != ItemType.Equipment)
             {
                 DetailText.text = _displayedItem.GetDetailText();
             }
@@ -106,9 +117,9 @@ namespace FroggyDefense.Core.Items.UI
         {
             try
             {
-                // Set text.
+                // Set image and text.
+                ItemIcon.sprite = _displayedItem.Icon;
                 TitleText.text = _displayedItem.Name;
-                //DetailText.text = _displayedItem.GetDetailText();
                 DescriptionText.text = _displayedItem.Description;
 
                 UpdateStatRows();
@@ -116,7 +127,8 @@ namespace FroggyDefense.Core.Items.UI
 
                 // Set colors.
                 Color color = GameManager.instance.m_UiManager.ItemRarityColors.GetColor(_displayedItem.Rarity);
-                TitleText.color = color;
+                //TitleText.color = color;
+                TitleBackground.color = color;
                 _itemRarityBorder.color = color;
 
                 StartCoroutine(WaitForMoveDelay(_moveDelay));
@@ -124,6 +136,7 @@ namespace FroggyDefense.Core.Items.UI
             catch (Exception e)
             {
                 Debug.LogWarning($"Error loading detail view: {e}");
+                Close();
             }
         }
 
