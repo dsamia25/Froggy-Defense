@@ -24,20 +24,21 @@ namespace FroggyDefense.Core.Items
     }
 
     [System.Serializable]
-    public class Item
+    public class Item: BaseItem
     {
         public ItemObject Template;
-        public string Name = "ITEM";
+
+        public Sprite Icon { get; set; } = null;
+        public string Name { get; set; } = "New Item";
         public int Id { get => (Template == null ? -1 : Template.Id); }
-        public string Description = "A NEW ITEM";
+        public string Description { get; set; }
+        public ItemRarity Rarity { get; set; } = 0;
+        public ItemType Type { get; set; } = ItemType.Default;
+
         public bool IsStackable { get; set; } = false;
         public int StackSize { get => ItemObject.StackSize; }
-        public ItemType Type = ItemType.Default;
-        public int CountSubtractPerUse = 1;
-        public ItemRarity Rarity = 0;
-        public bool IsUsable = false;
-
-        public Sprite Icon = null;
+        public int CountSubtractPerUse { get; set; } = 1;
+        public bool IsUsable { get; set; } = false;
 
         public Item ()
         {
