@@ -24,7 +24,7 @@ namespace FroggyDefense.Core.Items
     }
 
     [System.Serializable]
-    public class Item: BaseItem
+    public class Item
     {
         public ItemObject Template;
 

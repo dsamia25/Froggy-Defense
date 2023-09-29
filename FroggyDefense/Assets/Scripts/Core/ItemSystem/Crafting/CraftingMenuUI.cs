@@ -23,7 +23,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
                 if (value != null)
                 {
                     _selectedRecipe = value;
-                    //ItemViewSection.DisplayedItem = _selectedRecipe.Created;
+                    ItemViewSection.DisplayedItem = Item.CreateItem(_selectedRecipe.Created);   // TODO: This is a temp fix. Should make ItemViewUI able to display ItemObjects too.
                 }
             }
         }
