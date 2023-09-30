@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2541023765516400607}
   - component: {fileID: 8941521725512517902}
   - component: {fileID: 2016416052870404469}
+  - component: {fileID: 2325758940860685531}
   m_Layer: 5
   m_Name: CraftingMenuUI
   m_TagString: UI
@@ -42,7 +43,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 106.08984, y: 0}
-  m_SizeDelta: {x: 562.1801, y: 800}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165611976395680879
 MonoBehaviour:
@@ -122,6 +123,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &2325758940860685531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155794583137018344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defa00dfcc7934a22b48e6ea019c8470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CraftingRecipeIconPrefab: {fileID: 8505986458821101525, guid: def641ddd275148f4b3c1644da0376de, type: 3}
+  RequiredMaterialPrefab: {fileID: 429990394138483188, guid: 8e527343c47cd4e74831f0b0a52e7162, type: 3}
+  CraftingRecipeListSection: {fileID: 7543766349250404362}
+  RequiredMaterialsListSection: {fileID: 5308992991081439928}
+  ItemViewSection: {fileID: 1974901682321772132}
+  _selectedRecipe: {fileID: 0}
 --- !u!1 &3772994260410567099
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5031443584008987409, guid: 8895c8d826de34bc0b46343291a9da80, type: 3}
       propertyPath: m_Name
-      value: CraftingItemSelectionBarUI
+      value: CraftingItemSelectionBar
       objectReference: {fileID: 0}
     - target: {fileID: 8451717205128050979, guid: 8895c8d826de34bc0b46343291a9da80, type: 3}
       propertyPath: m_AnchorMax.y
@@ -545,6 +564,11 @@ PrefabInstance:
 --- !u!224 &764847827435978300 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2881980253613817127, guid: 8895c8d826de34bc0b46343291a9da80, type: 3}
+  m_PrefabInstance: {fileID: 3270616971118084891}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7543766349250404362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5031443584008987409, guid: 8895c8d826de34bc0b46343291a9da80, type: 3}
   m_PrefabInstance: {fileID: 3270616971118084891}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4535385775213900684
@@ -1024,7 +1048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8601235003252756788, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_Name
-      value: CraftingMaterialListUI
+      value: CraftingMaterialList
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
@@ -1052,6 +1076,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &5308992991081439928 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8601235003252756788, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
+  m_PrefabInstance: {fileID: 4535385775213900684}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7493834732880910661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1741,7 +1770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8054323052161136194, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}
       propertyPath: m_Name
-      value: AltItemDetailView
+      value: ItemPreview
       objectReference: {fileID: 0}
     - target: {fileID: 8054323052161136197, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}
       propertyPath: m_Pivot.x
@@ -2010,6 +2039,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8054323052161136197, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}
   m_PrefabInstance: {fileID: 7493834732880910661}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1974901682321772132 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8977697577835534113, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}
+  m_PrefabInstance: {fileID: 7493834732880910661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ea124d2f5074fa0978aaae07702aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5985387589285786980 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3814316546595023905, guid: 4f49255b205d1429b84ed4cf4b82a338, type: 3}

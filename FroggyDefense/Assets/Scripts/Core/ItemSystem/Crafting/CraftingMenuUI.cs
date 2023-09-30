@@ -24,8 +24,14 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
                 {
                     _selectedRecipe = value;
                     ItemViewSection.DisplayedItem = Item.CreateItem(_selectedRecipe.Created);   // TODO: This is a temp fix. Should make ItemViewUI able to display ItemObjects too.
+                    UpdateUI();
                 }
             }
+        }
+
+        private void Start()
+        {
+            CraftingSelectionBarItemUI.OnSelectedEvent += OnRecipeSelected;    
         }
 
         /// <summary>
@@ -33,7 +39,21 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
         /// </summary>
         private void UpdateUI()
         {
+            if (_selectedRecipe == null)
+            {
+                ItemViewSection.gameObject.SetActive(false);
+                return;
+            }
 
+            ItemViewSection.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// When the user clicks on a new recipe item.
+        /// </summary>
+        private void OnRecipeSelected(CraftingRecipe recipe)
+        {
+            SelectedRecipe = recipe;
         }
     }
 }
