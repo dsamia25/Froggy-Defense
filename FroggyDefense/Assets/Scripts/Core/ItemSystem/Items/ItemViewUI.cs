@@ -9,17 +9,18 @@ namespace FroggyDefense.Core.Items.UI
 {
     public class ItemViewUI : MonoBehaviour
     {
-        [SerializeField] protected Image ItemIcon;                      // The item image.
-        [SerializeField] protected TextMeshProUGUI TitleText;           // Title header text.
-        [SerializeField] protected Image TitleBackground;               // The colored background for the title.
-        [SerializeField] protected TextMeshProUGUI DetailText;          // Detail text.
-        [SerializeField] protected TextMeshProUGUI DescriptionText;     // Yellow description text.
-        [SerializeField] protected Image _itemRarityBorder;             // The color-changing border to indicate an item's rarity.
-        [SerializeField] protected float _moveDelay = .1f;              // How long the item has held over before being delayed.
+        [SerializeField] protected Image ItemIcon;                          // The item image.
+        [SerializeField] protected TextMeshProUGUI TitleText;               // Title header text.
+        [SerializeField] protected Image TitleBackground;                   // The colored background for the title.
+        [SerializeField] protected TextMeshProUGUI DetailText;              // Detail text.
+        [SerializeField] protected TextMeshProUGUI DescriptionText;         // Yellow description text.
+        [SerializeField] protected Image _itemRarityBorder;                 // The color-changing border to indicate an item's rarity.
+        [SerializeField] protected float _moveDelay = .1f;                  // How long the item has held over before being delayed.
 
-        [SerializeField] protected Transform StatRowParent;
-        [SerializeField] protected List<StatRowUI> StatRows;            // Array of all stat rows
-        [SerializeField] protected GameObject StatRowPrefab;
+        [SerializeField] protected static DynamicObjectPool StatRowPool;    // Object pool of stat rows to be used by ItemViews
+        [SerializeField] protected Transform StatRowParent;                 // The parent transform to spawn stat rows in.
+        [SerializeField] protected List<StatRowUI> StatRows;                // Array of all stat rows.
+        [SerializeField] protected GameObject StatRowPrefab;                // Prefab for a stat row.
         
         private Item _displayedItem;
         public Item DisplayedItem
@@ -34,6 +35,15 @@ namespace FroggyDefense.Core.Items.UI
 
         public delegate void ItemViewUIDelegate(Item item);
         public static event ItemViewUIDelegate UpdatedEvent;
+
+        private void Awake()
+        {
+            if (StatRowPool == null)
+            {
+                StatRowPool = new DynamicObjectPool(StatRowPrefab, StatRowParent, 4, false);
+            }
+            StatRows = new List<StatRowUI>();
+        }
 
         /// <summary>
         /// Opens the detail view.
@@ -61,41 +71,53 @@ namespace FroggyDefense.Core.Items.UI
         /// </summary>
         private void UpdateStatRows()
         {
-            if (_displayedItem.Type == ItemType.Equipment)
-            {
-                StatRowParent.gameObject.SetActive(true);
-                //var newStatRow = Instantiate(StatRowPrefab, StatRowParent).GetComponent<StatRowUI>();
-                //StatRows.Add(newStatRow);
-
-                List<StatValuePair> stats = ((Equipment)_displayedItem).Stats;
-                if (StatRows.Count < stats.Count)
-                {
-                    // Add new rows until same amount.
-                    for (int i = StatRows.Count; i < stats.Count; i++)
-                    {
-                        var newStatRow = Instantiate(StatRowPrefab, StatRowParent).GetComponent<StatRowUI>();
-                        StatRows.Add(newStatRow);
-                    }
-                }
-                else if (StatRows.Count > stats.Count)
-                {
-                    // Remove rows until same amount.
-                    for (int i = StatRows.Count; i > stats.Count; i--)
-                    {
-                        Destroy(StatRows[i]);
-                    }
-                }
-
-                // Update the row values.
-                for (int i = 0; i < stats.Count; i++)
-                {
-                    StatValuePair stat = stats[i];
-                    StatRows[i].SetStatRow(stat.Stat.ToString().Replace('_', ' '), Mathf.FloorToInt(stat.Value));
-                }
-            }
-            else
+            // If not an equipment item, disable the stat rows.
+            if (_displayedItem.Type != ItemType.Equipment)
             {
                 StatRowParent.gameObject.SetActive(false);
+                return;
+            }
+
+            // If an equipment item, adjust stat rows to display the correct item.
+            List<StatValuePair> stats = ((Equipment)_displayedItem).Stats;
+
+            // If no stats, disable the rows.
+            if (stats == null || stats.Count <= 0)
+            {
+                StatRowParent.gameObject.SetActive(false);
+                Debug.Log("Item has no stats to display.");
+                return;
+            }
+
+            // Turn it on.
+            StatRowParent.gameObject.SetActive(true);
+
+            if (StatRows.Count < stats.Count)
+            {
+                // Add new rows until same amount.
+                for (int i = StatRows.Count; i < stats.Count; i++)
+                {
+                    var newStatRow = StatRowPool.Get().GetComponent<StatRowUI>();
+                    StatRows.Add(newStatRow);
+                    newStatRow.transform.SetParent(StatRowParent);
+                }
+            } else if (StatRows.Count > stats.Count)
+            {
+                // Remove rows until same amount.
+                for (int i = StatRows.Count - 1; i >= stats.Count; i--)
+                {
+                    var row = StatRows[i];
+                    StatRows.Remove(row);
+                    StatRowPool.Return(row.gameObject);
+                }
+            }
+
+            // Update the row values.
+            for (int i = 0; i < stats.Count; i++)
+            {
+                StatValuePair stat = stats[i];
+                StatRows[i].SetStatRow(stat.Stat.ToString().Replace('_', ' '), Mathf.FloorToInt(stat.Value));
+                StatRows[i].gameObject.SetActive(true);
             }
         }
 
