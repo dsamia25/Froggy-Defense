@@ -149,7 +149,7 @@ namespace FroggyDefense.Core.Items.UI
 
                 // Set colors.
                 Color color = GameManager.instance.m_UiManager.ItemRarityColors.GetColor(_displayedItem.Rarity);
-                //TitleText.color = color;
+                color.a = 1;
                 TitleBackground.color = color;
                 _itemRarityBorder.color = color;
 

@@ -67,6 +67,7 @@ namespace FroggyDefense.Core.Items.UI
                     {
                         curr -= amt;
                         _statAmountImages[i].SetIcon(amt);
+                        _statAmountImages[i].gameObject.SetActive(true);
                         continue;
                     }
                     amt = 50;
@@ -74,6 +75,7 @@ namespace FroggyDefense.Core.Items.UI
                     {
                         curr -= amt;
                         _statAmountImages[i].SetIcon(amt);
+                        _statAmountImages[i].gameObject.SetActive(true);
                         continue;
                     }
                     amt = 10;
@@ -81,6 +83,7 @@ namespace FroggyDefense.Core.Items.UI
                     {
                         curr -= amt;
                         _statAmountImages[i].SetIcon(amt);
+                        _statAmountImages[i].gameObject.SetActive(true);
                         continue;
                     }
                     amt = 5;
@@ -88,6 +91,7 @@ namespace FroggyDefense.Core.Items.UI
                     {
                         curr -= amt;
                         _statAmountImages[i].SetIcon(amt);
+                        _statAmountImages[i].gameObject.SetActive(true);
                         continue;
                     }
                     amt = 1;
@@ -95,6 +99,7 @@ namespace FroggyDefense.Core.Items.UI
                     {
                         curr -= amt;
                         _statAmountImages[i].SetIcon(amt);
+                        _statAmountImages[i].gameObject.SetActive(true);
                         continue;
                     }
                     _statAmountImages[i].gameObject.SetActive(false);
