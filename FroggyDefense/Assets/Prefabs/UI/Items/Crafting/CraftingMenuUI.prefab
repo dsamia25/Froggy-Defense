@@ -732,6 +732,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2325758940860685531}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCraftButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FroggyDefense.Core.Items.Crafting.UI.CraftingMenuUI, ScriptsAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013301985111502115, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f80ba89131da9420b80ec434c52ff1e3, type: 3}
 --- !u!1 &6336203180749985186 stripped
@@ -797,11 +825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1554499148403657654, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1554499148403657654, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1554499148403657654, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_SizeDelta.x
@@ -817,7 +845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1554499148403657654, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -28.675
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236352367316457077, guid: 8aabab9af41ee4c888af66aaeba20c25, type: 3}
       propertyPath: m_Pivot.x

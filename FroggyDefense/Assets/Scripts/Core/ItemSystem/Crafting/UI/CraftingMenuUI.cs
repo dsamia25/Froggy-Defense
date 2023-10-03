@@ -14,6 +14,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
         [SerializeField] private ItemViewUI ItemViewSection;                                // The section for displaying the selected item.
 
         // State Variables
+        private IInventory _playerInventory;
         [SerializeField] private CraftingRecipe _selectedRecipe;                // Which recipe to display.
         public CraftingRecipe SelectedRecipe
         {
@@ -32,6 +33,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
 
         private void Start()
         {
+            _playerInventory = GameManager.instance.m_Player.GetComponent<IInventory>();
             CraftingSelectionBarItemUI.OnSelectedEvent += OnRecipeSelected;    
         }
 
@@ -56,6 +58,17 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
         private void OnRecipeSelected(CraftingRecipe recipe)
         {
             SelectedRecipe = recipe;
+        }
+
+        /// <summary>
+        /// Tries to craft the item whe nthe button is clicked.
+        /// </summary>
+        public void OnCraftButtonClicked()
+        {
+            if (_selectedRecipe == null) return;
+            if (_playerInventory == null) return;
+
+            CraftingUtil.Craft(_selectedRecipe, _playerInventory);
         }
     }
 }
