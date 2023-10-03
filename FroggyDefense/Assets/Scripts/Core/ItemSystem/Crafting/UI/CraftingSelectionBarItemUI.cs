@@ -36,7 +36,20 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
 
         private void UpdateUI()
         {
-            Icon.sprite = _recipe.Created.Icon;
+            if (_recipe == null || _recipe.Created == null)
+            {
+                return;
+            }
+
+            if (_recipe.Created.Icon == null)
+            {
+                Icon.gameObject.SetActive(false);
+            }
+            else
+            {
+                Icon.sprite = _recipe.Created.Icon;
+                Icon.gameObject.SetActive(true);
+            }
             NameText.text = _recipe.Created.Name;
         }
     }
