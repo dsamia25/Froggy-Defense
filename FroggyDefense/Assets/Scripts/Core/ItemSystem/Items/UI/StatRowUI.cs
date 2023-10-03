@@ -57,56 +57,16 @@ namespace FroggyDefense.Core.Items.UI
                 InitStatRow();
             }
 
-            int curr = amount;
             for (int i = 0; i < MAX_IMAGE_AMOUNT; i++)
             {
                 try
                 {
-                    int amt = 100;
-                    if (curr >= amt)
-                    {
-                        curr -= amt;
-                        _statAmountImages[i].SetIcon(amt);
-                        _statAmountImages[i].gameObject.SetActive(true);
-                        continue;
-                    }
-                    amt = 50;
-                    if (curr >= amt)
-                    {
-                        curr -= amt;
-                        _statAmountImages[i].SetIcon(amt);
-                        _statAmountImages[i].gameObject.SetActive(true);
-                        continue;
-                    }
-                    amt = 10;
-                    if (curr >= amt)
-                    {
-                        curr -= amt;
-                        _statAmountImages[i].SetIcon(amt);
-                        _statAmountImages[i].gameObject.SetActive(true);
-                        continue;
-                    }
-                    amt = 5;
-                    if (curr >= amt)
-                    {
-                        curr -= amt;
-                        _statAmountImages[i].SetIcon(amt);
-                        _statAmountImages[i].gameObject.SetActive(true);
-                        continue;
-                    }
-                    amt = 1;
-                    if (curr >= amt)
-                    {
-                        curr -= amt;
-                        _statAmountImages[i].SetIcon(amt);
-                        _statAmountImages[i].gameObject.SetActive(true);
-                        continue;
-                    }
-                    _statAmountImages[i].gameObject.SetActive(false);
-                } catch (System.Exception e)
+                    amount -= _statAmountImages[i].SetIcon(amount);
+                }
+                catch (System.Exception e)
                 {
                     Debug.LogWarning($"Error setting stat row: {e}");
-                    _statAmountImages[i].gameObject.SetActive(false);
+                    _statAmountImages[i].SetIcon(0);
                 }
             }
         }

@@ -9,6 +9,7 @@ namespace FroggyDefense
 
         [SerializeField] private Image Icon;
 
+        [SerializeField] private Color color0;
         [SerializeField] private Color color1;
         [SerializeField] private Color color5;
         [SerializeField] private Color color10;
@@ -19,30 +20,36 @@ namespace FroggyDefense
         /// Changes the icon color to match amount.
         /// </summary>
         /// <param name="num"></param>
-        public void SetIcon(int num)
+        public int SetIcon(int num)
         {
             if (num >= 100)
             {
                 Icon.color = color100;
+                return 100;
             }
             else if (num >= 50)
             {
                 Icon.color = color50;
+                return 50;
             }
             else if (num >= 10)
             {
                 Icon.color = color10;
+                return 10;
             }
             else if (num >= 5)
             {
                 Icon.color = color5;
+                return 5;
             }
             else if (num >= 1)
             {
                 Icon.color = color1;
+                return 1;
             } else
             {
-                throw new ArgumentException("Argument cannot be less than 1.");
+                Icon.color = color0;
+                return 0;
             }
         }
     }

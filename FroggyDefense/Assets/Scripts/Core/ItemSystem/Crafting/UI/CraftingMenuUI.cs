@@ -9,9 +9,9 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
         [SerializeField] private GameObject RequiredMaterialPrefab;             // The prefab for required material components.
 
         // Main Components
-        [SerializeField] private GameObject CraftingRecipeListSection;          // The section for making the list of crafting recipes.
-        [SerializeField] private GameObject RequiredMaterialsListSection;       // The section for making the list of required materials.
-        [SerializeField] private ItemViewUI ItemViewSection;                    // The section for displaying the selected item.
+        [SerializeField] private GameObject CraftingRecipeListSection;                      // The section for making the list of crafting recipes.
+        [SerializeField] private CraftingMaterialsListUI RequiredMaterialsListSection;      // The section for making the list of required materials.
+        [SerializeField] private ItemViewUI ItemViewSection;                                // The section for displaying the selected item.
 
         // State Variables
         [SerializeField] private CraftingRecipe _selectedRecipe;                // Which recipe to display.
@@ -24,6 +24,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
                 {
                     _selectedRecipe = value;
                     ItemViewSection.DisplayedItem = Item.CreateItem(_selectedRecipe.Created);   // TODO: This is a temp fix. Should make ItemViewUI able to display ItemObjects too.
+                    RequiredMaterialsListSection.DisplayedRecipe = _selectedRecipe;
                     UpdateUI();
                 }
             }
@@ -46,6 +47,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
             }
 
             ItemViewSection.gameObject.SetActive(true);
+            //Canvas.ForceUpdateCanvases();
         }
 
         /// <summary>
