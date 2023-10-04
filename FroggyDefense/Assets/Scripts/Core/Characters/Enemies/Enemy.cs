@@ -118,18 +118,21 @@ namespace FroggyDefense.Core.Enemies
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Nexus nexus = null;
-            if ((nexus = collision.gameObject.GetComponent<Nexus>()) != null)
+            if (IsActionable)
             {
-                nexus.TakeDamage(m_NexusDamage);
-                Kill();
-            }
+                Nexus nexus = null;
+                if ((nexus = collision.gameObject.GetComponent<Nexus>()) != null)
+                {
+                    nexus.TakeDamage(m_NexusDamage);
+                    Kill();
+                }
 
-            Player player = null;
-            if ((player = collision.gameObject.GetComponent<Player>()) != null)
-            {
-                player.TakeDamage(m_Damage);
-                Kill();
+                Player player = null;
+                if ((player = collision.gameObject.GetComponent<Player>()) != null)
+                {
+                    player.TakeDamage(m_Damage);
+                    Kill();
+                }
             }
         }
 
@@ -149,6 +152,8 @@ namespace FroggyDefense.Core.Enemies
         #region IDestructable
         public override void Die()
         {
+            base.Die();     // Applied effects cleared in base Character.Die method
+
             EnemyDefeatedEvent?.Invoke(new EnemyEventArgs(this, transform.position, -1, Points, Experience));
             GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, Points, NumberPopupType.EnemyDefeated);
             GetComponent<DropGems>().Drop();
@@ -184,6 +189,7 @@ namespace FroggyDefense.Core.Enemies
             //_focus = BoardManager.instance.Nexus;
             if (spawner != null)
             {
+                // TODO: Save the location when it first takes aggro to return to.
                 _focus = spawner.gameObject;
             } else
             {
@@ -202,8 +208,6 @@ namespace FroggyDefense.Core.Enemies
                 return Vector2.zero;
             }
 
-            // TODO: Currently just draws a straight line to the focus, make a pathfinding class to direct the enemy on an actual path.
-            //Vector2 targetLoc = focus.transform.position;
             Vector2 targetLoc = pathfinder.FindPath();
 
             return (targetLoc - (Vector2)transform.position).normalized;

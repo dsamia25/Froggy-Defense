@@ -85,6 +85,11 @@ namespace FroggyDefense.Core.Spells
         /// </summary>
         public abstract void Clear();
 
+        protected virtual void OnTargetDeathEvent()
+        {
+
+        }
+
         /// <summary>
         /// Resolves each of the OnTickActions.
         /// </summary>

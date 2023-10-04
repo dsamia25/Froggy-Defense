@@ -39,6 +39,7 @@ namespace FroggyDefense.Interactables
                 _spriteRenderer.sprite = _item.Icon;
                 _itemNamePanel.color = ItemRarityColors.GetColor(item.Rarity);
                 _itemNameText.text = item.Name;
+                gameObject.name = item.Name;
             } catch (Exception e)
             {
                 Debug.LogWarning($"Error setting item: {e}");

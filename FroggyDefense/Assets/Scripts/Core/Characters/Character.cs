@@ -114,10 +114,13 @@ namespace FroggyDefense.Core
 
         [SerializeField] protected float _moveSpeedModifer = 1f;            // The percent modifier effecting movement speed.
         [SerializeField] protected int _stunEffectCounter = 0;              // Tracks how many stun effects have been applied. If 0 then is not stunned.
-        [SerializeField] protected bool _invincible = false;
+        [SerializeField] protected bool _invincible = false;                // If anything can effect the character.
+        [SerializeField] protected bool _actionable = true;                 // If the charatcer can take any actions (cast spells, deal damage, etc...).
         public float MoveSpeedModifer => _moveSpeedModifer;
-        public bool m_Invincible { get => _invincible; set { _invincible = value; } }
+        public bool IsInvincible { get => _invincible; set { _invincible = value; } }
+        public bool IsActionable { get => _actionable; set => _actionable = value; }
         public bool IsDamaged => _health < MaxHealth;
+        public bool IsDead { get; protected set; } = false;
 
         [Space]
         [Header("Equipment")]
@@ -335,6 +338,7 @@ namespace FroggyDefense.Core
         public void TakeDamage(float damage)
         {
             if (_invincible) return;
+            if (IsDead) return;
 
             GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, damage, NumberPopupType.Damage);
             Health -= damage;
@@ -362,6 +366,7 @@ namespace FroggyDefense.Core
         public void TakeDamage(DamageAction damage)
         {
             if (_invincible) return;
+            if (IsDead) return;
 
             GameManager.instance.m_NumberPopupManager.SpawnNumberText(transform.position, damage.Damage, NumberPopupType.Damage);
             Health -= damage.Damage;
@@ -387,6 +392,8 @@ namespace FroggyDefense.Core
         /// <param name="effect"></param>
         public void ApplyEffect(AppliedEffect effect)
         {
+            if (IsDead) return;
+
             if (_appliedEffectIndex.ContainsKey(effect.Name))
             {
                 _appliedEffectIndex[effect.Name].Refresh();
@@ -460,6 +467,8 @@ namespace FroggyDefense.Core
         /// </summary>
         public void TickAppliedEffects()
         {
+            if (IsDead) return;
+
             List<AppliedEffect> expiredEffects = new List<AppliedEffect>();
             foreach (AppliedEffect status in _appliedEffectList)
             {
@@ -483,6 +492,8 @@ namespace FroggyDefense.Core
         /// <param name="dot"></param>
         private void RemoveAppliedEffect(AppliedEffect status)
         {
+            if (IsDead) return;
+
             try
             {
                 _appliedEffectIndex.Remove(status.Name);
@@ -506,22 +517,24 @@ namespace FroggyDefense.Core
         public virtual void Die()
         {
             Debug.Log("Character " + Name + " died.");
+            IsDead = true;
 
             // Clear applied effects list.
-            for (int i = _appliedEffectList.Count; i >= 0; i--)
-            {
-                var effect = _appliedEffectList[i];
-                effect.Clear();
-                _appliedEffectList.Remove(effect);
-            }
+            // For some reason this creates an error so removing it is better? The auto-garbage collection is probably cleaning up the applied effects before they cause a problem.
+            //for (int i = _appliedEffectList.Count - 1; i >= 0; i--)
+            //{
+            //    var effect = _appliedEffectList[i];
+            //    effect.Clear();
+            //    _appliedEffectList.Remove(effect);
+            //}
         }
         #endregion
 
         private IEnumerator DamagedInvincibility()
         {
-            m_Invincible = true;
+            IsInvincible = true;
             yield return new WaitForSeconds(DamagedInvincibilityTime);
-            m_Invincible = false;
+            IsInvincible = false;
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace FroggyDefense.Core.Items.Crafting
                 Item craftedItem = Item.CreateItem(recipe.Created);
                 foreach (var reagent in recipe.CraftingMaterials)
                 {
-                    //inventory.Subtract(reagent.m_Item, reagent.RequiredAmount);
+                    inventory.Subtract(reagent.m_Item.Id, reagent.RequiredAmount);
                 }
                 inventory.Add(craftedItem, 1);
             }
@@ -44,10 +44,10 @@ namespace FroggyDefense.Core.Items.Crafting
         {
             foreach (CraftingRecipe.ItemRequirement mat in recipe.CraftingMaterials)
             {
-                //if (inventory.GetCount(mat.m_Item) <= mat.RequiredAmount)
-                //{
-                //    return false;
-                //}
+                if (inventory.GetCount(mat.m_Item) <= mat.RequiredAmount)
+                {
+                    return false;
+                }
             }
             return true;
         }

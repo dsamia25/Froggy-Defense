@@ -22,10 +22,10 @@ namespace FroggyDefense.Core.Items.Crafting
         {
             foreach (ItemRequirement mat in CraftingMaterials)
             {
-                //if (inventory.GetCount(mat.m_Item) <= mat.RequiredAmount)
-                //{
-                //    return false;
-                //}
+                if (inventory.GetCount(mat.m_Item) <= mat.RequiredAmount)
+                {
+                    return false;
+                }
             }
             return true;
         }

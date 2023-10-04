@@ -17,7 +17,8 @@ namespace FroggyDefense
             animator.ResetTrigger("SummonAnimation");
 
             character = animator.gameObject.GetComponentInParent<Character>();
-            character.m_Invincible = true;
+            character.IsInvincible = true;
+            character.IsActionable = false;
             animationTime = SpawnManager.instance.SpawnAnimationTime;
             delay = SpawnManager.instance.SpawnDelay;
             renderer = animator.gameObject.GetComponent<SpriteRenderer>();
@@ -48,7 +49,8 @@ namespace FroggyDefense
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             renderer.material = new Material(character.DefaultMaterial);
-            character.m_Invincible = false;
+            character.IsInvincible = false;
+            character.IsActionable = true;
 
             animator.ResetTrigger("FinishedSummon");
         }

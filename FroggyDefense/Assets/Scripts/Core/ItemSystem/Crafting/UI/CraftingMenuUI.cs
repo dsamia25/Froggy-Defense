@@ -48,8 +48,9 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
                 return;
             }
 
+            ItemViewSection.UpdateUI();
+            RequiredMaterialsListSection.UpdateUI();
             ItemViewSection.gameObject.SetActive(true);
-            //Canvas.ForceUpdateCanvases();
         }
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI {
             if (_playerInventory == null) return;
 
             CraftingUtil.Craft(_selectedRecipe, _playerInventory);
+            UpdateUI();
         }
     }
 }
