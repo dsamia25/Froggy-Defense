@@ -202,7 +202,7 @@ namespace FroggyDefense.Core.Items.UI
             List<Item> removed = new List<Item>();
             foreach (Item item in DisplayedItemDetailViews.Keys)
             {
-                if (!_inventory.Contains(item))
+                if (!_inventory.Contains(item.Id))
                 {
                     removed.Add(item);
                 }

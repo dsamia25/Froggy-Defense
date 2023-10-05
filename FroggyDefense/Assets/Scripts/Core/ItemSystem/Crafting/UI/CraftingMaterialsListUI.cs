@@ -85,7 +85,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI
             for (int i = 0; i < len; i++)
             {
                 var mat = _displayedRecipe.CraftingMaterials[i];
-                RequiredMaterials[i].Set(mat.m_Item.Icon, _playerInventory.GetCount(mat.m_Item), mat.RequiredAmount);
+                RequiredMaterials[i].Set(mat.m_Item.Icon, _playerInventory.GetCount(mat.m_Item.Id), mat.RequiredAmount);
                 RequiredMaterials[i].gameObject.SetActive(true);
             }
         }

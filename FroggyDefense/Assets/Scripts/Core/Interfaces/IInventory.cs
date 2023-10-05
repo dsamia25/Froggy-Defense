@@ -21,34 +21,12 @@ namespace FroggyDefense.Core
         public int Add(Item item, int amount);
 
         /// <summary>
-        /// Subtracts a given amount of the item from the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
-        public bool Subtract(Item item, int amount);
-
-        /// <summary>
         /// Subtracts the item with the given id from the inventory.
         /// </summary>
         /// <param name="itemId"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
         public bool Subtract(int itemId, int amount);
-
-        /// <summary>
-        /// Removes a specific item from the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Remove(Item item);
-
-        /// <summary>
-        /// Removes a given item from the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Remove(ItemObject item);
 
         /// <summary>
         /// Removes the item with the given id from the inventory.
@@ -58,20 +36,6 @@ namespace FroggyDefense.Core
         public bool Remove(int itemId);
 
         /// <summary>
-        /// Checks if a certain item is in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(Item item);
-
-        /// <summary>
-        /// Checks if an instance of an item is in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(ItemObject item);
-
-        /// <summary>
         /// Checks if an item with the input id is in the inventory.
         /// </summary>
         /// <param name="itemId"></param>
@@ -79,35 +43,12 @@ namespace FroggyDefense.Core
         public bool Contains(int itemId);
 
         /// <summary>
-        /// Checks if there is a certain amount of the given item in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(Item item, int amount);
-
-        /// <summary>
-        /// Checks if there is a certain amount of the given item in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(ItemObject item, int amount);
-
-        /// <summary>
         /// Checks if there is a certain amount of a given item with the input id in the inventory.
         /// </summary>
         /// <param name="itemId"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool Contains(int itemId, int amount);
-
-        /// <summary>
-        /// Gets the count of instances of an ItemObject.
-        /// There is no version for Items because there should not checking for multiples
-        /// of a specific instance.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public int GetCount(ItemObject item);
+        public bool ContainsAmount(int itemId, int amount);
 
         /// <summary>
         /// Gets the count of a specific item with the given id.

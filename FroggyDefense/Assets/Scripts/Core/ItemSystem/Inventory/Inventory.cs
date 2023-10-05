@@ -311,27 +311,6 @@ namespace FroggyDefense.Core.Items
             return -1;
         }
 
-        // TODO: Should make a way to check if instances are equal (equal enchants and things too).
-        /// <summary>
-        /// Checks if the given Item is in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(Item item)
-        {
-            return Contains(item.Id);
-        }
-
-        /// <summary>
-        /// Checks if an instance of the ItemObject is in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(ItemObject item)
-        {
-            return Contains(item.Id);
-        }
-
         /// <summary>
         /// Checks if an instance of the item is in the inventory.
         /// </summary>
@@ -343,34 +322,12 @@ namespace FroggyDefense.Core.Items
         }
 
         /// <summary>
-        /// Checks if there are enough instances of the given ItemObject in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
-        public bool Contains(Item item, int amount)
-        {
-            return Contains(item.Id, amount);
-        }
-
-        /// <summary>
-        /// Checks if there are enough instances of the given ItemObject in the inventory.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
-        public bool Contains(ItemObject item, int amount)
-        {
-            return Contains(item.Id, amount);
-        }
-
-        /// <summary>
         /// Checks if there are enough instances of the given item in the inventory.
         /// </summary>
         /// <param name="itemId"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool Contains(int itemId, int amount)
+        public bool ContainsAmount(int itemId, int amount)
         {
             if (_contentsIndex.ContainsKey(itemId))
             {
@@ -470,7 +427,6 @@ namespace FroggyDefense.Core.Items
         }
     }
 
-    // Currently unused, could be used for changing from a dictionary back to an array of InventorySlots.
     /// <summary>
     /// A slot in the inventory that holds an item and how much of the item there are.
     /// </summary>

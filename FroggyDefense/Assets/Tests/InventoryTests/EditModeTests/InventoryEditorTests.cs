@@ -5,69 +5,134 @@ namespace FroggyDefense.Core.Items.Tests
 {
     public class InventoryEditorTests
     {
-        /*
-         * TODO: Things that take specific Items should check for that specific instance/ equivalent to it.
-         * 
-         */
-
         private static Vector2Int RANDOM_SIZE_RANGE = new Vector2Int(20, 100);
 
         /// <summary>
         /// Creates a new inventory.
         /// </summary>
         /// <returns></returns>
-        private static Inventory CreateInventory()
+        private static FixedInventory CreateInventory()
         {
             int num = Random.Range(RANDOM_SIZE_RANGE.x, RANDOM_SIZE_RANGE.y);
-            return new Inventory(num);
+            return new FixedInventory(num);
         }
 
         [Test]
         public void InitInventoryTest()
         {
             int num = Random.Range(RANDOM_SIZE_RANGE.x, RANDOM_SIZE_RANGE.y);
-            Inventory inventory = new Inventory(num);
+            FixedInventory inventory = new FixedInventory(num);
 
             Assert.NotNull(inventory);
             Assert.AreEqual(num, inventory.Size);
             for (int i = 0; i < inventory.Size; i++)
             {
-                Assert.True(inventory.Get(i).IsEmpty);
+                var slot = inventory.Get(i);
+                Assert.True(slot.IsEmpty);
+                Assert.AreEqual(i, slot.InventoryIndex);
             }
         }
 
         [Test]
-        public void AddSingleTest()
+        public void GetCountTest()
         {
-            Inventory inventory = CreateInventory();
+            FixedInventory inventory = CreateInventory();
             Item item = Item.CreateTestItem();
+            item.IsStackable = true;
+            Item redHerring = Item.CreateTestItem();
+            redHerring.IsStackable = false;
 
-            inventory.Add(item, 1);
+            int randomNumber = Random.Range(1, item.StackSize - 1);
+
+            inventory.Add(item, item.StackSize);
+            inventory.Add(item, item.StackSize);
+            inventory.Add(redHerring, 2);
+            inventory.Add(item, item.StackSize);
+            inventory.Add(item, randomNumber);
 
             Assert.True(inventory.Contains(item.Id));
-            Assert.AreEqual(1, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.True(inventory.Contains(redHerring.Id));
+            Assert.AreEqual(3 * item.StackSize + randomNumber, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.AreEqual(2, inventory.GetCount(redHerring.Id), "Incorrect number of herring.");
         }
 
         [Test]
-        public void AddAmountTest()
+        public void GetStacksTest()
         {
-            Inventory inventory = CreateInventory();
+            FixedInventory inventory = CreateInventory();
             Item item = Item.CreateTestItem();
-            Item stackableItem = Item.CreateTestItem();
+            item.IsStackable = true;
+            Item redHerring = Item.CreateTestItem();
+            redHerring.IsStackable = false;
+
+            int randomNumber = Random.Range(1, item.StackSize - 1);
+
+            inventory.Add(item, item.StackSize);
+            inventory.Add(item, item.StackSize);
+            inventory.Add(redHerring, 2);
+            inventory.Add(item, item.StackSize);
+            inventory.Add(item, randomNumber);
+
+            Assert.True(inventory.Contains(item.Id));
+            Assert.True(inventory.Contains(redHerring.Id));
+            Assert.AreEqual(4, inventory.GetStacks(item.Id), "Incorrect number of items stacks.");
+            Assert.AreEqual(2, inventory.GetStacks(redHerring.Id), "Incorrect number of herring stacks.");
+        }
+
+        [Test]
+        public void AddStackableTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = true;
+
+            inventory.Add(item, item.StackSize / 2);
+            inventory.Add(item, item.StackSize / 2);
+            inventory.Add(item, item.StackSize / 2);
+
+            Assert.True(inventory.Contains(item.Id));
+            Assert.AreEqual(1.5 * item.StackSize, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.AreEqual(2, inventory.GetCount(item.Id), "Incorrect number of item stacks.");
+        }
+
+        [Test]
+        public void AddUnstackableTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
             item.IsStackable = false;
-            stackableItem.IsStackable = true;
 
+            inventory.Add(item, 1);
             inventory.Add(item, 2);
-            inventory.Add(stackableItem, stackableItem.StackSize + 1);
+            inventory.Add(item, 3);
 
-            // Unstackable items always have a value of 1.
-            Assert.AreEqual(1, inventory.GetCount(item.Id), "Incorrect number of unstackable items.");
+            Assert.True(inventory.Contains(item.Id));
+            Assert.AreEqual(6, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.AreEqual(6, inventory.GetStacks(item.Id), "Incorrect number of item stacks.");
+        }
 
-            // Stackable items can have an amount.
-            Assert.AreEqual(stackableItem.StackSize + 1, inventory.GetCount(stackableItem.Id), "Incorrect number of stackable items.");
+        [Test]
+        public void AddMixedTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item unstackable = Item.CreateTestItem();
+            unstackable.IsStackable = false;
+            Item stackable = Item.CreateTestItem();
+            stackable.IsStackable = true;
 
-            // 1 stack for unstackable item, 2 for the stackable item.
-            Assert.AreEqual(3, inventory.Stacks, "Incorrect total number of stacks");
+            inventory.Add(unstackable, 2);
+            inventory.Add(stackable, stackable.StackSize / 2);
+            inventory.Add(unstackable, 1);
+            inventory.Add(stackable, stackable.StackSize / 2);
+            inventory.Add(stackable, stackable.StackSize / 2);
+            inventory.Add(unstackable, 3);
+
+            Assert.True(inventory.Contains(unstackable.Id));
+            Assert.AreEqual(6, inventory.GetCount(unstackable.Id), "Incorrect number of items.");
+            Assert.AreEqual(6, inventory.GetStacks(unstackable.Id), "Incorrect number of item stacks.");
+            Assert.True(inventory.Contains(stackable.Id));
+            Assert.AreEqual(1.5 * stackable.StackSize, inventory.GetCount(stackable.Id), "Incorrect number of items.");
+            Assert.AreEqual(2, inventory.GetCount(stackable.Id), "Incorrect number of item stacks.");
         }
 
         //[Test]
