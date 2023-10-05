@@ -23,5 +23,5 @@ MonoBehaviour:
   Frequency: 1
   Effect: 2
   School: 2
-  OnTickActions: {fileID: 0}
-  OnExpireActions: {fileID: 0}
+  OnTickActions: []
+  OnExpireActions: []

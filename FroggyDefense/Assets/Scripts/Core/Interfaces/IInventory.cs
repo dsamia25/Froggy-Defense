@@ -18,7 +18,7 @@ namespace FroggyDefense.Core
         /// <param name="item"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public void Add(Item item, int amount);
+        public int Add(Item item, int amount);
 
         /// <summary>
         /// Subtracts a given amount of the item from the inventory.

@@ -227,7 +227,6 @@ GameObject:
   - component: {fileID: 6414132035353026445}
   - component: {fileID: 6414132035353026437}
   - component: {fileID: 6414132035353026442}
-  - component: {fileID: 6414132035353026447}
   - component: {fileID: 6414132035353026444}
   - component: {fileID: 6414132035353026446}
   - component: {fileID: 6414132035353026449}
@@ -362,45 +361,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad02cb1ceafe47329ccfdc7ba4dbcbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamagedInvinciblityTime: 0
   _name: Frog
   m_HealthBar: {fileID: 0}
   m_ManaBar: {fileID: 0}
+  m_ProjectileManager: {fileID: 0}
+  _inCombat: 0
+  BeingSummoned: 0
   visualsAnimator: {fileID: 6414132034969326802}
   DamagedMaterial: {fileID: 2100000, guid: 7f36b8828faa24f6fbdaaf21f011c63c, type: 2}
   DefaultMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_DamagedAnimationTime: 0.1
   _xp: 0
-  _xpNeeded: 0
+  _maxXp: 0
   _experienceFunction: {fileID: 11400000, guid: 21e853ba008c944cea8991dbf7133868, type: 2}
-  _maxHealth: 60
-  _health: 60
-  _maxMana: 100
-  _mana: 100
-  _manaRegen: 8
-  _moveSpeed: 1
   _stats:
     _level: 1
+    _hardSetStats: 0
     _moveSpeed: 0
-    _strengthPerLevel: 1
-    _dexterityPerLevel: 1
-    _agilityPerLevel: 1
-    _intellectPerLevel: 1
-    _spiritPerLevel: 1
-    AttackPower: 0
-    SpellPower: 0
-  _isStunned: 0
+    _maxHealth: 1
+    _healthRegen: 0
+    _combatHealthRegenModifier: 0.5
+    _maxMana: 0
+    _manaRegen: 0
+    _combatManaRegenModifier: 0.5
+    _attackPower: 0
+    _spellPower: 0
+    _critChance: 0
+    _critBonus: 1.5
+    _damagedInvincibilityTime: 0
+    _endurance: 1
+    _strength: 1
+    _agility: 1
+    _intellect: 1
+    _spirit: 1
+  _health: 60
+  _mana: 100
   _moveSpeedModifer: 1
   _stunEffectCounter: 0
   _invincible: 0
-  _splashShield: 0
-  BeingSummoned: 0
-  m_ProjectileManager: {fileID: 0}
-  _inventory: {fileID: 6414132035353026447}
+  _actionable: 1
+  _inventory: {fileID: 0}
   _wallet: {fileID: 6414132035353026449}
-  CharacterStatsChanged:
-    m_PersistentCalls:
-      m_Calls: []
   AbilityTemplates:
   - {fileID: 11400000, guid: abbbd85f99c874a1da793ae1989129b1, type: 2}
   - {fileID: 11400000, guid: 5d19fbe41fe9149ef9b81e530c307dd2, type: 2}
@@ -442,20 +443,6 @@ MonoBehaviour:
   _movementLocked: 0
   _moveSpeed: 5
   _moveSpeedModifer: 1
---- !u!114 &6414132035353026447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6414132035353026434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1364548cb63724472a7f9e37a02255ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inventory: []
-  MaxSize: 32
 --- !u!114 &6414132035353026444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3315cef92034e4d19b59765b90a6cd00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currencyList: {fileID: 11400000, guid: 7407722022cf543a193bc86c3c55e9c9, type: 2}
+  CurrencyList: {fileID: 0}
 --- !u!114 &6414132035353026451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b447d6b04741a48e5afce1e2b4135c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 2432403938571207135, guid: c12ad4ac3bc7c475891c0136e2ac40e5, type: 3}
+  projectileSpawnLoc: {x: 0, y: 0, z: 0}
 --- !u!1 &6414132036049425200
 GameObject:
   m_ObjectHideFlags: 0

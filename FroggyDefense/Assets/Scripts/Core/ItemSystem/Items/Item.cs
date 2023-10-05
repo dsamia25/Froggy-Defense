@@ -26,14 +26,18 @@ namespace FroggyDefense.Core.Items
     [System.Serializable]
     public class Item
     {
+        private static int TEST_ITEM_ID_NUMBERS = 0;
+        private int _id;
+
         public ItemObject Template;
 
         public Sprite Icon { get; set; } = null;
         public string Name { get; set; } = "New Item";
-        public int Id { get => (Template == null ? -1 : Template.Id); }
+        public int Id { get => _id; protected set => _id = value; }
         public string Description { get; set; }
         public ItemRarity Rarity { get; set; } = 0;
         public ItemType Type { get; set; } = ItemType.Default;
+        public bool TestItem { get; private set; } = false;
 
         public bool IsStackable { get; set; } = false;
         public int StackSize { get => ItemObject.StackSize; }
@@ -49,6 +53,7 @@ namespace FroggyDefense.Core.Items
         {
             Template = template;
             Name = template.Name;
+            Id = template.Id;
             Description = template.Description;
             IsStackable = template.IsStackable;
             Type = template.Type;
@@ -82,6 +87,13 @@ namespace FroggyDefense.Core.Items
             }
             Debug.Log($"Creating {template.Name} as a {item.Type.ToString()} item.");
 
+            return item;
+        }
+
+        public static Item CreateTestItem()
+        {
+            Item item = new Item();
+            item.Id = ++TEST_ITEM_ID_NUMBERS;
             return item;
         }
 

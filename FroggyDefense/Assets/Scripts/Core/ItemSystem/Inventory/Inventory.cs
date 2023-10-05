@@ -1,31 +1,83 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace FroggyDefense.Core.Items
 {
-    public class Inventory : MonoBehaviour, IInventory
+    public class Inventory : IInventory
     {
-        private Dictionary<int, List<InventorySlot>> _contentsIndex;                // References each stack holding the itemId.
-        [SerializeField] private List<InventorySlot> _inventory;                    // Inventory list. InventorySlots hold Items and amounts.
+        private Dictionary<int, List<InventorySlot>> _contentsIndex;        // References each stack holding the itemId.
+        private List<InventorySlot> _emptySlots;                            // List of empty inventory slots.
+        private InventorySlot[] _inventory;                                 // Inventory list. InventorySlots hold Items and amounts.
 
-        public int Size { get => _inventory.Count; }
-        public int MaxSize = 32;                                                    // Hard coded max size for now.
+        private int _size = 0;
+
+        public int Size { get => _inventory.Length; }                       // Total size of the inventory. How many slots there are.
+        // TODO: Track how many empty slots are left.
+        public int EmptySlots => _emptySlots.Count;
+        public int Stacks => Size - EmptySlots;
+        public bool IsFull => EmptySlots <= 0;
 
         public event IInventory.InventoryDelegate InventoryChangedEvent;
 
-        private void Awake()
+        /// <summary>
+        /// Creates a new inventory.
+        /// </summary>
+        /// <param name="size"></param>
+        public Inventory (int size)
         {
-            // TODO: Make a way to load a saved inventory instead of creating a new one.
-            // Instantiate the inventory.
+            _size = size;
             InitInventory();
         }
 
+        /// <summary>
+        /// Initializes the inventory array and index.
+        /// </summary>
         public void InitInventory()
         {
             _contentsIndex = new Dictionary<int, List<InventorySlot>>();
-            _inventory = new List<InventorySlot>();
+            _emptySlots = new List<InventorySlot>();
+            _inventory = new InventorySlot[_size];
+
+            for (int i = 0; i < _size; i++)
+            {
+                InventorySlot slot = new InventorySlot(this, i);
+                _inventory[i] = slot;
+                _emptySlots.Add(slot);
+            }
+
             InventoryChangedEvent?.Invoke();
+        }
+
+        /// <summary>
+        /// Gets the next empty slot.
+        /// Returns null if none available.
+        /// </summary>
+        /// <returns></returns>
+        private InventorySlot GetEmptySlot()
+        {
+            if (_emptySlots == null || _emptySlots.Count <= 0) return null;
+
+            InventorySlot slot = _emptySlots[0];
+            _emptySlots.Remove(slot);
+            return slot;
+        }
+
+        /// <summary>
+        /// Returns an empty slot to the empty slot list and sorts the list.
+        /// </summary>
+        private void ReturnEmptySlot(InventorySlot slot)
+        {
+            slot.Clear();
+            _emptySlots.Add(slot);
+            SortEmptySlots();
+        }
+
+        /// <summary>
+        /// Sorts the list of empty slots to be in order according to inventory index.
+        /// </summary>
+        private void SortEmptySlots()
+        {
+            _emptySlots.Sort((x, y) => { return (x.InventoryIndex > y.InventoryIndex ? 1 : -1); }); // Sort by the index number.
         }
 
         /// <summary>
@@ -34,107 +86,110 @@ namespace FroggyDefense.Core.Items
         /// <param name="item"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public void Add(Item item, int amount)
+        public int Add(Item item, int amount)
         {
-            try
+            int addedAmount = 0;
+
+            if (!item.IsStackable && EmptySlots > 0)
             {
-                // If stackable, look if there is already a stack in the contents index.
-                if (item.IsStackable)
+                InventorySlot slot = GetEmptySlot();
+                if (slot == null)
                 {
-                    Debug.Log($"Adding {item.Name} is stackable. Max Stack Size: {item.StackSize}.");
-
-                    // If not in the index, create a new entry.
-                    if (!_contentsIndex.ContainsKey(item.Id))
-                    {
-                        Debug.Log($"Adding {item.Name} to index.");
-                        _contentsIndex.Add(item.Id, new List<InventorySlot>());
-                    }
-
-                    // Try to add to existing entries, if not any then create a new one.
-                    var stacks = _contentsIndex[item.Id];
-
-                    // Look through each stack in the entry. Add to any existing not full stacks.
-                    for (int i = 0; i < stacks.Count; i++)
-                    {
-                        amount -= stacks[i].Add(item, amount);
-                        Debug.Log($"{item.Name} stack {i} now has {stacks[i].count}.");
-                        if (amount <= 0) break;
-                    }
-
-                    Debug.Log($"Out of empty stacks for {item.Name}.");
-                    // If there is still some amount left, create new stacks to fill it out.
-                    while (amount > 0 && Size < MaxSize)
-                    {
-                        // Add a new stack.
-                        InventorySlot slot = new InventorySlot(this);
-                        slot.Add(item, amount);
-                        _inventory.Add(slot);
-                        _contentsIndex[item.Id].Add(slot);
-                        amount -= slot.count;      // Count down how much was actually added to the stack.
-                    }
+                    Debug.Log($"Cannot find an empty slot.");
+                    return 0;
                 }
-                else                 // else, just add it to the inventory
-                {
-                    Debug.Log($"Adding not stackable item {item.Name}");
-                    // Not stackable, create a new stack of size 1.
-                    InventorySlot slot = new InventorySlot(this);
-                    slot.Add(item, 1);
+                _contentsIndex.Add(item.Id, new List<InventorySlot>());
+                addedAmount = AddFreshSlot(slot, item, 1);
+            }
 
-                    _inventory.Add(slot);
-                    Debug.Log($"Inventory size: {Size}.");
+            if (item.IsStackable)
+            {
+                // Check if it's already in the list, if so add to those stacks.
+
+                // If finished adding to it's other stacks and there is still more, check if there is more room to add new stacks.
+                while (EmptySlots > 0 && amount > 0)
+                {
+                    InventorySlot slot = GetEmptySlot();
+                    if (slot == null)
+                    {
+                        Debug.Log($"Cannot find an empty slot.");
+                        return 0;
+                    }
                     _contentsIndex.Add(item.Id, new List<InventorySlot>());
-                    Debug.Log($"Index size: {_contentsIndex.Count}.");
-                    _contentsIndex[item.Id].Add(slot);
+                    addedAmount = AddFreshSlot(slot, item, amount);
                 }
             }
-            catch (Exception e)
-            {
-                Debug.Log($"Error adding item to inventory: {e}");
-            }
 
-            PrintIndex();
             InventoryChangedEvent?.Invoke();
+            return 0;
+
+
+            //if (!item.IsStackable)
+            //{
+            //    // Not stackable, create a new stack of size 1.
+            //    InventorySlot slot = GetEmptySlot();
+            //    if (slot == null) return 0; // Check for null slot.
+            //    _contentsIndex.Add(item.Id, new List<InventorySlot>());
+            //    addedAmount = AddFreshSlot(slot, item, 1);
+            //}
+            //else
+            //{
+            //    // If not in the index, create a new entry.
+            //    if (!_contentsIndex.ContainsKey(item.Id))
+            //    {
+            //        Debug.Log($"Adding {item.Name} to index.");
+            //        _contentsIndex.Add(item.Id, new List<InventorySlot>());
+            //    }
+
+            //    // Try to add to existing entries, if not any then create a new one.
+            //    var stacks = _contentsIndex[item.Id];
+
+            //    // Look through each stack in the entry. Add to any existing not full stacks.
+            //    for (int i = 0; i < stacks.Count; i++)
+            //    {
+            //        amount -= stacks[i].Add(item, amount);
+            //        Debug.Log($"{item.Name} stack {i} now has {stacks[i].count}.");
+            //        if (amount <= 0) break;
+            //    }
+
+            //    // If there is still some amount left, create new stacks to fill it out.
+            //    while (amount > 0 && EmptySlots > 0)
+            //    {
+            //        // Add a new stack.
+            //        InventorySlot slot = GetEmptySlot();
+
+            //        if (slot == null) return 0; // Check for null slot.
+
+            //        amount -= AddFreshSlot(slot, item, 1);      // Count down how much was actually added to the stack.
+            //    }
+            //    addedAmount = amount;
+            //}
+        }
+
+        /// <summary>
+        /// Shorthand for adding an item to the correct list and sorting the empty slots.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
+        private int AddFreshSlot(InventorySlot slot, Item item, int amount)
+        {
+            int amt = slot.Add(item, amount);
+            _contentsIndex[item.Id].Add(slot);
+            //_contentsIndex[item.Id].Sort((x, y) => { return (x.InventoryIndex > y.InventoryIndex ? 1 : -1); }); // Sort by the index number.
+            //SortEmptySlots();
+            return amt;
         }
 
         /// <summary>
         /// Subtracts the item from the list, return true if anything was removed.
+        /// // TODO: Make it only remove a specific item and not use Item.Id.
         /// </summary>
         /// <param name="item"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
         public bool Subtract(Item item, int amount)
         {
-            if (amount <= 0) return false;
-
-            if (_contentsIndex.ContainsKey(item.Id))
-            {
-                var stacks = _contentsIndex[item.Id];
-                // Start subtracting from the last slot first.
-                for (int i = stacks.Count - 1; i >= 0; i--)
-                {
-                    if (amount <= 0) break;
-                    
-                    InventorySlot slot = stacks[i];
-                    amount = slot.Subtract(amount);
-
-                    // Remove empty stacks.
-                    if (slot.IsEmpty)
-                    {
-                        stacks.Remove(slot);
-                        _inventory.Remove(slot);
-                    }
-                }
-                // Remove item from index if empty.
-                if (stacks.Count <= 0)
-                {
-                    Remove(item);
-                }
-
-                InventoryChangedEvent?.Invoke();
-                return true;
-            }
-            InventoryChangedEvent?.Invoke();
-            return false;
+            return Subtract(item.Id, amount);
         }
 
         /// <summary>
@@ -162,7 +217,7 @@ namespace FroggyDefense.Core.Items
                     if (slot.IsEmpty)
                     {
                         stacks.Remove(slot);
-                        _inventory.Remove(slot);
+                        ReturnEmptySlot(slot); ;
                     }
                 }
                 // Remove item from index if empty.
@@ -185,23 +240,7 @@ namespace FroggyDefense.Core.Items
         /// <returns></returns>
         public bool Remove(Item item)
         {
-            if (Contains(item))
-            {
-                Debug.Log($"Removing ({item.Name}) from inventory.");
-
-                // Remove each InventorySlot
-                foreach (var stack in _contentsIndex[item.Id])
-                {
-                    _inventory.Remove(stack);
-                }
-
-                // Remove the index reference.
-                _contentsIndex.Remove(item.Id);
-
-                InventoryChangedEvent?.Invoke();
-                return true;
-            }
-            return false;
+            return Remove(item.Id);
         }
 
         /// <summary>
@@ -223,10 +262,10 @@ namespace FroggyDefense.Core.Items
         {
             if (Contains(itemId))
             {
-                // Remove each InventorySlot
-                foreach (var stack in _contentsIndex[itemId])
+                // Clear each InventorySlot
+                foreach (var slot in _contentsIndex[itemId])
                 {
-                    _inventory.Remove(stack);
+                    ReturnEmptySlot(slot);
                 }
 
                 // Remove the index reference.
@@ -238,34 +277,36 @@ namespace FroggyDefense.Core.Items
             return false;
         }
 
+        /// <summary>
+        /// Gets the inventory slot at the given index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public InventorySlot Get(int index)
         {
-            if (index < 0 || index >= _inventory.Count) return null;
+            if (index < 0 || index >= Size) return null;
 
             return _inventory[index];
         }
 
         public Item GetItem(int index)
         {
-            if (index < 0 || index >= _inventory.Count) return null;
+            if (index < 0 || index >= Size) return null;
 
             return _inventory[index].item;
         }
 
         /// <summary>
-        /// Finds the index of the given item in the inventory or -1 if
+        /// Finds the first index of the given item in the inventory or -1 if
         /// it is not there.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public int GetIndex(Item item)
         {
-            for (int i = 0; i < _inventory.Count; i++)
+            if (_contentsIndex.ContainsKey(item.Id))
             {
-                if (_inventory[i].Equals(item))
-                {
-                    return i;
-                }
+                return _contentsIndex[item.Id][0].InventoryIndex;
             }
             return -1;
         }
@@ -367,8 +408,10 @@ namespace FroggyDefense.Core.Items
             if (_contentsIndex.ContainsKey(itemId))
             {
                 int count = 0;
+                Debug.Log($"itemId: {itemId} has {_contentsIndex[itemId].Count} stacks.");
                 foreach (var stack in _contentsIndex[itemId])
                 {
+                    Debug.Log($"stack count: {stack.count}. Count = {count}.");
                     count += stack.count;
                 }
                 return count;
@@ -411,7 +454,7 @@ namespace FroggyDefense.Core.Items
 
             InventorySlot slot = _inventory[0];
             str += "\t0: " + slot.count + " - " + slot.item.Name;
-            for (int i = 1; i < _inventory.Count; i++)
+            for (int i = 1; i < Size; i++)
             {
                 slot = _inventory[i];
                 str += ",\n\t" + i + ": " + slot.count + " - " + slot.item.Name;
@@ -434,6 +477,7 @@ namespace FroggyDefense.Core.Items
     [System.Serializable]
     public class InventorySlot
     {
+        public int InventoryIndex { get; private set; }
         public Item item { get; private set; } = null;
         public int count { get; private set; } = 0;
         public int stackSize
@@ -448,8 +492,9 @@ namespace FroggyDefense.Core.Items
 
         public bool IsEmpty { get => item == null && count == 0; }
 
-        public InventorySlot(Inventory _parentInventory)
+        public InventorySlot(Inventory _parentInventory, int index)
         {
+            InventoryIndex = index;
             item = null;
             count = 0;
             parentInventory = _parentInventory;

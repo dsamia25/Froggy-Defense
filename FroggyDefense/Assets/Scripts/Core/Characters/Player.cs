@@ -16,8 +16,8 @@ namespace FroggyDefense.Core
         [Space]
         [Header("Inventory")]
         [Space]
-        [SerializeField] private Inventory _inventory;
-        public Inventory CharacterInventory { get => _inventory; }
+        [SerializeField] private IInventory _inventory;
+        public IInventory CharacterInventory { get => _inventory; }
 
         [Space]
         [Header("Wallet")]
@@ -61,7 +61,7 @@ namespace FroggyDefense.Core
             base.Awake();
 
             if (inputController == null) inputController = GetComponent<InputController>();
-            if (_inventory == null) _inventory = gameObject.GetComponent<Inventory>();
+            if (_inventory == null) _inventory = new Inventory(24);
 
             RefreshSpellBar();
         }
