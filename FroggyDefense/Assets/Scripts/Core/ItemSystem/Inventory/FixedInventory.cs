@@ -61,6 +61,8 @@ namespace FroggyDefense.Core.Items
         /// <returns></returns>
         private FixedInventorySlot GetSlot(Item item)
         {
+            if (item == null) return null;
+
             FixedInventorySlot slot;
 
             // Check for existing stacks.
@@ -124,6 +126,7 @@ namespace FroggyDefense.Core.Items
                 amountAdded += slot.Add(item, amount - amountAdded);
             }
             Debug.Log($"ItemIndex: (+{amount}) {IndexToString()}");
+            InventoryChangedEvent?.Invoke();
             return amountAdded;
         }
 
@@ -147,6 +150,7 @@ namespace FroggyDefense.Core.Items
                 if (amountLeftToSubtract <= 0) break;
             }
             Debug.Log($"ItemIndex: (-{amount}) {IndexToString()}");
+            InventoryChangedEvent?.Invoke();
             return true;
         }
 
@@ -163,7 +167,7 @@ namespace FroggyDefense.Core.Items
             {
                 ReturnSlot(itemId, itemIndex[itemId][i]);
             }
-
+            InventoryChangedEvent?.Invoke();
             return true;
         }
 
@@ -368,7 +372,8 @@ namespace FroggyDefense.Core.Items
         {
             if (item.Use())
             {
-                //parentInventory.Subtract(item, item.CountSubtractPerUse);
+                parentInventory.Subtract(item.Id, item.CountSubtractPerUse);
+                //Debug.Log("Using");
             }
         }
     }

@@ -48,7 +48,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            Inventory inventory = (Inventory)player.CharacterInventory;
+            FixedInventory inventory = (FixedInventory)player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");
@@ -87,7 +87,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            Inventory inventory = (Inventory)player.CharacterInventory;
+            FixedInventory inventory = (FixedInventory)player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");
@@ -133,7 +133,7 @@ namespace FroggyDefense.Core.Items.Tests
             InventoryTestManager manager = GameObject.Find("InventoryTestManager").GetComponent<InventoryTestManager>();
             Player player = GameObject.Find("Player").GetComponent<Player>();
             Rigidbody2D playerRb = player.gameObject.GetComponent<Rigidbody2D>();
-            Inventory inventory = (Inventory)player.CharacterInventory;
+            FixedInventory inventory = (FixedInventory)player.CharacterInventory;
 
             // Check that load was successful.
             if (manager == null) Assert.Fail("Error: test manager not found.");

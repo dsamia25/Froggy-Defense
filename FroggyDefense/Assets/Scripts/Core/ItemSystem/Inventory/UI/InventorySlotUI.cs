@@ -17,8 +17,8 @@ namespace FroggyDefense.Core.Items.UI
 
         public InventoryUI HeadInventoryUi;
 
-        protected InventorySlot _slot = null;
-        public InventorySlot Slot
+        protected FixedInventorySlot _slot = null;
+        public FixedInventorySlot Slot
         {
             get => _slot;
             set
@@ -74,7 +74,7 @@ namespace FroggyDefense.Core.Items.UI
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
             SelectedStartingPosition = transform.position;
-            _iconImage.transform.SetParent(transform.parent.parent);
+            _iconImage.transform.SetParent(HeadInventoryUi.ItemDraggingParent);
             _iconImage.transform.SetAsLastSibling();
         }
 
@@ -128,6 +128,7 @@ namespace FroggyDefense.Core.Items.UI
         {
             if (HeadInventoryUi == null) return;
             if (Slot == null) return;
+            if (Slot.IsEmpty) return;
 
             HeadInventoryUi.CreateItemDetailView(this);
         }
@@ -139,6 +140,7 @@ namespace FroggyDefense.Core.Items.UI
         {
             if (HeadInventoryUi == null) return;
             if (Slot == null) return;
+            if (Slot.IsEmpty) return;
 
             HeadInventoryUi.CloseItemDetailView(Slot.item);
         }

@@ -8,27 +8,31 @@ namespace FroggyDefense.Core.Items.UI
     {
         [SerializeField] private GameObject _itemButtonUiPrefab = null;     // The button prefab.
         [SerializeField] private GameObject _itemDetailViewPrefab = null;   // The prefab for making a new item detail view when an item is moused over.
-        [SerializeField] private Transform _itemDetailViewParent = null;     // The transform to display the item detail views under to ensure they're in the front of the ui.
+        [SerializeField] private Transform _itemDetailViewParent = null;    // The transform to display the item detail views under to ensure they're in the front of the ui.
+        [SerializeField] private Transform _itemDraggingParent = null;      // The transform to display dragged items on.
         [SerializeField] private float _itemDetailViewOffset = 1f;          // How far to the left or right the detail view should be created.
 
-        public Inventory _inventory = null;                 // The inventory this is representing
-        public Transform _UiParent = null;                  // The transform to spawn the buttons under.
+        public FixedInventory inventory = null;                             // The inventory this is representing
+        public Transform UiParent = null;                                   // The transform to spawn the buttons under.
+        public Transform ItemDraggingParent { get => _itemDraggingParent; } // The transform to display dragged items on.
 
-        private int _rows = 3;                              // The current amount of rows in the inventory.
+        private int _rows = 3;                                              // The current amount of rows in the inventory.
 
-        private List<InventorySlotUI> inventorySlots;           // The list of all ItemButtonUi components.
+        private InventorySlotUI[] inventorySlots;                       // The list of all ItemButtonUi components.
         private Dictionary<Item, ItemViewUI> DisplayedItemDetailViews = new Dictionary<Item, ItemViewUI>();
         private Dictionary<ItemViewUI, InventorySlotUI> ViewSlotLookup = new Dictionary<ItemViewUI, InventorySlotUI>();
 
         private void Start()
         {
-            if (_UiParent == null) _UiParent = transform;
+            if (UiParent == null) UiParent = transform;
             if (_itemDetailViewParent == null) _itemDetailViewParent = transform;
+            if (_itemDraggingParent == null) _itemDraggingParent = transform;
+            if (inventory == null) inventory = (FixedInventory)(GameManager.instance.m_Player.CharacterInventory);
 
             DisplayedItemDetailViews = new Dictionary<Item, ItemViewUI>();
             ViewSlotLookup = new Dictionary<ItemViewUI, InventorySlotUI>();
 
-            _inventory.InventoryChangedEvent += UpdateUI;
+            inventory.InventoryChangedEvent += UpdateUI;
             ItemViewUI.UpdatedEvent += MoveItemDetailView;
 
             GenerateInventory();
@@ -39,36 +43,16 @@ namespace FroggyDefense.Core.Items.UI
         /// </summary>
         public void GenerateInventory()
         {
-            inventorySlots = new List<InventorySlotUI>();
+            inventorySlots = new InventorySlotUI[inventory.Size];
 
-            //_buttons = new List<GameObject>();
-            //_uiButtons = new List<InventorySlotUI>();
-
-            //for (int i = 0; i < DEFAULT_ROW_COUNT * COLLUMN_AMOUNT; i++)
-            //{
-            //    _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
-            //    var slot = _buttons[i].GetComponent<InventorySlotUI>();
-            //    _uiButtons.Add(slot);
-            //    slot.Slot = _inventory.Get(i);
-            //    slot.HeadInventoryUi = this;
-            //    slot.UpdateUI();
-            //}
-        }
-
-        /// <summary>
-        /// Adds a new row to the inventory.
-        /// </summary>
-        private void GenerateRow()
-        {
-            //for (int i = 0; i < COLLUMN_AMOUNT; i++)
-            //{
-            //    _buttons.Add(Instantiate(_itemButtonUiPrefab, _UiParent));
-            //    var slot = _buttons[i].GetComponent<InventorySlotUI>();
-            //    _uiButtons.Add(slot);
-            //    slot.Slot = _inventory.Get(i);
-            //    slot.HeadInventoryUi = this;
-            //    slot.UpdateUI();
-            //}
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                GameObject obj = Instantiate(_itemButtonUiPrefab, UiParent);
+                InventorySlotUI slot = obj.GetComponent<InventorySlotUI>();
+                inventorySlots[i] = slot;
+                slot.HeadInventoryUi = this;
+                slot.Slot = inventory.Get(i);
+            }
         }
 
         /// <summary>
@@ -79,18 +63,11 @@ namespace FroggyDefense.Core.Items.UI
         /// </summary>
         private void UpdateUI()
         {
-            //// Add more rows if there are not enough buttons.
-            //while (_inventory.Size > _buttons.Count)
-            //{
-            //    GenerateRow();
-            //}
-
-            //for (int i = 0; i < _buttons.Count; i++)
-            //{
-            //    var slot = _uiButtons[i];
-            //    slot.Slot = _inventory.Get(i);
-            //    slot.UpdateUI();
-            //}
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                var slot = inventorySlots[i];
+                slot.UpdateUI();
+            }
 
             CleanItemDetailViews();
         }
@@ -100,14 +77,13 @@ namespace FroggyDefense.Core.Items.UI
         /// </summary>
         public void DestroyInventory()
         {
-            //if (_buttons == null) return;
+            if (inventorySlots == null) return;
 
-            //foreach (GameObject button in _buttons)
-            //{
-            //    Destroy(button);
-            //}
-            //_uiButtons = null;
-            //_buttons = null;
+            foreach (var button in inventorySlots)
+            {
+                Destroy(button.gameObject);
+            }
+            inventorySlots = null;
         }
 
         /// <summary>
@@ -135,7 +111,6 @@ namespace FroggyDefense.Core.Items.UI
                 ViewSlotLookup.Add(view, slot);
 
                 return view;
-
             } catch (Exception e)
             {
                 Debug.LogWarning($"Error creating item detail view: {e}");
@@ -200,7 +175,7 @@ namespace FroggyDefense.Core.Items.UI
             List<Item> removed = new List<Item>();
             foreach (Item item in DisplayedItemDetailViews.Keys)
             {
-                if (!_inventory.Contains(item.Id))
+                if (!inventory.Contains(item.Id))
                 {
                     removed.Add(item);
                 }

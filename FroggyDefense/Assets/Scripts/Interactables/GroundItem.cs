@@ -73,7 +73,7 @@ namespace FroggyDefense.Interactables
 
             Debug.Log("Trying to pick up GroundItem (" + _item.Name + ").");
             IInventory inventory = null;
-            if ((inventory = user.GetComponent<IInventory>()) != null)
+            if ((inventory = user.GetComponent<IHasInventory>().GetInventory()) != null)
             {
                 Debug.Log("Trying to add GroundItem (" + _item.Name + ") to inventory.");
                 inventory.Add(_item, 1);

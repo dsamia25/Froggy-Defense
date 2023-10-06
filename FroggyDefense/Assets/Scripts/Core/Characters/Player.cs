@@ -11,7 +11,7 @@ using FroggyDefense.Economy;
 
 namespace FroggyDefense.Core
 {
-    public class Player : Character
+    public class Player : Character, IHasInventory
     {
         [Space]
         [Header("Inventory")]
@@ -61,7 +61,7 @@ namespace FroggyDefense.Core
             base.Awake();
 
             if (inputController == null) inputController = GetComponent<InputController>();
-            if (_inventory == null) _inventory = new Inventory(24);
+            if (_inventory == null) _inventory = new FixedInventory(24);
 
             RefreshSpellBar();
         }
@@ -194,6 +194,11 @@ namespace FroggyDefense.Core
             PlayerDeathEvent?.Invoke();
         }
         #endregion
+
+        public IInventory GetInventory()
+        {
+            return CharacterInventory;
+        }
 
         public override void Unequip(int slot)
         {
