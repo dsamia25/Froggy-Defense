@@ -92,7 +92,7 @@ namespace FroggyDefense.Core.Items.Tests
 
             Assert.True(inventory.Contains(item.Id));
             Assert.AreEqual(1.5 * item.StackSize, inventory.GetCount(item.Id), "Incorrect number of items.");
-            Assert.AreEqual(2, inventory.GetCount(item.Id), "Incorrect number of item stacks.");
+            Assert.AreEqual(2, inventory.GetStacks(item.Id), "Incorrect number of item stacks.");
         }
 
         [Test]
@@ -132,7 +132,60 @@ namespace FroggyDefense.Core.Items.Tests
             Assert.AreEqual(6, inventory.GetStacks(unstackable.Id), "Incorrect number of item stacks.");
             Assert.True(inventory.Contains(stackable.Id));
             Assert.AreEqual(1.5 * stackable.StackSize, inventory.GetCount(stackable.Id), "Incorrect number of items.");
-            Assert.AreEqual(2, inventory.GetCount(stackable.Id), "Incorrect number of item stacks.");
+            Assert.AreEqual(2, inventory.GetStacks(stackable.Id), "Incorrect number of item stacks.");
+        }
+
+        [Test]
+        public void SubtractStackableTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = true;
+
+            inventory.Add(item, item.StackSize / 2);
+            inventory.Subtract(item.Id, 3);
+            inventory.Add(item, item.StackSize / 2);
+            inventory.Add(item, item.StackSize / 2);
+            inventory.Subtract(item.Id, 2);
+            inventory.Add(item, 2);
+
+            Assert.True(inventory.Contains(item.Id));
+            Assert.AreEqual((int)(1.5 * item.StackSize) - 3, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.AreEqual(2, inventory.GetStacks(item.Id), "Incorrect number of item stacks.");
+
+            inventory.Subtract(item.Id, inventory.GetCount(item.Id) / 2);
+
+            Assert.True(inventory.Contains(item.Id));
+
+            inventory.Subtract(item.Id, inventory.GetCount(item.Id));
+
+            Assert.False(inventory.Contains(item.Id));
+        }
+
+        [Test]
+        public void SubtractUnstackableTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = false;
+
+            inventory.Add(item, 1);
+            inventory.Subtract(item.Id, 2);
+            inventory.Add(item, 2);
+            inventory.Add(item, 3);
+            inventory.Subtract(item.Id, 2);
+
+            Assert.True(inventory.Contains(item.Id));
+            Assert.AreEqual(3, inventory.GetCount(item.Id), "Incorrect number of items.");
+            Assert.AreEqual(3, inventory.GetStacks(item.Id), "Incorrect number of item stacks.");
+
+            inventory.Subtract(item.Id, inventory.GetCount(item.Id) / 2);
+
+            Assert.True(inventory.Contains(item.Id));
+
+            inventory.Subtract(item.Id, inventory.GetCount(item.Id));
+
+            Assert.False(inventory.Contains(item.Id));
         }
 
         //[Test]

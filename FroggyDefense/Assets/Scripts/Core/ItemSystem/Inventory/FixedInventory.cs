@@ -54,6 +54,11 @@ namespace FroggyDefense.Core.Items
             return slot;
         }
 
+        /// <summary>
+        /// Gets an item slot to add to.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         private FixedInventorySlot GetSlot(Item item)
         {
             FixedInventorySlot slot;
@@ -80,7 +85,28 @@ namespace FroggyDefense.Core.Items
             // Get new stack
             slot = emptySlots[0];
             emptySlots.Remove(slot);
+
+            // Register the new stack.
+            if (!itemIndex.ContainsKey(item.Id)) itemIndex.Add(item.Id, new List<FixedInventorySlot>());
+            itemIndex[item.Id].Add(slot);
+
             return slot;
+        }
+
+        /// <summary>
+        /// Returns the slot to the empty pool and removes it from indexes.
+        /// </summary>
+        /// <param name="slot"></param>
+        private void ReturnSlot(int itemId, FixedInventorySlot slot)
+        {
+            slot.Clear();
+            emptySlots.Add(slot);
+
+            itemIndex[itemId].Remove(slot);
+            if (itemIndex[itemId].Count <= 0)
+            {
+                itemIndex.Remove(itemId);
+            }
         }
 
         /// <summary>
@@ -95,32 +121,65 @@ namespace FroggyDefense.Core.Items
             FixedInventorySlot slot;
             while (amount > amountAdded && ((slot = GetSlot(item)) != null))
             {
-                if (!itemIndex.ContainsKey(item.Id)) itemIndex.Add(item.Id, new List<FixedInventorySlot>());
                 amountAdded += slot.Add(item, amount - amountAdded);
-                itemIndex[item.Id].Add(slot);
-                Debug.Log("ItemIndex: " + IndexToString());
             }
+            Debug.Log($"ItemIndex: (+{amount}) {IndexToString()}");
             return amountAdded;
         }
 
+        /// <summary>
+        /// Tries to subtract the input amount of the given item from the inventory.
+        /// Returns true if ANYTHING WAS REMOVED, even if it was less tha nthe input amount.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool Subtract(int itemId, int amount)
         {
-            throw new System.NotImplementedException();
+            if (!itemIndex.ContainsKey(itemId)) return false;
+
+            int amountLeftToSubtract = amount;
+            for (int i = itemIndex[itemId].Count - 1; i >= 0; i--)
+            {
+                FixedInventorySlot slot = itemIndex[itemId][i];
+                amountLeftToSubtract = slot.Subtract(amountLeftToSubtract);
+                if (slot.IsEmpty) ReturnSlot(itemId, slot);
+                if (amountLeftToSubtract <= 0) break;
+            }
+            Debug.Log($"ItemIndex: (-{amount}) {IndexToString()}");
+
+            return true;
         }
 
+        /// <summary>
+        /// Clears the input item from the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public bool Remove(int itemId)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Checks if there are any of the item in the inventory.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public bool Contains(int itemId)
         {
             return itemIndex.ContainsKey(itemId);
         }
 
+        /// <summary>
+        /// Checks if the inventory has at least this amount of the item.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool ContainsAmount(int itemId, int amount)
         {
-            throw new System.NotImplementedException();
+            return GetCount(itemId) >= amount;
         }
 
         /// <summary>
@@ -279,7 +338,6 @@ namespace FroggyDefense.Core.Items
         /// </summary>
         public void Clear()
         {
-            Debug.Log("Clearing (" + item.Name + ") inventory slot.");
             item = null;
             count = 0;
         }
