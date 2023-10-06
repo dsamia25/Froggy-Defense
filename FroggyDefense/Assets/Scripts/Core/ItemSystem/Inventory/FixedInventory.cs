@@ -147,7 +147,6 @@ namespace FroggyDefense.Core.Items
                 if (amountLeftToSubtract <= 0) break;
             }
             Debug.Log($"ItemIndex: (-{amount}) {IndexToString()}");
-
             return true;
         }
 
@@ -158,7 +157,14 @@ namespace FroggyDefense.Core.Items
         /// <returns></returns>
         public bool Remove(int itemId)
         {
-            throw new System.NotImplementedException();
+            if (!itemIndex.ContainsKey(itemId)) return false;
+
+            for (int i = itemIndex[itemId].Count - 1; i >= 0; i--)
+            {
+                ReturnSlot(itemId, itemIndex[itemId][i]);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -209,9 +215,22 @@ namespace FroggyDefense.Core.Items
             return itemIndex.ContainsKey(itemId) ? itemIndex[itemId].Count : 0;
         }
 
-        public void Print()
+        /// <summary>
+        /// Converts the inventory to a string format.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
         {
-            throw new System.NotImplementedException();
+            string str = "{\n";
+
+            str += $"\t{inventory[0].item.Id}";
+            for (int i = 1; i < inventory.Length; i++)
+            {
+                str += $"\t, {inventory[i].item.Id}";
+            }
+            str += "}";
+
+            return str;
         }
 
         /// <summary>

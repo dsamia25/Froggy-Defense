@@ -64,10 +64,5 @@ namespace FroggyDefense.Core
         /// </summary>
         /// <returns></returns>
         public string ToString();
-
-        /// <summary>
-        /// Prints out the contents of the inventory to the console.
-        /// </summary>
-        public void Print();
     }
 }

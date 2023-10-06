@@ -188,6 +188,93 @@ namespace FroggyDefense.Core.Items.Tests
             Assert.False(inventory.Contains(item.Id));
         }
 
+        [Test]
+        public void RemoveTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = false;
+
+            inventory.Add(item, 1);
+            inventory.Subtract(item.Id, 2);
+            inventory.Add(item, 2);
+            inventory.Add(item, 3);
+            inventory.Subtract(item.Id, 2);
+
+            Assert.True(inventory.Contains(item.Id));
+
+            inventory.Remove(item.Id);
+
+            Assert.False(inventory.Contains(item.Id));
+        }
+
+        [Test]
+        public void GetTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = true;
+            Item redHerring = Item.CreateTestItem();
+            redHerring.IsStackable = false;
+
+            int randomNumber = Random.Range(1, item.StackSize - 1);
+
+            Assert.IsNull(inventory.Get(-1));
+            Assert.IsNull(inventory.Get(inventory.Size));
+
+            Assert.AreEqual(null, inventory.Get(0).item);
+            Assert.AreEqual(0, inventory.Get(0).InventoryIndex);
+
+            inventory.Add(item, item.StackSize);
+            inventory.Add(redHerring, 3);
+            inventory.Add(item, item.StackSize);
+
+            Assert.AreEqual(item, inventory.Get(0).item);
+            Assert.AreEqual(0, inventory.Get(0).InventoryIndex);
+            Assert.AreEqual(redHerring, inventory.Get(1).item);
+            Assert.AreEqual(1, inventory.Get(1).InventoryIndex);
+            Assert.AreEqual(redHerring, inventory.Get(2).item);
+            Assert.AreEqual(2, inventory.Get(2).InventoryIndex);
+            Assert.AreEqual(redHerring, inventory.Get(3).item);
+            Assert.AreEqual(3, inventory.Get(3).InventoryIndex);
+            Assert.AreEqual(item, inventory.Get(4).item);
+            Assert.AreEqual(4, inventory.Get(4).InventoryIndex);
+        }
+
+        [Test]
+        public void OrderTest()
+        {
+            FixedInventory inventory = CreateInventory();
+            Item item = Item.CreateTestItem();
+            item.IsStackable = true;
+            Item redHerring = Item.CreateTestItem();
+            redHerring.IsStackable = false;
+
+            int randomNumber = Random.Range(1, item.StackSize - 1);
+
+            Assert.IsNull(inventory.Get(-1));
+            Assert.IsNull(inventory.Get(inventory.Size));
+
+            Assert.AreEqual(null, inventory.Get(0).item);
+            Assert.AreEqual(0, inventory.Get(0).InventoryIndex);
+
+            inventory.Add(item, item.StackSize);
+            inventory.Add(redHerring, 3);
+            inventory.Add(item, item.StackSize);
+            inventory.Subtract(redHerring.Id, 2);
+
+            Assert.AreEqual(item, inventory.Get(0).item);
+            Assert.AreEqual(0, inventory.Get(0).InventoryIndex);
+            Assert.AreEqual(redHerring, inventory.Get(1).item);
+            Assert.AreEqual(1, inventory.Get(1).InventoryIndex);
+            Assert.AreEqual(null, inventory.Get(2).item);
+            Assert.AreEqual(2, inventory.Get(2).InventoryIndex);
+            Assert.AreEqual(null, inventory.Get(3).item);
+            Assert.AreEqual(3, inventory.Get(3).InventoryIndex);
+            Assert.AreEqual(item, inventory.Get(4).item);
+            Assert.AreEqual(4, inventory.Get(4).InventoryIndex);
+        }
+
         //[Test]
         //public void AddToExistingStackTest()
         //{
