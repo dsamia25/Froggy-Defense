@@ -1313,7 +1313,7 @@ GameObject:
   - component: {fileID: 8570671138880452082}
   - component: {fileID: 5180453660952744150}
   m_Layer: 5
-  m_Name: TalentNode
+  m_Name: TalentNodeUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
