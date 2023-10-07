@@ -76,6 +76,8 @@ namespace FroggyDefense.Core.Items.UI
             SelectedStartingPosition = transform.position;
             _iconImage.transform.SetParent(HeadInventoryUi.ItemDraggingParent);
             _iconImage.transform.SetAsLastSibling();
+
+            CloseItemDetailView();
         }
 
         public virtual void OnDrag(PointerEventData eventData)
@@ -88,6 +90,7 @@ namespace FroggyDefense.Core.Items.UI
             _iconImage.transform.position = SelectedStartingPosition;
             _iconImage.transform.SetParent(transform);
             _iconImage.transform.SetAsLastSibling();
+            _countText.transform.SetAsLastSibling();
         }
 
         /// <summary>

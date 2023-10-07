@@ -220,6 +220,18 @@ namespace FroggyDefense.Core.Items
         }
 
         /// <summary>
+        /// Swaps the items in the InventorySlots at the two positions.
+        /// </summary>
+        /// <param name="posA"></param>
+        /// <param name="posB"></param>
+        public void Swap(int posA, int posB)
+        {
+            if (posA < 0 || posA >= Size || posB < 0 || posB >= Size) return;
+
+            FixedInventorySlot.Swap(inventory[posA], inventory[posB]);
+        }
+
+        /// <summary>
         /// Converts the inventory to a string format.
         /// </summary>
         /// <returns></returns>
@@ -292,6 +304,22 @@ namespace FroggyDefense.Core.Items
             item = null;
             count = 0;
             parentInventory = _parentInventory;
+        }
+
+        /// <summary>
+        /// Swaps the contents of the two slots.
+        /// </summary>
+        /// <param name="slotA"></param>
+        /// <param name="slotB"></param>
+        public static void Swap(FixedInventorySlot slotA, FixedInventorySlot slotB)
+        {
+            Item tempItem = slotA.item;
+            int tempCount = slotA.count;
+
+            slotA.item = slotB.item;
+            slotA.count = slotB.count;
+            slotB.item = tempItem;
+            slotB.count = tempCount;
         }
 
         /// <summary>
