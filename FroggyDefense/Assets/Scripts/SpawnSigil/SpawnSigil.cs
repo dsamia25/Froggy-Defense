@@ -14,7 +14,7 @@ namespace FroggyDefense.Dungeons
 
         private void Awake()
         {
-            Debug.Log($"Awake Sigil Start");
+            //Debug.Log($"Awake Sigil Start");
             transform.Rotate(new Vector3(50, 0, 0), Space.World);
         }
 

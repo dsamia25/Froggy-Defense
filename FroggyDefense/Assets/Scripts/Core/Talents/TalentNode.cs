@@ -6,6 +6,6 @@ namespace FroggyDefense.Core.Talents
 {
     public class TalentNode
     {
-        
+        //public TalentNode
     }
 }

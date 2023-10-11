@@ -127,6 +127,9 @@ MonoBehaviour:
   _itemBorder: {fileID: 3988461443178956432}
   _borderHighlightColor: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
   _borderDefaultColor: {r: 0.08627451, g: 0.08627451, b: 0.08627451, a: 1}
+  slotLayer:
+    serializedVersion: 2
+    m_Bits: 262144
   HeadInventoryUi: {fileID: 0}
 --- !u!114 &7422288547425565481
 MonoBehaviour:

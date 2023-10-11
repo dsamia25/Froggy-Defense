@@ -1312,6 +1312,7 @@ GameObject:
   - component: {fileID: 8220756994863617944}
   - component: {fileID: 8570671138880452082}
   - component: {fileID: 5180453660952744150}
+  - component: {fileID: 2076739009611388439}
   m_Layer: 5
   m_Name: TalentNodeUI
   m_TagString: Untagged
@@ -1425,6 +1426,18 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!114 &2076739009611388439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5637911681711307340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfc09a0d4d7a4d4998585d2bc8be02c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6297963861006393093
 GameObject:
   m_ObjectHideFlags: 0

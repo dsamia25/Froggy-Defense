@@ -563,9 +563,9 @@ namespace FroggyDefense.Core
         /// <param name="level"></param>
         public virtual void SetLevel(int level)
         {
-            Debug.Log($"Setting {name} level to {level}.");
+            //Debug.Log($"Setting {name} level to {level}.");
             _stats.SetLevel(level);
-            Debug.Log($"{name} level now {_stats.Level}");
+            //Debug.Log($"{name} level now {_stats.Level}");
             //LeveledUp?.Invoke();
         }
 
