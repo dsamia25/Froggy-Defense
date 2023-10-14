@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using FroggyDefense.Weapons;
-using FroggyDefense.Core.Buildings;
 using FroggyDefense.Core.Spells;
 using FroggyDefense.Core.Enemies;
 using FroggyDefense.Interactables;
@@ -13,47 +11,28 @@ namespace FroggyDefense.Core
 {
     public class Player : Character, IHasInventory
     {
-        [Space]
-        [Header("Inventory")]
-        [Space]
         [SerializeField] private IInventory _inventory;
-        public IInventory CharacterInventory { get => _inventory; }
-
-        [Space]
-        [Header("Wallet")]
         [SerializeField] private CurrencyWallet _wallet;
-        public CurrencyWallet CharacterWallet { get => _wallet; }
+        [SerializeField] protected WeaponObject _weaponTemplate;
 
-        [Space]
-        [Header("Spells")]
-        [Space]
+        private int SelectedSpellDeckIndex = 0;                         // The index of the currently selected Spell Deck.
+
+        public IInventory CharacterInventory { get => _inventory; }
+        public CurrencyWallet CharacterWallet { get => _wallet; }
         public List<Spell> LearnedAbilities = new List<Spell>();        // List of learned abilities.
         public SpellObject[] AbilityTemplates = new SpellObject[4];     // TODO: TEMP PREFABs FOR LEARNING ABILITIES.
         public Spell[] SelectedAbilities = new Spell[4];                // Which abilities are selected on the hotbar.
-
-        [Space]
-        [Header("Turrets")]
-        [Space]
-        [SerializeField] private GameObject m_TurretPrefab;
-        [SerializeField] private int _turretCap = 3;
-        public int m_TurretCap { get => _turretCap; }
-        public List<Turret> m_Turrets = new List<Turret>();
-
-        [Space] 
-        [Header("Attack Settings")]
-        [SerializeField] protected WeaponObject _weaponTemplate;
+        public SpellDeck[] SpellDecks = new SpellDeck[4];               // The player's saved Spell Decks.
+        public SpellDeck SelectedSpellDeck => SpellDecks[SelectedSpellDeckIndex];   // The currently selected Spell Deck taken from the 
         public Weapon EquippedWeapon { get; private set; }
-        public WeaponUser m_WeaponUser = null;
 
-        [Space]
-        [Header("Player Events")]
-        [Space]
-        public UnityEvent PlayerDeathEvent;
+        // Hidden Fields
+        [HideInInspector] public InputController inputController = null;
+        [HideInInspector] public WeaponUser m_WeaponUser = null;
 
-        [HideInInspector]
-        public InputController inputController;
 
         public delegate void PlayerActionDelegate();
+        public event PlayerActionDelegate PlayerDeathEvent;
         public event PlayerActionDelegate ChangedSpellsEvent;
 
         protected override void Awake()

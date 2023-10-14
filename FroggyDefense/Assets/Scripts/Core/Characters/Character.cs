@@ -43,7 +43,7 @@ namespace FroggyDefense.Core
         [SerializeField] private float _maxXp = 0f;
         [SerializeField] private CharacterLevelExperienceFunction _experienceFunction = null;
         public float Xp { get => _xp; }                                     // The character's experience points.
-        public float MaxXp { get => _maxXp; }                         // The amount of xp required to level up.
+        public float MaxXp { get => _maxXp; }                               // The amount of xp required to level up.
         public CharacterLevelExperienceFunction ExperienceFunction { get => _experienceFunction; }  // Function used to calculate experience needed to level up.
 
         [Space]
