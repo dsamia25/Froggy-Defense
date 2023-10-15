@@ -93,9 +93,11 @@ namespace FroggyDefense.Core
 
         public void CastSpell(int slot, Spell spell, InputArgs args)
         {
-            spell.Cast(new ActionArgs(this, null, args, spell.CollisionList));
-            SelectedSpellDeck.Return(slot);
-            CastSpellEvent?.Invoke();
+            if (spell.Cast(new ActionArgs(this, null, args, spell.CollisionList)))
+            {
+                SelectedSpellDeck.Return(slot);
+                CastSpellEvent?.Invoke();
+            }
         }
 
         public Spell GetSpell(int i)
