@@ -160,8 +160,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3932942925510070526, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: m_FlexibleHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3932942925510070526, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_PreferredWidth
       value: 640
+      objectReference: {fileID: 0}
+    - target: {fileID: 3932942925510070526, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5333628212901839589, guid: e6d74fa7bb54a44af8e5b79de1530fa1, type: 3}
       propertyPath: m_Pivot.x

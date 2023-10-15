@@ -18,6 +18,7 @@ namespace FroggyDefense.Core.Spells
         Earth
     }
 
+    [Serializable]
     public abstract class Spell
     {
         public SpellObject Template;
@@ -27,6 +28,8 @@ namespace FroggyDefense.Core.Spells
         public int SpellId => Template.SpellId;
         public float Cooldown => Template.Cooldown;
         public float ManaCost => Template.ManaCost;
+        public int SpellCardCharges => Template.SpellCardCharges;
+        public float SpellCardChargeExpirationTime => Template.SpellCardChargeExpirationTime;
 
         public Shape EffectShape => Template.EffectShape;
         public float TargetRange => Template.TargetRange;

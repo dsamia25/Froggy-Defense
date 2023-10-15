@@ -6,6 +6,8 @@ using FroggyDefense.Core.Enemies;
 using FroggyDefense.Interactables;
 using FroggyDefense.Core.Items;
 using FroggyDefense.Economy;
+using FroggyDefense.Core.Actions;
+using FroggyDefense.Core.Actions.Inputs;
 
 namespace FroggyDefense.Core
 {
@@ -15,25 +17,26 @@ namespace FroggyDefense.Core
         [SerializeField] private CurrencyWallet _wallet;
         [SerializeField] protected WeaponObject _weaponTemplate;
 
-        private int SelectedSpellDeckIndex = 0;                         // The index of the currently selected Spell Deck.
-
         public IInventory CharacterInventory { get => _inventory; }
         public CurrencyWallet CharacterWallet { get => _wallet; }
-        public List<Spell> LearnedAbilities = new List<Spell>();        // List of learned abilities.
+        public Dictionary<int, Spell> LearnedSpells = new Dictionary<int, Spell>();        // List of learned abilities.
         public SpellObject[] AbilityTemplates = new SpellObject[4];     // TODO: TEMP PREFABs FOR LEARNING ABILITIES.
-        public Spell[] SelectedAbilities = new Spell[4];                // Which abilities are selected on the hotbar.
-        public SpellDeck[] SpellDecks = new SpellDeck[4];               // The player's saved Spell Decks.
-        public SpellDeck SelectedSpellDeck => SpellDecks[SelectedSpellDeckIndex];   // The currently selected Spell Deck taken from the 
+        //public Spell[] SelectedAbilities = new Spell[4];                // Which abilities are selected on the hotbar.
+        public SpellDeck SelectedSpellDeck;                             // The currently selected Spell Deck taken from the 
         public Weapon EquippedWeapon { get; private set; }
+
+        // TODO: Add support for multiple saved decks.
+        //public SpellDeck[] SpellDecks = new SpellDeck[4];               // The player's saved Spell Decks.
 
         // Hidden Fields
         [HideInInspector] public InputController inputController = null;
         [HideInInspector] public WeaponUser m_WeaponUser = null;
 
-
         public delegate void PlayerActionDelegate();
         public event PlayerActionDelegate PlayerDeathEvent;
         public event PlayerActionDelegate ChangedSpellsEvent;
+        public event PlayerActionDelegate CastSpellEvent;
+        public event PlayerActionDelegate SpellDeckSelectedEvent;
 
         protected override void Awake()
         {
@@ -42,7 +45,8 @@ namespace FroggyDefense.Core
             if (inputController == null) inputController = GetComponent<InputController>();
             if (_inventory == null) _inventory = new FixedInventory(24);
 
-            RefreshSpellBar();
+            LearnSpellTemplates();
+            CompileSpellDeck();
         }
 
         protected override void Start()
@@ -86,36 +90,81 @@ namespace FroggyDefense.Core
         // Spells
         // ********************************************************************
         #region Spells
-        /// <summary>
-        /// Refreshes the spells on the ability bar using the templates.
-        /// </summary>
-        public void RefreshSpellBar()
+
+        public void CastSpell(int slot, Spell spell, InputArgs args)
         {
-            for (int i = 0; i < SelectedAbilities.Length; i++)
-            {
-                if (AbilityTemplates[i] == null)
-                {
-                    SelectedAbilities[i] = null;
-                    continue;
-                }
-                SelectedAbilities[i] = Spell.CreateSpell(AbilityTemplates[i]);
-            }
-            ChangedSpellsEvent?.Invoke();
+            spell.Cast(new ActionArgs(this, null, args, spell.CollisionList));
+            SelectedSpellDeck.Return(slot);
+            CastSpellEvent?.Invoke();
         }
 
+        public Spell GetSpell(int i)
+        {
+            return SelectedSpellDeck.GetSpell(i);
+        }
+
+        /// <summary>
+        /// Creates the initial set of learned spells by using the AbilityTemplates list.
+        /// Mostly for testing spells.
+        /// </summary>
+        private void LearnSpellTemplates()
+        {
+            foreach (SpellObject template in AbilityTemplates)
+            {
+                LearnSpell(template);
+            }
+        }
+
+        /// <summary>
+        /// Creates a starting spell deck.
+        /// Mostly used for testing.
+        /// </summary>
+        private void CompileSpellDeck()
+        {
+            SelectedSpellDeck = new SpellDeck();
+
+            var enumerator = LearnedSpells.Keys.GetEnumerator();
+            int amount = (LearnedSpells.Count >= 8 ? 8 : LearnedSpells.Count);    // Just use the first 8 if more than 8.
+            do
+            {
+                SelectedSpellDeck.Add(LearnedSpells[enumerator.Current]);
+            } while (enumerator.MoveNext());
+
+            SpellDeckSelectedEvent?.Invoke();
+            Debug.Log($"Compiling Spell Deck.");
+        }
+
+        /// <summary>
+        /// Learns the spell. Returns false if the spell was already known.
+        /// </summary>
+        /// <param name="template"></param>
+        /// <returns></returns>
+        public bool LearnSpell(SpellObject template)
+        {
+            if (LearnedSpells.ContainsKey(template.SpellId))
+            {
+                return false;
+            }
+            LearnedSpells.Add(template.SpellId, Spell.CreateSpell(template));
+            ChangedSpellsEvent?.Invoke();
+            Debug.Log($"Learned spell {template.Name} (Player knows {LearnedSpells.Count} spells).");
+            return true;
+        }
+
+        // TODO: Get rid of spell cooldowns.
         /// <summary>
         /// Decrements the cooldowns on the player's spells.
         /// </summary>
         private void CountdownSpellCooldowns()
         {
-            for (int i = 0; i < SelectedAbilities.Length; i++)
-            {
-                if (AbilityTemplates[i] == null)
-                {
-                    continue;
-                }
-                SelectedAbilities[i].CurrCooldown -= Time.deltaTime;
-            }
+            //for (int i = 0; i < SelectedAbilities.Length; i++)
+            //{
+            //    if (AbilityTemplates[i] == null)
+            //    {
+            //        continue;
+            //    }
+            //    SelectedAbilities[i].CurrCooldown -= Time.deltaTime;
+            //}
         }
         #endregion
 

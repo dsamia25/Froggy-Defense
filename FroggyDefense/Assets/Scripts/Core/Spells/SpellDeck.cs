@@ -1,50 +1,114 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FroggyDefense.Core.Spells
 {
+    [Serializable]
     public class SpellDeck
     {
-        private List<SpellCard> deck;
-        private List<SpellCard> hand;
+        [SerializeField] private List<int> includedCards;
+        [SerializeField] private Queue<Spell> Deck;
+        [SerializeField] private Spell[] Hand;
 
         private int minDeckSize = 8;
         private int maxDeckSize = 12;
-        private int handSize = 4;
+        private int maxHandSize = 4;
+
+        public IReadOnlyList<int> IncludedCards => includedCards.AsReadOnly();
+        public Spell TopSpell => Deck.Peek();
+        public bool ValidDeck => includedCards.Count >= minDeckSize;
+        public int DeckSize => Deck.Count;
+        public int HandSize => maxHandSize;
+
+        public delegate void SpellDeckDelegate(int slot, Spell spell);
+        public event SpellDeckDelegate OnSpellCardDrawn;
+        public event SpellDeckDelegate OnHandSizeChanged;
 
         public SpellDeck()
         {
-            deck = new List<SpellCard>();
-            hand = new List<SpellCard>();
+            Deck = new Queue<Spell>();
+            Hand = new Spell[maxHandSize];
+            includedCards = new List<int>();
         }
 
         /// <summary>
-        /// Adds a new spell to the deck
+        /// Adds a new spell to the deck.
         /// </summary>
         /// <returns></returns>
         public bool Add(Spell spell)
         {
-            throw new NotImplementedException();
+            Debug.Log($"Adding {spell.Name} to Spell Deck.");
+            if (includedCards.Contains(spell.SpellId) || includedCards.Count > maxDeckSize)
+            {
+                return false;
+            }
+
+            includedCards.Add(spell.SpellId);
+            Deck.Enqueue(spell);
+
+            Draw();
+
+            return true;
         }
 
-        // An individual spell card. Keeps track of a spell and how many charges it has.
-        public class SpellCard
+        ///// <summary>
+        ///// Removes a spell from the SpellDeck.
+        ///// </summary>
+        ///// <param name="spellId"></param>
+        ///// <returns></returns>
+        //public bool Remove(int spellId)
+        //{
+        //    var deckArray = Deck.ToArray();
+        //    for (int i = 0; i < deckArray.Length; i++)
+        //    {
+        //        if (deckArray)
+        //    }
+        //    return false;
+        //}
+
+        public Spell GetSpell(int slot)
         {
-            public Spell Spell { get; private set; }
-            public int MaxCharges { get; private set; }
-            public int Charges { get; private set; }
+            if (slot < 0 || slot >= maxHandSize) return null;
+            return Hand[slot];
+        }
 
-            public SpellCard(Spell spell, int charges)
+        /// <summary>
+        /// Tries to draw a card into an empty slot.
+        /// </summary>
+        public void Draw()
+        {
+            for (int i = 0; i < maxHandSize; i++)
             {
-                Spell = spell;
-                MaxCharges = charges;
-                Charges = charges;
-            }
-
-            public void Refresh()
-            {
-                Charges = MaxCharges;
+                if (Hand[i] == null)
+                {
+                    Hand[i] = Deck.Dequeue();
+                    OnSpellCardDrawn?.Invoke(i, Hand[i]);
+                    Debug.Log($"Card drawn (Slot {i}).");
+                    return;
+                }
             }
         }
+
+        /// <summary>
+        /// Returns the spell at the slot to the deck. Draws a new card.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void Return(int slot)
+        {
+            if (slot < 0 || slot >= maxHandSize) return;
+
+            Deck.Enqueue(Hand[slot]);
+            Hand[slot] = null;
+
+            Draw();
+        }
+    }
+
+    public class SpellHandSlot
+    {
+        public Spell Spell { get; internal set; }
+
+        public SpellHandSlot() { }
     }
 }

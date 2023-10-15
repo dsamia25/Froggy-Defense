@@ -12,8 +12,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI
         [SerializeField] protected List<CraftingMaterialsListItemUI> RequiredMaterials;
         [SerializeField] protected GameObject RequiredMaterialPrefab;
 
-        private IInventory _playerInventory;
-        public IInventory PlayerInventory { get => _playerInventory; set => _playerInventory = value; }
+        private IInventory _playerInventory => GameManager.instance.m_Player.CharacterInventory;
 
         private CraftingRecipe _displayedRecipe;
         public CraftingRecipe DisplayedRecipe
@@ -39,11 +38,6 @@ namespace FroggyDefense.Core.Items.Crafting.UI
         /// </summary>
         public void UpdateUI()
         {
-            if (_playerInventory == null)
-            {
-                _playerInventory = GameManager.instance.m_Player.GetComponent<IInventory>();
-            }
-
             if (_displayedRecipe == null)
             {
                 return;

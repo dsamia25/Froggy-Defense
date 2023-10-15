@@ -19,7 +19,8 @@ namespace FroggyDefense.Core.Spells.UI
 
         [SerializeField] private Spell _spell;
 
-        public int SlotNum = 0;
+        private int slotNum = 0;
+        public int SlotNum { get => slotNum; set { slotNum = value; _hotkey.text = $"{SlotNum}";} }
         public Spell SelectedSpell
         {
             get => _spell;
@@ -31,40 +32,36 @@ namespace FroggyDefense.Core.Spells.UI
         }
 
         private InputController controller;
-        private Player player;
 
-        public event EventHandler ClickedEvent;
+        //public event EventHandler ClickedEvent;
 
-        private void Start()
+        public void Init(int slotNum)
         {
-            player = GameManager.instance.m_Player;
-            controller = player.GetComponent<InputController>();
+            SlotNum = slotNum;
 
-            SelectedSpell = player.SelectedAbilities[SlotNum];
-
-            _hotkey.text = $"{SlotNum}";
-
-            player.ChangedSpellsEvent += UpdateUI;
+            controller = GameManager.instance.m_Player.GetComponent<InputController>();
 
             UpdateUI();
+
+            GameManager.instance.m_Player.CastSpellEvent += UpdateUI;
         }
 
-        private void Update()
-        {
-            if (SelectedSpell != null && SelectedSpell.OnCooldown)
-            {
-                float cooldown = SelectedSpell.CurrCooldown / SelectedSpell.Cooldown;
-                _cooldownFill.fillAmount = cooldown;
-                _cooldownText.text = cooldown.ToString("0.0");
-                _cooldownFill.gameObject.SetActive(true);
-                _cooldownText?.gameObject.SetActive(true);
-            }
-            else
-            {
-                _cooldownFill?.gameObject.SetActive(false);
-                _cooldownText?.gameObject.SetActive(false);
-            }
-        }
+        //private void Update()
+        //{
+        //    if (SelectedSpell != null && SelectedSpell.OnCooldown)
+        //    {
+        //        float cooldown = SelectedSpell.CurrCooldown / SelectedSpell.Cooldown;
+        //        _cooldownFill.fillAmount = cooldown;
+        //        _cooldownText.text = cooldown.ToString("0.0");
+        //        _cooldownFill.gameObject.SetActive(true);
+        //        _cooldownText?.gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        _cooldownFill?.gameObject.SetActive(false);
+        //        _cooldownText?.gameObject.SetActive(false);
+        //    }
+        //}
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -95,6 +92,8 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         public void UpdateUI()
         {
+            _spell = GameManager.instance.m_Player.GetSpell(slotNum);
+
             if (SelectedSpell != null)
             {
                 _iconImage.sprite = SelectedSpell.Template.Icon;

@@ -13,7 +13,8 @@ namespace FroggyDefense.Core
         public ProjectileInput ProjectileListener;  // Component to listen for player projectile inputs for spells.
         public DragInput DragListener;              // Component to listen for player drag inputs for spells.
 
-        private Spell SelectedSpell;                                       // The selected spell being cast.
+        private Spell SelectedSpell;    // The selected spell being cast.
+        private int SelectedSlot;       // The selected spell slot. (The hand slot) TODO: Probably a better way to do this.
         private Player m_Player;
 
         public delegate void InputCallBack(InputArgs args);
@@ -113,7 +114,7 @@ namespace FroggyDefense.Core
         /// <param name="num"></param>
         public void UseAbility(int num)
         {
-            Spell spell = GameManager.instance.m_Player.SelectedAbilities[num];
+            Spell spell = GameManager.instance.m_Player.GetSpell(num);
             if (spell == null)
             {
                 Debug.Log("No ability selected.");
@@ -121,6 +122,7 @@ namespace FroggyDefense.Core
             }
             
             SelectedSpell = spell;
+            SelectedSlot = num;
 
             switch (spell.TargetMode)
             {
@@ -139,9 +141,14 @@ namespace FroggyDefense.Core
             }
         }
 
+        /// <summary>
+        /// Starts the spell cast with hte confirmed inputs.
+        /// </summary>
+        /// <param name="args"></param>
         public void ConfirmInput(InputArgs args)
         {
-            SelectedSpell.Cast(new ActionArgs(m_Player, null, args, SelectedSpell.CollisionList));
+            m_Player.CastSpell(SelectedSlot, SelectedSpell, args);
+            //SelectedSpell.Cast(new ActionArgs(m_Player, null, args, SelectedSpell.CollisionList));
         }
     }
 }
