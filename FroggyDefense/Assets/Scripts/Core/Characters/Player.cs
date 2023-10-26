@@ -21,7 +21,7 @@ namespace FroggyDefense.Core
         public CurrencyWallet CharacterWallet { get => _wallet; }
         public Dictionary<int, Spell> LearnedSpells = new Dictionary<int, Spell>();        // List of learned abilities.
         public SpellObject[] AbilityTemplates = new SpellObject[4];     // TODO: TEMP PREFABs FOR LEARNING ABILITIES.
-        //public Spell[] SelectedAbilities = new Spell[4];                // Which abilities are selected on the hotbar.
+        //public Spell[] SelectedAbilities = new Spell[4];              // Which abilities are selected on the hotbar.
         public SpellDeck SelectedSpellDeck;                             // The currently selected Spell Deck taken from the 
         public Weapon EquippedWeapon { get; private set; }
 
@@ -36,7 +36,7 @@ namespace FroggyDefense.Core
         public event PlayerActionDelegate PlayerDeathEvent;
         public event PlayerActionDelegate ChangedSpellsEvent;
         public event PlayerActionDelegate CastSpellEvent;
-        public event PlayerActionDelegate SpellDeckSelectedEvent;
+        public event PlayerActionDelegate SpellDeckChangedEvent;
 
         protected override void Awake()
         {
@@ -132,7 +132,7 @@ namespace FroggyDefense.Core
                 SelectedSpellDeck.Add(LearnedSpells[enumerator.Current]);
             } while (enumerator.MoveNext());
 
-            SpellDeckSelectedEvent?.Invoke();
+            SpellDeckChangedEvent?.Invoke();
             Debug.Log($"Compiling Spell Deck.");
         }
 
