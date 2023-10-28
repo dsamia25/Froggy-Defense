@@ -1,20 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 namespace FroggyDefense.Core.Spells.UI
 {
-    public class SpellDeckItemUI : MonoBehaviour
+    public class SpellDeckItemUI : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private Image Icon;
         [SerializeField] private TextMeshProUGUI NameText;
         [SerializeField] private TextMeshProUGUI ManaCostText;
 
+        private bool _clickedDownOnButton = false;
+
         private Spell spellCard;
         public Spell SpellCard
         {
             get => spellCard;
-            set { if (value != null) spellCard = value; }
+            set {
+                if (value != null)
+                {
+                    spellCard = value;
+                    UpdateUI();
+                }
+            }
         }
         public delegate bool SpellDeckItemDelegate(Spell spell);
         private SpellDeckItemDelegate RemoveItemDelegate;
@@ -49,6 +58,13 @@ namespace FroggyDefense.Core.Spells.UI
             if (RemoveItemDelegate == null) return false;
 
             return RemoveItemDelegate.Invoke(spellCard);
+        }
+
+        public virtual void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log($"SpellDeckItemUI: Clicked on item!");
+            OnClick();
+            //_clickedDownOnButton = false;
         }
 
         // TODO: Has onHover to show detail view for spell info.

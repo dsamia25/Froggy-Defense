@@ -17,9 +17,12 @@ namespace FroggyDefense.Core.Spells
 
         public IReadOnlyList<int> IncludedCards => includedCards.AsReadOnly();
         public Spell TopSpell => Deck.Peek();
-        public bool ValidDeck => includedCards.Count >= minDeckSize;
+        public bool IsValidDeck => includedCards.Count >= minDeckSize;
         public int DeckSize => Deck.Count;
+        public bool DeckEmpty => Deck.Count <= 0;
         public int HandSize => maxHandSize;
+        public int MinDeckSize => minDeckSize;
+        public int MaxDeckSize => maxDeckSize;
 
         public delegate void SpellDeckDelegate(int slot, Spell spell);
         public event SpellDeckDelegate OnSpellCardDrawn;
@@ -38,7 +41,7 @@ namespace FroggyDefense.Core.Spells
         /// <returns></returns>
         public bool Add(Spell spell)
         {
-            Debug.Log($"Adding {spell.Name} to Spell Deck.");
+            Debug.Log($"SpellDeck: Adding {spell.Name} to Spell Deck.");
             if (includedCards.Contains(spell.SpellId) || includedCards.Count > maxDeckSize)
             {
                 return false;
@@ -52,20 +55,50 @@ namespace FroggyDefense.Core.Spells
             return true;
         }
 
-        ///// <summary>
-        ///// Removes a spell from the SpellDeck.
-        ///// </summary>
-        ///// <param name="spellId"></param>
-        ///// <returns></returns>
-        //public bool Remove(int spellId)
-        //{
-        //    var deckArray = Deck.ToArray();
-        //    for (int i = 0; i < deckArray.Length; i++)
-        //    {
-        //        if (deckArray)
-        //    }
-        //    return false;
-        //}
+        /// <summary>
+        /// Removes a spell from the SpellDeck.
+        /// </summary>
+        /// <param name="spellId"></param>
+        /// <returns></returns>
+        public bool Remove(int spellId)
+        {
+            Debug.Log($"SpellDeck: Removing spell ({spellId}).");
+            if (!includedCards.Contains(spellId)) return false;
+
+            // Check if the card is in the hand.
+            for (int i = 0; i < Hand.Length; i++)
+            {
+                if (Hand[i] == null) continue;
+                if (Hand[i].SpellId == spellId)
+                {
+                    Hand[i] = null;
+                    includedCards.Remove(spellId);
+                    Draw();
+                    return true;
+                }
+            }
+
+            // Check if the card is in the deck. Remove the card by creating a new queue without the selected spell.
+            bool wasRemoved = false;
+            Queue<Spell> newDeck = new Queue<Spell>();
+            for (int i = 0; i < Deck.Count; i++)
+            {
+                Spell spellCard = Deck.Dequeue();
+                if (spellCard.SpellId == spellId)
+                {
+                    wasRemoved = true;
+                    includedCards.Remove(spellId);
+                    continue;
+                }
+                newDeck.Enqueue(spellCard);
+            }
+
+            // Save the new deck without the removed spell.
+            Deck = newDeck;
+
+            // Return whether it was removed. (Should be true at this point unless somethign went wrong somehow).
+            return wasRemoved;
+        }
 
         public Spell GetSpell(int slot)
         {
@@ -78,13 +111,15 @@ namespace FroggyDefense.Core.Spells
         /// </summary>
         public void Draw()
         {
+            if (DeckEmpty) return;
+
             for (int i = 0; i < maxHandSize; i++)
             {
                 if (Hand[i] == null)
                 {
                     Hand[i] = Deck.Dequeue();
                     OnSpellCardDrawn?.Invoke(i, Hand[i]);
-                    Debug.Log($"Card drawn (Slot {i}).");
+                    Debug.Log($"SpellDeck: Card drawn (Slot {i}).");
                     return;
                 }
             }
@@ -103,12 +138,5 @@ namespace FroggyDefense.Core.Spells
 
             Draw();
         }
-    }
-
-    public class SpellHandSlot
-    {
-        public Spell Spell { get; internal set; }
-
-        public SpellHandSlot() { }
     }
 }

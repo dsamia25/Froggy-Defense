@@ -95,7 +95,9 @@ namespace FroggyDefense.Core
         {
             if (spell.Cast(new ActionArgs(this, null, args, spell.CollisionList)))
             {
-                SelectedSpellDeck.Return(slot);
+                if (!SelectedSpellDeck.DeckEmpty) {
+                    SelectedSpellDeck.Return(slot);
+                }
                 CastSpellEvent?.Invoke();
             }
         }
@@ -151,6 +153,18 @@ namespace FroggyDefense.Core
             ChangedSpellsEvent?.Invoke();
             Debug.Log($"Learned spell {template.Name} (Player knows {LearnedSpells.Count} spells).");
             return true;
+        }
+
+        /// <summary>
+        /// Gets the player's learned spell by the spell id. Or Null if not learned.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Spell GetSpellById(int spellId)
+        {
+            if (!LearnedSpells.ContainsKey(spellId)) return null;
+
+            return LearnedSpells[spellId];
         }
 
         // TODO: Get rid of spell cooldowns.

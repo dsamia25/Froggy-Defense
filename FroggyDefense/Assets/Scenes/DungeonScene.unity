@@ -44688,6 +44688,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4388592356859466509, guid: 814541ddfbf16433287e469dbd897a96, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1503531021}
     - target: {fileID: 4394836659577219761, guid: 814541ddfbf16433287e469dbd897a96, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

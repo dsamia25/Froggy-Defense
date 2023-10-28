@@ -560,8 +560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fc12fcd72ac4bd7b5ecd563c5aa456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
-  NameText: {fileID: 0}
+  Icon: {fileID: 8152167312720242119}
+  NameText: {fileID: 8754137055334640826}
+  ManaCostText: {fileID: 7103181089075917521}
 --- !u!1 &8990220321725235145
 GameObject:
   m_ObjectHideFlags: 0

@@ -83,12 +83,12 @@ namespace FroggyDefense.Core
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    Debug.Log("Released Attack");
+                    //Debug.Log("Released Attack");
                     m_Player.m_WeaponUser.Deactivate();
                 }
                 else if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("Pressed Attack");
+                    //Debug.Log("Pressed Attack");
                     if (m_Player == null)
                     {
                         Debug.LogWarning("PLAYER NULL");
