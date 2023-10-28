@@ -8,7 +8,7 @@ namespace FroggyDefense.Core.Spells.UI
     {
         [SerializeField] private Player player;
         [SerializeField] private Transform listTransform;
-        [SerializeField] private GameObject spellBookItemUI;
+        [SerializeField] private GameObject spellBookItemPrefab;
 
         private Dictionary<int, SpellBookItemUI> learnedSpellIndex;
 
@@ -30,26 +30,54 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         private void UpdateUI()
         {
-            foreach (Spell spell in player.LearnedSpells.Values)
+            foreach (int spellId in player.LearnedSpells.Keys)
             {
-                //spell.
+                // If already has ui element for the spell, continue.
+                if (learnedSpellIndex.ContainsKey(spellId)) continue;
+
+                // Must create a new element for the spell.
+                AddLearnedSpellItem(player.GetSpellById(spellId));
             }
+
+            SortSpellBookItems();
+        }
+
+        // TODO: Sorts the spell book items.
+        private void SortSpellBookItems()
+        {
+            
         }
 
         /// <summary>
         /// Adds a learned spell item to the list.
         /// </summary>
-        private void AddLearnedSpellItem()
+        private void AddLearnedSpellItem(Spell spell)
         {
+            if (learnedSpellIndex.ContainsKey(spell.SpellId))
+            {
+                Debug.Log($"SpellDeckUI: Deck already contains this spell ({spell.Name}, {spell.SpellId}).");
+                return;
+            }
 
+            SpellBookItemUI learnedSpell = Instantiate(spellBookItemPrefab, listTransform).GetComponent<SpellBookItemUI>();
+            learnedSpellIndex.Add(spell.SpellId, learnedSpell);     // Store the pair in the index.
+            // TODO: spellDeckItem.Init(spell, RemoveSpell);        // Init spell book item with remove callback passed in.
         }
 
         /// <summary>
         /// Removes a learned spell item from the list.
         /// </summary>
-        private void RemoveLearnedSpellItem()
+        private void RemoveLearnedSpellItem(Spell spell)
         {
+            Debug.Log($"SpellBookUI: Removing learned spell item ui ({spell.Name}, {spell.SpellId}).");
+            if (!learnedSpellIndex.ContainsKey(spell.SpellId))
+            {
+                Debug.Log($"SpellBookUI: SpellBook does not contain this spell ({spell.Name}, {spell.SpellId}).");
+                return;
+            }
 
+            Destroy(learnedSpellIndex[spell.SpellId].gameObject);
+            learnedSpellIndex.Remove(spell.SpellId);
         }
     }
 }

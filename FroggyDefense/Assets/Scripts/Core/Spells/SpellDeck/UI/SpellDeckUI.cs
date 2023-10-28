@@ -72,7 +72,7 @@ namespace FroggyDefense.Core.Spells.UI
         {
             if (spellCardIndex.ContainsKey(spell.SpellId))
             {
-                Debug.Log($"SpellDeckUI: Deck already contains this spell ({spell.Name}).");
+                Debug.Log($"SpellDeckUI: Deck already contains this spell ({spell.Name}, {spell.SpellId}).");
                 return;
             }
 
@@ -86,10 +86,10 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         private void RemoveSpellCardItem(Spell spell)
         {
-            Debug.Log($"SpellDeckUI: Removing spell card item ui ({spell.Name}).");
+            Debug.Log($"SpellDeckUI: Removing spell card item ui ({spell.Name}, {spell.SpellId}).");
             if (!spellCardIndex.ContainsKey(spell.SpellId))
             {
-                Debug.Log($"SpellDeckUI: Deck does not contain this spell ({spell.Name}).");
+                Debug.Log($"SpellDeckUI: Deck does not contain this spell ({spell.Name}, {spell.SpellId}).");
                 return;
             }
 
