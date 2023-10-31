@@ -24,6 +24,7 @@ namespace FroggyDefense.Core.Spells.UI
 
             // TODO: Add a SpellDeck.SpellDeckChangedEvent to listen to.
             player.SpellDeckChangedEvent += UpdateUI;
+            player.SelectedSpellDeck.OnSpellDeckChanged += OnSpellDeckChangedEvent;
         }
 
         /// <summary>
@@ -130,6 +131,11 @@ namespace FroggyDefense.Core.Spells.UI
                 RemoveSpellCardItem(spell);
             }
             return result;
+        }
+
+        private void OnSpellDeckChangedEvent(int slot, Spell spell)
+        {
+            UpdateUI();
         }
     }
 }

@@ -21,8 +21,8 @@ namespace FroggyDefense.Core.Spells.UI
         {
             UpdateUI();
 
-            // TODO: Add a SpellDeck.SpellDeckChangedEvent to listen to.
             player.SpellDeckChangedEvent += UpdateUI;
+            player.SelectedSpellDeck.OnSpellDeckChanged += OnSpellDeckChangedEvent;
         }
 
         /// <summary>
@@ -30,6 +30,8 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         private void UpdateUI()
         {
+            // TODO: Recolor each card in the spell deck to have a special color/effect.
+
             foreach (int spellId in player.LearnedSpells.Keys)
             {
                 // If already has ui element for the spell, continue.
@@ -93,6 +95,11 @@ namespace FroggyDefense.Core.Spells.UI
                 return false;
             }
             return deck.Add(spell);
+        }
+
+        private void OnSpellDeckChangedEvent(int slot, Spell spell)
+        {
+            // TODO: Update the UI.
         }
     }
 }
