@@ -27,6 +27,7 @@ namespace FroggyDefense.Core.Spells
         public delegate void SpellDeckDelegate(int slot, Spell spell);
         public event SpellDeckDelegate OnSpellCardDrawn;
         public event SpellDeckDelegate OnHandSizeChanged;
+        public event SpellDeckDelegate OnSpellDeckChanged;
 
         public SpellDeck()
         {
@@ -52,6 +53,8 @@ namespace FroggyDefense.Core.Spells
 
             Draw();
 
+            OnSpellDeckChanged?.Invoke(-1, null);
+
             return true;
         }
 
@@ -74,6 +77,7 @@ namespace FroggyDefense.Core.Spells
                     Hand[i] = null;
                     includedCards.Remove(spellId);
                     Draw();
+                    OnSpellDeckChanged?.Invoke(-1, null);
                     return true;
                 }
             }
@@ -97,6 +101,7 @@ namespace FroggyDefense.Core.Spells
             Deck = newDeck;
 
             // Return whether it was removed. (Should be true at this point unless somethign went wrong somehow).
+            OnSpellDeckChanged?.Invoke(-1, null);
             return wasRemoved;
         }
 

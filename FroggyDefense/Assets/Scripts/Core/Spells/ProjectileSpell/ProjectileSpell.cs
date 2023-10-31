@@ -11,6 +11,7 @@ namespace FroggyDefense.Core.Spells
             Template = template;
             CollisionList = new List<Collider2D>();
             ActionIndex = new Dictionary<int, Actions.Action>();
+            School = template.School;
         }
 
         public override bool Cast(ActionArgs args)

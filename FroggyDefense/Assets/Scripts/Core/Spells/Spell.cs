@@ -24,6 +24,7 @@ namespace FroggyDefense.Core.Spells
         public SpellObject Template;
 
         public SpellType Type => Template.Type;
+        public SpellSchool School { get; protected set; }
         public string Name => Template.Name;
         public int SpellId => Template.SpellId;
         public float Cooldown => Template.Cooldown;

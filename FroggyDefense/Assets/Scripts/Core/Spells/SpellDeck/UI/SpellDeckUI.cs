@@ -97,21 +97,21 @@ namespace FroggyDefense.Core.Spells.UI
             spellCardIndex.Remove(spell.SpellId);
         }
 
-        /// <summary>
-        /// Adds a spell to the spell deck.
-        /// </summary>
-        private bool AddSpell(Spell spell)
-        {
-            // TODO: Checks if there is enough room in the deck.
+        ///// <summary>
+        ///// Adds a spell to the spell deck.
+        ///// </summary>
+        //private bool AddSpell(Spell spell)
+        //{
+        //    // TODO: Checks if there is enough room in the deck.
 
-            // TODO: Checks if the player knows the spell.
-            // TODO: Checks if the deck already has the spell.
-            // TODO: Adds the spell to the list.
+        //    // TODO: Checks if the player knows the spell.
+        //    // TODO: Checks if the deck already has the spell.
+        //    // TODO: Adds the spell to the list.
 
-            UpdateUI();
+        //    UpdateUI();
 
-            throw new System.NotImplementedException();
-        }
+        //    throw new System.NotImplementedException();
+        //}
 
         /// <summary>
         /// Removes a spell from the spell deck.

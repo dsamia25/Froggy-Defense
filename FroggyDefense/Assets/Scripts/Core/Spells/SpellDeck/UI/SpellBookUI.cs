@@ -61,7 +61,7 @@ namespace FroggyDefense.Core.Spells.UI
 
             SpellBookItemUI learnedSpell = Instantiate(spellBookItemPrefab, listTransform).GetComponent<SpellBookItemUI>();
             learnedSpellIndex.Add(spell.SpellId, learnedSpell);     // Store the pair in the index.
-            // TODO: spellDeckItem.Init(spell, RemoveSpell);        // Init spell book item with remove callback passed in.
+            learnedSpell.Init(spell, AddSpell);                     // Init spell book item with remove callback passed in.
         }
 
         /// <summary>
@@ -78,6 +78,21 @@ namespace FroggyDefense.Core.Spells.UI
 
             Destroy(learnedSpellIndex[spell.SpellId].gameObject);
             learnedSpellIndex.Remove(spell.SpellId);
+        }
+
+        /// <summary>
+        /// Adds a spell to the spell deck.
+        /// </summary>
+        private bool AddSpell(Spell spell)
+        {
+            // Checks if able to add to the deck.
+            SpellDeck deck = player.SelectedSpellDeck;
+            if (deck.DeckSize >= deck.MaxDeckSize)
+            {
+                Debug.Log($"Error: Cannot add any more cards.");
+                return false;
+            }
+            return deck.Add(spell);
         }
     }
 }

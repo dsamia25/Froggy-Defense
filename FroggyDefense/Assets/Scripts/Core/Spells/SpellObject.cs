@@ -19,6 +19,7 @@ namespace FroggyDefense.Core.Spells
         public Sprite Icon;                             // The spell's display icon.
         public int SpellId;                             // The spell's id.
         public SpellType Type;                          // The type of spell cast.
+        public SpellSchool School;                      // The spell school of the spell.
         public float Cooldown;                          // How long until the spell can be used again.
         public float ManaCost;                          // How much mana to cast the spell.
         public int SpellCardCharges = 1;                // How many times the spell card can be used before it is immediatly cycled.

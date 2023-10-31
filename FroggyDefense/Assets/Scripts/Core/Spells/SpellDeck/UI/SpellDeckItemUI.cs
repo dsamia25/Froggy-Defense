@@ -11,8 +11,6 @@ namespace FroggyDefense.Core.Spells.UI
         [SerializeField] private TextMeshProUGUI NameText;
         [SerializeField] private TextMeshProUGUI ManaCostText;
 
-        private bool _clickedDownOnButton = false;
-
         private Spell spellCard;
         public Spell SpellCard
         {
@@ -26,17 +24,17 @@ namespace FroggyDefense.Core.Spells.UI
             }
         }
         public delegate bool SpellDeckItemDelegate(Spell spell);
-        private SpellDeckItemDelegate RemoveItemDelegate;
+        private SpellDeckItemDelegate RemoveSpellDelegate;
 
         /// <summary>
-        /// 
+        /// Inits the values to the spell and sets the callback mathod.
         /// </summary>
         /// <param name="_spellCard"></param>
         /// <param name="_callback"></param>
         public void Init(Spell _spellCard, SpellDeckItemDelegate _callback)
         {
             SpellCard = _spellCard;
-            RemoveItemDelegate = _callback;
+            RemoveSpellDelegate = _callback;
         }
 
         /// <summary>
@@ -55,16 +53,15 @@ namespace FroggyDefense.Core.Spells.UI
         /// <returns></returns>
         public bool OnClick()
         {
-            if (RemoveItemDelegate == null) return false;
+            if (RemoveSpellDelegate == null) return false;
 
-            return RemoveItemDelegate.Invoke(spellCard);
+            return RemoveSpellDelegate.Invoke(spellCard);
         }
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log($"SpellDeckItemUI: Clicked on item!");
             OnClick();
-            //_clickedDownOnButton = false;
         }
 
         // TODO: Has onHover to show detail view for spell info.
