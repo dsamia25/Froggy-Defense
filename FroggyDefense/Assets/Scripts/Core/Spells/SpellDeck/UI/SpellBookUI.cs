@@ -30,10 +30,14 @@ namespace FroggyDefense.Core.Spells.UI
         /// </summary>
         private void UpdateUI()
         {
-            // TODO: Recolor each card in the spell deck to have a special color/effect.
-
-            foreach (int spellId in player.LearnedSpells.Keys)
+            ICollection<int> learnedSpells = player.LearnedSpells.Keys;
+            // TODO: Create a class for these next two filter and sorting checks? ListHandler?
+            // TODO: Add a filter check to filter the list by (name, cost, school).
+            // TODO: Add a sorting check to sort the order of the spells by (name, cost).
+            foreach (int spellId in learnedSpells)
             {
+                // TODO: If the deck contains the spell, change the spell's color to show it. (Blue-ish tint?)
+
                 // If already has ui element for the spell, continue.
                 if (learnedSpellIndex.ContainsKey(spellId)) continue;
 
