@@ -44,24 +44,9 @@ namespace FroggyDefense.Core.Spells.UI
             UpdateUI();
 
             GameManager.instance.m_Player.CastSpellEvent += UpdateUI;
+            GameManager.instance.m_Player.SpellDeckChangedEvent += UpdateUI;
+            GameManager.instance.m_Player.SelectedSpellDeck.OnSpellDeckChanged += OnSpellDeckChangedEvent;
         }
-
-        //private void Update()
-        //{
-        //    if (SelectedSpell != null && SelectedSpell.OnCooldown)
-        //    {
-        //        float cooldown = SelectedSpell.CurrCooldown / SelectedSpell.Cooldown;
-        //        _cooldownFill.fillAmount = cooldown;
-        //        _cooldownText.text = cooldown.ToString("0.0");
-        //        _cooldownFill.gameObject.SetActive(true);
-        //        _cooldownText?.gameObject.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        _cooldownFill?.gameObject.SetActive(false);
-        //        _cooldownText?.gameObject.SetActive(false);
-        //    }
-        //}
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -105,6 +90,11 @@ namespace FroggyDefense.Core.Spells.UI
                 _iconImage.gameObject.SetActive(false);
                 _cooldownFill.gameObject.SetActive(false);
             }
+        }
+
+        private void OnSpellDeckChangedEvent(int slot, Spell spell)
+        {
+            UpdateUI();
         }
     }
 }

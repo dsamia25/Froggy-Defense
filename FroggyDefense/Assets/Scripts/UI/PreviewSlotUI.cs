@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using FroggyDefense.Core;
+using FroggyDefense.Core.Spells;
 
 public class PreviewSlotUI : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PreviewSlotUI : MonoBehaviour
         UpdateUI();
 
         GameManager.instance.m_Player.CastSpellEvent += UpdateUI;
+        GameManager.instance.m_Player.SpellDeckChangedEvent += UpdateUI;
+        GameManager.instance.m_Player.SelectedSpellDeck.OnSpellDeckChanged += OnSpellDeckChangedEvent;
     }
 
     /// <summary>
@@ -19,5 +22,10 @@ public class PreviewSlotUI : MonoBehaviour
     public void UpdateUI()
     {
         IconImage.sprite = GameManager.instance.m_Player.SelectedSpellDeck.TopSpell.Template.Icon;
+    }
+
+    private void OnSpellDeckChangedEvent(int slot, Spell spell)
+    {
+        UpdateUI();
     }
 }
