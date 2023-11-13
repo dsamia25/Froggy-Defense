@@ -21,6 +21,13 @@ public class PreviewSlotUI : MonoBehaviour
     /// </summary>
     public void UpdateUI()
     {
+        if (IconImage == null || GameManager.instance.m_Player.SelectedSpellDeck.TopSpell == null)
+        {
+            IconImage.gameObject.SetActive(false);
+            return;
+        }
+
+        IconImage.gameObject.SetActive(true);
         IconImage.sprite = GameManager.instance.m_Player.SelectedSpellDeck.TopSpell.Template.Icon;
     }
 
