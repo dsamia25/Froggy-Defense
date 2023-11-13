@@ -16,7 +16,7 @@ namespace FroggyDefense.Core.Spells
         private int maxHandSize = 4;
 
         public IReadOnlyList<int> IncludedCards => includedCards.AsReadOnly();
-        public Spell TopSpell => Deck.Peek();
+        public Spell TopSpell { get { return (Deck.Count > 0 ? Deck.Peek() : null); } }
         public bool IsValidDeck => includedCards.Count >= minDeckSize;
         public int DeckSize => Deck.Count;
         public bool DeckEmpty => Deck.Count <= 0;

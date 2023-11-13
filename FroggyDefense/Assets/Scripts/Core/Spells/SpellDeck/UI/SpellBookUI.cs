@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using TMPro;
 
 namespace FroggyDefense.Core.Spells.UI
 {
@@ -9,8 +11,10 @@ namespace FroggyDefense.Core.Spells.UI
         [SerializeField] private Player player;
         [SerializeField] private Transform listTransform;
         [SerializeField] private GameObject spellBookItemPrefab;
+        [SerializeField] private ToggleButton sortingToggle;
 
         private Dictionary<int, SpellBookItemUI> learnedSpellIndex;
+        private SpellSorter.SpellComparison sortingOrder = SpellSorter.ManaCostSort;
 
         private void Awake()
         {
@@ -23,17 +27,20 @@ namespace FroggyDefense.Core.Spells.UI
 
             player.SpellDeckChangedEvent += UpdateUI;
             player.SelectedSpellDeck.OnSpellDeckChanged += OnSpellDeckChangedEvent;
+
+            sortingToggle.ToggleEvent += SortMethodChanged;
         }
 
         /// <summary>
         /// Updates the UI to have each of the player's learned spells.
         /// </summary>
-        private void UpdateUI()
+        public void UpdateUI()
         {
-            ICollection<int> learnedSpells = player.LearnedSpells.Keys;
-            // TODO: Create a class for these next two filter and sorting checks? ListHandler?
+            List<int> learnedSpells = player.LearnedSpells.Keys.ToList();
             // TODO: Add a filter check to filter the list by (name, cost, school).
-            // TODO: Add a sorting check to sort the order of the spells by (name, cost).
+
+            learnedSpells = SpellSorter.SortSpellIdList(sortingOrder, learnedSpells, player);
+
             foreach (int spellId in learnedSpells)
             {
                 // TODO: If the deck contains the spell, change the spell's color to show it. (Blue-ish tint?)
@@ -44,14 +51,33 @@ namespace FroggyDefense.Core.Spells.UI
                 // Must create a new element for the spell.
                 AddLearnedSpellItem(player.GetSpellById(spellId));
             }
-
-            SortSpellBookItems();
         }
 
-        // TODO: Sorts the spell book items.
-        private void SortSpellBookItems()
+        /// <summary>
+        /// Sets the sorting method to match the button state.
+        /// </summary>
+        /// <param name="sorting"></param>
+        public void SortMethodChanged()
         {
-            
+            switch (sortingToggle.StateIndex)
+            {
+                case 0:
+                    sortingOrder = SpellSorter.ManaCostSort;
+                    break;
+                case 1:
+                    sortingOrder = SpellSorter.ManaCostSortInverse;
+                    break;
+                case 2:
+                    sortingOrder = SpellSorter.AlphabeticalSort;
+                    break;
+                case 3:
+                    sortingOrder = SpellSorter.AlphabeticalSortInverse;
+                    break;
+                default:
+                    sortingOrder = SpellSorter.ManaCostSort;
+                    break;
+            }
+            UpdateUI();
         }
 
         /// <summary>

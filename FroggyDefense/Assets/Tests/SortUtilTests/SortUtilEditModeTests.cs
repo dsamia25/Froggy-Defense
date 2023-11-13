@@ -1,8 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class SortUtilEditModeTests
 {
@@ -45,16 +44,20 @@ public class SortUtilEditModeTests
         List<Animal> testList = CreateTestList();
         List<Animal> testRejects = new List<Animal>();
 
-        SortUtil<Animal>.FilterList(
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
             (Animal animal) => { return animal.Size > 5; },
             testList,
             testRejects
             );
 
+        string str = "Rejects list:";
         foreach (Animal animal in testRejects)
         {
-            Assert.IsTrue(animal.Speed <= 5);
+            str += $"\n{animal.Name}'s size is {animal.Size}.";
+            Assert.IsTrue(animal.Size <= 5);
         }
+        str += "}";
+        Debug.Log(str);
     }
 
     [Test]
@@ -63,16 +66,20 @@ public class SortUtilEditModeTests
         List<Animal> testList = CreateTestList();
         List<Animal> testRejects = new List<Animal>();
 
-        SortUtil<Animal>.FilterList(
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
             (Animal animal) => { return animal.Size > 5; },
             testList,
             testRejects
             );
 
-        foreach (Animal animal in testList)
+        string str = "Filtered list:";
+        foreach (Animal animal in filteredList)
         {
-            Assert.IsTrue(animal.Speed > 5);
+            str += $"\n{animal.Name}'s size is {animal.Size}.";
+            Assert.IsTrue(animal.Size > 5);
         }
+        str += "}";
+        Debug.Log(str);
     }
 
     [Test]
@@ -81,19 +88,19 @@ public class SortUtilEditModeTests
         List<Animal> testList = CreateTestList();
         List<Animal> testRejects = new List<Animal>();
 
-        SortUtil<Animal>.FilterList(
-            (Animal animal) => { return animal.Size > 5; },
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
+            (Animal animal) => { return animal.Speed > 5; },
             testList,
             testRejects
             );
 
-        foreach (Animal animal in testList)
+        foreach (Animal animal in filteredList)
         {
             Assert.IsTrue(animal.Speed > 5);
         }
         foreach (Animal animal in testRejects)
         {
-            Assert.IsTrue(animal.Speed <= 5);
+            Assert.IsTrue(animal.Speed <= 5, $"{animal.Name}'s speed is {animal.Speed}.");
         }
     }
 
@@ -103,13 +110,13 @@ public class SortUtilEditModeTests
         List<Animal> testList = CreateTestList();
         List<Animal> testRejects = new List<Animal>();
 
-        SortUtil<Animal>.FilterList(
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
             (Animal animal) => { return animal.Name.Contains('a'); },
             testList,
             testRejects
             );
 
-        foreach (Animal animal in testList)
+        foreach (Animal animal in filteredList)
         {
             Assert.IsTrue(animal.Name.Contains('a'));
         }
@@ -125,19 +132,129 @@ public class SortUtilEditModeTests
         List<Animal> testList = CreateTestList();
         List<Animal> testRejects = new List<Animal>();
 
-        SortUtil<Animal>.FilterList(
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
             (Animal animal) => { return animal.Speed > 6; },
             testList,
             testRejects
             );
 
-        foreach (Animal animal in testList)
+        foreach (Animal animal in filteredList)
         {
             Assert.IsTrue(animal.Speed > 6);
         }
         foreach (Animal animal in testRejects)
         {
             Assert.IsTrue(animal.Speed <= 6);
+        }
+    }
+
+    [Test]
+    public void NoRejectsListTest()
+    {
+        List<Animal> testList = CreateTestList();
+
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
+            (Animal animal) => { return animal.Speed > 6; },
+            testList
+            );
+
+        foreach (Animal animal in filteredList)
+        {
+            Assert.IsTrue(animal.Speed > 6);
+        }
+    }
+
+    [Test]
+    public void NullFuncListTest()
+    {
+        List<Animal> testList = CreateTestList();
+        List<Animal> testRejects = null;
+
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
+            null,
+            testList,
+            testRejects
+            );
+
+        for (int i = 0; i < filteredList.Count; i++)
+        {
+            Assert.AreEqual(filteredList[i], testList[i]);
+        }
+
+        filteredList = SortUtil<Animal>.FilterList(
+            null,
+            testList
+            );
+
+        for (int i = 0; i < filteredList.Count; i++)
+        {
+            Assert.AreEqual(filteredList[i], testList[i]);
+        }
+    }
+
+    [Test]
+    public void NullRejectsListTest()
+    {
+        List<Animal> testList = CreateTestList();
+        List<Animal> testRejects = new List<Animal>();
+
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
+            (Animal animal) => { return animal.Speed > 6; },
+            testList,
+            testRejects
+            );
+
+        foreach (Animal animal in filteredList)
+        {
+            Assert.IsTrue(animal.Speed > 6);
+        }
+    }
+
+    [Test]
+    public void NullInputListTest()
+    {
+        List<Animal> testList = null;
+        List<Animal> testRejects = new List<Animal>();
+
+        Assert.Throws<ArgumentNullException>(
+            delegate
+            {
+                SortUtil<Animal>.FilterList(
+                    (Animal animal) => { return animal.Speed > 6; },
+                    testList
+                );
+            },
+            $"Should be throwing a null arg exception."
+        );
+
+        Assert.Throws<ArgumentNullException>(
+            delegate
+            {
+                SortUtil<Animal>.FilterList(
+                    (Animal animal) => { return animal.Speed > 6; },
+                    testList,
+                    testRejects
+                );
+            },
+            $"Should be throwing a null arg exception."
+        );
+    }
+
+    [Test]
+    public void SortByTest()
+    {
+        List<Animal> testList = CreateTestList();
+
+        List<Animal> filteredList = SortUtil<Animal>.FilterList(
+            (Animal animal) => { return animal.Size > 5; },
+            testList
+            );
+
+        filteredList.Sort((Animal a, Animal b) => { if (a.Size > b.Size) { return 1; } else if (a.Size < b.Size) { return -1; } else { return 0; } });
+
+        for (int i = 0; i < filteredList.Count - 1; i++)
+        {
+            Assert.IsTrue(filteredList[i].Size <= filteredList[i + 1].Size, $"[{i}] = {filteredList[i].Size}. [{i + 1}] = {filteredList[i + 1].Size}.");
         }
     }
 }

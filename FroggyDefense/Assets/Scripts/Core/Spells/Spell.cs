@@ -132,4 +132,65 @@ namespace FroggyDefense.Core.Spells
             }
         }
     }
+
+    /// <summary>
+    /// Static class used to sort lists of spells.
+    /// </summary>
+    public class SpellSorter
+    {
+        /// <summary>
+        /// SpellComparison is used to have a special funcion similar to a Comparison<T>
+        /// used for sorting but it can be used to access a Player's learned spells. Needed
+        /// for sorting lists of spell id's, which are ints, by properties such as a spell's
+        /// cost or by spell name which will all need to access a Player's special instance
+        /// of a Spell which could have been changed through Talents.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public delegate int SpellComparison(Player player, int a, int b);
+
+        // Sorting Delegate Functions
+        #region Sorting Delegate Functions
+        /// <summary>
+        /// Sorts by lowest to highest mana cost.
+        /// </summary>
+        public static SpellComparison ManaCostSort = (Player player, int a, int b) => player.GetSpellById(a).ManaCost.CompareTo(player.GetSpellById(b).ManaCost);
+        public static SpellComparison ManaCostSortInverse = (Player player, int a, int b) => -player.GetSpellById(a).ManaCost.CompareTo(player.GetSpellById(b).ManaCost);
+        public static SpellComparison AlphabeticalSort = (Player player, int a, int b) => player.GetSpellById(a).Name.CompareTo(player.GetSpellById(b).Name);
+        public static SpellComparison AlphabeticalSortInverse = (Player player, int a, int b) => -player.GetSpellById(a).Name.CompareTo(player.GetSpellById(b).Name);
+
+        #endregion
+
+        /// <summary>
+        /// Creates a copy of the input list and sorts it using the input SpellComparison.
+        /// </summary>
+        /// <param name="comparison"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static List<int> SortSpellIdListCopy(SpellComparison func, List<int> list, Player player)
+        {
+            List<int> sortedList = new List<int>(list);
+
+            // Compares two spell id's using the player's spell info.
+            sortedList.Sort((int x, int y) => { return func.Invoke(player, x, y); });
+
+            return sortedList;
+        }
+
+        /// <summary>
+        /// Sorts the input list using the input SpellComparison.
+        /// </summary>
+        /// <param name="comparison"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static List<int> SortSpellIdList(SpellComparison func, List<int> list, Player player)
+        {
+            // Compares two spell id's using the player's spell info.
+            list.Sort((int x, int y) => { return func.Invoke(player, x, y); });
+
+            return list;
+        }
+    }
 }
