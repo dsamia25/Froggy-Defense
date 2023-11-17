@@ -40,7 +40,7 @@ namespace FroggyDefense.Core.Spells.UI
 
             ResizingList<SpellDeckItemUI>.Resize(spellDeckItemPrefab, listTransform, spellCardUIList, deckSpellIds.Count, deck.MaxDeckSize);
 
-            for (int i = 0; i < spellCardUIList.Count; i++)
+            for (int i = 0; i < deckSpellIds.Count; i++)
             {
                 spellCardUIList[i].Init(player.GetSpellById(deckSpellIds[i]), RemoveSpellFromDeck);
             }

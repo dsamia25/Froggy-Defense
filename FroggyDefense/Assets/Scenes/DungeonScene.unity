@@ -28143,6 +28143,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1503531021}
+    - target: {fileID: 4388592356859466509, guid: 814541ddfbf16433287e469dbd897a96, type: 3}
+      propertyPath: spellBook
+      value: 
+      objectReference: {fileID: 1770986953}
     - target: {fileID: 4394836659577219761, guid: 814541ddfbf16433287e469dbd897a96, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -33412,6 +33416,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6300410706905529850, guid: 6410854c8fce043c8b5b638b5da2e1ea, type: 3}
   m_PrefabInstance: {fileID: 1770986951}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1770986953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5114273247527050023, guid: 6410854c8fce043c8b5b638b5da2e1ea, type: 3}
+  m_PrefabInstance: {fileID: 1770986951}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a3cc1cf28204f8bb67fefa6f824c75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1774370100
 PrefabInstance:
   m_ObjectHideFlags: 0
