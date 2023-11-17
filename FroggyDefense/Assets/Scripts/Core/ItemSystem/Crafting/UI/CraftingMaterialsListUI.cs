@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FroggyDefense.Core.UI;
 
 namespace FroggyDefense.Core.Items.Crafting.UI
 {
@@ -50,31 +51,7 @@ namespace FroggyDefense.Core.Items.Crafting.UI
 
             int len = _displayedRecipe.CraftingMaterials.Length;
 
-            // Adjust the size of the crafting materials list to match the needed amount.
-            if (RequiredMaterials.Count < len)
-            {
-                // Add more items for needed size.
-                for (int i = RequiredMaterials.Count; i < len; i++)
-                {
-                    RequiredMaterials.Add(Instantiate(RequiredMaterialPrefab, SpawnPosition).GetComponent<CraftingMaterialsListItemUI>());
-                }
-            } else if (RequiredMaterials.Count > len)
-            {
-                // Shrink list down to needed size.
-                for (int i = RequiredMaterials.Count - 1; i >= len; i--)
-                {
-                    var obj = RequiredMaterials[i];
-                    // If already have the hold amount, delete the extras
-                    if (i >= HOLD_AMOUNT) {
-                        RequiredMaterials.Remove(obj);
-                        Destroy(obj);
-                    } else
-                    {
-                        // If under the hold amount, just disable this to be reused later.
-                        obj.gameObject.SetActive(false);
-                    }
-                }
-            }
+            ResizingList<CraftingMaterialsListItemUI>.Resize(RequiredMaterialPrefab, SpawnPosition, RequiredMaterials, len, HOLD_AMOUNT);
 
             for (int i = 0; i < len; i++)
             {

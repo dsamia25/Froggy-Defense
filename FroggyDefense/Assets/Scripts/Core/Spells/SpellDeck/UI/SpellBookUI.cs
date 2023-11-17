@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using FroggyDefense.Core.UI;
 
 namespace FroggyDefense.Core.Spells.UI
 {
@@ -13,11 +14,14 @@ namespace FroggyDefense.Core.Spells.UI
         [SerializeField] private GameObject spellBookItemPrefab;
         [SerializeField] private ToggleButton sortingToggle;
 
+        private List<SpellBookItemUI> learnedSpellUIList;                               // The list of UI items for each learned spell.
         private Dictionary<int, SpellBookItemUI> learnedSpellIndex;
-        private SpellSorter.SpellComparison sortingOrder = SpellSorter.ManaCostSort;
+
+        public SpellSorter.SpellComparison SortingOrder { get; private set; } = SpellSorter.ManaCostSort;
 
         private void Awake()
         {
+            learnedSpellUIList = new List<SpellBookItemUI>();
             learnedSpellIndex = new Dictionary<int, SpellBookItemUI>();
         }
 
@@ -39,17 +43,13 @@ namespace FroggyDefense.Core.Spells.UI
             List<int> learnedSpells = player.LearnedSpells.Keys.ToList();
             // TODO: Add a filter check to filter the list by (name, cost, school).
 
-            learnedSpells = SpellSorter.SortSpellIdList(sortingOrder, learnedSpells, player);
+            learnedSpells = SpellSorter.SortSpellIdList(SortingOrder, learnedSpells, player);
 
-            foreach (int spellId in learnedSpells)
+            ResizingList<SpellBookItemUI>.Resize(spellBookItemPrefab, listTransform, learnedSpellUIList, learnedSpells.Count, 0);
+
+            for (int i = 0; i < learnedSpellUIList.Count; i++)
             {
-                // TODO: If the deck contains the spell, change the spell's color to show it. (Blue-ish tint?)
-
-                // If already has ui element for the spell, continue.
-                if (learnedSpellIndex.ContainsKey(spellId)) continue;
-
-                // Must create a new element for the spell.
-                AddLearnedSpellItem(player.GetSpellById(spellId));
+                learnedSpellUIList[i].Init(player.GetSpellById(learnedSpells[i]), AddSpellToDeck);
             }
         }
 
@@ -62,19 +62,19 @@ namespace FroggyDefense.Core.Spells.UI
             switch (sortingToggle.StateIndex)
             {
                 case 0:
-                    sortingOrder = SpellSorter.ManaCostSort;
+                    SortingOrder = SpellSorter.ManaCostSort;
                     break;
                 case 1:
-                    sortingOrder = SpellSorter.ManaCostSortInverse;
+                    SortingOrder = SpellSorter.ManaCostSortInverse;
                     break;
                 case 2:
-                    sortingOrder = SpellSorter.AlphabeticalSort;
+                    SortingOrder = SpellSorter.AlphabeticalSort;
                     break;
                 case 3:
-                    sortingOrder = SpellSorter.AlphabeticalSortInverse;
+                    SortingOrder = SpellSorter.AlphabeticalSortInverse;
                     break;
                 default:
-                    sortingOrder = SpellSorter.ManaCostSort;
+                    SortingOrder = SpellSorter.ManaCostSort;
                     break;
             }
             UpdateUI();
@@ -93,7 +93,7 @@ namespace FroggyDefense.Core.Spells.UI
 
             SpellBookItemUI learnedSpell = Instantiate(spellBookItemPrefab, listTransform).GetComponent<SpellBookItemUI>();
             learnedSpellIndex.Add(spell.SpellId, learnedSpell);     // Store the pair in the index.
-            learnedSpell.Init(spell, AddSpell);                     // Init spell book item with remove callback passed in.
+            learnedSpell.Init(spell, AddSpellToDeck);                     // Init spell book item with remove callback passed in.
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace FroggyDefense.Core.Spells.UI
         /// <summary>
         /// Adds a spell to the spell deck.
         /// </summary>
-        private bool AddSpell(Spell spell)
+        private bool AddSpellToDeck(Spell spell)
         {
             // Checks if able to add to the deck.
             SpellDeck deck = player.SelectedSpellDeck;

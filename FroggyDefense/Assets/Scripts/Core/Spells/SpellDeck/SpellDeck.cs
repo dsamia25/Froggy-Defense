@@ -7,7 +7,7 @@ namespace FroggyDefense.Core.Spells
     [Serializable]
     public class SpellDeck
     {
-        [SerializeField] private List<int> includedCards;
+        [SerializeField] private List<int> includedCardIdList;
         [SerializeField] private Queue<Spell> Deck;
         [SerializeField] private Spell[] Hand;
 
@@ -15,9 +15,9 @@ namespace FroggyDefense.Core.Spells
         private int maxDeckSize = 12;
         private int maxHandSize = 4;
 
-        public IReadOnlyList<int> IncludedCards => includedCards.AsReadOnly();
+        public IReadOnlyList<int> IncludedCardIdList => includedCardIdList.AsReadOnly();
         public Spell TopSpell { get { return (Deck.Count > 0 ? Deck.Peek() : null); } }
-        public bool IsValidDeck => includedCards.Count >= minDeckSize;
+        public bool IsValidDeck => includedCardIdList.Count >= minDeckSize;
         public int DeckSize => Deck.Count;
         public bool DeckEmpty => Deck.Count <= 0;
         public int HandSize => maxHandSize;
@@ -33,7 +33,7 @@ namespace FroggyDefense.Core.Spells
         {
             Deck = new Queue<Spell>();
             Hand = new Spell[maxHandSize];
-            includedCards = new List<int>();
+            includedCardIdList = new List<int>();
         }
 
         /// <summary>
@@ -43,12 +43,12 @@ namespace FroggyDefense.Core.Spells
         public bool Add(Spell spell)
         {
             Debug.Log($"SpellDeck: Adding {spell.Name} to Spell Deck.");
-            if (includedCards.Contains(spell.SpellId) || includedCards.Count > maxDeckSize)
+            if (includedCardIdList.Contains(spell.SpellId) || includedCardIdList.Count > maxDeckSize)
             {
                 return false;
             }
 
-            includedCards.Add(spell.SpellId);
+            includedCardIdList.Add(spell.SpellId);
             Deck.Enqueue(spell);
 
             Draw();
@@ -66,7 +66,7 @@ namespace FroggyDefense.Core.Spells
         public bool Remove(int spellId)
         {
             Debug.Log($"SpellDeck: Removing spell ({spellId}).");
-            if (!includedCards.Contains(spellId)) return false;
+            if (!includedCardIdList.Contains(spellId)) return false;
 
             // Check if the card is in the hand.
             for (int i = 0; i < Hand.Length; i++)
@@ -75,7 +75,7 @@ namespace FroggyDefense.Core.Spells
                 if (Hand[i].SpellId == spellId)
                 {
                     Hand[i] = null;
-                    includedCards.Remove(spellId);
+                    includedCardIdList.Remove(spellId);
                     Draw();
                     OnSpellDeckChanged?.Invoke(-1, null);
                     return true;
@@ -91,7 +91,7 @@ namespace FroggyDefense.Core.Spells
                 if (spellCard.SpellId == spellId)
                 {
                     wasRemoved = true;
-                    includedCards.Remove(spellId);
+                    includedCardIdList.Remove(spellId);
                     continue;
                 }
                 newDeck.Enqueue(spellCard);
