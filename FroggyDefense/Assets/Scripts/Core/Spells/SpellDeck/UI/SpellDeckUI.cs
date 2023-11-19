@@ -38,7 +38,7 @@ namespace FroggyDefense.Core.Spells.UI
 
             deckSpellIds = SpellSorter.SortSpellIdList((spellBook == null ? SpellSorter.ManaCostSort : spellBook.SortingOrder), deckSpellIds, player);
 
-            ResizingList<SpellDeckItemUI>.Resize(spellDeckItemPrefab, listTransform, spellCardUIList, deckSpellIds.Count, deck.MaxDeckSize);
+            ResizingList<SpellDeckItemUI>.Resize(spellDeckItemPrefab, listTransform, spellCardUIList, deckSpellIds.Count, 0);
 
             for (int i = 0; i < deckSpellIds.Count; i++)
             {

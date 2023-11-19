@@ -26,7 +26,7 @@ namespace FroggyDefense.Core.UI
                     if (i >= _holdAmount)
                     {
                         _displayedList.Remove(obj);
-                        GameObject.Destroy(obj);
+                        GameObject.Destroy(obj.gameObject);
                     }
                     else
                     {
