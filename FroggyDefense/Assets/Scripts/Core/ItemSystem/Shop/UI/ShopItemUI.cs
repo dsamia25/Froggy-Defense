@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using FroggyDefense.Core;
+using Core;
 
 namespace FroggyDefense.Shop.UI
 {

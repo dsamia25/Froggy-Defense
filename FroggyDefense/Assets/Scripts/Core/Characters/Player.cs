@@ -1,15 +1,15 @@
 using System.Collections.Generic;
+using Core.Actions;
+using Core.Actions.Inputs;
+using Core.Enemies;
+using Core.Items;
+using Core.Spells;
 using UnityEngine;
 using FroggyDefense.Weapons;
-using FroggyDefense.Core.Spells;
-using FroggyDefense.Core.Enemies;
-using FroggyDefense.Interactables;
-using FroggyDefense.Core.Items;
-using FroggyDefense.Economy;
-using FroggyDefense.Core.Actions;
-using FroggyDefense.Core.Actions.Inputs;
+using Interactables;
+using Economy;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class Player : Character, IHasInventory
     {

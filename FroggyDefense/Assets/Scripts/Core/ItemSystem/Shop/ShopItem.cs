@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Items;
-using FroggyDefense.Economy;
+using Core;
+using Core.Items;
+using Economy;
 
 namespace FroggyDefense.Shop
 {

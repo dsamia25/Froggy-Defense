@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class EquipmentSlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

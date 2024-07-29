@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.Tests
+namespace Core.Items.Tests
 {
     public class InventoryEditorTests
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Buildings {
+namespace Core.Buildings {
     public class TurretBuilder : MonoBehaviour
     {   
         [SerializeField] private BoardManager _boardManager;                        // The board manager holding board info.

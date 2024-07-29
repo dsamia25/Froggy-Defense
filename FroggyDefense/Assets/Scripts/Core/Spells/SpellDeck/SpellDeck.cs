@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     [Serializable]
     public class SpellDeck

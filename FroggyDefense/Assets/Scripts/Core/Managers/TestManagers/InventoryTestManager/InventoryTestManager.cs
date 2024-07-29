@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Interactables;
+using Interactables;
 
-namespace FroggyDefense.Core.Items.Tests
+namespace Core.Items.Tests
 {
     public class InventoryTestManager : MonoBehaviour
     {

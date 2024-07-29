@@ -1,8 +1,8 @@
 using UnityEngine;
 using FroggyDefense.Weapons;
-using FroggyDefense.Support;
+using Support;
 
-namespace FroggyDefense.Core.Buildings
+namespace Core.Buildings
 {
     // TODO: Move the TargetSetting enum to a new class so Weapons with Seeking can use it too.
     /// <summary>

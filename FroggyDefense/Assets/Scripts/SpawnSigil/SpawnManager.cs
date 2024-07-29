@@ -1,8 +1,9 @@
 using UnityEngine;
+using Support;
 
-namespace FroggyDefense.Core
+namespace Core
 {
-    public class SpawnManager : MonoBehaviour
+    public class SpawnManager : SingletonMonoBehaviour<SpawnManager>
     {
         public static SpawnManager instance;
 

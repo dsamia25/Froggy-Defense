@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class TimeBar : MonoBehaviour
     {

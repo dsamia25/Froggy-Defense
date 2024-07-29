@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.UI
+namespace Core.UI
 {
     public class ResizingList<T> where T : MonoBehaviour
     {

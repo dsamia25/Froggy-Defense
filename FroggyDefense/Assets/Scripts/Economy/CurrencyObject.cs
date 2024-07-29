@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Economy
+namespace Economy
 {
     [CreateAssetMenu(fileName = "New Currency Type", menuName = "ScriptableObjects/Economy/Currency Type")]
     public class CurrencyObject : ScriptableObject

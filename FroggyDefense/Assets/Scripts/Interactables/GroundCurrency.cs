@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Economy;
+using Core;
+using Economy;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public class GroundCurrency : GroundObject
     {

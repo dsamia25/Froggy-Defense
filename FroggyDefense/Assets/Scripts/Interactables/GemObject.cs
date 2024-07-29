@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     [CreateAssetMenu(fileName = "New Gem", menuName = "ScriptableObjects/Gems/Gem")]
     public class GemObject : ScriptableObject

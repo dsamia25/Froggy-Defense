@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Economy.Tests {
+namespace Economy.Tests {
     public class EconomyTestManager : MonoBehaviour
     {
         public CurrencyObject testCurrency;

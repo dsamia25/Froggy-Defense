@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Enemies
+namespace Core.Enemies
 {
     public class Enemy_Alert_State : StateMachineBehaviour
     {

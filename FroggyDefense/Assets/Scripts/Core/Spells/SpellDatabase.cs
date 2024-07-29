@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     [CreateAssetMenu(fileName = "New Spell Database", menuName = "ScriptableObjects/Spells/Spell Database")]
     public class SpellDatabase : ScriptableObject

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace FroggyDefense.Core.Buildings.UI
+namespace Core.Buildings.UI
 {
     public class UpgradeSectionUI : MonoBehaviour
     {   

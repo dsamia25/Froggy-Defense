@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Core.UI;
 using UnityEngine;
-using FroggyDefense.Core.UI;
 
-namespace FroggyDefense.Core.Spells.UI
+namespace Core.Spells.UI
 {
     public class SpellDeckUI : MonoBehaviour
     {

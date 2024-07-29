@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Core;
+using Core;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public class ItemMagnet : MonoBehaviour
     {

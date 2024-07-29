@@ -2,8 +2,8 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Items;
+using Core;
+using Core.Items;
 
 namespace FroggyDefense.Tests
 {

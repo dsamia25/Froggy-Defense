@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Actions;
+using Core;
+using Core.Actions;
 
 namespace FroggyDefense.Weapons
 {

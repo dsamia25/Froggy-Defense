@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items
+namespace Core.Items
 {
     public class Consumable : Item
     {

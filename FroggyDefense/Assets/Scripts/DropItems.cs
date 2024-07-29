@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Items;
+using Core;
+using Core.Items;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public class DropItems : MonoBehaviour
     {

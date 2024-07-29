@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class PointsText : MonoBehaviour
     {

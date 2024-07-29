@@ -1,4 +1,4 @@
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public interface IDropper
     {

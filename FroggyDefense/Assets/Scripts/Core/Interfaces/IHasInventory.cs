@@ -1,4 +1,4 @@
-namespace FroggyDefense.Core
+namespace Core
 {
     public interface IHasInventory
     {

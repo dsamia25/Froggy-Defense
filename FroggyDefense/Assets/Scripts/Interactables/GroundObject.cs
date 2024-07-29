@@ -1,8 +1,8 @@
 using UnityEngine;
-using FroggyDefense.Core;
+using Core;
 using System;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public abstract class GroundObject : MonoBehaviour, IInteractable
     {

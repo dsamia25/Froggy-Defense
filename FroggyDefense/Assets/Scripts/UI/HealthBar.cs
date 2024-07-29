@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class HealthBar : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.UI;
+using UI;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     /// <summary>
     /// Which kind of event for spawning the text.

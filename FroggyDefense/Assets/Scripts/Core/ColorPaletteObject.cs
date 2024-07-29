@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.UI
+namespace Core.UI
 {
     public class ColorPaletteObject : ScriptableObject
     {

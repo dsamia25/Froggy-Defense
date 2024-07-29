@@ -1,8 +1,7 @@
+using Core.Spells.UI;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
-using FroggyDefense.Core.Spells.UI;
 
-namespace FroggyDefense.Core.UI
+namespace Core.UI
 {
     public class AbilityBarUI : MonoBehaviour
     {

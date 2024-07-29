@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Core.Actions;
 using UnityEngine;
-using FroggyDefense.Core.Actions;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     public class ProjectileSpell : Spell
     {

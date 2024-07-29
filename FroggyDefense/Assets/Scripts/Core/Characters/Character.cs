@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Items;
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Items;
-using FroggyDefense.UI;
-using FroggyDefense.Core.Spells;
+using UI;
 using FroggyDefense.Movement;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class Character : MonoBehaviour, IHasStats, IDestructable
     {        

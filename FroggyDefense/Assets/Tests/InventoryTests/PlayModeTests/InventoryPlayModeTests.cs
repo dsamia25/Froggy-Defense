@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 
-namespace FroggyDefense.Core.Items.Tests
+namespace Core.Items.Tests
 {
     public class InventoryPlayModeTests
     {

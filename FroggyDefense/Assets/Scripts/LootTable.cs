@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Core.Items;
 using UnityEngine;
-using FroggyDefense.Core.Items;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     /// <summary>
     /// Table of items that can be dropped.

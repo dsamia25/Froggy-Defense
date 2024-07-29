@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FroggyDefense.Core.Items.Crafting
+namespace Core.Items.Crafting
 {
     public enum CraftingStationType
     {

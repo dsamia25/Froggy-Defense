@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FroggyDefense.Weapons;
 
-namespace FroggyDefense.Core {
+namespace Core {
     public class ProjectileManager : MonoBehaviour
     {
         [Header("Projectile Spawning")]

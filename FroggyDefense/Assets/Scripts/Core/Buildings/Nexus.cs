@@ -1,9 +1,9 @@
+using Core.Spells;
 using UnityEngine;
 using UnityEngine.Events;
-using FroggyDefense.UI;
-using FroggyDefense.Core.Spells;
+using UI;
 
-namespace FroggyDefense.Core.Buildings
+namespace Core.Buildings
 {
     public class Nexus : MonoBehaviour, IInteractable, IDestructable
     {

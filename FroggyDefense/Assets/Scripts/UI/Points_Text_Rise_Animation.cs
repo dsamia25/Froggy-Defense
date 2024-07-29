@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class Points_Text_Rise_Animation : StateMachineBehaviour
     {

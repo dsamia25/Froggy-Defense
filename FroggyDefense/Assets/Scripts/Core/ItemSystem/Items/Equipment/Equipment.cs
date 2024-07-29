@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items
+namespace Core.Items
 {
     public enum EquipmentSlot
     {

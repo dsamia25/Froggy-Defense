@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Talents.UI
+namespace Core.Talents.UI
 {
     public class TalentNodeUI : MonoBehaviour
     {

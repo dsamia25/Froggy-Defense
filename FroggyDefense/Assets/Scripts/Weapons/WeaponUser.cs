@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Core;
+using Core;
 using FroggyDefense.Movement;
-using FroggyDefense.Core.Actions;
+using Core.Actions;
 
 namespace FroggyDefense.Weapons
 {

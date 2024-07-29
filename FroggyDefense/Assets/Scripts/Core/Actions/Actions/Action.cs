@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Core.Actions.Inputs;
 using UnityEngine;
-using FroggyDefense.Core.Actions.Inputs;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     public enum ActionType
     {

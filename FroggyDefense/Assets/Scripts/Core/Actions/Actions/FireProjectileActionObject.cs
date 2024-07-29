@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using FroggyDefense.Weapons;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     [CreateAssetMenu(fileName = "New Fire Projectile Action", menuName = "ScriptableObjects/Actions/New Fire Projectile Action")]
     public class FireProjectileActionObject : ActionObject

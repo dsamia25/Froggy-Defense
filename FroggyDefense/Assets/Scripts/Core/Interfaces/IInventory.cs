@@ -1,6 +1,6 @@
-using FroggyDefense.Core.Items;
+using Core.Items;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     /// <summary>
     /// Defines key methods needed for an inventory.

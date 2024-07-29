@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class ItemDetailViewUI : MonoBehaviour
     {

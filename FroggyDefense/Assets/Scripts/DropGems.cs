@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public class DropGems : MonoBehaviour
     {

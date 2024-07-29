@@ -1,10 +1,10 @@
 using System.Collections;
+using Core.Buildings.UI;
+using Core.Items.UI;
 using UnityEngine;
 using TMPro;
-using FroggyDefense.Core.Buildings.UI;
-using FroggyDefense.Core.Items.UI;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class UiManager : MonoBehaviour
     {

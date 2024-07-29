@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public enum StatType
     {

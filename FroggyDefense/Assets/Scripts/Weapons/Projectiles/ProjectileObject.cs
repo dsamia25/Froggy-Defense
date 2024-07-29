@@ -1,7 +1,7 @@
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Buildings;
-using FroggyDefense.Core.Actions;
+using Core;
+using Core.Buildings;
+using Core.Actions;
 
 namespace FroggyDefense.Weapons
 {

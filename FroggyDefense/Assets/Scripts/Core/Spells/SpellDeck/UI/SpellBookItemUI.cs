@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-namespace FroggyDefense.Core.Spells.UI
+namespace Core.Spells.UI
 {
     public class SpellBookItemUI : MonoBehaviour, IPointerClickHandler
     {

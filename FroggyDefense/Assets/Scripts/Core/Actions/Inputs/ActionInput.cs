@@ -1,7 +1,7 @@
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
 
-namespace FroggyDefense.Core.Actions.Inputs
+namespace Core.Actions.Inputs
 {
     /// <summary>
     /// Enum marking which type of ActionInput should be used. An option for each class

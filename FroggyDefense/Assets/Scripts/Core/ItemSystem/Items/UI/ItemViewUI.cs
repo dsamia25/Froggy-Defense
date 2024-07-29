@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Support;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class ItemViewUI : MonoBehaviour
     {

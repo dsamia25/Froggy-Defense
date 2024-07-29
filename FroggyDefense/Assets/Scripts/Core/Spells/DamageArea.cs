@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Core.Actions;
 using UnityEngine;
-using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     public class DamageArea : MonoBehaviour
     {

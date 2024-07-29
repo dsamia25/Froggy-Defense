@@ -2,7 +2,7 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using FroggyDefense.Core.Spells;
+using Core.Spells;
 
 namespace FroggyDefense.Tests
 {

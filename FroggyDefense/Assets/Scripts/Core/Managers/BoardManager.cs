@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Core.Buildings;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using FroggyDefense.LevelGeneration;
-using FroggyDefense.Core.Buildings;
 using Pathfinder;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class BoardManager : MonoBehaviour
     {

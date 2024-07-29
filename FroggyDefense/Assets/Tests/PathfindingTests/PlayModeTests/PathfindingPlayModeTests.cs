@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using FroggyDefense.Core;
+using Core;
 
 namespace Pathfinder.Tests
 {

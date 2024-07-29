@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using FroggyDefense.Core;
-using FroggyDefense.Interactables;
+using Core;
+using Interactables;
 
 namespace FroggyDefense
 {

@@ -1,8 +1,8 @@
 using UnityEngine;
-using FroggyDefense.Core;
+using Core;
 using System.Collections;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class ExperienceBarUpdater : MonoBehaviour
     {

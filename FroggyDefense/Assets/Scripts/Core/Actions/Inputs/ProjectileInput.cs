@@ -1,9 +1,9 @@
 using System;
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Actions.Inputs
+namespace Core.Actions.Inputs
 {
     public class ProjectileInput : ActionInput
     {

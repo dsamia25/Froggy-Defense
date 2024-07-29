@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Enemies
+namespace Core.Enemies
 {
     public class Enemy_Attack_State : StateMachineBehaviour
     {

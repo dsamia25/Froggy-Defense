@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items
+namespace Core.Items
 {
     [CreateAssetMenu(fileName = "New Equipment", menuName = "ScriptableObjects/ItemSystem/Items/Equipment")]
     public class EquipmentObject : ItemObject

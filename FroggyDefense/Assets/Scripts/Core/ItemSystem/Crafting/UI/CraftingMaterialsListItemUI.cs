@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace FroggyDefense.Core.Items.Crafting.UI
+namespace Core.Items.Crafting.UI
 {
     public class CraftingMaterialsListItemUI : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items
+namespace Core.Items
 {
     [CreateAssetMenu(fileName = "New Item Database", menuName = "ScriptableObjects/ItemSystem/Items/Item Database")]
     public class ItemDatabase : ScriptableObject, ISerializationCallbackReceiver

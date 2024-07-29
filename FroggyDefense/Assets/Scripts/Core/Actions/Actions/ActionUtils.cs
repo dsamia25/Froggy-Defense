@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Spells;
 using UnityEngine;
 using FroggyDefense.Weapons;
-using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Actions {
+namespace Core.Actions {
     public static class ActionUtils
     {
         /// <summary>

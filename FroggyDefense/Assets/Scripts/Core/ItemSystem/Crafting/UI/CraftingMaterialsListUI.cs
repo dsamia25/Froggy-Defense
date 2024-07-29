@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Core.UI;
 using UnityEngine;
-using FroggyDefense.Core.UI;
 
-namespace FroggyDefense.Core.Items.Crafting.UI
+namespace Core.Items.Crafting.UI
 {
     public class CraftingMaterialsListUI : MonoBehaviour
     {

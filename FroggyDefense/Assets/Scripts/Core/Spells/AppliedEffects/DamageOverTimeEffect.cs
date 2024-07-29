@@ -1,8 +1,8 @@
 using System;
+using Core.Actions;
 using UnityEngine;
-using FroggyDefense.Core.Actions;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     [Serializable]
     public class DamageOverTimeEffect: AppliedEffect

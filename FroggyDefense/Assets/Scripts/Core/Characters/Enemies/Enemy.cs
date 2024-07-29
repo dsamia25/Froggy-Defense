@@ -1,11 +1,11 @@
 using System;
+using Core.Buildings;
 using UnityEngine;
-using FroggyDefense.Core.Buildings;
 using FroggyDefense.Weapons;
-using FroggyDefense.Interactables;
+using Interactables;
 using Pathfinder;
 
-namespace FroggyDefense.Core.Enemies
+namespace Core.Enemies
 {
     public class Enemy : Character, IDestructable
     {

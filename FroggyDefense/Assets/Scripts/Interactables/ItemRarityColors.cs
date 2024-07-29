@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     [CreateAssetMenu(fileName = "New Gem Value Chart", menuName = "ScriptableObjects/ItemSystem/Items/GroundItemRarityColors")]
     public class ItemRarityColors : ScriptableObject

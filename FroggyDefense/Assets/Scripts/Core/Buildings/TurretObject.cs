@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Buildings
+namespace Core.Buildings
 {
     [CreateAssetMenu(fileName = "New Turret Upgrade Sheet", menuName = "ScriptableObjects/Buildings/Turrets/Turret Upgrade Sheet")]
     public class TurretObject : ScriptableObject

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.Crafting
+namespace Core.Items.Crafting
 {
     [CreateAssetMenu(fileName = "New Crafting Recipe", menuName = "ScriptableObjects/ItemSystem/Crafting/Crafting Recipe")]
     public class CraftingRecipe : ScriptableObject

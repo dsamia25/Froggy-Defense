@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FroggyDefense.Interactables;
+using Interactables;
 
-namespace FroggyDefense.Core.Items
+namespace Core.Items
 {
     public class ItemDropper : MonoBehaviour, IDropper
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     [CreateAssetMenu(fileName = "New LevelUp Xp Function", menuName = "ScriptableObjects/Character/LevelUp Xp Function")]
     public class CharacterLevelExperienceFunction : ScriptableObject

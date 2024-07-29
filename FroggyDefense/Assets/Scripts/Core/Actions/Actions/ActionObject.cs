@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     public abstract class ActionObject : ScriptableObject
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     [CreateAssetMenu(fileName = "New Action Database", menuName = "ScriptableObjects/Actions/Action Database")]
     public class ActionDatabase : ScriptableObject

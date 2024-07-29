@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Items;
+using Core;
+using Core.Items;
 
 namespace FroggyDefense.Shop
 {

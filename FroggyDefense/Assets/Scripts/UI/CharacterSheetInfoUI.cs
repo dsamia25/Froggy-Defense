@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class CharacterSheetInfoUI : MonoBehaviour
     {

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.UI;
 using UnityEngine;
 using TMPro;
-using FroggyDefense.Core.UI;
 
-namespace FroggyDefense.Core.Spells.UI
+namespace Core.Spells.UI
 {
     public class SpellBookUI : MonoBehaviour
     {

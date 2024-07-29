@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace FroggyDefense.Core.Buildings.UI
+namespace Core.Buildings.UI
 {
     public class DropdownSectionUI : MonoBehaviour
     {

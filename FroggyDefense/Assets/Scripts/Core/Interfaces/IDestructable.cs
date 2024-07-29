@@ -1,7 +1,7 @@
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public interface IDestructable
     {

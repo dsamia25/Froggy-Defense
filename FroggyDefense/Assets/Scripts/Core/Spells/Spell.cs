@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Core.Actions;
+using Core.Actions.Inputs;
 using UnityEngine;
-using FroggyDefense.Core.Actions.Inputs;
-using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     /// <summary>
     /// Enum of all kinds of damage.

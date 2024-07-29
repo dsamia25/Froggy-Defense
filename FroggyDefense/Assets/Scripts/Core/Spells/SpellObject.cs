@@ -1,9 +1,9 @@
+using Core.Actions;
+using Core.Actions.Inputs;
 using UnityEngine;
-using FroggyDefense.Core.Actions.Inputs;
-using FroggyDefense.Core.Actions;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Spells
+namespace Core.Spells
 {
     public enum SpellType
     {

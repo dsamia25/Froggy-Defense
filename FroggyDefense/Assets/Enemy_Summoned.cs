@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class Enemy_Summoned : StateMachineBehaviour
     {

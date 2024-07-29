@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinder;
 
-namespace FroggyDefense.Core.Enemies
+namespace Core.Enemies
 {
     public class UnitPathfinder : MonoBehaviour
     {

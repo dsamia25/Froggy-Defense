@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class MainMenu : MonoBehaviour
     {

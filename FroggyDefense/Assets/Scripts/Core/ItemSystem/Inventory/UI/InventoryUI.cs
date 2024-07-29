@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class InventoryUI : MonoBehaviour
     {

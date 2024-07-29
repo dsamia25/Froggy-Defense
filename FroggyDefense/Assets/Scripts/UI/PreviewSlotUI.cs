@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Spells;
+using Core;
+using Core.Spells;
 
 public class PreviewSlotUI : MonoBehaviour
 {

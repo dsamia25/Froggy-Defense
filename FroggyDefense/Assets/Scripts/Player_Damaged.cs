@@ -1,5 +1,5 @@
 using UnityEngine;
-using FroggyDefense.Core;
+using Core;
 
 public class Player_Damaged : StateMachineBehaviour
 {

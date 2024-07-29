@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Core.Items.Crafting
+namespace Core.Items.Crafting
 {
     public static class CraftingUtil
     {

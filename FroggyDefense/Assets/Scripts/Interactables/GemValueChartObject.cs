@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     [CreateAssetMenu(fileName = "New Gem Value Chart", menuName = "ScriptableObjects/Gems/GemValueChart")]
     public class GemValueChartObject : ScriptableObject

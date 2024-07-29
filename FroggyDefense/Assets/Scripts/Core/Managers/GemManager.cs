@@ -1,10 +1,11 @@
 using System;
+using FroggyDefense;
 using UnityEngine;
-using FroggyDefense.Interactables;
-using FroggyDefense.Economy;
-using FroggyDefense.UI;
+using Interactables;
+using Economy;
+using UI;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class GemManager : MonoBehaviour
     {

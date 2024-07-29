@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using FroggyDefense.Core;
-using FroggyDefense.Core.Items;
-using FroggyDefense.Core.Items.UI;
+using Core;
+using Core.Items;
+using Core.Items.UI;
 
-namespace FroggyDefense.Interactables
+namespace Interactables
 {
     public class GroundItem : GroundObject
     {

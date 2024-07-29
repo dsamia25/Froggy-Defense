@@ -1,10 +1,10 @@
 using System;
+using Core.Actions.Inputs;
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
-using FroggyDefense.Core.Actions.Inputs;
-using FroggyDefense.Core.Actions;
+using Core.Actions;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class InputController : MonoBehaviour
     {

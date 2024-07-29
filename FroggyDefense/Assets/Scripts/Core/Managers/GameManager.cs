@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using Core.Buildings;
+using Core.Enemies;
+using Core.Items;
 using UnityEngine;
 using UnityEngine.Events;
-using FroggyDefense.Core.Buildings;
-using FroggyDefense.Core.Enemies;
-using FroggyDefense.Core.Items;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class GameManager : MonoBehaviour
     {

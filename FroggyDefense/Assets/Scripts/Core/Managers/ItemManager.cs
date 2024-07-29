@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using Core.Items;
 using UnityEngine;
-using FroggyDefense.Interactables;
-using FroggyDefense.Core.Items;
+using Interactables;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class ItemManager : MonoBehaviour
     {

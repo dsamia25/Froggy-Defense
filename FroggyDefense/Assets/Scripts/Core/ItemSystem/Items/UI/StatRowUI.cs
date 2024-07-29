@@ -1,7 +1,8 @@
+using FroggyDefense;
 using UnityEngine;
 using TMPro;
 
-namespace FroggyDefense.Core.Items.UI
+namespace Core.Items.UI
 {
     public class StatRowUI : MonoBehaviour
     {

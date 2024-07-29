@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Core.Enemies;
 using UnityEngine;
-using FroggyDefense.Core.Enemies;
 using Pathfinder;
 
-namespace FroggyDefense.Core
+namespace Core
 {
     public class SpawnZone : MonoBehaviour
     {

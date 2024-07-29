@@ -408,6 +408,7 @@ MonoBehaviour:
   _moveSpeedModifer: 1
   _stunEffectCounter: 0
   _invincible: 0
+  _actionable: 1
   BehaviourAnimator: {fileID: 6305815107222301036}
   m_HideHealthBarAtFull: 1
   Points: 75
@@ -421,9 +422,9 @@ MonoBehaviour:
   m_TargetLayer:
     serializedVersion: 2
     m_Bits: 256
-  _targetDetectionRadius: 2
-  _targetCheckFrequency: 0.2
-  _leashRadius: 4
+  _targetDetectionRadius: 4
+  _targetCheckFrequency: 0.1
+  _leashRadius: 8
   _leashBreakTime: 3
   _hasMaxLeashTime: 0
   _maxleashTime: 30
@@ -458,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 898f585032a27437c855499265cdb59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DrawPath: 0
+  DrawPath: 1
   lineRenderer: {fileID: 1357085885923729711}
   PathfinderNodePrefab: {fileID: 2243677097192610884, guid: 44220e004727a4fe08b1e89cb9ced886, type: 3}
   PathNodeResetTime: 0.5
@@ -509,7 +510,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5072654201736512015}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

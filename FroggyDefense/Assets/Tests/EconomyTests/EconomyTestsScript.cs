@@ -3,9 +3,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-using FroggyDefense.Economy;
-using FroggyDefense.Economy.Tests;
-using FroggyDefense.Core;
+using Economy;
+using Economy.Tests;
+using Core;
 
 namespace FroggyDefense.Tests
 {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FroggyDefense.Support
+namespace Support
 {
     public static class SupportMethods
     {

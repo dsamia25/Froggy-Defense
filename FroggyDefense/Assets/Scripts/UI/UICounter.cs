@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace FroggyDefense.UI
+namespace UI
 {
     public class UICounter : MonoBehaviour
     {

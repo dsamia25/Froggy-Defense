@@ -1,7 +1,7 @@
+using Core.Items.UI;
 using UnityEngine;
-using FroggyDefense.Core.Items.UI;
 
-namespace FroggyDefense.Core.Items.Crafting.UI {
+namespace Core.Items.Crafting.UI {
     public class CraftingMenuUI : MonoBehaviour
     {
         // Prefabs

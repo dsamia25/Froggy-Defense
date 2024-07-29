@@ -1,7 +1,7 @@
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     [CreateAssetMenu(fileName = "New Apply Effect Action", menuName = "ScriptableObjects/Actions/New Apply Effect Action")]
     public class ApplyEffectActionObject : ActionObject

@@ -1,5 +1,5 @@
 using UnityEngine;
-using FroggyDefense.Core.Actions;
+using Core.Actions;
 
 namespace FroggyDefense
 {

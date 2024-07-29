@@ -1,9 +1,9 @@
 using System;
+using Core.Spells;
 using UnityEngine;
-using FroggyDefense.Core.Spells;
 using ShapeDrawer;
 
-namespace FroggyDefense.Core.Actions
+namespace Core.Actions
 {
     [CreateAssetMenu(fileName = "New Find Targets Area Action", menuName = "ScriptableObjects/Actions/New Find Targets Area Action")]
     public class FindTargetsAreaActionObject : ActionObject
