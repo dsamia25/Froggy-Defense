@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Actions.Inputs;
 using UnityEngine;
+using Core.Combat;
 
 namespace Core.Actions
 {

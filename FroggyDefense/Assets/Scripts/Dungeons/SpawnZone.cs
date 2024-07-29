@@ -7,15 +7,16 @@ namespace Core
 {
     public class SpawnZone : MonoBehaviour
     {
-        [SerializeField] private Transform[] spawnAreas;                      // List of areas that the spawn zone spawns stuff in. Finds all tiles within the areas of the transforms to create list of calid spawn tiles.
-        [SerializeField] private SpawnInfo[] spawns;                    // What can spawn.
-        [SerializeField] private Vector2 spawnTimerRange;               // Range of times until the next spawn.
-        [SerializeField] private Vector2Int spawnAmountRange;           // Range of how many units can spawn at a time. Will choose highest possible amount.
-        [SerializeField] private bool automaticSpawning;                // Will continue to spawn in enemies on its own.
-        [SerializeField] private int maxActiveSpawns = 10;              // Maximum amount of enemies able to be active at once.
-
-        [SerializeField] private HashSet<GameObject> activeSpawnList;   // List of all active spawns. To check if an enemy is owned by this zone.
-        public int ActiveSpawns => activeSpawnList.Count;               // How many spawns are currently active.
+        [SerializeField] private Transform[] spawnAreas;                    // List of areas that the spawn zone spawns stuff in. Finds all tiles within the areas of the transforms to create list of calid spawn tiles.
+        [SerializeField] private SpawnInfo[] spawns;                        // What can spawn.
+        [SerializeField] private Vector2 spawnTimerRange;                   // Range of times until the next spawn.
+        [SerializeField] private Vector2Int spawnAmountRange;               // Range of how many units can spawn at a time. Will choose highest possible amount.
+        [SerializeField] private bool automaticSpawning;                    // Will continue to spawn in enemies on its own.
+        [SerializeField] private int maxActiveSpawns = 10;                  // Maximum amount of enemies able to be active at once.
+        [SerializeField] private Team team = Team.Neutral;                  // The team that enemies will spawn as a part of.
+        
+        private HashSet<GameObject> _activeSpawnList;                   // List of all active spawns. To check if an enemy is owned by this zone.
+        public int ActiveSpawns => _activeSpawnList.Count;               // How many spawns are currently active.
 
         [SerializeField] private List<Vector2> validSpawnTiles;         // List of all valid spawn tiles in the range.
 
@@ -23,7 +24,7 @@ namespace Core
 
         private void Start()
         {
-            activeSpawnList = new HashSet<GameObject>();
+            _activeSpawnList = new HashSet<GameObject>();
 
             BuildValidSpawnTileList();
 
@@ -60,9 +61,8 @@ namespace Core
         {
             Vector2 pos;
             if (GetSpawnPoint(out pos)) {
-                //GameObject spawn = Instantiate(spawns[0].prefab, pos, Quaternion.identity);
-                GameObject spawn = SpawnManager.instance.Spawn(spawns[0].prefab, Random.Range(spawns[0].levelRange.x, spawns[0].levelRange.y + 1), pos);
-                activeSpawnList.Add(spawn);
+                GameObject spawn = SpawnManager.Instance.Spawn(spawns[0].prefab, team,Random.Range(spawns[0].levelRange.x, spawns[0].levelRange.y + 1), pos);
+                _activeSpawnList.Add(spawn);
 
                 Enemy enemy = null;
                 if ((enemy = spawn.GetComponent<Enemy>()) != null)
@@ -130,9 +130,9 @@ namespace Core
         private void OnEnemyDefeated(EnemyEventArgs args)
         {
             // If the defeated enemy is owned by this spawn zone, remove it from the count.
-            if (activeSpawnList.Contains(args.enemy.gameObject))
+            if (_activeSpawnList.Contains(args.enemy.gameObject))
             {
-                activeSpawnList.Remove(args.enemy.gameObject);
+                _activeSpawnList.Remove(args.enemy.gameObject);
             }
         }
 

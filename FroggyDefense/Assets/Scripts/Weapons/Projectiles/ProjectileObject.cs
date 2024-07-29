@@ -2,6 +2,7 @@ using UnityEngine;
 using Core;
 using Core.Buildings;
 using Core.Actions;
+using Core.Combat;
 
 namespace FroggyDefense.Weapons
 {
@@ -11,7 +12,7 @@ namespace FroggyDefense.Weapons
         public GameObject Vfx;                                                      // The projectile's prefab.
         public int ProjectilePoolSize = 8;                                          // Max number of projectiles active in the pool.
         public float MoveSpeed = 1f;                                                // How fast the projectile moves.
-        public DamageActionArgs DamageArgs;
+        public DamageInstance.Args DamageArgs;
         public SpellAction[] OnHitActions;
         public SpellAction[] OnExpireActions;
 

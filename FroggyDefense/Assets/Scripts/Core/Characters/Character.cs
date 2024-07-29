@@ -6,6 +6,8 @@ using Core.Spells;
 using UnityEngine;
 using UI;
 using FroggyDefense.Movement;
+using Core.Combat;
+using UnityEngine.Serialization;
 
 namespace Core
 {
@@ -17,6 +19,9 @@ namespace Core
         [SerializeField] private string _name = "NAME HERE";    
         [SerializeField] protected HealthBar m_HealthBar = null;
         [SerializeField] protected HealthBar m_ManaBar = null;
+        
+        public Team team;
+        
         public ProjectileManager m_ProjectileManager = null;
 
         public string Name => _name;
@@ -129,6 +134,8 @@ namespace Core
 
         protected ObjectController controller;
         protected Vector2 _moveDir = Vector2.zero;
+        
+        private static readonly int SummonAnimation = Animator.StringToHash("SummonAnimation");
 
         public delegate void CharacterDelegate();   
         public event CharacterDelegate ExperienceChanged;           // Event when the character has gained experience.
@@ -203,14 +210,6 @@ namespace Core
         // Stats
         // ********************************************************************
         #region Stats
-        /// <summary>
-        /// Gets the unit's stat sheet.
-        /// </summary>
-        /// <returns></returns>
-        public StatSheet GetStats()
-        {
-            return _stats;
-        }
 
         /// <summary>
         /// Recalculates all the total stat values.
@@ -363,7 +362,7 @@ namespace Core
         /// Applies a damage action to the target.
         /// </summary>
         /// <param name="damage"></param>
-        public void TakeDamage(DamageAction damage)
+        public void TakeDamage(DamageInstance damage)
         {
             if (_invincible) return;
             if (IsDead) return;
@@ -588,9 +587,9 @@ namespace Core
         /// Triggers the summoning visuals. Enemy will override this to set their
         /// behaviour too.
         /// </summary>
-        public virtual void SummonAnimation()
+        public virtual void TriggerSummonAnimation()
         {
-            visualsAnimator.SetTrigger("SummonAnimation");
+            visualsAnimator.SetTrigger(SummonAnimation);
         }
 
         /// <summary>

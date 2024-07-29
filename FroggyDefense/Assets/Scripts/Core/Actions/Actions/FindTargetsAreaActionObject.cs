@@ -2,6 +2,7 @@ using System;
 using Core.Spells;
 using UnityEngine;
 using ShapeDrawer;
+using Core.Combat;
 
 namespace Core.Actions
 {
@@ -10,7 +11,7 @@ namespace Core.Actions
     {
         public LayerMask TargetLayer;                   // The layer the targets are on.
         public Shape EffectShape;                       // How wide of an area the spell effects.
-        public DamageActionArgs DamageArgs;             // How much damage the action does.
+        public DamageInstance.Args DamageArgs;             // How much damage the action does.
 
         public AppliedEffectObject[] AppliedEffects;    // List of applied effects.
 
@@ -41,7 +42,7 @@ namespace Core.Actions
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        target.TakeDamage(DamageAction.CreateDamageAction(args.Caster, Template.DamageArgs));
+                        target.TakeDamage(DamageInstance.CreateDamageInstance(args.Caster, Template.DamageArgs));
 
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {

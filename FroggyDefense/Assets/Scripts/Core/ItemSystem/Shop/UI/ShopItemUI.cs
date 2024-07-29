@@ -26,7 +26,7 @@ namespace FroggyDefense.Shop.UI
         }
 
         // TODO: Implement this somhow.
-        public bool IsInteractable { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public bool IsEnabled { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         private void UpdateUI()
         {

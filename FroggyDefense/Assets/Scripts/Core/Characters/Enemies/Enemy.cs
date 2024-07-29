@@ -4,6 +4,7 @@ using UnityEngine;
 using FroggyDefense.Weapons;
 using Interactables;
 using Pathfinder;
+using Core.Combat;
 
 namespace Core.Enemies
 {
@@ -171,9 +172,9 @@ namespace Core.Enemies
             Destroy(gameObject);
         }
 
-        public override void SummonAnimation()
+        public override void TriggerSummonAnimation()
         {
-            base.SummonAnimation();
+            base.TriggerSummonAnimation();
             BehaviourAnimator.SetTrigger("SummonAnimation");
         }
 

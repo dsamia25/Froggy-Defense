@@ -17,7 +17,7 @@ namespace Core.Items.Crafting
         [SerializeField] private CraftingStationType StationType;
 
         [SerializeField] protected bool _isInteractable = true;
-        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+        public bool IsEnabled { get => _isInteractable; set => _isInteractable = value; }
 
         [Space]
         [Header("Interact Events")]
@@ -55,7 +55,7 @@ namespace Core.Items.Crafting
 
         public void Interact(GameObject user)
         {
-            if (IsInteractable) InteractEvent?.Invoke();
+            if (IsEnabled) InteractEvent?.Invoke();
         }
 
     }

@@ -1,13 +1,14 @@
 using System;
 using Core.Actions;
 using UnityEngine;
+using Core.Combat;
 
 namespace Core.Spells
 {
     [Serializable]
     public class DamageOverTimeEffect: AppliedEffect
     {
-        public DamageActionArgs DamageArgs { get; protected set; }    // The damage effect args including total damage, damage type, crit effects.
+        public DamageInstance.Args DamageArgs { get; protected set; }    // The damage effect args including total damage, damage type, crit effects.
 
         public int Ticks { get; protected set; }                      // The total amount of ticks the effect does.
         public int TicksLeft { get; protected set; }                  // The amount of ticks the effect has left.
@@ -21,7 +22,7 @@ namespace Core.Spells
 
         protected float _currTickCooldown;
 
-        public DamageOverTimeEffect(ActionArgs args, IDestructable target, AppliedEffectObject template, DamageActionArgs damageArgs, int ticks, float tickFrequency)
+        public DamageOverTimeEffect(ActionArgs args, IDestructable target, AppliedEffectObject template, DamageInstance.Args damageArgs, int ticks, float tickFrequency)
         {
             Template = template;
             Name = template.Name;
@@ -44,7 +45,7 @@ namespace Core.Spells
         {
             if (_currTickCooldown <= 0)
             {
-                Target.TakeDamage(DamageAction.CreateDamageAction(Args.Caster, DamageArgs.Damage, DamageArgs.SpellPowerRatio, DamageArgs.SpellDamageType, DamageArgs.CritChanceModifier, DamageArgs.CritBonusModifier));
+                Target.TakeDamage(DamageInstance.CreateDamageInstance(Args.Caster, DamageArgs.Damage, DamageArgs.SpellPowerRatio, DamageArgs.SpellDamageType, DamageArgs.CritChanceModifier, DamageArgs.CritBonusModifier));
                 _currTickCooldown = TickFrequency;
                 TicksLeft--;
 

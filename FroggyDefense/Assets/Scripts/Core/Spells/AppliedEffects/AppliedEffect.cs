@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Actions;
 using UnityEngine;
+using Core.Combat;
 
 namespace Core.Spells
 {
@@ -26,7 +27,7 @@ namespace Core.Spells
         protected AppliedEffectObject Template { get; set; }
 
         public string Name { get; protected set; } = "APPLIED EFFECT";                  // This object's name.
-        public DamageActionArgs EffectArgs { get; protected set; }                      // Damage or slow amount, also has crit info and damage type.
+        public DamageInstance.Args EffectArgs { get; protected set; }                      // Damage or slow amount, also has crit info and damage type.
         public float EffectTime { get; protected set; } = 1;                            // Ticks or seconds.
         public float Frequency { get; protected set; } = 1;                             // Tick Frequency or countdown speed modifier.
         public AppliedEffectType Effect { get; protected set; }                         // What the intended effect is. (DOT, slow, stun).

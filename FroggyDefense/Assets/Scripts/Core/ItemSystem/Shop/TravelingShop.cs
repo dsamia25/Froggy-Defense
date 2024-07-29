@@ -21,7 +21,7 @@ namespace FroggyDefense.Shop
         [SerializeField] private List<ShopItem> _items = new List<ShopItem>();                       // List of all items in the shop.
         public IReadOnlyCollection<ShopItem> Items { get => _items.AsReadOnly(); }  // Returns the items in the shop as a readonly collection.
 
-        public bool IsInteractable { get => ShopIsOpen; set => ShopIsOpen = value; }
+        public bool IsEnabled { get => ShopIsOpen; set => ShopIsOpen = value; }
 
         [Space]
         [Header("Interact Events")]
@@ -105,7 +105,7 @@ namespace FroggyDefense.Shop
         /// </summary>
         public void Interact(GameObject user)
         {
-            if (IsInteractable) InteractEvent?.Invoke();
+            if (IsEnabled) InteractEvent?.Invoke();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace FroggyDefense.Shop
             try
             {
                 spriteRenderer.sprite = ShopOpenImage;
-                IsInteractable = true;
+                IsEnabled = true;
             }
             catch (Exception e)
             {
@@ -132,7 +132,7 @@ namespace FroggyDefense.Shop
             try
             {
                 spriteRenderer.sprite = ShopClosedImage;
-                IsInteractable = false;
+                IsEnabled = false;
             }
             catch (Exception e)
             {

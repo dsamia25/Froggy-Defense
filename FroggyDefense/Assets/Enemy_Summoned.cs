@@ -16,7 +16,7 @@ namespace Core
             character = animator.gameObject.GetComponentInParent<Character>();
             character.BeingSummoned = true;
 
-            animationTime = SpawnManager.instance.SpawnAnimationTime + SpawnManager.instance.SpawnDelay;
+            animationTime = SpawnManager.Instance.SpawnAnimationTime + SpawnManager.Instance.SpawnDelay;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

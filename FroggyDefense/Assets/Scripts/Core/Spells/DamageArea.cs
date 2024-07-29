@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Actions;
 using UnityEngine;
 using ShapeDrawer;
+using Core.Combat;
 
 namespace Core.Spells
 {
@@ -66,7 +67,7 @@ namespace Core.Spells
                     IDestructable target = null;
                     if ((target = collider.gameObject.GetComponent<IDestructable>()) != null)
                     {
-                        target.TakeDamage(new DamageAction(Caster, DamagePerTick, EffectDamageType, false));
+                        target.TakeDamage(new DamageInstance(Caster, DamagePerTick, EffectDamageType, false));
                         
                         foreach (AppliedEffectObject effect in Template.AppliedEffects)
                         {

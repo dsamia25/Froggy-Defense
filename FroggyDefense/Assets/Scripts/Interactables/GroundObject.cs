@@ -9,7 +9,7 @@ namespace Interactables
         [SerializeField] protected SpriteRenderer _spriteRenderer;
 
         [SerializeField] protected bool _isInteractable = true;
-        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+        public bool IsEnabled { get => _isInteractable; set => _isInteractable = value; }
 
         protected Rigidbody2D rb;
 

@@ -9,6 +9,7 @@ using FroggyDefense.Weapons;
 using Interactables;
 using Economy;
 
+
 namespace Core
 {
     public class Player : Character, IHasInventory

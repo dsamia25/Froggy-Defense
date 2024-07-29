@@ -104,7 +104,7 @@ namespace Core.Buildings
 
         // TODO: Implement this somehow.
         [SerializeField] protected bool _isInteractable = true;
-        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+        public bool IsEnabled { get => _isInteractable; set => _isInteractable = value; }
 
         private float _currAttackCooldown = 0f;
         private float _targetCheckCooldown = 0f;
@@ -161,10 +161,7 @@ namespace Core.Buildings
         /// Gets the unit's stat sheet.
         /// </summary>
         /// <returns></returns>
-        public StatSheet GetStats()
-        {
-            return null;
-        }
+        public StatSheet Stats => null;
 
         private void UpdateTargetRadiusOverlay()
         {

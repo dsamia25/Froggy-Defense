@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Core;
 using Core.Actions;
+using Core.Combat;
 
 namespace FroggyDefense.Weapons
 {
@@ -202,7 +203,7 @@ namespace FroggyDefense.Weapons
             IDestructable destructable = null;
             if ((destructable = collision.gameObject.GetComponent<IDestructable>()) != null)
             {
-                destructable.TakeDamage(DamageAction.CreateDamageAction(Caster, Template.DamageArgs));
+                destructable.TakeDamage(DamageInstance.CreateDamageInstance(Caster, Template.DamageArgs));
 
                 // Foreach Action, create an action Coroutine with the input delay (Can make blocking actions later).
                 foreach (SpellAction action in OnHitActions)

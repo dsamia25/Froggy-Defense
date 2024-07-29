@@ -19,10 +19,10 @@ namespace FroggyDefense
             character = animator.gameObject.GetComponentInParent<Character>();
             character.IsInvincible = true;
             character.IsActionable = false;
-            animationTime = SpawnManager.instance.SpawnAnimationTime;
-            delay = SpawnManager.instance.SpawnDelay;
+            animationTime = SpawnManager.Instance.SpawnAnimationTime;
+            delay = SpawnManager.Instance.SpawnDelay;
             renderer = animator.gameObject.GetComponent<SpriteRenderer>();
-            renderer.material = new Material(SpawnManager.instance.SpawnMaterial);
+            renderer.material = new Material(SpawnManager.Instance.SpawnMaterial);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

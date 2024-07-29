@@ -86,7 +86,7 @@ namespace FroggyDefense.Tests
             hat.AddStat(StatType.Intellect, 205);
 
             // Store current stats.
-            StatSheet stats = character.GetStats();
+            StatSheet stats = character.Stats;
             float strength = stats.GetTotalStat(StatType.Strength);
             float Endurance = stats.GetTotalStat(StatType.Endurance);
             float agility = stats.GetTotalStat(StatType.Agility);
@@ -124,7 +124,7 @@ namespace FroggyDefense.Tests
             yield return null;
 
             // Store current stats.
-            StatSheet stats = character.GetStats();
+            StatSheet stats = character.Stats;
             float strength = stats.GetTotalStat(StatType.Strength);
             float Endurance = stats.GetTotalStat(StatType.Endurance);
             float agility = stats.GetTotalStat(StatType.Agility);

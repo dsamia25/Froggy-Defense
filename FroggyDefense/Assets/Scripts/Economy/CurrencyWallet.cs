@@ -145,8 +145,10 @@ namespace Economy
         /// </summary>
         /// <param name="currency"></param>
         /// <param name="addition"></param>
-        /// <param name="amount"></param>
-        public void LogTransaction(CurrencyObject currency, bool addition, int change, int before)
+        /// <param name="change"></param>
+        /// <param name="before"></param>
+
+        private void LogTransaction(CurrencyObject currency, bool addition, int change, int before)
         {
             Debug.Log("Logging Wallet Transaction: [" + currency.CurrencyName + "], [ " + (addition? "+": "-") + change + "] [" + before + " -> " +  _currencies[currency] + "].");
             WalletEventArgs tempArgs = new WalletEventArgs(currency, addition, change);

@@ -2,6 +2,7 @@ using Core.Spells;
 using UnityEngine;
 using UnityEngine.Events;
 using UI;
+using Core.Combat;
 
 namespace Core.Buildings
 {
@@ -35,7 +36,7 @@ namespace Core.Buildings
 
         // TODO: Implement this somehow.
         public bool _isInteractable = false;
-        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
+        public bool IsEnabled { get => _isInteractable; set => _isInteractable = value; }
 
         [Space]
         [Header("Events")]
@@ -76,7 +77,7 @@ namespace Core.Buildings
             }
         }
 
-        public void TakeDamage(DamageAction damage)
+        public void TakeDamage(DamageInstance damage)
         {
             TakeDamage(damage.Damage);
         }
